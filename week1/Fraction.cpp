@@ -1,11 +1,12 @@
 /**
  * Gabriel Malone / CSCI205 / FALL 2024 / Lab I - Fractions Lab
  */
+
 #include "Fraction.h"
 
 
 /**
- * Euclid's algo to find GCD from runestone
+ * Euclid's algo to find GCD - from runestone
  * @param m
  * @param n
  * @return the GCD
@@ -19,24 +20,52 @@ int GCD(int m, int n) {
 	}
 	return n;
 }
+/**
+ * Fraction Constructor with no arguments
+ * @param top
+ * @param bottom
+ */
+Fraction::Fraction(){
+	// default values
+	this->num = 0;
+	this->den = 1;
+}
 
 /**
- * Fraction Constructor
+ * Fraction Constructor with two arguments
  * @param top
  * @param bottom
  */
 Fraction::Fraction(int top, int bottom){
-	/** handle negative denominator */
-	/** change denominator to positive and numerator to its opposite sign  */
+	// handle negative denominator
+	// change denominator to positive and numerator to its opposite sign
 	if (bottom < 0)
 	{
 		bottom *= -1;
 		top *= -1;
 	}
-	/** absolute value to prevent negative sign switching */
+	// absolute value to prevent negative sign switching
 	int common = abs(GCD(top, bottom));
 	this->num = top / common;
 	this->den = bottom / common;
+}
+
+/**
+ * Copy constructor
+ * @param other
+ */
+Fraction::Fraction(const Fraction &other) {
+	//std::cout << "Copy constructor called for " << other.num << "/" << other.den << std::endl;
+	this->num = other.num;
+	this->den = other.den;
+}
+
+/**
+ * Destructor (although just using ints for this lab, so just stack memory allocated, not heap)
+ */
+Fraction::~Fraction() {
+	// nothing for us to destruct here, but c++ will call these things automatically for us
+	//std::cout << "Destructor called for " << num << "/" << den << std::endl;
 }
 
 /**
@@ -48,29 +77,29 @@ Fraction::Fraction(int top, int bottom){
 std::ostream &operator << (std::ostream &stream, const Fraction &frac) {
 	int mixedNumber;
 	int newNum;
-	/** if evenly disivible mixed fraction */
+	// if evenly disivible mixed fraction
 	if (frac.num % frac.den == 0)
 	{
 		stream << frac.num / frac.den;
 	}
-	/** if not evenly divisible mixed fraction */
-	/** need absolute value to account for someting like (-1/2) being considered a mixed fraction */
+	// if not evenly divisible mixed fraction
+	// need absolute value to account for someting like (-1/2) being considered a mixed fraction
 	else if (abs(frac.num) > abs(frac.den))
 	{
 		mixedNumber = frac.num / frac.den;
-		/** if the mixed number is negative, remove the negative sign from the denominator in the fraction */
+		// if the mixed number is negative, remove the negative sign from the denominator in the fraction
 		if (mixedNumber < 0 )
 		{
 			newNum = frac.num * -1;
-		/** if the mixed number is not negative, no changes to denominator sign */
+		// if the mixed number is not negative, no changes to denominator sign
 		}
 		else
 		{
 			newNum = frac.num * 1;
 		}
-		/** absolute value needed to prevent a negative mixedNumber from throwing off the conversion */
+		// absolute value needed to prevent a negative mixedNumber from throwing off the conversion
 		stream << mixedNumber << " " << newNum - abs(frac.den * mixedNumber) << "/" << frac.den;
-	/** regular fractiom outpout */
+	// regular fractiom outpout
 	}
 	else
 	{
@@ -87,7 +116,7 @@ std::ostream &operator << (std::ostream &stream, const Fraction &frac) {
 Fraction Fraction::operator + (Fraction &otherFrac) {
 	int newNum = num * otherFrac.den + den * otherFrac.num;
 	int newDen = den * otherFrac.den;
-	return {newNum,newDen};
+	return Fraction(newNum,newDen);
 }
 
 /**
@@ -98,7 +127,7 @@ Fraction Fraction::operator + (Fraction &otherFrac) {
 Fraction Fraction::operator += (Fraction &otherFrac) {
 	 this->num = num * otherFrac.den + den * otherFrac.num;
 	 this->den = den * otherFrac.den;
-	return {this->num,this->den};
+	return Fraction(this->num,this->den);
 }
 
 /**
@@ -109,7 +138,7 @@ Fraction Fraction::operator += (Fraction &otherFrac) {
 Fraction Fraction::operator - (Fraction &otherFrac) {
 	int newNum = this->num * otherFrac.den - this->den * otherFrac.num;
 	int newDen = this->den * otherFrac.den;
-	return {newNum,newDen};
+	return Fraction(newNum,newDen);
 }
 
 /**
@@ -120,7 +149,7 @@ Fraction Fraction::operator - (Fraction &otherFrac) {
 Fraction Fraction::operator * (Fraction &otherFrac) {
 	int newNum = this->num * otherFrac.num;
 	int newDen = this->den * otherFrac.den;
-	return {newNum,newDen};
+	return Fraction(newNum,newDen);
 }
 
 /**
@@ -131,7 +160,7 @@ Fraction Fraction::operator * (Fraction &otherFrac) {
 Fraction Fraction::operator / (Fraction &otherFrac) {
 	int newNum = this->num * otherFrac.den;
 	int newDen = this->den * otherFrac.num;
-	return {newNum,newDen};
+	return Fraction(newNum,newDen);
 }
 
 /**
@@ -139,7 +168,7 @@ Fraction Fraction::operator / (Fraction &otherFrac) {
  * @param otherFrac
  * @return bool whether left fraction greater than right fraction
  */
-bool Fraction::operator > (Fraction &otherFrac) {
+bool Fraction::operator > (Fraction &otherFrac) const {
 	double thisFraction = (double)this->num/(double)this->den; /** Need to convert ints to doubles */
 	double otherFraction = (double)otherFrac.num/(double)otherFrac.den;
 	return thisFraction > otherFraction;
@@ -151,7 +180,7 @@ bool Fraction::operator > (Fraction &otherFrac) {
  * @return bool whether left fraction less than right fraction
  */
 bool Fraction::operator < (Fraction &otherFrac) {
-	double thisFraction = (double)this->num/(double)this->den; /** Need to convert ints to doubles */
+	double thisFraction = (double)this->num/(double)this->den; // Need to convert ints to doubles
 	double otherFraction = (double)otherFrac.num/(double)otherFrac.den;
 	return thisFraction < otherFraction;
 }
@@ -162,7 +191,7 @@ bool Fraction::operator < (Fraction &otherFrac) {
  * @return bool whether left fraction less than or equal to right fraction
  */
 bool Fraction::operator <= (Fraction &otherFrac) {
-	double thisFraction = (double)this->num/(double)this->den; /** Need to convert ints to doubles */
+	double thisFraction = (double)this->num/(double)this->den;
 	double otherFraction = (double)otherFrac.num/(double)otherFrac.den;
 	return thisFraction <= otherFraction;
 }
@@ -173,7 +202,7 @@ bool Fraction::operator <= (Fraction &otherFrac) {
  * @return bool whether left fraction greater than or equal to right fraction
  */
 bool Fraction::operator >= (Fraction &otherFrac) {
-	double thisFraction = (double)this->num/(double)this->den; /** Need to convert ints to doubles */
+	double thisFraction = (double)this->num/(double)this->den;
 	double otherFraction = (double)otherFrac.num/(double)otherFrac.den;
 	return thisFraction >= otherFraction;
 }
@@ -184,7 +213,7 @@ bool Fraction::operator >= (Fraction &otherFrac) {
  * @return bool whether left fraction does not equal the right fraction
  */
 bool Fraction::operator != (Fraction &otherFrac) {
-	double thisFraction = (double)this->num/(double)this->den; /** Need to convert ints to doubles */
+	double thisFraction = (double)this->num/(double)this->den;
 	double otherFraction = (double)otherFrac.num/(double)otherFrac.den;
 	return thisFraction != otherFraction;
 }

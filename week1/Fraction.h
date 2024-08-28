@@ -14,14 +14,14 @@ class Fraction {
 public:
 
 	// CONSTRUCTORS ---------------------------------- //
-
+	// no arg constructor
+	Fraction();
 	//constructor with defaults set to 0/1
-	Fraction(int top=0, int bottom=1);
-
-	// deleted copy constructor
-//	Fraction(const Fraction&) = delete;
-	// move constructor
-//	Fraction(Fraction&&) noexcept {}
+	Fraction(int top, int bottom);
+	// copy constructor
+	Fraction(const Fraction& other);
+	// destructor
+	~Fraction();
 
 	// OPERATOR OVERRIDES ------------------------------------ //
 
@@ -41,7 +41,7 @@ public:
 	// '/' operator override
 	Fraction operator / (Fraction& otherFrac);
 	// '>' operator override
-	bool operator > (Fraction& otherFrac);
+	bool operator > (Fraction& otherFrac) const;
 	// '<' operator override
 	bool operator < (Fraction& otherFrac);
 	// '<=' operator override
