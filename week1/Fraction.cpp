@@ -74,7 +74,7 @@ Fraction::~Fraction() {
  * @param frac
  * @return stream
  */
-std::ostream &operator << (std::ostream &stream, const Fraction &frac) {
+std::ostream &operator << (std::ostream &stream, const Fraction &frac)  {
 	int mixedNumber;
 	int newNum;
 	// if evenly disivible mixed fraction
@@ -95,7 +95,7 @@ std::ostream &operator << (std::ostream &stream, const Fraction &frac) {
 		}
 		else
 		{
-			newNum = frac.num * 1;
+			newNum = frac.num;
 		}
 		// absolute value needed to prevent a negative mixedNumber from throwing off the conversion
 		stream << mixedNumber << " " << newNum - abs(frac.den * mixedNumber) << "/" << frac.den;
@@ -113,7 +113,7 @@ std::ostream &operator << (std::ostream &stream, const Fraction &frac) {
  * @param otherFrac
  * @return reduced sum of two fractions
  */
-Fraction Fraction::operator + (Fraction &otherFrac) {
+Fraction Fraction::operator + (Fraction &otherFrac) const {
 	int newNum = num * otherFrac.den + den * otherFrac.num;
 	int newDen = den * otherFrac.den;
 	return Fraction(newNum,newDen);
@@ -124,9 +124,9 @@ Fraction Fraction::operator + (Fraction &otherFrac) {
  * @param otherFrac
  * @return reduced sum of this fraction plus another fraction
  */
-Fraction Fraction::operator += (Fraction &otherFrac) {
-	 this->num = num * otherFrac.den + den * otherFrac.num;
-	 this->den = den * otherFrac.den;
+Fraction Fraction::operator += (Fraction &otherFrac)  {
+	 this->num = this->num * otherFrac.den + this->den * otherFrac.num;
+	 this->den = this->den * otherFrac.den;
 	return Fraction(this->num,this->den);
 }
 
@@ -135,7 +135,7 @@ Fraction Fraction::operator += (Fraction &otherFrac) {
  * @param otherFrac
  * @return reduced difference of two fractions
  */
-Fraction Fraction::operator - (Fraction &otherFrac) {
+Fraction Fraction::operator - (Fraction &otherFrac) const {
 	int newNum = this->num * otherFrac.den - this->den * otherFrac.num;
 	int newDen = this->den * otherFrac.den;
 	return Fraction(newNum,newDen);
@@ -146,7 +146,7 @@ Fraction Fraction::operator - (Fraction &otherFrac) {
  * @param otherFrac
  * @return reduced product of two fractions
  */
-Fraction Fraction::operator * (Fraction &otherFrac) {
+Fraction Fraction::operator * (Fraction &otherFrac) const {
 	int newNum = this->num * otherFrac.num;
 	int newDen = this->den * otherFrac.den;
 	return Fraction(newNum,newDen);
@@ -157,7 +157,7 @@ Fraction Fraction::operator * (Fraction &otherFrac) {
  * @param otherFrac
  * @return reduced quotient of two fractions
  */
-Fraction Fraction::operator / (Fraction &otherFrac) {
+Fraction Fraction::operator / (Fraction &otherFrac) const {
 	int newNum = this->num * otherFrac.den;
 	int newDen = this->den * otherFrac.num;
 	return Fraction(newNum,newDen);
@@ -179,7 +179,7 @@ bool Fraction::operator > (Fraction &otherFrac) const {
  * @param otherFrac
  * @return bool whether left fraction less than right fraction
  */
-bool Fraction::operator < (Fraction &otherFrac) {
+bool Fraction::operator < (Fraction &otherFrac) const {
 	double thisFraction = (double)this->num/(double)this->den; // Need to convert ints to doubles
 	double otherFraction = (double)otherFrac.num/(double)otherFrac.den;
 	return thisFraction < otherFraction;
@@ -190,7 +190,7 @@ bool Fraction::operator < (Fraction &otherFrac) {
  * @param otherFrac
  * @return bool whether left fraction less than or equal to right fraction
  */
-bool Fraction::operator <= (Fraction &otherFrac) {
+bool Fraction::operator <= (Fraction &otherFrac) const {
 	double thisFraction = (double)this->num/(double)this->den;
 	double otherFraction = (double)otherFrac.num/(double)otherFrac.den;
 	return thisFraction <= otherFraction;
@@ -201,7 +201,7 @@ bool Fraction::operator <= (Fraction &otherFrac) {
  * @param otherFrac
  * @return bool whether left fraction greater than or equal to right fraction
  */
-bool Fraction::operator >= (Fraction &otherFrac) {
+bool Fraction::operator >= (Fraction &otherFrac) const {
 	double thisFraction = (double)this->num/(double)this->den;
 	double otherFraction = (double)otherFrac.num/(double)otherFrac.den;
 	return thisFraction >= otherFraction;
@@ -212,7 +212,7 @@ bool Fraction::operator >= (Fraction &otherFrac) {
  * @param otherFrac
  * @return bool whether left fraction does not equal the right fraction
  */
-bool Fraction::operator != (Fraction &otherFrac) {
+bool Fraction::operator != (Fraction &otherFrac) const {
 	double thisFraction = (double)this->num/(double)this->den;
 	double otherFraction = (double)otherFrac.num/(double)otherFrac.den;
 	return thisFraction != otherFraction;
@@ -223,7 +223,7 @@ bool Fraction::operator != (Fraction &otherFrac) {
  * @param otherFrac
  * @return
  */
-bool Fraction::operator == (Fraction &otherFrac) {
+bool Fraction::operator == (Fraction &otherFrac) const {
 	int firstnum = this->num * otherFrac.den;
 	int secondnum = otherFrac.num * den;
 	return firstnum == secondnum;

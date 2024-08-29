@@ -13,7 +13,7 @@
 class Fraction {
 public:
 
-	// CONSTRUCTORS ---------------------------------- //
+	// CONSTRUCTORS ------------------------------------------ //
 	// no arg constructor
 	Fraction();
 	//constructor with defaults set to 0/1
@@ -31,30 +31,30 @@ public:
 	// pass all objects by reference
 
 	// '+' operator override
-	Fraction operator + (Fraction& otherFrac);
+	Fraction operator + (Fraction& otherFrac) const;
 	// '+=' operator override
-	Fraction operator += (Fraction& otherFrac);
+	Fraction operator += (Fraction& otherFrac) ;
 	// '-' operator override
-	Fraction operator - (Fraction& otherFrac);
+	Fraction operator - (Fraction& otherFrac) const;
 	// '*' operator override
-	Fraction operator * (Fraction& otherFrac);
+	Fraction operator * (Fraction& otherFrac) const;
 	// '/' operator override
-	Fraction operator / (Fraction& otherFrac);
+	Fraction operator / (Fraction& otherFrac) const;
 	// '>' operator override
 	bool operator > (Fraction& otherFrac) const;
 	// '<' operator override
-	bool operator < (Fraction& otherFrac);
+	bool operator < (Fraction& otherFrac) const;
 	// '<=' operator override
-	bool operator <= (Fraction& otherFrac);
+	bool operator <= (Fraction& otherFrac) const;
 	// '>=' operator override
-	bool operator >= (Fraction& otherFrac);
+	bool operator >= (Fraction& otherFrac) const;
 	// '!=' operator override
-	bool operator != (Fraction& otherFrac);
+	bool operator != (Fraction& otherFrac) const;
 	// '==' operator override
-	bool operator == (Fraction &otherFrac);
+	bool operator == (Fraction &otherFrac) const;
 	// get and return methods
 
-	// GETTERS -------------------------------------- //
+	// GETTERS ----------------------------------------------- //
 
 	int getNumerator(){ return num; }
 	int getDenominator(){ return den ;};
