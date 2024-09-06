@@ -23,18 +23,21 @@ files = [f for f in glob('*.txt') if "CMake" not in f]
 plots = {}										# dictionary of plots
 for file_name in files:							# iterate through file names
 	file = open(file_name)						# open file
-	x = []										# list of x values
-	y = []										# list of y values
+	x = []										# list of x values - number of trials
+	y = []										# list of y values - time complexity
+	z = []										# data point values  
 	for line in file:							# iterate through file
 		line = line.strip().split(" ")			# clean up the data
 		x.append(int(line[0]))					# build x list
 		y.append(int(line[1]))					# build y list
-		plots[prepare_file_name(file_name)] = (x, y)# prepare graph legend from file name and associate x, y lists
+		z.append(int(line[2]))					# build z list
+		plots[prepare_file_name(file_name)] = (x, y, z) # prepare graph legend from file name and associate x, y, z lists
 
 # plot each set
 for s in plots:
 	pyplot.plot(plots[s][0], plots[s][1], label=s)
-
+	labels = plots[s][2]
+	
 pyplot.legend()					# show legend
 if len(sys.argv) > 1:
 	pyplot.title(sys.argv[1])	# display title from command line args

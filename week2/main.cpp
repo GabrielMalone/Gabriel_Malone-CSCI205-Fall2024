@@ -7,6 +7,8 @@
 #include <iomanip>
 #include <unordered_map>
 
+// TODO -> change some of the functions to use long long for outputs (like the factorials and quadratics)
+
 using namespace std;
 
 unordered_map<int, int>matrixMultiplcationMap;						// stores trial number and data results for that trial
@@ -30,15 +32,14 @@ int arrayRange(int arraySize);
 int middleIndexing(int arraySize);
 void outputFile(string &filename, int loops);
 
-// MAIN METHOD ---------------------------------------------------------------------------------------------------------
-
 int main()
 {
 	string selection; 		// variable to hold user input
 	string numTimes; 		// variable to hold num of times to run the functions
 	vector<int> selections; // vector to hold user's graph selections
 
-	// MENU -------------------------------------------------------------------------------------------------------------
+	// MENU START 
+
 	int minWidth = 42; 		// menu formatting 
 
 	cout << "\n";
@@ -68,15 +69,21 @@ int main()
 	cout << "  Enter number(s): "; getline(cin, selection);
 
 	cout << "  Enter number of times to run experiements: "; cin >> numTimes;
+
+	// MENU END
+
 	// iterate through user's input and run selected functions
 	// (int)c - 48  to convert char to int, then minus 1 to index vector properly. 
+
 	for (char c : selection) {
 		if (c > '0' && c <= '8')
 		{
 			outputFile(fileNames[((int)c - 48) - 1], stoi(numTimes)); 
 		}
 	}
+
 	// run the python script to show graphs
+
 	int status = system("python3 plot.py"); 
 	if (status == -1)
 	{
@@ -180,26 +187,26 @@ int matrixMultiplication(size_t arraySize)
 	int elementB = 0; 	// number to be multiplied from second matrix
 
 	// create 1st dynamic matrices
-    size_t** matrixA = new size_t*[arraySize];
+	size_t** matrixA = new size_t*[arraySize];
 
 	for (size_t i = 0 ; i < arraySize ; i ++ )
-    {
-        matrixA[i] = new size_t[arraySize];
-    }
+	{
+		matrixA[i] = new size_t[arraySize];
+	}
 	// create 2nd dynamic matrices
-    size_t** matrixB = new size_t*[arraySize];
+	size_t** matrixB = new size_t*[arraySize];
 
 	for (size_t i = 0 ; i < arraySize ; i ++ )
-    {
-        matrixB[i] = new size_t[arraySize];
-    }
+	{
+		matrixB[i] = new size_t[arraySize];
+	}
 	// create 3rd dynamic matrices
-    size_t** matrixC = new size_t*[arraySize];
+	size_t** matrixC = new size_t*[arraySize];
 
 	for (size_t i = 0 ; i < arraySize ; i ++ )
-    {
-        matrixC[i] = new size_t[arraySize];
-    }
+	{
+		matrixC[i] = new size_t[arraySize];
+	}
 
 	// fill matrices
 	for (int i = 0; i < arraySize; i++)
@@ -211,8 +218,8 @@ int matrixMultiplication(size_t arraySize)
 		}
 	}
 
-	// first two loops get the products of the corresponding elements 
-	// and place the results into 3rd matrix
+	// first two loops set the numbers to be multiplied
+	// third loop places the proudct into 3rd matrix
 	for (size_t i = 0; i < arraySize; i++)
 	{
 		for (size_t j = 0; j < arraySize; j++)
@@ -221,33 +228,68 @@ int matrixMultiplication(size_t arraySize)
 			elementB = matrixB[i][j];
 			for (size_t k = 0; k < arraySize; k++)
 			{
-				matrixC[i][j] = elementA * elementB; 
-				// just flattening out the matrix to one value for the result output
-				result += elementA * elementB;
+				matrixC[i][j] = elementA * elementB;
+				// just flattening out the matrix
+				//to one value for the result output
 				n++;
 			}
 		}
 	}
 
-	// save the actual data results in a hashmap
+	// output visualization of all three matrices in terminal
+	cout << endl;
+	cout << "matrix A" << endl;
+	for (int i = 0; i < arraySize; i++)
+	{
+		for (int j = 0; j < arraySize; j++)
+		{
+			cout <<  setw(5) << left << matrixA[i][j] << " ";
+		}
+		cout << endl;
+	}
+	cout << endl;
+	cout << "matrix B" << endl;
+	for (int i = 0; i < arraySize; i++)
+	{
+		for (int j = 0; j < arraySize; j++)
+		{
+			cout <<  setw(5) << left << matrixB[i][j] << " ";
+		}
+		cout << endl;
+	}
+	cout << endl;
+	cout << "matrix C" << endl;
+	for (int i = 0; i < arraySize; i++)
+	{
+		for (int j = 0; j < arraySize; j++)
+		{
+			cout <<  setw(5) << left << matrixC[i][j] << " ";
+			result += matrixC[i][j];
+		}
+		cout << endl;
+	}
+	cout << endl;
+	cout << "sum of products from Matrix C: " << result << endl;
+
+	// save actual experiement data
 	matrixMultiplcationMap[n] = result;
 	allExperimentResults["matrixmult"] = matrixMultiplcationMap;
 
 	// delete
 	for (size_t i = 0 ; i < arraySize ; i ++ )
-    {
-        delete matrixA[i];
-    }
+	{
+		delete matrixA[i];
+	}
 	// delete
 	for (size_t i = 0 ; i < arraySize ; i ++ )
-    {
-        delete matrixB[i];
-    }
+	{
+		delete matrixB[i];
+	}
 	// delete
 	for (size_t i = 0 ; i < arraySize ; i ++ )
-    {
-        delete matrixC[i];
-    }
+	{
+		delete matrixC[i];
+	}
 	// delete
 	delete [] matrixA;
 	delete [] matrixB;
@@ -334,26 +376,28 @@ int primeNumbersFunctionEnhanced(int primeNumberCandidate)
  */
 int factorialFunction(int factorial)
 {
+	int n = 0;							// time complexity variable
 	int result = 1;						// variable to save the products
 	int base = factorial;				// the current factorial
 	int next = base - 1;				// the next number to multiply to the base factorial
-	int n = 0;							// time complexity variable
-	for (int i = 1; i < factorial; i++) // loop through each
-	{
-		result *= base * next;
-		base -= 2;	  // move to the next pair of numbers to multiply
-		next -= 2;	  // move to the next pair of numbers to multiply
-		if (next < 1) // prevent multiplying by zero
+
+	if (factorial > 1){
+		for (int i = 0; i < factorial; i++) // loop through each
 		{
-			break;
+			n++;
+			result *= base * next;
+			base -= 2;	  // move to the next pair of numbers to multiply
+			next -= 2;	  // move to the next pair of numbers to multiply
+			if (next < 1) // prevent multiplying by zero
+			{
+				break;
+			}
 		}
-		n++;
+
+		// save actual experiement data
+		factorialsMap[n] = result;
+		allExperimentResults["factorials"] = factorialsMap;
 	}
-
-	// save actual experiement data
-	factorialsMap[n] = result;
-	allExperimentResults["factorials"] = factorialsMap;
-
 	return n;
 }
 
@@ -369,6 +413,7 @@ int matrixMaxElement(int arraySize)
 	int n = 0;						  // time complexity variable
 	int max = 0;					  // variable to store min element found
 	int currentInt;					  // variable to track current element in the matrix
+	int count = 0;
 
 
 	// create dynamic matrix 
@@ -383,8 +428,9 @@ int matrixMaxElement(int arraySize)
 	for (int i = 0; i < arraySize; i++)
 	{
 		for (int j = 0; j < arraySize; j++)
-		{
-			matrix[i][j] = j*i;
+		{	
+			count ++;
+			matrix[i][j] = count;
 		}
 	}
 
@@ -428,10 +474,10 @@ int exponentialFunction(int power)
 {
 	int n = 0; // time complexity variable
 	int base = power; // base that will be raised
-	int total = 0; // should you want to see that the function works correctly
+	int total = 1; // should you want to see that the function works correctly
 	if (power == 0) // any num raised to 0 = 1
 	{
-		base = 1;
+		total = 1;
 	}
 	else
 	{
@@ -439,14 +485,13 @@ int exponentialFunction(int power)
 		for (int i = 0; i < power; i++)
 		{
 			n++; // linear time complexity
-				total += base*base;
+			total *= base;
 		}
 	}
-
+	// save actual experiement data
 	exponentialFunctionMap[n] =  total;
 	allExperimentResults["exponential"] = exponentialFunctionMap;
-
-
+	// return time complexity
 	return n;
 }
 
@@ -480,13 +525,14 @@ int arrayRange(int arraySize)
 		{
 			max = currentInt;
 		}
-		n++; // each iteration increases time complexity
+		n++; 							// each iteration increases time complexity
 	}
 	 range = max - min; 
 
 	// clean up memory
 	delete[] array;
 
+	// save actual experiement data
 	arrayRangeMap[n] = range;
 	allExperimentResults["range"] =  arrayRangeMap;
 
@@ -499,8 +545,8 @@ int arrayRange(int arraySize)
  */
 int middleIndexing(int arraySize)
 {
-	int c = 0;												   // track how many const operations are performed
-	int* array = new int[arraySize];						   // make array
+	int c = 0;							// track how many const operations are performed
+	int* array = new int[arraySize];	// make array
 
 	for (int i = 0; i < arraySize; i++) // fill array
 	{
@@ -512,6 +558,7 @@ int middleIndexing(int arraySize)
 	// clean up memory
 	delete [] array;
 
+	// save actual experiement data
 	middleIndexingMap[c] = midElement;
 	allExperimentResults["middle"] =  middleIndexingMap;
 
