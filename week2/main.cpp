@@ -9,7 +9,6 @@
 
 using namespace std;
 
-
 unordered_map<int, int>matrixMultiplcationMap;						// stores trial number and data results for that trial
 unordered_map<int, int>primeNumbersMap; 							// stores trial number and data results for that trial
 unordered_map<int, int>primeNumbersMapEnhancedMap; 					// stores trial number and data results for that trial
@@ -21,12 +20,154 @@ unordered_map<int, int>middleIndexingMap;							// stores trial number and data 
 
 unordered_map<string, unordered_map<int, int> >allExperimentResults;// stores name of function and map associated with it ^
 
+int matrixMultiplication(size_t arraySize);
+int primeNumbersFunction(int primeNumberCandidate);
+int primeNumbersFunctionEnhanced(int primeNumberCandidate);
+int factorialFunction(int factorial);
+int matrixMaxElement(int arraySize);
+int exponentialFunction(int power);
+int arrayRange(int arraySize);
+int middleIndexing(int arraySize);
+void outputFile(string &filename, int loops);
 
-// 8 - QUADRATIC TIME - MATRIX MULTIPLICATION --------------------------------------------------------------------------
+// MAIN METHOD ---------------------------------------------------------------------------------------------------------
+
+int main()
+{
+	string selection; 		// variable to hold user input
+	string numTimes; 		// variable to hold num of times to run the functions
+	vector<int> selections; // vector to hold user's graph selections
+
+	// MENU -------------------------------------------------------------------------------------------------------------
+	int minWidth = 42; 		// menu formatting 
+
+	cout << "\n";
+	cout << "  Select Functions to Graph - Then Press Enter \n";
+	cout << "+----------------------------------------------+ \n";
+	// vector of the file names / function names
+	vector<string> fileNames =
+		{
+			"constant_time_middle_index",
+			"linear_time_array_range",
+			"quadratic_time_matrix_max_element",
+			"linear_time_exponential_function",
+			"linear_time_factorials_function",
+			"linear_time_prime_numbers",
+			"linear_time_prime_numbers_enhanced",
+			"quadratic_time_matrix_multiplication"};
+
+	// create menu seleciton box
+	int i = 1;
+	for (string fileName : fileNames)
+	{
+		cout << "| " << i << ") " << setw(minWidth) << left << fileName << "|" << "\n";
+		i ++;
+	}
+	cout << "+----------------------------------------------+ " << endl;
+
+	cout << "  Enter number(s): "; getline(cin, selection);
+
+	cout << "  Enter number of times to run experiements: "; cin >> numTimes;
+	// iterate through user's input and run selected functions
+	// (int)c - 48  to convert char to int, then minus 1 to index vector properly. 
+	for (char c : selection) {
+		if (c > '0' && c <= '8')
+		{
+			outputFile(fileNames[((int)c - 48) - 1], stoi(numTimes)); 
+		}
+	}
+	// run the python script to show graphs
+	int status = system("python3 plot.py"); 
+	if (status == -1)
+	{
+		cerr << "\npython script failed :[\n" << endl;
+	} else {
+		cout << "\n  graphs created successfully!\n" << endl;
+		cout << "  all .txt data cleared\n" << endl;
+	}
+
+	return 0;
+}
 
 /**
- * Implement “dot product” matrix multiplication for square matrices 
- * using the naive approach with loops.
+ * run each test/function and output results of testing to an appropriately named text file
+ * outputs the number of comparisons / time complexity / and actual data output
+ * @param filename
+ */
+void outputFile(string &filename, int loops)
+{
+	ofstream outFile(filename + ".txt");
+	if (outFile.is_open())
+	{
+		for (int i = 0; i < loops; i++) 
+		{
+			if (filename == "constant_time_middle_index"){ 
+				outFile << (i) << " " 											// comparisons
+						<< middleIndexing(i) << " "								// time complexity
+				 		<< allExperimentResults["middle"][middleIndexing(i)] 	// actual data from function 
+						<< endl;
+			}
+
+			if (filename == "linear_time_array_range"){
+				outFile << (i) << " " 
+						<< arrayRange(i) << " " 
+						<< allExperimentResults["range"][arrayRange(i)] 
+						<< endl;
+			}
+
+			if (filename == "quadratic_time_matrix_max_element"){
+				outFile << (i) << " " 
+						<< matrixMaxElement(i) << " " 
+						<< allExperimentResults["matrixMaxElement"][matrixMaxElement(i)] 
+						<< endl;
+			}
+
+			if (filename == "linear_time_exponential_function"){
+				outFile << (i) << " " 
+						<< exponentialFunction(i) << " " 
+						<< allExperimentResults["exponential"][exponentialFunction(i)] 
+						<< endl;
+			}
+
+			if (filename == "linear_time_factorials_function"){
+				outFile << (i) << " " 
+						<< factorialFunction(i) << " "
+						<< allExperimentResults["factorials"][factorialFunction(i)] 
+						<< endl;
+			}
+
+			if (filename == "linear_time_prime_numbers"){
+				outFile << (i) << " " 
+						<< primeNumbersFunction(i) << " " 
+						<< allExperimentResults["prime"][primeNumbersFunction(i)] 
+						<< endl;
+			}
+
+			if (filename == "linear_time_prime_numbers_enhanced"){
+				outFile << (i) << " " 
+						<< primeNumbersFunctionEnhanced(i) << " "
+						<< allExperimentResults["primeEnhanced"][primeNumbersFunctionEnhanced(i)] 
+						<< endl;
+			}
+
+			if (filename == "quadratic_time_matrix_multiplication"){
+				outFile << (i) << " " 
+						<< matrixMultiplication(i) << " "
+						<< allExperimentResults["matrixmult"][matrixMultiplication(i)]  
+						<< endl;
+			}
+		}
+		outFile.close();
+	}
+	else
+	{
+		cerr << "Unable to open file";
+	}
+}
+
+/**
+ * QUADRATIC TIME - MATRIX MULTIPLICATION
+ * Implements “dot product” matrix multiplication for square matrices 
  * There are 3 for-loops, and so O(n^3).
  * @param int arraySize
  * @return time complexity of this function (n)
@@ -115,9 +256,8 @@ int matrixMultiplication(size_t arraySize)
 	return n;
 }
 
-// 7 - LINEAR TIME - PRIME NUMBERS ----------------------------------------------------------------------------------------
-
 /**
+ * LINEAR TIME - PRIME NUMBERS 
  * @param primeNumberCandidate
  * @return time complexity of function
  */
@@ -146,9 +286,8 @@ int primeNumbersFunction(int primeNumberCandidate)
 	return n;
 }
 
-// 6 - LINEAR TIME - PRIME NUMBERS ENHANCED ------------------------------------------------------------------------------
-
 /**
+ * LINEAR TIME - PRIME NUMBERS ENHANCED 
  * @param primeNumberCandidate
  * @return time complexity of function
  */
@@ -185,10 +324,10 @@ int primeNumbersFunctionEnhanced(int primeNumberCandidate)
 
 	return n;
 }
-// 5 - LINEAR TIME - FACTORIALS ----------------------------------------------------------------------------------------
 
 /**
- * Write an iterative function to calculate the factorials of a number, not including 1 and itself.
+ * LINEAR TIME - FACTORIALS 
+ * calculates the factorials of a number, not including 1 and itself.
  * O(n) because one for-loop to calc factorial. Dependent on factorial size.
  * @param factorial
  * @return time complexity (n) of this function
@@ -218,10 +357,9 @@ int factorialFunction(int factorial)
 	return n;
 }
 
-// 4 - QUADRATIC TIME - MATRIX MAX ELEMENT -----------------------------------------------------------------------------
-
 /**
- * Quadratic Time – Matrix Max Element: Write a function to find the maximum
+ * QUADRATIC TIME - MATRIX MAX ELEMENT 
+ * Matrix Max Element: a function to find the maximum
  * two for-loops, so complexity = O(n^2) (n*n)
  * @param matrixSize
  * @return time complexity of the operation O(n^2)
@@ -279,10 +417,9 @@ int matrixMaxElement(int arraySize)
 
 }
 
-// 3 - LINEAR TIME - EXPONENTIAL FUNCTION ------------------------------------------------------------------------------
-
 /**
- * Linear Time - Exponential Function: Implement an iterative function
+ * LINEAR TIME - EXPONENTIAL FUNCTION 
+ * Implements an iterative function
  * one for-loop, thus time complexity O(n)
  * @param matrixSize
  * @return time complexity of the operation O(n^2)
@@ -313,13 +450,8 @@ int exponentialFunction(int power)
 	return n;
 }
 
-
-// 2 - LINEAR TIME - ARRAY RANGE ---------------------------------------------------------------------------------------
-
 /**
- * Linear Time – Array Range: Implement a function to find the range of all elements
- * in an array of integers using a loop.
- * one for-loop so time complexity = O(n)
+ * LINEAR TIME - ARRAY RANGE 
  * @param arraySize
  * @return time complexity of the operation (n Linear)
  */
@@ -361,11 +493,8 @@ int arrayRange(int arraySize)
 	return n;
 }
 
-// 1 - CONSTANT TIME - MIDDLE ARRAY ELEMENT ----------------------------------------------------------------------------
-
 /**
- * Constant Time – Array Middle Element:
- * no loops, and lookup through contiguous memory blocks is constant time.
+ * CONSTANT TIME - MIDDLE ARRAY ELEMENT
  * @return time complexity of middle indexing.
  */
 int middleIndexing(int arraySize)
@@ -387,144 +516,4 @@ int middleIndexing(int arraySize)
 	allExperimentResults["middle"] =  middleIndexingMap;
 
 	return c;
-}
-
-// LOOP ABOVE FUNCTIONS TO GET APPROPRIATE DATA ------------------------------------------------------------------------
-
-/**
- * run each test and output results of testing to an appropriately named text file
- * @param filename
- */
-void outputFile(string &filename, int loops)
-{
-	// outputs the number of comparisons / time complexity / and actual data output
-	ofstream outFile(filename + ".txt");
-	if (outFile.is_open())
-	{
-		for (int i = 0; i < loops; i++) // loop the functions and write outputs to a txt file
-		{
-			if (filename == "constant_time_middle_index"){ 
-				outFile << (i) << " " 
-						<< middleIndexing(i) << " "
-				 		<< allExperimentResults["middle"][middleIndexing(i)] 
-						<< endl;
-			}
-
-			if (filename == "linear_time_array_range"){
-				outFile << (i) << " " 
-						<< arrayRange(i) << " " 
-						<< allExperimentResults["range"][arrayRange(i)] 
-						<< endl;
-			}
-
-			if (filename == "quadratic_time_matrix_max_element"){
-				outFile << (i) << " " 
-						<< matrixMaxElement(i) << " " 
-						<< allExperimentResults["matrixMaxElement"][matrixMaxElement(i)] 
-						<< endl;
-			}
-
-			if (filename == "linear_time_exponential_function"){
-				outFile << (i) << " " 
-						<< exponentialFunction(i) << " " 
-						<< allExperimentResults["exponential"][exponentialFunction(i)] 
-						<< endl;
-			}
-
-			if (filename == "linear_time_factorials_function"){
-				outFile << (i) << " " 
-						<< factorialFunction(i) << " "
-						<< allExperimentResults["factorials"][factorialFunction(i)] 
-						<< endl;
-			}
-
-			if (filename == "linear_time_prime_numbers"){
-				outFile << (i) << " " 
-						<< primeNumbersFunction(i) << " " 
-						<< allExperimentResults["prime"][primeNumbersFunction(i)] 
-						<< endl;
-			}
-
-			if (filename == "linear_time_prime_numbers_enhanced"){
-				outFile << (i) << " " 
-						<< primeNumbersFunctionEnhanced(i) << " "
-						<< allExperimentResults["primeEnhanced"][primeNumbersFunctionEnhanced(i)] 
-						<< endl;
-			}
-
-			if (filename == "quadratic_time_matrix_multiplication"){
-				outFile << (i) << " " 
-						<< matrixMultiplication(i) << " "
-						<< allExperimentResults["matrixmult"][matrixMultiplication(i)]  
-						<< endl;
-			}
-		}
-		outFile.close();
-	}
-	else
-	{
-		cerr << "Unable to open file";
-	}
-}
-
-// MAIN METHOD ---------------------------------------------------------------------------------------------------------
-
-int main()
-{
-	string selection; // variable to hold user input
-	string numTimes; // variable to hold num of times to run the functions
-	vector<int> selections; // vector to hold user's graph selections
-
-	// MENU -------------------------------------------------------------------------------------------------------------
-	int minWidth = 42; // menu formatting 
-
-	cout << "\n";
-	cout << "  Select Functions to Graph - Then Press Enter \n";
-	cout << "+----------------------------------------------+ \n";
-	// vector of the file names / function names
-	// can remove or add names to be included on the final chart
-	vector<string> fileNames =
-		{
-			"constant_time_middle_index",
-			"linear_time_array_range",
-			"quadratic_time_matrix_max_element",
-			"linear_time_exponential_function",
-			"linear_time_factorials_function",
-			"linear_time_prime_numbers",
-			"linear_time_prime_numbers_enhanced",
-			"quadratic_time_matrix_multiplication"};
-
-	//	 iterate through the fileNames
-	//	 run each function associated with each filename
-	//	 save outputs to appropriately named .txt file
-	int i = 1;
-	for (string fileName : fileNames)
-	{
-		cout << "| " << i << ") " << setw(minWidth) << left << fileName << "|" << "\n";
-		i ++;
-	}
-	cout << "+----------------------------------------------+ " << endl;
-
-	cout << "  Enter number(s): "; getline(cin, selection);
-
-	cout << "  Enter number of times to run experiements: "; cin >> numTimes;
-
-	// iterate through user's input and run selected functions
-	for (char c : selection) {
-		if (c > '0' && c <= '8')
-		{
-			outputFile(fileNames[((int)c - 48) - 1], stoi(numTimes)); // (int)c - 48  to convert char to int, then minus 1 to index vector properly. 
-		}
-	}
-	
-	int status = system("python3 plot.py"); // run the python script to show graphs
-	if (status == -1)
-	{
-		cerr << "\npython script failed :[\n" << endl;
-	} else {
-		cout << "\n  graphs created successfully!\n" << endl;
-		cout << "  all .txt data cleared\n" << endl;
-	}
-
-	return 0;
 }
