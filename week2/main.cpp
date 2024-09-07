@@ -8,6 +8,8 @@
 #include <unordered_map>
 
 // TODO -> change some of the functions to use long long for outputs (like the factorials and quadratics)
+// TODO -> condition for allocating new int[] (valgrind not happy when 0 passed in as size)
+		
 
 using namespace std;
 
@@ -107,7 +109,7 @@ void outputFile(string &filename, int loops)
 	ofstream outFile(filename + ".txt");
 	if (outFile.is_open())
 	{
-		for (int i = 0; i < loops; i++) 
+		for (int i = 1; i < loops; i++) 
 		{
 			if (filename == "constant_time_middle_index"){ 
 				outFile << (i) << " " 											// comparisons
@@ -279,17 +281,17 @@ int matrixMultiplication(size_t arraySize)
 	// delete
 	for (size_t i = 0 ; i < arraySize ; i ++ )
 	{
-		delete matrixA[i];
+		delete[] matrixA[i];
 	}
 	// delete
 	for (size_t i = 0 ; i < arraySize ; i ++ )
 	{
-		delete matrixB[i];
+		delete[] matrixB[i];
 	}
 	// delete
 	for (size_t i = 0 ; i < arraySize ; i ++ )
 	{
-		delete matrixC[i];
+		delete[] matrixC[i];
 	}
 	// delete
 	delete [] matrixA;
@@ -452,7 +454,7 @@ int matrixMaxElement(int arraySize)
 	// clean up memory
 	for (int i = 0 ; i < arraySize ; i ++ )
     {
-        delete matrix[i];
+        delete[] matrix[i];
     }
 	delete [] matrix;
 
