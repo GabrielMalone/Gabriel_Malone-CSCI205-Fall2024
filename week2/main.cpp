@@ -7,32 +7,28 @@
 #include <iomanip>
 #include <unordered_map>
 
-// TODO -> change some of the functions to use long long for outputs (like the factorials and quadratics)
-// TODO -> condition for allocating new int[] (valgrind not happy when 0 passed in as size)
-		
-
 using namespace std;
 
-unordered_map<int, int>matrixMultiplcationMap;						// stores trial number and data results for that trial
-unordered_map<int, int>primeNumbersMap; 							// stores trial number and data results for that trial
-unordered_map<int, int>primeNumbersMapEnhancedMap; 					// stores trial number and data results for that trial
-unordered_map<int, int>factorialsMap; 								// stores trial number and data results for that trial
-unordered_map<int, int>matrixMaxElementMap; 						// stores trial number and data results for that trial
-unordered_map<int, int>exponentialFunctionMap;						// stores trial number and data results for that trial
-unordered_map<int, int>arrayRangeMap;								// stores trial number and data results for that trial
-unordered_map<int, int>middleIndexingMap;							// stores trial number and data results for that trial
+unordered_map<size_t, unsigned long long>matrixMultiplcationMap;						// stores trial number and data results for that trial
+unordered_map<size_t, unsigned long long>primeNumbersMap; 								// stores trial number and data results for that trial
+unordered_map<size_t, unsigned long long>primeNumbersMapEnhancedMap; 					// stores trial number and data results for that trial
+unordered_map<size_t, unsigned long long>factorialsMap; 								// stores trial number and data results for that trial
+unordered_map<size_t, unsigned long long>matrixMaxElementMap; 							// stores trial number and data results for that trial
+unordered_map<size_t, unsigned long long>exponentialFunctionMap;						// stores trial number and data results for that trial
+unordered_map<size_t, unsigned long long>arrayRangeMap;									// stores trial number and data results for that trial
+unordered_map<size_t, unsigned long long>middleIndexingMap;								// stores trial number and data results for that trial
 
-unordered_map<string, unordered_map<int, int> >allExperimentResults;// stores name of function and map associated with it ^
+unordered_map<string, unordered_map<size_t, unsigned long long> >allExperimentResults;	// stores name of function and map associated with it ^
 
-int matrixMultiplication(size_t arraySize);
-int primeNumbersFunction(int primeNumberCandidate);
-int primeNumbersFunctionEnhanced(int primeNumberCandidate);
-int factorialFunction(int factorial);
-int matrixMaxElement(int arraySize);
-int exponentialFunction(int power);
-int arrayRange(int arraySize);
-int middleIndexing(int arraySize);
-void outputFile(string &filename, int loops);
+size_t matrixMultiplication(size_t arraySize);
+size_t primeNumbersFunction(size_t primeNumberCandidate);
+size_t primeNumbersFunctionEnhanced(size_t primeNumberCandidate);
+size_t factorialFunction(size_t factorial);
+size_t matrixMaxElement(size_t arraySize);
+size_t exponentialFunction(size_t power);
+size_t arrayRange(size_t arraySize);
+size_t middleIndexing(size_t arraySize);
+void outputFile(string &filename, size_t loops);
 
 int main()
 {
@@ -42,7 +38,7 @@ int main()
 
 	// MENU START 
 
-	int minWidth = 42; 		// menu formatting 
+	size_t minWidth = 42; 		// menu formatting 
 
 	cout << "\n";
 	cout << "  Select Functions to Graph - Then Press Enter \n";
@@ -61,7 +57,7 @@ int main()
 		};
 
 	// create menu seleciton box
-	int i = 1;
+	size_t i = 1;
 	for (string fileName : fileNames)
 	{
 		cout << "| " << i << ") " << setw(minWidth) << left << fileName << "|" << "\n";
@@ -81,7 +77,7 @@ int main()
 	for (char c : selection) {
 		if (c > '0' && c <= '8')
 		{
-			outputFile(fileNames[((int)c - 48) - 1], stoi(numTimes)); 
+			outputFile(fileNames[((size_t)c - 48) - 1], stoi(numTimes)); 
 		}
 	}
 
@@ -104,12 +100,12 @@ int main()
  * outputs the number of comparisons / time complexity / and actual data output
  * @param filename
  */
-void outputFile(string &filename, int loops)
+void outputFile(string &filename, size_t loops)
 {
 	ofstream outFile(filename + ".txt");
 	if (outFile.is_open())
 	{
-		for (int i = 1; i < loops; i++) 
+		for (size_t i = 1; i < loops; i++) 
 		{
 			if (filename == "constant_time_middle_index"){ 
 				outFile << (i) << " " 											// comparisons
@@ -179,15 +175,15 @@ void outputFile(string &filename, int loops)
  * QUADRATIC TIME - MATRIX MULTIPLICATION
  * Implements “dot product” matrix multiplication for square matrices 
  * There are 3 for-loops, and so O(n^3).
- * @param int arraySize
+ * @param size_t arraySize
  * @return time complexity of this function (n)
  */
-int matrixMultiplication(size_t arraySize)
+size_t matrixMultiplication(size_t arraySize)
 {
-	int result = 0; 	// sum of the products
-	int n = 0;			// time complexity variable
-	int elementA = 0; 	// number to be multiplied from first matrix
-	int elementB = 0; 	// number to be multiplied from second matrix
+	unsigned long long result = 0; 	// sum of the products
+	size_t n = 0;			// time complexity variable
+	unsigned long long elementA = 0; 	// number to be multiplied from first matrix
+	unsigned long long elementB = 0; 	// number to be multiplied from second matrix
 
 	// create 1st dynamic matrices
 	size_t** matrixA = new size_t*[arraySize];
@@ -306,16 +302,16 @@ int matrixMultiplication(size_t arraySize)
  * @param primeNumberCandidate
  * @return time complexity of function
  */
-int primeNumbersFunction(int primeNumberCandidate)
+size_t primeNumbersFunction(size_t primeNumberCandidate)
 {
 	bool prime = true;
-	int n = 0; // time complexity variable
+	size_t n = 0; // time complexity variable
 	// only makes sense to check numbers > 2
 	// loop needs to start at 2 (1 and 0 have their own issues)
 	// one for-loop = linear time, though could end very quickly if divisible by a small number.
 	if (primeNumberCandidate > 2)
 	{ 
-		for (int i = 2; i < primeNumberCandidate; i++)
+		for (size_t i = 2; i < primeNumberCandidate; i++)
 		{		 
 			n++; 
 			if (primeNumberCandidate % i == 0)
@@ -336,16 +332,16 @@ int primeNumbersFunction(int primeNumberCandidate)
  * @param primeNumberCandidate
  * @return time complexity of function
  */
-int primeNumbersFunctionEnhanced(int primeNumberCandidate)
+size_t primeNumbersFunctionEnhanced(size_t primeNumberCandidate)
 {
 	bool prime = true;
-	int n = 0; // time complexity variable
+	size_t n = 0; // time complexity variable
 	if (primeNumberCandidate > 2)
 	{
 		// only makes sense to check numbers > 2
 		// loop needs to start at 2 (1 and 0 have their own issues)
 		// one for-loop = linear time
-		for (int i = 2; i < primeNumberCandidate; i++)
+		for (size_t i = 2; i < primeNumberCandidate; i++)
 		{		 
 			n++; 
 			if (primeNumberCandidate % i == 0)
@@ -377,21 +373,21 @@ int primeNumbersFunctionEnhanced(int primeNumberCandidate)
  * @param factorial
  * @return time complexity (n) of this function
  */
-int factorialFunction(int factorial)
+size_t factorialFunction(size_t factorial)
 {
-	int n = 0;							// time complexity variable
-	int result = 1;						// variable to save the products
-	int base = factorial;				// the current factorial
-	int next = base - 1;				// the next number to multiply to the base factorial
+	size_t n = 0;						// time complexity variable
+	unsigned long long result = 1;		// variable to save the products
+	size_t base = factorial;			// the current factorial
+	size_t next = base - 1;				// the next number to multiply to the base factorial
 
 	if (factorial > 1){
-		for (int i = 0; i < factorial; i++) // loop through each
+		for (size_t i = 0; i < factorial; i++) // loop through each
 		{
 			n++;
 			result *= base * next;
 			base -= 2;	  // move to the next pair of numbers to multiply
 			next -= 2;	  // move to the next pair of numbers to multiply
-			if (next < 1) // prevent multiplying by zero
+			if (next < 1 || base < 1) // prevent multiplying by zero
 			{
 				break;
 			}
@@ -411,26 +407,26 @@ int factorialFunction(int factorial)
  * @param matrixSize
  * @return time complexity of the operation O(n^2)
  */
-int matrixMaxElement(int arraySize)
+size_t matrixMaxElement(size_t arraySize)
 {
-	int n = 0;						  // time complexity variable
-	int max = 0;					  // variable to store min element found
-	int currentInt;					  // variable to track current element in the matrix
-	int count = 0;
+	size_t n = 0;						// time complexity variable
+	unsigned long long max = 0;			// variable to store min element found
+	unsigned long long currentInt;		// variable to track current element in the matrix
+	unsigned long long count = 0;
 
 
 	// create dynamic matrix 
     size_t** matrix = new size_t*[arraySize];
 
-	for (int i = 0 ; i < arraySize ; i ++ )
+	for (size_t i = 0 ; i < arraySize ; i ++ )
     {
         matrix[i] = new size_t[arraySize];
     }
 
 	// fill matrix
-	for (int i = 0; i < arraySize; i++)
+	for (size_t i = 0; i < arraySize; i++)
 	{
-		for (int j = 0; j < arraySize; j++)
+		for (size_t j = 0; j < arraySize; j++)
 		{	
 			count ++;
 			matrix[i][j] = count;
@@ -438,9 +434,9 @@ int matrixMaxElement(int arraySize)
 	}
 
 	// find max element / calc time complexity (filling matrix not really necessary)
-	for (int i = 0; i < arraySize; i++)
+	for (size_t i = 0; i < arraySize; i++)
 	{
-		for (int j = 0; j < arraySize; j++)
+		for (size_t j = 0; j < arraySize; j++)
 		{
 			currentInt = matrix[i][j];
 			if (currentInt > max)
@@ -452,7 +448,7 @@ int matrixMaxElement(int arraySize)
 	}
 
 	// clean up memory
-	for (int i = 0 ; i < arraySize ; i ++ )
+	for (size_t i = 0 ; i < arraySize ; i ++ )
     {
         delete[] matrix[i];
     }
@@ -473,11 +469,11 @@ int matrixMaxElement(int arraySize)
  * @param matrixSize
  * @return time complexity of the operation O(n^2)
  */
-int exponentialFunction(int power)
+size_t exponentialFunction(size_t power)
 {
-	int n = 0; // time complexity variable
-	int base = power; // base that will be raised
-	int total = 1; // should you want to see that the function works correctly
+	size_t n = 0; // time complexity variable
+	size_t base = power; // base that will be raised
+	unsigned long long total = 1; // should you want to see that the function works correctly
 	if (power == 0) // any num raised to 0 = 1
 	{
 		total = 1;
@@ -485,7 +481,7 @@ int exponentialFunction(int power)
 	else
 	{
 		// one for-loop, so time complexity = O(n)
-		for (int i = 0; i < power; i++)
+		for (size_t i = 0; i < power; i++)
 		{
 			n++; // linear time complexity
 			total *= base;
@@ -503,21 +499,21 @@ int exponentialFunction(int power)
  * @param arraySize
  * @return time complexity of the operation (n Linear)
  */
-int arrayRange(int arraySize)
+size_t arrayRange(size_t arraySize)
 {
-	int n = 0;			  				// time complexity variable
-	int* array = new int[arraySize]; 	// initialize array
-	int min = 0;			  			// min number in array to calc range
-	int max = 0;			 	 		// max number in array to calc range
-	int currentInt;		 		 		// for use in loop / determining min & max
-	int range; 			  				// final result but not actually needed for this project
+	size_t n = 0;			  										// time complexity variable
+	unsigned long long* array = new unsigned long long[arraySize]; 	// initialize array
+	unsigned long long min = 0;			  							// min number in array to calc range
+	unsigned long long max = 0;			 	 						// max number in array to calc range
+	unsigned long long currentInt;		 		 					// for use in loop / determining min & max
+	unsigned long long range; 			  				
 
-	for (int i = 0; i < arraySize; i++)
+	for (size_t i = 0; i < arraySize; i++)
 	{
 		array[i] = i;
 	}
 	// find min and max
-	for (int i = 0; i < arraySize; i++)
+	for (size_t i = 0; i < arraySize; i++)
 	{
 		currentInt = array[i];
 		if (currentInt <= min)
@@ -528,7 +524,7 @@ int arrayRange(int arraySize)
 		{
 			max = currentInt;
 		}
-		n++; 							// each iteration increases time complexity
+		n++; // each iteration increases time complexity
 	}
 	 range = max - min; 
 
@@ -546,16 +542,16 @@ int arrayRange(int arraySize)
  * CONSTANT TIME - MIDDLE ARRAY ELEMENT
  * @return time complexity of middle indexing.
  */
-int middleIndexing(int arraySize)
+size_t middleIndexing(size_t arraySize)
 {
-	int c = 0;							// track how many const operations are performed
-	int* array = new int[arraySize];	// make array
+	size_t c = 0;							// track how many const operations are performed
+	size_t* array = new size_t[arraySize];	// make array
 
-	for (int i = 0; i < arraySize; i++) // fill array
+	for (size_t i = 0; i < arraySize; i++) // fill array
 	{
 		array[i] = i;
 	}
-	int midElement = array[arraySize/2]; // get the middle element (constant time operation)
+	size_t midElement = array[arraySize/2]; // get the middle element (constant time operation)
 	c++; // increment constant operation variable
 
 	// clean up memory
