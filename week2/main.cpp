@@ -55,7 +55,8 @@ int main()
 			"linear_time_factorials_function",
 			"linear_time_prime_numbers",
 			"linear_time_prime_numbers_enhanced",
-			"quadratic_time_matrix_multiplication"};
+			"quadratic_time_matrix_multiplication"
+		};
 
 	// create menu seleciton box
 	int i = 1;
@@ -209,9 +210,9 @@ int matrixMultiplication(size_t arraySize)
 	}
 
 	// fill matrices
-	for (int i = 0; i < arraySize; i++)
+	for (size_t i = 0; i < arraySize; i++)
 	{
-		for (int j = 0; j < arraySize; j++)
+		for (size_t j = 0; j < arraySize; j++)
 		{
 			matrixA[i][j] = j+i;
 			matrixB[i][j] = j+i;
@@ -239,9 +240,9 @@ int matrixMultiplication(size_t arraySize)
 	// output visualization of all three matrices in terminal
 	cout << endl;
 	cout << "matrix A" << endl;
-	for (int i = 0; i < arraySize; i++)
+	for (size_t i = 0; i < arraySize; i++)
 	{
-		for (int j = 0; j < arraySize; j++)
+		for (size_t j = 0; j < arraySize; j++)
 		{
 			cout <<  setw(5) << left << matrixA[i][j] << " ";
 		}
@@ -249,9 +250,9 @@ int matrixMultiplication(size_t arraySize)
 	}
 	cout << endl;
 	cout << "matrix B" << endl;
-	for (int i = 0; i < arraySize; i++)
+	for (size_t i = 0; i < arraySize; i++)
 	{
-		for (int j = 0; j < arraySize; j++)
+		for (size_t j = 0; j < arraySize; j++)
 		{
 			cout <<  setw(5) << left << matrixB[i][j] << " ";
 		}
@@ -259,9 +260,9 @@ int matrixMultiplication(size_t arraySize)
 	}
 	cout << endl;
 	cout << "matrix C" << endl;
-	for (int i = 0; i < arraySize; i++)
+	for (size_t i = 0; i < arraySize; i++)
 	{
-		for (int j = 0; j < arraySize; j++)
+		for (size_t j = 0; j < arraySize; j++)
 		{
 			cout <<  setw(5) << left << matrixC[i][j] << " ";
 			result += matrixC[i][j];
