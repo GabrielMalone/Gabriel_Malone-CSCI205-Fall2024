@@ -12,7 +12,6 @@ experiments = {}
 # (remove '_', ap each word)
 def cleanName(file_name:str)->str:  
     caps = []  
-    
     tokens = file_name[0:-4].split('_')
     for token in tokens:
         caps.append(token.capitalize())
