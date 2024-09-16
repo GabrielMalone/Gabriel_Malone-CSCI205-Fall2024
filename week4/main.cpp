@@ -438,7 +438,7 @@ int main(){
 string postfixConversion(string exp){
 		// postfix expression string
 		string pfexp = "";
-		// hash map to hold the precedence values for the operators.
+		// precedence values for the operators.
 		unordered_map<char, int> prec = {
 			{'*',3},
 			{'/',3},
@@ -494,25 +494,35 @@ string postfixConversion(string exp){
 			// will need to utilize the two stacks to do this, I think.
 			if (c == '+' || c == '-' || c == '*' || c ==  '/')
 			{
-				while (! opstackA.is_empty())
-				{
-					char stackA_symbol = opstackA.peek();
-					opstackA.pop();
-					if (prec[stackA_symbol] >= prec[c])	// find higher precendence symbols 
+				if (! opstackA.is_empty()){
+					// if stack not empty, 
+					// check it for higher precendence operators
+					while (! opstackA.is_empty())
 					{
-						pfexp += stackA_symbol ;
-					} else {
-						opstackB.push(stackA_symbol);	// if not higher precendence,
-						opstackA.push(c); 				// and take 'c' operator and push to stack A ?
+						char stackA_symbol = opstackA.peek();
+						opstackA.pop();
+						// find higher precendence symbols 
+						if (prec[stackA_symbol] >= prec[c])	
+						{
+							pfexp += stackA_symbol ;
+						} else {
+							// if not higher precendence,
+							opstackB.push(stackA_symbol);
+							// and take 'c' operator and push to stack A ?	
+							opstackA.push(c); 				
+						}
 					}
-				}
-				// refill stackA with the left-over- 
-				// -symbols of lower precedence
-				while (! opstackB.is_empty())
-				{
-					char stackB_symbol = opstackB.peek();
-					opstackB.pop();
-					opstackA.push(stackB_symbol);
+					// refill stackA with the left-over- 
+					// -symbols of lower precedence
+					while (! opstackB.is_empty())
+					{
+						char stackB_symbol = opstackB.peek();
+						opstackB.pop();
+						opstackA.push(stackB_symbol);
+					}
+				// otherwise add operator to stack
+				} else {
+					opstackA.push(c);
 				}
 			}
 		}
