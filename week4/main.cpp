@@ -430,7 +430,7 @@ int main(){
 	// -------------------------------------------------------------------
 	cout << endl;
 
-	cout << postfixConversion("2-1") << endl;
+	cout << postfixConversion("A+B*C") << endl;
 
 	return 0;
 }
@@ -454,7 +454,7 @@ string postfixConversion(string exp){
 		for (char c : exp){
 			// if the reading symbol is an operand, 
 			// append it to the postfix expression.
-			if ( ( c > 'A' && c < 'Z') || (c >= '0' && c <= '9') )
+			if ( ( c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') )
 			{
 				pfexp += c ;
 			}
@@ -507,9 +507,9 @@ string postfixConversion(string exp){
 							pfexp += stackA_symbol ;
 						} else {
 							// if not higher precendence,
+							opstackB.push(c); 	
+							// and take 'c' operator and push to stack A ?		
 							opstackB.push(stackA_symbol);
-							// and take 'c' operator and push to stack A ?	
-							opstackA.push(c); 				
 						}
 					}
 					// refill stackA with the left-over- 
