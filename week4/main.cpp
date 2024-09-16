@@ -469,16 +469,20 @@ string postfixConversion(string exp){
 			// the respective left parenthesis is popped and 
 			// append each popped symbol to postfix expression.
 			if (c == ')')
-			{
+			{	
+				// pop the ')'
+				opstackA.pop();
+				// get all the operators in the parenthesis
 				while (!opstackA.is_empty())
 				{
 					char top = opstackA.peek();
+					opstackA.pop();
+					// if at the end , break out of loop
 					if (top == '(')
-					{
+					{	
 						break;
 					}
 					pfexp += top;
-					opstackA.pop();
 				}
 			}
 			// if the reading symbol is ‘( ‘, 
@@ -508,8 +512,10 @@ string postfixConversion(string exp){
 						} else {
 							// if not higher precendence,
 							opstackB.push(c); 	
-							// and take 'c' operator and push to stack A ?		
-							opstackB.push(stackA_symbol);
+							// and take 'c' operator and push to stack A ?
+							//  If an open parenthesis is there on top of the stack then push the operator into the stack.
+							if (stackA_symbol != '(')	
+								opstackB.push(stackA_symbol); // i dont know why this worked, was tinkering
 						}
 					}
 					// refill stackA with the left-over- 
@@ -531,7 +537,10 @@ string postfixConversion(string exp){
 		while (! opstackA.is_empty())
 		{
 			char top = opstackA.peek();
-			pfexp += top;
+			if (top != '(')
+			{
+				pfexp += top;
+			}
 			opstackA.pop();
 		}
 		return pfexp;
