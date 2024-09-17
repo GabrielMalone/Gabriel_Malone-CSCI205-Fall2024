@@ -14,6 +14,7 @@ using namespace std;
 string infix_postfix(string const &infix);
 int postfix_eval(string const &postfix);
 bool balanced(string const &expression);
+int infix_eval(string const &expression);
 
 int main(){
 	// Deque of strings
@@ -471,6 +472,7 @@ int main(){
 	// -------------------------------------------------------------------
 	cout << infix_postfix("A + B * (C - D / (E + F))") << endl;
 
+
 	// whitespace
 	cout << endl;
 	cout << endl;
@@ -489,7 +491,17 @@ int main(){
 	cout << "BALANCED BRACKETS TESTING" << endl;
 	cout << "-------------------------------------------------------------------" << endl;
 	// -------------------------------------------------------------------
-	cout << balanced("[((A+B)*(D-C)()()()()()(){}[])") << endl;
+	cout << balanced("((A+B)*(D-C)()()()()()(){}[])") << endl;
+
+	// whitespace
+	cout << endl;
+	cout << endl;
+	// -------------------------------------------------------------------
+	cout << "-------------------------------------------------------------------" << endl;
+	cout << "INFIX EVALUATION TESTING" << endl;
+	cout << "-------------------------------------------------------------------" << endl;
+	// -------------------------------------------------------------------
+	cout << infix_eval("6-2+3") << endl;
 
 	return 0;
 }
@@ -580,8 +592,6 @@ string infix_postfix(string const &infix) {
 
 // evaluate postfix notation
 int postfix_eval(string const &postfix){
-	// initialize final output
-	int result{};
 	// stack to hold operands
 	Stack<char> op_stack;
 	// iterate through postfix left to right
@@ -593,28 +603,28 @@ int postfix_eval(string const &postfix){
 		}
 		// for each operator
 		if (c == '+' || c == '-' || c == '*' || c == '/') {
-			if (op_stack.stack_size() > 1) {
-				// pop two operands from the stack
-				int opA = op_stack.pop() - '0'; // convert char to int
-				int opB = op_stack.pop() - '0'; // convert char to int
-				// apply the operator
-				switch (c) {
-					case '+':
-						result += (opA + opB);
-						break;
-					case '-':
-						result += (opA - opB);
-						break;
-					case '*':
-						result += (opA * opB);
-						break;
-					case '/':
-						result += (opA / opB);
-				}
+			// pop two operands from the stack
+			int opA = op_stack.pop() - '0'; // convert char to int
+			int opB = op_stack.pop() - '0'; // convert char to int
+			int result;
+			// apply the operator
+			switch (c) {
+				case '+':
+					result = (opA + opB);
+					break;
+				case '-':
+					result = (opB - opA);
+					break;
+				case '*':
+					result = (opA * opB);
+					break;
+				case '/':
+					result = (opB / opA);
 			}
+			op_stack.push(result + '0'); // convert int back to equivalent char
 		}
 	}
-	return result;
+	return op_stack.pop() - '0'; // convert char to equivalent int
 }
 
 // parenthesis balance checking
@@ -661,4 +671,11 @@ bool balanced(string const &expression){
 		return false;
 	}
 	return balanced;
+}
+
+// direct infix evaluator
+int infix_eval(string const &expression){
+	string postfix = infix_postfix(expression);
+	int result = postfix_eval(postfix);
+	return result;
 }
