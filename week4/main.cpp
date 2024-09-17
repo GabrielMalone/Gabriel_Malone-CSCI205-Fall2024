@@ -8,10 +8,10 @@
 #include "Card.h"
 #include "Queue.hpp"
 
-
 using namespace std;
 
 string infix_postfix(string const &infix);
+int postfix_eval(string const &postfix);
 
 int main(){
 	// Deque of strings
@@ -469,6 +469,16 @@ int main(){
 	// -------------------------------------------------------------------
 	cout << infix_postfix("A + B * (C - D / (E + F))") << endl;
 
+	// whitespace
+	cout << endl;
+	cout << endl;
+	// -------------------------------------------------------------------
+	cout << "-------------------------------------------------------------------" << endl;
+	cout << "POSTFIX EVAL TESTING" << endl;
+	cout << "-------------------------------------------------------------------" << endl;
+	// -------------------------------------------------------------------
+	cout << postfix_eval("234*+5+") << endl;
+
 	return 0;
 }
 
@@ -532,6 +542,7 @@ string infix_postfix(string const &infix) {
 			}
 		}
 	}
+	// put everything back after popping
 	while (! temp_stack.is_empty()){
 		operator_stack.push(temp_stack.pop());
 	}
@@ -547,4 +558,43 @@ string infix_postfix(string const &infix) {
 			operator_stack.pop();
 	}
 	return postfix;
+}
+
+// evaluate postfix notation
+int postfix_eval(string const &postfix){
+	// initialize final output
+	int result{};
+	// stack to hold operands
+	Stack<char> op_stack;
+	// iterate through postfix left to right
+	for (char c : postfix){
+		if (c >= 'A' && c <= 'Z' || c >= '0' && c <= '9') {
+			// if 'c' an operand,
+			// push to stack
+			op_stack.push(c);
+		}
+		// for each operator
+		if (c == '+' || c == '-' || c == '*' || c == '/') {
+			if (op_stack.stack_size() > 1) {
+				// pop two operands from the stack
+				int opA = op_stack.pop() - '0'; // convert char to int
+				int opB = op_stack.pop() - '0'; // convert char to int
+				// apply the operator
+				switch (c) {
+					case '+':
+						result += (opA + opB);
+						break;
+					case '-':
+						result += (opA - opB);
+						break;
+					case '*':
+						result += (opA * opB);
+						break;
+					case '/':
+						result += (opA / opB);
+				}
+			}
+		}
+	}
+	return result;
 }
