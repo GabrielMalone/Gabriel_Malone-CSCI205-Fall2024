@@ -3,6 +3,7 @@
 #include <iostream>
 #include <string>
 #include <unordered_map>
+#include <vector>
 #include "Deque.hpp"
 #include "Stack.hpp"
 #include "Card.h"
@@ -12,6 +13,7 @@ using namespace std;
 
 string infix_postfix(string const &infix);
 int postfix_eval(string const &postfix);
+bool balanced(string const &expression);
 
 int main(){
 	// Deque of strings
@@ -479,6 +481,16 @@ int main(){
 	// -------------------------------------------------------------------
 	cout << postfix_eval("234*+5+") << endl;
 
+	// whitespace
+	cout << endl;
+	cout << endl;
+	// -------------------------------------------------------------------
+	cout << "-------------------------------------------------------------------" << endl;
+	cout << "BALANCED BRACKETS TESTING" << endl;
+	cout << "-------------------------------------------------------------------" << endl;
+	// -------------------------------------------------------------------
+	cout << balanced("(()()()()()()()(){}[])") << endl;
+
 	return 0;
 }
 
@@ -597,4 +609,49 @@ int postfix_eval(string const &postfix){
 		}
 	}
 	return result;
+}
+
+// parenthesis balance checking
+bool balanced(string const &expression){
+	// return value
+	bool balanced = true;
+	// map of pairs
+	unordered_map<char, char> bracket_pairs = {
+			{')', '('},
+			{']', '['},
+			{'}','{'}
+	};
+	// vectors of expressions
+	vector<char>leftBr = {'(', '[', '{'};
+	vector<char>rightBr = {')', ']', '}'};
+	// stacks to check for left - right balance
+	Stack<char> openingBs;
+	Stack<char> t_openingBs; // for even pair checks
+	Stack<char> closingBs;
+	// go through expression and get all the brackets
+	// change this to use the map and then make a vector for each kind of bracket
+	for (char c : expression){
+		// check if c a left bracket
+		if (std::find(leftBr.begin(), leftBr.end(),c) !=leftBr.end()){
+			// push to opening brackets stack
+			openingBs.push(c);
+			t_openingBs.push(c);
+		}
+		// check if c a closing bracket
+		// Recall that each opening symbol is simply pushed on the stack
+		// to wait for the matching closing symbol to appear later in the sequence.
+		// When a closing symbol does appear, the only difference is that we must check
+		// to be sure that it correctly matches the type of the opening symbol on top of the stack.
+		if (std::find(rightBr.begin(), rightBr.end(),c) !=rightBr.end()){
+			closingBs.push(c);
+			if (openingBs.pop() != bracket_pairs[c]){
+				return false;
+			}
+		}
+	}
+	// length check
+	if (t_openingBs.stack_size() != closingBs.stack_size()){
+		return false;
+	}
+	return balanced;
 }
