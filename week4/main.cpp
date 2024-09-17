@@ -1,78 +1,74 @@
+// GABRIEL MALONE // CSCI 205 / FALL 2024 / LAB 3
+
 #include <iostream>
 #include <string>
-#include <unordered_map>
-#include "Deque.h"
+#include "Deque.hpp"
+#include "Stack.hpp"
 #include "Card.h"
-#include "Stack.h"
-#include "Queue.h"
+#include "Queue.hpp"
 
 using namespace std;
 
-string postfixConversion(string exp);
-
 int main(){
-	// -------------------------------------------------------------------
-	// BASE TESTS
-	// -------------------------------------------------------------------
-	// whitespace
-	cout << endl;
 	// Deque of strings
 	Deque<string> names;
-	names.push_front("bill");				// add item to front of deque
-	names.push_front("ward");				//add item to front of deque
-	while( !names.is_empty() ){				// while deque is not empty
-		string temp = names.remove_front(); // get item from front of deque
-		cout << "Name is: " << temp << endl;// print item
+	names.push_front("bill");
+	names.push_front("ward");
+	while( !names.empty() ){
+		string temp = names.pop_front();
+		cout << "Name is: " << temp << endl;
 	}
 
 	// Deque of integers
-	Deque<int> nums;						// create deque of integers
-	nums.push_back(1);						// add item to back of deque
-	nums.push_back(2);						// add item to back of deque
-	while( !nums.is_empty() ){				// while deque is not empty
-		int a = nums.remove_back();			// get item from back of deque
-		cout << "Number is: " << a << endl; // print item
+	Deque<int> nums;
+	nums.push_front(1);
+	nums.push_front(2);
+	while( !nums.empty() ){
+		int a = nums.pop_front();
+		cout << "Number is: " << a << endl;
 	}
 
 	// Deck of Card objects
-	Deque<Card> deck;						// create deque of Card objects
-	Card a('A', 'S');						// create Card object
-	Card b('2', 'C');						// create Card object
-	deck.push_front(a);						// add item to front of deque
-	deck.push_front(b);						// add item to front of deque
-	while( !deck.is_empty() ){				// while deque is not empty
-		Card t = deck.remove_front();		// get item from front of deque
-		cout << "Card is: " << t << endl;	// print item
+	Deque<Card> deck;
+	Card a('A', 'S');
+	Card b('2', 'C');
+	deck.push_front(a);
+	deck.push_front(b);
+	
+	while( !deck.empty() ){
+		Card t = deck.pop_front();
+		cout << "Card is: " << t << endl;
 	}
-	// -------------------------------------------------------------------
-
 
 	// -------------------------------------------------------------------
-	// PUSH_FRONT TESTING + WRAP AROUND TESTING
+	cout << "-------------------------------------------------------------------" << endl;
+	// PUSH_FRONT TESTING + RESIZE TESTING
 	// -------------------------------------------------------------------
 	// first for loop to fill deque without going over capacity
 	// then a loop to print and confirm this works
-	// second pair of for loops do the same but overfills capacity by 5
-	// print loop confirms the overflow implemented correctly
+	// overfill array to resize
+	// print loop confirms the resize implemented correctly
 	// whitespace
 	cout << endl;
 	// -------------------------------------------------------------------
-	cout << "PUSH FRONT TESTING " << endl;
+	cout << "-------------------------------------------------------------------" << endl;
+	cout << "PUSH FRONT TESTING ON DECK CAPACITY OF 10 " << endl;
+	cout << "-------------------------------------------------------------------" << endl;
 	// -------------------------------------------------------------------
 	cout << endl;
-	
+
 	// initialize deque
 	Deque<int> nums2{10};
 	int k = 0;
-	// fill deque
-	while (! nums2.is_full())
+	// fill deque with ints 0-9
+	while (! nums2.full())
 	{
 		nums2.push_front(k);
 		k++;
 	}
 
-	// show deque values
-	for (int i = 0 ; i < nums2.size ; i ++)
+	// show deque values, should be 0-9 ascending
+	for (int i = 0 ; i < nums2.getCapacity() ; i ++)
 	{
 		cout << nums2[i] << ", ";
 	}
@@ -80,468 +76,384 @@ int main(){
 	// whitespace
 	cout << endl;
 	// -------------------------------------------------------------------
-	cout << "PUSH FRONT TESTING + WRAP AROUND  " << endl;
+	cout << "-------------------------------------------------------------------" << endl;
+	cout << "PUSH FRONT TESTING + RESIZE" << endl;
+	cout << "-------------------------------------------------------------------" << endl;
 	// -------------------------------------------------------------------
 	cout << endl;
-
-	// initialize new deck
-	Deque<int> nums3{10};
-	// fill deque beyond capacity (+5)
-	for (int i = 0 ; i < nums3.capacity + 5; i ++)
-	{
-		nums3.push_front(i);
-	}
-
-	// show deque values
-	for (int i = 0 ; i < nums3.capacity ; i ++)
-	{
-		cout << nums3[i] << ", ";
-	}
-	cout << endl;
-	// -------------------------------------------------------------------
-
-
-	// -------------------------------------------------------------------
-	// REMOVE_FRONT TESTING + WRAP AROUND TESTING
-	// -------------------------------------------------------------------
-	// first for loop to fill deque without going over capacity
-	// then a loop to print and confirm this works
-	// second pair of for loops do the same but overfills capacity by 5
-	// print loop confirms the overflow implemented correctly
-	cout << endl;
-	// -------------------------------------------------------------------
-	cout << "REMOVE FRONT TESTING " << endl;
-	// -------------------------------------------------------------------
-	cout << endl;
-	// -------------------------------------------------------------------
-	cout << "fill deque with 'push_front()' " << endl;
-	// -------------------------------------------------------------------
+	// add beyond original deque's size
+	nums2.push_front(10);
+	// new deque capacity should now be double (20)
+	cout << "new deck capacity: " << nums2.getCapacity() << endl;
 	// whitespace
 	cout << endl;
-
-	// intialize new deque
-	Deque<int> numsA{10};
-	// fill deque
-	int j = 0;
-	while (!numsA.is_full())
+	// show deque values, should be 0-9 ascending
+	for (int i = 0 ; i < nums2.getCapacity(); i ++)
 	{
-		numsA.push_front(j);
-		j ++;
+		cout << nums2[i] << ", ";
 	}
 
-	// show deque
-	for (int i = 0 ; i < numsA.size ; i ++)
-	{
-		cout << numsA[i] << ", ";
-	}
-
+	// loop for multiple resizes
 	cout << endl;
+	cout << endl;
+	cout << "multiple resize testing" << endl;
+	for (int i = 0 ; i < 99999; i ++)
+	{
+		nums2.push_front(1);
+	}
+	cout << "new deck capacity: " << nums2.getCapacity() << endl;
+
+	// -------------------------------------------------------------------
+	// LAB PDF TASK 1 DEQUE DEMO
+	// -------------------------------------------------------------------
+	//
 	// whitespace
 	cout << endl;
+	// -------------------------------------------------------------------
+	cout << "-------------------------------------------------------------------" << endl;
+	cout << "DEQUE AFTER 6 PUSH (FRONT AND BACK) OPERATIONS " << endl;
+	cout << "-------------------------------------------------------------------" << endl;
+	// -------------------------------------------------------------------
+	cout << endl;
+	// new deque
+	Deque<int> labDeck{10};
+	labDeck.push_front(42);
+	labDeck.push_back(12);
+	labDeck.push_back(27);
+	labDeck.push_back(92);
+	labDeck.push_front(86);
+	labDeck.push_front(53);
+	// show what's in deque
+	for (int i = 0 ; i < labDeck.getCapacity() ; i ++)
+	{
+		cout << labDeck[i] << ", ";
+	}
 	// whitespace
-
-	// call remove front for each item in deque until empty
-	while (!numsA.is_empty())
+	cout << endl;
+	cout << endl;
+	// -------------------------------------------------------------------
+	cout << "-------------------------------------------------------------------" << endl;
+	cout << "POP_FRONT() OPERATION" << endl;
+	cout << "-------------------------------------------------------------------" << endl;
+	// -------------------------------------------------------------------
+	cout << endl;
+	// pop front
+	cout << "current front element: " << labDeck.show_front() << endl;
+	cout << "popping element: " << labDeck.pop_front() << endl;
+	cout << "current front element: " << labDeck.show_front() << endl;
+	cout << "no cycles spent zeroing or adjusting actual positions in array: ";
+	// show what's in deque
+	for (int i = 0 ; i < labDeck.getCapacity() ; i ++)
 	{
-		cout << "removing item: " << numsA.remove_front() << endl;
+		cout << labDeck[i] << ", ";
+	}
+	// whitespace
+	cout << endl;
+	cout << endl;
+	// -------------------------------------------------------------------
+	cout << "-------------------------------------------------------------------" << endl;
+	cout << "POP_BACK() + SHOW_BACK() OPERATION" << endl;
+	cout << "-------------------------------------------------------------------" << endl;
+	// -------------------------------------------------------------------
+	// pop back
+	cout << "current back element: " << labDeck.show_back() << endl;
+	cout << "popping element: " << labDeck.pop_back() << endl;
+	cout << "current back element: " << labDeck.show_back() << endl;
+	cout << "no cycles spent zeroing or adjusting actual positions in array: ";
+	// show what's in deque
+	for (int i = 0 ; i < labDeck.getCapacity() ; i ++)
+	{
+		cout << labDeck[i] << ", ";
+	}
+	// whitespace
+	cout << endl;
+	cout << endl;
+	// -------------------------------------------------------------------
+	cout << "-------------------------------------------------------------------" << endl;
+	cout << "REMOVE_HEAD() OPERATION" << endl;
+	cout << "-------------------------------------------------------------------" << endl;
+	// -------------------------------------------------------------------
+	// advances head forward
+	cout << "current head element: " << labDeck.show_head() << endl;
+	cout << "calling remove_head() ... " << endl;
+	// call remove_head()
+	labDeck.remove_head();
+	cout << "current head element: "  << labDeck.show_head() << endl;
+	cout << "current front element: " << labDeck.show_front() << endl;
+	cout << "no cycles spent zeroing or adjusting actual positions in array: ";
+	// show what's in deque
+	for (int i = 0 ; i < labDeck.getCapacity() ; i ++)
+	{
+		cout << labDeck[i] << ", ";
+	}
+	// whitespace
+	cout << endl;
+	cout << endl;
+	// -------------------------------------------------------------------
+	cout << "-------------------------------------------------------------------" << endl;
+	cout << "PUSH_FRONT() OPERATION" << endl;
+	cout << "-------------------------------------------------------------------" << endl;
+	// -------------------------------------------------------------------
+	labDeck.push_front(19);
+	// show what's in deque, '19' should have overwritten '56'
+	for (int i = 0 ; i < labDeck.getCapacity() ; i ++)
+	{
+		cout << labDeck[i] << ", ";
+	}
+	cout << endl;
+	cout << "current head element: " << labDeck.show_head() << endl;
+	cout << "current front element " << labDeck.show_front() << endl;
+	// whitespace
+	cout << endl;
+	// -------------------------------------------------------------------
+	cout << "-------------------------------------------------------------------" << endl;
+	cout << "A DECK MAY FIND ITSELF IN THIS SITUATION...WRAP AROUND TESTING + RESIZE" << endl;
+	cout << "-------------------------------------------------------------------" << endl;
+	// -------------------------------------------------------------------
+	// set up the deque to be in situation as shown in lab pdf
+	Deque<int>labDeck2{10};
+	labDeck2.push_front(0);
+	labDeck2.push_front(0);
+	labDeck2.push_front(0);
+	labDeck2.push_front(0);
+	labDeck2.remove_head();
+	labDeck2.remove_head();
+	labDeck2.remove_head();
+	labDeck2.remove_head();
+	labDeck2.push_front(83);
+	labDeck2.push_front(12);
+	labDeck2.push_front(27);
+	labDeck2.push_front(12);
+	labDeck2.push_front(62);
+	// confirm deque set up properly
+	for (int i = 0 ; i < labDeck2.getCapacity() ; i ++)
+	{
+		cout << labDeck2[i] << ", ";
+	}
+	cout << endl;
+	cout << "current head element: " << labDeck2.show_head()  << endl;
+	cout << "current front element " << labDeck2.show_front() << endl;
+	cout << "current tail element "  << labDeck2.show_tail()  << endl;
+	cout << endl;
+	cout << "push_front( 72 ) " << endl;
+	labDeck2.push_front(72);
+	// confirm deque set up properly
+	for (int i = 0 ; i < labDeck2.getCapacity() ; i ++)
+	{
+		cout << labDeck2[i] << ", ";
+	}
+	cout << endl;
+	cout << endl;
+	cout << "push_front( 33 )  -- WRAP AROUND BEGINS" << endl;
+	labDeck2.push_front(33);
+	// confirm deque set up properly
+	for (int i = 0 ; i < labDeck2.getCapacity() ; i ++)
+	{
+		cout << labDeck2[i] << ", ";
+	}
+	cout << endl;
+	cout << endl;
+	cout << "push_front( 99 )  -- WRAP AROUND CONTINUES" << endl;
+	labDeck2.push_front(99);
+	// confirm deque set up properly
+	for (int i = 0 ; i < labDeck2.getCapacity() ; i ++)
+	{
+		cout << labDeck2[i] << ", ";
+	}
+	cout << endl;
+	cout << endl;
+	cout << "push_front() with wrap until resize called" << endl;
+	labDeck2.push_front(44);
+	labDeck2.push_front(31);
+	labDeck2.push_front(58);
+	// confirm deque set up properly
+	for (int i = 0 ; i < labDeck2.getCapacity() ; i ++)
+	{
+		cout << labDeck2[i] << ", ";
 	}
 
 	cout << endl;
-	// -------------------------------------------------------------------
-	cout << "REMOVE FRONT TESTING + WRAP AROUND" << endl;
-	// -------------------------------------------------------------------
 	cout << endl;
-
-	// intialize new deque
-	Deque<int> numsB{10};
-
-	// fill deque
-	int l = 0;
-	while (!numsB.is_full())
+	cout << "push_front() continued..." << endl;
+	labDeck2.push_front(91);
+	labDeck2.push_front(84);
+	labDeck2.push_front(77);
+	// confirm deque set up properly
+	for (int i = 0 ; i < labDeck2.getCapacity() ; i ++)
 	{
-		numsB.push_front(l);
-		l ++;
+		cout << labDeck2[i] << ", ";
 	}
 
-	// show deque
-	for (int i = 0 ; i < numsB.size ; i ++)
+	cout << endl;
+	cout << endl;
+	cout << "push_back() testing after only pushing front to a resize REORGANiZE ARRAY" << endl;
+	cout << "push_back ( 71 )" << endl;
+	labDeck2.push_back(71);
+	// confirm deque set up properly
+	for (int i = 0 ; i < labDeck2.getCapacity() ; i ++)
 	{
-		cout << numsB[i] << ", ";
+		cout << labDeck2[i] << ", ";
 	}
+
+	cout << endl;
+	cout << endl;
+	cout << "push_back() testing until resize, pushing back 6 more elements" << endl;
+	cout << "order maintained after resize" << endl;
+	labDeck2.push_back(21);
+	labDeck2.push_back(31);
+	labDeck2.push_back(41);
+	labDeck2.push_back(51);
+	labDeck2.push_back(61);
+	labDeck2.push_back(65);
+	// confirm deque set up properly
+	cout << endl;
+	for (int i = 0 ; i < labDeck2.getCapacity() ; i ++)
+	{
+		cout << labDeck2[i] << ", ";
+	}
+	// whitespace
+	cout << endl;
+	cout << endl;
+	// -------------------------------------------------------------------
+	cout << "-------------------------------------------------------------------" << endl;
+	cout << "TESTING THE REMAINING FUNCTIONS - ARRAY_SIZE" << endl;
+	cout << "-------------------------------------------------------------------" << endl;
+	// -------------------------------------------------------------------
+	// array size should be 21 since 20 elements filled previous array, then one more to cause resize.
+	cout << "Current array size :" << labDeck2.array_size()
+			<< " vs current array capacity : "
+			<< labDeck2.getCapacity() << endl;
+
+	// whitespace
+	cout << endl;
+	cout << endl;
+	// -------------------------------------------------------------------
+	cout << "-------------------------------------------------------------------" << endl;
+	cout << "CONSTRUCT A DEQUE WITH ARRAY OF GIVEN ITEMS (int 1 - 4 ) AND SIZE (4)" << endl;
+	cout << "-------------------------------------------------------------------" << endl;
+	// -------------------------------------------------------------------
+	// initialize new deque from an already existing array
+	int arr[] = {1,2,3,4};
+	size_t size = 4;
+	Deque<int> deque(arr, size);
+	// confirm deque set up properly
+	cout << "new deque should have double capacity and all the original elements" << endl;
+	cout << endl;
+	for (int i = 0 ; i < deque.getCapacity() ; i ++)
+	{
+		cout << deque[i] << ", ";
+	}
+
+	// whitespace
+	cout << endl;
+	cout << endl;
+	// -------------------------------------------------------------------
+	cout << "-------------------------------------------------------------------" << endl;
+	cout << "STACK TESTING" << endl;
+	cout << "-------------------------------------------------------------------" << endl;
+	// -------------------------------------------------------------------
+	// create new stack of strings
+	Stack<string> stack1{5};
+	stack1.push("goobert");
+	stack1.push("tarl");
+	stack1.push("dookus");
+	stack1.push("quirk");
+	stack1.push("bevis");
+	// confirm stack set up properly
+	for (int i = 0 ; i < stack1.stack_capacity() ; i ++)
+	{
+		cout << stack1[i] << ", ";
+	}
+
+	cout << endl;
+	cout << endl;
+	cout << "make sure LIFO is being followed. 'bevis' should be returned with peek()" << endl;
+	cout << "calling peek(): " << stack1.peek() << endl;
+
+	cout << endl;
+	cout << "make sure LIFO is being followed. 'bevis' should be returned with pop()" << endl;
+	cout << "calling pop(): " << stack1.pop() << endl;
+
+	cout << endl;
+	cout << "make sure LIFO is being followed. 'quirk' should now be returned with peek()" << endl;
+	cout << "calling peek(): " << stack1.peek() << endl;
+
+	// whitespace
+	cout << endl;
+	cout << endl;
+	// -------------------------------------------------------------------
+	cout << "-------------------------------------------------------------------" << endl;
+	cout << "STACK TESTING WITH OVERFLOW" << endl;
+	cout << "-------------------------------------------------------------------" << endl;
+	// -------------------------------------------------------------------
+
+	cout << endl;
+	cout << "make sure LIFO is being followed. pushing new element 'caesar' ";
+	stack1.push("caesar");
+	cout << "should overwrite bevis" << endl;
+	cout << endl;
+	// confirm stack set up properly
+	for (int i = 0 ; i < stack1.stack_capacity() ; i ++)
+	{
+		cout << stack1[i] << ", ";
+	}
+
+	cout << endl;
+	cout << endl;
+	cout << "current stack size: " << stack1.stack_size() << endl;
+	cout << "current stack capacity: " << stack1.stack_capacity() << endl;
+	cout << "adding another element should cause resize" << endl;
+	cout << endl;
+	stack1.push("cleopatra");
+	// confirm stack set up properly
+	for (int i = 0 ; i < stack1.stack_capacity() ; i ++)
+	{
+		cout << stack1[i] << ", ";
+	}
+	cout << endl;
+	cout << "current stack size: " << stack1.stack_size() << endl;
+	cout << "current stack capacity: " << stack1.stack_capacity() << endl;
+
+	// whitespace
+	cout << endl;
+	cout << endl;
+	// -------------------------------------------------------------------
+	cout << "-------------------------------------------------------------------" << endl;
+	cout << "QUEUE TESTING" << endl;
+	cout << "-------------------------------------------------------------------" << endl;
+	// -------------------------------------------------------------------
+	// create a new queue with capacity of 5
+	Queue<int> myQueue{5};
+	// confirm this
+	// confirm queue set up properly
+	for (int i = 0 ; i < myQueue.queue_capacity() ; i ++)
+	{
+		cout << myQueue[i] << ", ";
+	}
+	cout << endl;
+	cout << "current queue size: " << myQueue.queue_size() << endl;
+	cout << "current queue capacity: " << myQueue.queue_capacity() << endl;
+
+	// test enqueue
+	cout << endl;
+	cout << "call enqueue( 54 ),enqueue( 43 ),enqueue( 71 ), : " << endl;
+	myQueue.enqueue(54);
+	myQueue.enqueue(43);
+	myQueue.enqueue(71);
+	cout << "current queue size: " << myQueue.queue_size() << endl;
+	// confirm queue set up properly
+	for (int i = 0 ; i < myQueue.queue_capacity() ; i ++)
+	{
+		cout << myQueue[i] << ", ";
+	}
+	// dequeue testing
+	cout << endl;
+	cout << endl;
+	cout << "calling dequeue() and returning element : "
+			<< myQueue.dequeue()
+			<< endl;
+	cout << "current queue size: " << myQueue.queue_size() << endl;
+	cout << "current queue capacity: " << myQueue.queue_capacity() << endl;
 	
-	// whitespace
-	cout << endl;
-	// whitespace
-	cout << endl;
-	// whitespace
-
-	// call remove front for each item in deque until empty
-	// + beyond capacity to test wrap around
-	for (int i = 0; i < numsB.capacity + 5 ; i ++)
-	{
-		cout << "removing item: " << numsB.remove_front() << endl;
-	}
-	// -------------------------------------------------------------------
-
-
-	// -------------------------------------------------------------------
-	// PUSH_BACK TESTING + WRAP AROUND TESTING
-	// -------------------------------------------------------------------
-	// first for loop to fill deque without going over capacity
-	// then a loop to print and confirm this works
-	// second pair of for loops do the same but overfills capacity by 5
-	// print loop confirms the overflow implemented correctly
-	// whitespace
-	cout << endl;
-	// -------------------------------------------------------------------
-	cout << "PUSH BACK TESTING " << endl;
-	// -------------------------------------------------------------------
-	cout << endl;
-
-	// initialize new deque
-	Deque<int> nums4{10};
-
-	int q = 0;
-	// fill deque
-	while (! nums4.is_full())
-	{
-		nums4.push_back(q);
-		q++;
-	}
-	
-	// show deque's contents
-	for (int i = 0 ; i < nums4.capacity ; i ++)
-	{
-		cout << nums4[i] << ", ";
-	}
-
-	cout << endl;
-	// whitespace
-	cout << endl;
-	// -------------------------------------------------------------------
-	cout << "PUSH BACK TESTING + WRAP AROUND " << endl;
-	// -------------------------------------------------------------------
-	cout << endl;
-
-	// initialize new deque
-	Deque<int> nums5{10};
-
-	// fill deck from back beyond deque's capacity (+5)
-	for (int i = 0 ; i < nums5.capacity + 5; i ++)
-	{
-		nums5.push_back(i);
-	}
-
-	// show deque's contents
-	for (int i = 0 ; i < nums5.capacity ; i ++)
-	{
-		cout << nums5[i] << ", ";
-	}
-	cout << endl;
-	// -------------------------------------------------------------------
-
-
-	// -------------------------------------------------------------------
-	// REMOVE_BACK TESTING + WRAP AROUND TESTING
-	// -------------------------------------------------------------------
-	// first for loop to fill deque without going over capacity
-	// then a loop to print and confirm this works
-	// second pair of for loops do the same but overfills capacity by 5
-	// print loop confirms the overflow implemented correctly
-	// whitespace
-	cout << endl;
-	// -------------------------------------------------------------------
-	cout << "REMOVE BACK TESTING " << endl;
-	// -------------------------------------------------------------------
-	cout << endl;
-
-	// initialize new deque
-	Deque<int> nums6{10};
-
-	// fill deque from back
-	int w = 0;
-	while (! nums6.is_full())
-	{
-		nums6.push_back(w);
-		w ++ ;
-	}
-	
-	// show deque's contents
-	for (int i = 0 ; i < nums6.size ; i ++)
-	{
-		cout << nums6[i] << ", ";
-	}
-
-	// whitespace
-	cout << endl;
-	cout << endl;
-
-	// call remove back for each item in deque until empty
-	while (! nums6.is_empty())
-	{
-		cout << "removing item: " << nums6.remove_back() << endl;
-	}
-
-	// put everything back in 
-	// fill deque from back
-	w = 0;
-	while (! nums6.is_full())
-	{
-		nums6.push_back(w);
-		w ++ ;
-	}
-
-	// whitespace
-	cout << endl;
-
-	// show deque's contents
-	for (int i = 0 ; i < nums6.size ; i ++)
-	{
-		cout << nums6[i] << ", ";
-	}
-
-	// whitespace
-	cout << endl;
-	cout << endl;
-
-	// call remove front for each item in deque until empty
-	// + beyond capacity to test wrap around
-	for (int i = 0; i < nums6.capacity + 5 ; i ++)
-	{
-		cout << "removing item: " << nums6.remove_back() << endl;
-	}
-	// -------------------------------------------------------------------
-
-
-	// -------------------------------------------------------------------
-	// STACK TESTING
-	// -------------------------------------------------------------------
-	// first for loop to fill deque without going over capacity
-	// then a loop to print and confirm this works
-	// second pair of for loops do the same but overfills capacity by 5
-	// print loop confirms the overflow implemented correctly
-	// whitespace
-	cout << endl;
-	// -------------------------------------------------------------------
-	cout << "STACK TESTING " << endl;
-	// -------------------------------------------------------------------
-	cout << endl;
-
-	Stack<string>s1{5};
-
-	// fill stack
-	s1.push("goob");
-	s1.push("stella");
-	s1.push("frank");
-	s1.push("tarzan");
-	s1.push("caesar");
-
-	// show what's in stack
-	// last item pushed should appear first
-	for (int i = 0 ; i < s1.size ; i ++)
-	{
-		cout << s1[i] << endl;
-	}
-
-	// see if peek looks at correct element
-	cout << endl;
-	// -------------------------------------------------------------------
-	cout << "PEEK TESTING " << endl;
-	// -------------------------------------------------------------------
-	cout << endl;
-	// take a look 
-	cout << "element to be popped next: " << s1.peek() << endl;
-
-	// see if pop works
-	cout << endl;
-	// -------------------------------------------------------------------
-	cout << "POP TESTING " << endl;
-	// -------------------------------------------------------------------
-	cout << endl;
-
-	// pop last item entered into stack
-	s1.pop();
-
-	// add a new person
-	s1.push("new guy");
-
-	// see if it worked -> new guy should replace caesar
-	for (int i = 0 ; i < s1.size ; i ++)
-	{
-		cout << s1[i] << endl;
-	}
-
-	// -------------------------------------------------------------------
-	// QUEUE TESTING
-	// -------------------------------------------------------------------
-	// first for loop to fill deque without going over capacity
-	// then a loop to print and confirm this works
-	// second pair of for loops do the same but overfills capacity by 5
-	// print loop confirms the overflow implemented correctly
-	// whitespace
-	cout << endl;
-	// -------------------------------------------------------------------
-	cout << "ENQUEUE TESTING " << endl;
-	// -------------------------------------------------------------------
-	cout << endl;
-
-	// instantate new queue
-	Queue<int> q1 {10};
-
-	// fill queue with enqueu
-	for (int i = 1 ; i < q1.capacity+1; i ++)
-	{
-		q1.enqueu(i);
-	}
-
-	// see what's in queue
-	for (int i = 0 ; i < q1.size; i ++)
-	{
-		cout << q1.array[i] << endl;
-	}
-
-	// test dequeue
-	cout << endl;
-	// -------------------------------------------------------------------
-	cout << "DEQUEUE TESTING " << endl;
-	// -------------------------------------------------------------------
-	cout << endl;
-
-	q1.dequeue();
-
-	// see what's in queue
-	for (int i = 0 ; i < q1.size ; i ++)
-	{
-		cout << q1.array[i] << endl;
-	}
-
-
-	// -------------------------------------------------------------------
-	// POSTFIX TESTING
-	// -------------------------------------------------------------------
-	// first for loop to fill deque without going over capacity
-	// then a loop to print and confirm this works
-	// second pair of for loops do the same but overfills capacity by 5
-	// print loop confirms the overflow implemented correctly
-	// whitespace
-	cout << endl;
-	// -------------------------------------------------------------------
-	cout << "POSTFIX TESTING " << endl;
-	// -------------------------------------------------------------------
-	cout << endl;
-
-	cout << postfixConversion("A+B*C") << endl;
-
 	return 0;
 }
-
-string postfixConversion(string exp){
-		// postfix expression string
-		string pfexp = "";
-		// precedence values for the operators.
-		unordered_map<char, int> prec = {
-			{'*',3},
-			{'/',3},
-			{'+',2},
-			{'-',2},
-			{'(',1}
-		};
-		// stack for keeping operators.
-		Stack<char> opstackA;
-		Stack<char> opstackB;
-		// scan all the symbols from left to right 
-		// in the given infix expression.
-		for (char c : exp){
-			// if the reading symbol is an operand, 
-			// append it to the postfix expression.
-			if ( ( c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') )
-			{
-				pfexp += c ;
-			}
-			// if the reading symbol is left parenthesis
-			// ‘( ‘, push it onto the stack.
-			if (c == '(')
-			{
-				opstackA.push(c);
-			}
-			// if the reading symbol is  ‘)’, 
-			// then pop all the contents of the stack until 
-			// the respective left parenthesis is popped and 
-			// append each popped symbol to postfix expression.
-			if (c == ')')
-			{	
-				// pop the ')'
-				opstackA.pop();
-				// get all the operators in the parenthesis
-				while (!opstackA.is_empty())
-				{
-					char top = opstackA.peek();
-					opstackA.pop();
-					// if at the end , break out of loop
-					if (top == '(')
-					{	
-						break;
-					}
-					pfexp += top;
-				}
-			}
-			// if the reading symbol is ‘( ‘, 
-			// then push it onto the stack.
-			if (c == '(')
-			{
-				opstackA.push(c);
-			}
-			// if the reading symbol is an operator (+, –, *, /), 
-			// then push it onto the stack. However, first, pop the operators 
-			// which are already on the stack that have higher or equal precedence 
-			// than the current operator and append them to the postfix. 
-			// will need to utilize the two stacks to do this, I think.
-			if (c == '+' || c == '-' || c == '*' || c ==  '/')
-			{
-				if (! opstackA.is_empty()){
-					// if stack not empty, 
-					// check it for higher precendence operators
-					while (! opstackA.is_empty())
-					{
-						char stackA_symbol = opstackA.peek();
-						opstackA.pop();
-						// find higher precendence symbols 
-						if (prec[stackA_symbol] >= prec[c])	
-						{
-							pfexp += stackA_symbol ;
-						} else {
-							// if not higher precendence,
-							opstackB.push(c); 	
-							// and take 'c' operator and push to stack A ?
-							//  If an open parenthesis is there on top of the stack then push the operator into the stack.
-							if (stackA_symbol != '(')	
-								opstackB.push(stackA_symbol); // i dont know why this worked, was tinkering
-						}
-					}
-					// refill stackA with the left-over- 
-					// -symbols of lower precedence
-					while (! opstackB.is_empty())
-					{
-						char stackB_symbol = opstackB.peek();
-						opstackB.pop();
-						opstackA.push(stackB_symbol);
-					}
-				// otherwise add operator to stack
-				} else {
-					opstackA.push(c);
-				}
-			}
-		}
-		// if the input is over, pop all the remaining 
-		// symbols from the stack and append them to the postfix.
-		while (! opstackA.is_empty())
-		{
-			char top = opstackA.peek();
-			if (top != '(')
-			{
-				pfexp += top;
-			}
-			opstackA.pop();
-		}
-		return pfexp;
-	}
