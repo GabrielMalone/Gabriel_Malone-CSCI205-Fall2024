@@ -2,12 +2,16 @@
 
 #include <iostream>
 #include <string>
+#include <unordered_map>
 #include "Deque.hpp"
 #include "Stack.hpp"
 #include "Card.h"
 #include "Queue.hpp"
 
+
 using namespace std;
+
+string infix_postfix(string const &infix);
 
 int main(){
 	// Deque of strings
@@ -454,6 +458,93 @@ int main(){
 			<< endl;
 	cout << "current queue size: " << myQueue.queue_size() << endl;
 	cout << "current queue capacity: " << myQueue.queue_capacity() << endl;
-	
+
+	// whitespace
+	cout << endl;
+	cout << endl;
+	// -------------------------------------------------------------------
+	cout << "-------------------------------------------------------------------" << endl;
+	cout << "INFIX TO POSTFIX TESTING" << endl;
+	cout << "-------------------------------------------------------------------" << endl;
+	// -------------------------------------------------------------------
+	cout << infix_postfix("A + B * (C - D / (E + F))") << endl;
+
 	return 0;
+}
+
+// convert infix to postfix notation
+string infix_postfix(string const &infix) {
+	// operator precedence map
+	unordered_map<char, size_t> precedence = {
+			{'+', 1},
+			{'-', 1},
+			{'*', 2},
+			{'/', 2},
+
+	};
+	// stack for operators
+	Stack<char> operator_stack;
+	// temp stack for iterating through entire stack via pops
+	Stack<char> temp_stack;
+	// instantiate final output
+	string postfix;
+	// iterate through infix input
+	for (char c: infix) {
+		if (c >= 'A' && c <= 'Z' || c >= '0' && c <= '9') {
+			// if 'c' an operand,
+			// add to postfix string
+			postfix += c;
+		}
+		if (c == '(')
+			// if open parenth add to stack
+			operator_stack.push(c);
+		if (c == ')') {
+			// if closed parenth pop stack
+			// until reach open parenth
+			while (operator_stack.peek() != '(') {
+				postfix += operator_stack.pop();
+			}
+		}
+		// if an operator...
+		if (precedence.find(c) != precedence.end()) {
+			// push if higher precedence than current top of stack
+			if (precedence[c] > precedence[operator_stack.peek()]) {
+				operator_stack.push(c);
+			}
+			// Else, pop all the operators from the stack which are greater than
+			// or equal in precedence to that of the scanned operator.
+			else {
+				while (!operator_stack.is_empty()){
+					char op = operator_stack.pop();
+					// If you encounter parenthesis while popping,
+					// stop there and push the scanned operator on the stack.
+					if (op == '(' || op == ')'){
+						break;
+					}
+					if (precedence[op] >= precedence[c]){
+						postfix += op;
+					} else {
+						temp_stack.push(op);
+					}
+				}
+				// push operator onto the stack
+				operator_stack.push(c);
+			}
+		}
+	}
+	while (! temp_stack.is_empty()){
+		operator_stack.push(temp_stack.pop());
+	}
+	// then pop and output from the stack
+	// until it is not empty.
+	while (! operator_stack.is_empty())
+	{
+		// don't include any parenthesis
+		if (operator_stack.peek() != '(' || operator_stack.peek() != '(')
+			postfix += operator_stack.pop();
+		else
+			// but do pop everything
+			operator_stack.pop();
+	}
+	return postfix;
 }
