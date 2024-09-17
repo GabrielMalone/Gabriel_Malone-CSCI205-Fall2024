@@ -489,13 +489,19 @@ int main(){
 	cout << "BALANCED BRACKETS TESTING" << endl;
 	cout << "-------------------------------------------------------------------" << endl;
 	// -------------------------------------------------------------------
-	cout << balanced("(()()()()()()()(){}[])") << endl;
+	cout << balanced("[((A+B)*(D-C)()()()()()(){}[])") << endl;
 
 	return 0;
 }
 
 // convert infix to postfix notation
 string infix_postfix(string const &infix) {
+
+	// balanced bracket checking
+	if (!balanced(infix)){
+		throw std::invalid_argument("Error: Expression contains unbalanced brackets.");
+	}
+
 	// operator precedence map
 	unordered_map<char, size_t> precedence = {
 			{'+', 1},
@@ -638,6 +644,7 @@ bool balanced(string const &expression){
 			t_openingBs.push(c);
 		}
 		// check if c a closing bracket
+		// Runestone note:
 		// Recall that each opening symbol is simply pushed on the stack
 		// to wait for the matching closing symbol to appear later in the sequence.
 		// When a closing symbol does appear, the only difference is that we must check
