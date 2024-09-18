@@ -1,6 +1,4 @@
-//
-// Created by Gabriel Malone on 9/17/24.
-//
+// GABRIEL MALONE / CSCI 205 / LAB 3
 
 #ifndef QUEUE_HPP
 #define QUEUE_HPP
@@ -67,8 +65,6 @@ public:
 	{
 		return stack_deque.get_array()[index];
 	}
-
-
 };
 
 #endif
