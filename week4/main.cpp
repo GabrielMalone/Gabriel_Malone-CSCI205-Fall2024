@@ -470,7 +470,7 @@ int main(){
 	cout << "INFIX TO POSTFIX TESTING" << endl;
 	cout << "-------------------------------------------------------------------" << endl;
 	// -------------------------------------------------------------------
-	cout << infix_postfix("A + B * (C - D / (E + F))") << endl;
+	//cout << infix_postfix("A + B * (C - D / (E + F))") << endl;
 
 
 	// whitespace
@@ -501,14 +501,13 @@ int main(){
 	cout << "INFIX EVALUATION TESTING" << endl;
 	cout << "-------------------------------------------------------------------" << endl;
 	// -------------------------------------------------------------------
-	cout << infix_eval("6-2+3") << endl;
+	cout << infix_eval("6*(2+3)+2") << endl;
 
 	return 0;
 }
 
 // convert infix to postfix notation
 string infix_postfix(string const &infix) {
-
 	// balanced bracket checking
 	if (!balanced(infix)){
 		throw std::invalid_argument("Error: Expression contains unbalanced brackets.");
@@ -520,6 +519,7 @@ string infix_postfix(string const &infix) {
 			{'-', 1},
 			{'*', 2},
 			{'/', 2},
+			{'(', 0},
 
 	};
 	// stack for operators
@@ -536,13 +536,17 @@ string infix_postfix(string const &infix) {
 			postfix += c;
 		}
 		if (c == '(')
-			// if open parenth add to stack
+			// if open parenthesis add to stack
 			operator_stack.push(c);
 		if (c == ')') {
-			// if closed parenth pop stack
-			// until reach open parenth
+			// if closed parenthesis pop stack
+			// until reach open parenthesis
 			while (operator_stack.peek() != '(') {
 				postfix += operator_stack.pop();
+			}
+			// get rid of open parenthesis after
+			if (operator_stack.peek() == '('){
+				operator_stack.pop();
 			}
 		}
 		// if an operator...
@@ -564,7 +568,7 @@ string infix_postfix(string const &infix) {
 					if (precedence[op] >= precedence[c]){
 						postfix += op;
 					} else {
-						temp_stack.push(op);
+						//temp_stack.push(op);
 					}
 				}
 				// push operator onto the stack
