@@ -86,7 +86,7 @@ template <typename T> class Deque{
 					temp_array[i] = arr[i];
 				}
 				// delete old pointer
-				delete[] array;
+				// delete[] array;
 				// point og array at temp array
 				array = temp_array;
 			}
@@ -217,7 +217,6 @@ template <typename T> class Deque{
 		{
 			return array[index];
 		}
-
 
 };
 
