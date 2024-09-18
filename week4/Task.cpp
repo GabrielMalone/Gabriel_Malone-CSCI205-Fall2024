@@ -1,7 +1,7 @@
 #include "Task.h"
 #include <iostream>
 
-
+Task::Task(){}
 Task::Task(int PID, std::string Command, std::string Time, int Mem) {
 	this->PID		= PID;
 	this->Command	= Command;

@@ -1,13 +1,16 @@
 // GABRIEL MALONE // CSCI 205 / FALL 2024 / LAB 3
 
 #include <iostream>
+#include <fstream>
 #include <string>
 #include <unordered_map>
 #include <vector>
+#include <iostream>
 #include "Deque.hpp"
 #include "Stack.hpp"
 #include "Card.h"
 #include "Queue.hpp"
+#include "Task.h"
 
 using namespace std;
 
@@ -15,8 +18,18 @@ string infix_postfix(string const &infix);
 int postfix_eval(string const &postfix);
 bool balanced(string const &expression);
 int infix_eval(string const &expression);
+void ringBuffer();
 
 int main(){
+
+	// whitespace
+	cout << endl;
+	// -------------------------------------------------------------------
+	cout << "-------------------------------------------------------------------" << endl;
+	cout << "DEFAULT TESTS " << endl;
+	cout << "-------------------------------------------------------------------" << endl;
+	// -------------------------------------------------------------------
+	cout << endl;
 	// Deque of strings
 	Deque<string> names;
 	names.push_front("bill");
@@ -48,7 +61,6 @@ int main(){
 	}
 
 	// -------------------------------------------------------------------
-	cout << "-------------------------------------------------------------------" << endl;
 	// PUSH_FRONT TESTING + RESIZE TESTING
 	// -------------------------------------------------------------------
 	// first for loop to fill deque without going over capacity
@@ -472,25 +484,25 @@ int main(){
 	// -------------------------------------------------------------------
 	cout << "A + B - C = " ;
 	cout << infix_postfix("A + B - C") << endl;
-	cout << endl;
+
 	cout << "A * B / C = " ;
 	cout << infix_postfix("A * B / C") << endl;
-	cout << endl;
+
 	cout << "A + B * C = " ;
 	cout << infix_postfix("A + B * C") << endl;
-	cout << endl;
+
 	cout << "A * B + C = " ;
 	cout << infix_postfix("A * B + C") << endl;
-	cout << endl;
+
 	cout << "A * B + C * D = " ;
 	cout << infix_postfix("A * B + C * D") << endl;
-	cout << endl;
+
 	cout << "(A + B) * (C + D) = " ;
 	cout << infix_postfix("(A + B) * (C + D)") << endl;
-	cout << endl;
+
 	cout << "( ( A + B ) * C ) - D = " ;
 	cout << infix_postfix("((A+B)*C)-D") << endl;
-	cout << endl;
+
 	cout << "A + B * (C - D / (E + F)) = " ;
 	cout << infix_postfix("A + B * (C - D / (E + F))") << endl;
 
@@ -542,6 +554,19 @@ int main(){
 	cout << infix_eval("6*(2+3)+2") << endl;
 	cout << "evaluating: 6*(2+(3-2)) = ";
 	cout << infix_eval("6*(2+(3-2))") << endl;
+	cout << "evaluating: 6/(2+(3-2)) = ";
+	cout << infix_eval("6/(2+(3-2))") << endl;
+
+	// whitespace
+	cout << endl;
+	cout << endl;
+	// -------------------------------------------------------------------
+	cout << "-------------------------------------------------------------------" << endl;
+	cout << "RING BUFFER TESTING" << endl;
+	cout << "-------------------------------------------------------------------" << endl;
+	// -------------------------------------------------------------------
+	
+	ringBuffer();
 
 	return 0;
 }
@@ -722,4 +747,49 @@ int infix_eval(string const &expression){
 	string postfix = infix_postfix(expression);
 	int result = postfix_eval(postfix);
 	return result;
+}
+
+void ringBuffer(){
+	// instantiate Queue of Tasks
+	Queue<Task> task_data;
+	// filestream to open text data
+	fstream frF;
+	// string for each task in file
+	string tStr;
+	// open file write using file object
+	// check if file is open
+	frF.open("tasks.txt", ios::in);
+	if (frF.is_open()){
+		while(getline(frF, tStr)){
+			vector<string>tokens;
+			// instantiate task vars
+			// run until no more tabs found
+			while (tStr.find('\t') != std::string::npos)
+			{	
+				// start splittin string at space
+				string token = tStr.substr(0,tStr.find('\t'));
+				// place each split into vector
+				tokens.push_back(token);
+				// reduce size of string to post split
+				tStr = tStr.substr(tStr.find('\t') + 1);
+			}
+			// push the remaining string piece
+			tokens.push_back(tStr);
+			// create task object
+			// place task object in Queue
+			int PID = stoi(tokens[0]);
+			string progName = tokens[1];
+			string time = tokens[2];
+			int mem = stoi(tokens[3]);
+			// instantiate Task
+			Task t(PID, progName, time, mem);
+			// enqueue task
+			task_data.enqueue(t);
+		}
+	}
+	// confirm fill of queue
+	while (! task_data.is_empty()){
+		cout << "dequeing element: " << task_data.dequeue() << endl;
+	}
+
 }

@@ -39,7 +39,7 @@ public:
 
 	// pop element from front of queue
 	T dequeue(){
-		return stack_deque.pop_front();
+		return stack_deque.pop_back();
 	}
 
 	// get the current number of elements in the stack

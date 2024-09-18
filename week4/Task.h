@@ -11,6 +11,7 @@ class Task {
 		int Mem;				// Memory in KB
 
 	public:
+		Task();
 		Task(int PID, std::string Command, std::string Time, int Mem);	// Constructor
 
 		// Getters and Setters
