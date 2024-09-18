@@ -33,14 +33,14 @@ template <typename T> class Deque{
 				dbl_array_temp = new T[capacity];
 				// copy contents from old array in order
 				// start from the current head position to the end of the array
-				for (int i = head; i < old_capacity; i ++)
+				for (size_t i = head; i < old_capacity; i ++)
 				{
 					// zero out the head position for the new array
 					dbl_array_temp[i - head] = array[i];
 				}
 				// then get what was at the front of the array if head was not at front
 				// and continue where left off from last loop
-				for (int i = 0; i < head; i ++)
+				for (size_t i = 0; i < head; i ++)
 				{
 					dbl_array_temp[i + (old_capacity - head)] = array[i];
 				}
@@ -82,7 +82,7 @@ template <typename T> class Deque{
 				capacity = o_size * 2;
 				T* temp_array = new T[capacity];
 				// copy contents from old array
-				for (int i = 0; i < o_size; i++) {
+				for (size_t i = 0; i < o_size; i++) {
 					temp_array[i] = arr[i];
 				}
 				// delete old pointer

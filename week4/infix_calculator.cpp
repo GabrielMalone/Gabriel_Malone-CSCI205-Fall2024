@@ -1,5 +1,3 @@
-// GABRIEL MALONE / CSCI 205 / LAB 3
-
 #include <string>
 #include <unordered_map>
 #include <vector>

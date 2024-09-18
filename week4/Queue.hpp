@@ -1,4 +1,6 @@
-// GABRIEL MALONE / CSCI 205 / LAB 3
+//
+// Created by Gabriel Malone on 9/17/24.
+//
 
 #ifndef QUEUE_HPP
 #define QUEUE_HPP

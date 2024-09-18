@@ -1,6 +1,11 @@
 // GABRIEL MALONE // CSCI 205 / FALL 2024 / LAB 3
 
+// COMPILE INSTRUCTIONS //
+// g++ -o test main.cpp Task.cpp Card.cpp -g -std=c++17 -Wall -pedantic -std=c++17
+
+
 #include <iostream>
+#include <algorithm>
 #include "Deque.hpp"
 #include "Stack.hpp"
 #include "Card.h"
@@ -84,7 +89,7 @@ int main(){
 	}
 
 	// show deque values, should be 0-9 ascending
-	for (int i = 0 ; i < nums2.getCapacity() ; i ++)
+	for (size_t i = 0 ; i < nums2.getCapacity() ; i ++)
 	{
 		cout << nums2[i] << ", ";
 	}
@@ -104,7 +109,7 @@ int main(){
 	// whitespace
 	cout << endl;
 	// show deque values, should be 0-9 ascending
-	for (int i = 0 ; i < nums2.getCapacity(); i ++)
+	for (size_t i = 0 ; i < nums2.getCapacity(); i ++)
 	{
 		cout << nums2[i] << ", ";
 	}
@@ -113,7 +118,7 @@ int main(){
 	cout << endl;
 	cout << endl;
 	cout << "multiple resize testing" << endl;
-	for (int i = 0 ; i < 99999; i ++)
+	for (size_t i = 0 ; i < 99999; i ++)
 	{
 		nums2.push_front(1);
 	}
@@ -140,7 +145,7 @@ int main(){
 	labDeck.push_front(86);
 	labDeck.push_front(53);
 	// show what's in deque
-	for (int i = 0 ; i < labDeck.getCapacity() ; i ++)
+	for (size_t i = 0 ; i < labDeck.getCapacity() ; i ++)
 	{
 		cout << labDeck[i] << ", ";
 	}
@@ -159,7 +164,7 @@ int main(){
 	cout << "current front element: " << labDeck.show_front() << endl;
 	cout << "no cycles spent zeroing or adjusting actual positions in array: ";
 	// show what's in deque
-	for (int i = 0 ; i < labDeck.getCapacity() ; i ++)
+	for (size_t i = 0 ; i < labDeck.getCapacity() ; i ++)
 	{
 		cout << labDeck[i] << ", ";
 	}
@@ -177,7 +182,7 @@ int main(){
 	cout << "current back element: " << labDeck.show_back() << endl;
 	cout << "no cycles spent zeroing or adjusting actual positions in array: ";
 	// show what's in deque
-	for (int i = 0 ; i < labDeck.getCapacity() ; i ++)
+	for (size_t i = 0 ; i < labDeck.getCapacity() ; i ++)
 	{
 		cout << labDeck[i] << ", ";
 	}
@@ -198,7 +203,7 @@ int main(){
 	cout << "current front element: " << labDeck.show_front() << endl;
 	cout << "no cycles spent zeroing or adjusting actual positions in array: ";
 	// show what's in deque
-	for (int i = 0 ; i < labDeck.getCapacity() ; i ++)
+	for (size_t i = 0 ; i < labDeck.getCapacity() ; i ++)
 	{
 		cout << labDeck[i] << ", ";
 	}
@@ -212,7 +217,7 @@ int main(){
 	// -------------------------------------------------------------------
 	labDeck.push_front(19);
 	// show what's in deque, '19' should have overwritten '56'
-	for (int i = 0 ; i < labDeck.getCapacity() ; i ++)
+	for (size_t i = 0 ; i < labDeck.getCapacity() ; i ++)
 	{
 		cout << labDeck[i] << ", ";
 	}
@@ -242,7 +247,7 @@ int main(){
 	labDeck2.push_front(12);
 	labDeck2.push_front(62);
 	// confirm deque set up properly
-	for (int i = 0 ; i < labDeck2.getCapacity() ; i ++)
+	for (size_t i = 0 ; i < labDeck2.getCapacity() ; i ++)
 	{
 		cout << labDeck2[i] << ", ";
 	}
@@ -254,7 +259,7 @@ int main(){
 	cout << "push_front( 72 ) " << endl;
 	labDeck2.push_front(72);
 	// confirm deque set up properly
-	for (int i = 0 ; i < labDeck2.getCapacity() ; i ++)
+	for (size_t i = 0 ; i < labDeck2.getCapacity() ; i ++)
 	{
 		cout << labDeck2[i] << ", ";
 	}
@@ -263,7 +268,7 @@ int main(){
 	cout << "push_front( 33 )  -- WRAP AROUND BEGINS" << endl;
 	labDeck2.push_front(33);
 	// confirm deque set up properly
-	for (int i = 0 ; i < labDeck2.getCapacity() ; i ++)
+	for (size_t i = 0 ; i < labDeck2.getCapacity() ; i ++)
 	{
 		cout << labDeck2[i] << ", ";
 	}
@@ -272,7 +277,7 @@ int main(){
 	cout << "push_front( 99 )  -- WRAP AROUND CONTINUES" << endl;
 	labDeck2.push_front(99);
 	// confirm deque set up properly
-	for (int i = 0 ; i < labDeck2.getCapacity() ; i ++)
+	for (size_t i = 0 ; i < labDeck2.getCapacity() ; i ++)
 	{
 		cout << labDeck2[i] << ", ";
 	}
@@ -283,7 +288,7 @@ int main(){
 	labDeck2.push_front(31);
 	labDeck2.push_front(58);
 	// confirm deque set up properly
-	for (int i = 0 ; i < labDeck2.getCapacity() ; i ++)
+	for (size_t i = 0 ; i < labDeck2.getCapacity() ; i ++)
 	{
 		cout << labDeck2[i] << ", ";
 	}
@@ -295,7 +300,7 @@ int main(){
 	labDeck2.push_front(84);
 	labDeck2.push_front(77);
 	// confirm deque set up properly
-	for (int i = 0 ; i < labDeck2.getCapacity() ; i ++)
+	for (size_t i = 0 ; i < labDeck2.getCapacity() ; i ++)
 	{
 		cout << labDeck2[i] << ", ";
 	}
@@ -306,7 +311,7 @@ int main(){
 	cout << "push_back ( 71 )" << endl;
 	labDeck2.push_back(71);
 	// confirm deque set up properly
-	for (int i = 0 ; i < labDeck2.getCapacity() ; i ++)
+	for (size_t i = 0 ; i < labDeck2.getCapacity() ; i ++)
 	{
 		cout << labDeck2[i] << ", ";
 	}
@@ -323,7 +328,7 @@ int main(){
 	labDeck2.push_back(65);
 	// confirm deque set up properly
 	cout << endl;
-	for (int i = 0 ; i < labDeck2.getCapacity() ; i ++)
+	for (size_t i = 0 ; i < labDeck2.getCapacity() ; i ++)
 	{
 		cout << labDeck2[i] << ", ";
 	}
@@ -355,7 +360,7 @@ int main(){
 	// confirm deque set up properly
 	cout << "new deque should have double capacity and all the original elements" << endl;
 	cout << endl;
-	for (int i = 0 ; i < deque.getCapacity() ; i ++)
+	for (size_t i = 0 ; i < deque.getCapacity() ; i ++)
 	{
 		cout << deque[i] << ", ";
 	}
@@ -376,7 +381,7 @@ int main(){
 	stack1.push("quirk");
 	stack1.push("bevis");
 	// confirm stack set up properly
-	for (int i = 0 ; i < stack1.stack_capacity() ; i ++)
+	for (size_t i = 0 ; i < stack1.stack_capacity() ; i ++)
 	{
 		cout << stack1[i] << ", ";
 	}
@@ -409,7 +414,7 @@ int main(){
 	cout << "should overwrite bevis" << endl;
 	cout << endl;
 	// confirm stack set up properly
-	for (int i = 0 ; i < stack1.stack_capacity() ; i ++)
+	for (size_t i = 0 ; i < stack1.stack_capacity() ; i ++)
 	{
 		cout << stack1[i] << ", ";
 	}
@@ -422,7 +427,7 @@ int main(){
 	cout << endl;
 	stack1.push("cleopatra");
 	// confirm stack set up properly
-	for (int i = 0 ; i < stack1.stack_capacity() ; i ++)
+	for (size_t i = 0 ; i < stack1.stack_capacity() ; i ++)
 	{
 		cout << stack1[i] << ", ";
 	}
@@ -442,7 +447,7 @@ int main(){
 	Queue<int> myQueue{5};
 	// confirm this
 	// confirm queue set up properly
-	for (int i = 0 ; i < myQueue.queue_capacity() ; i ++)
+	for (size_t i = 0 ; i < myQueue.queue_capacity() ; i ++)
 	{
 		cout << myQueue[i] << ", ";
 	}
@@ -458,7 +463,7 @@ int main(){
 	myQueue.enqueue(71);
 	cout << "current queue size: " << myQueue.queue_size() << endl;
 	// confirm queue set up properly
-	for (int i = 0 ; i < myQueue.queue_capacity() ; i ++)
+	for (size_t i = 0 ; i < myQueue.queue_capacity() ; i ++)
 	{
 		cout << myQueue[i] << ", ";
 	}
