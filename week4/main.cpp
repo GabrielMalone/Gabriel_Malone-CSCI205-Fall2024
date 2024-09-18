@@ -41,7 +41,7 @@ int main(){
 	Card b('2', 'C');
 	deck.push_front(a);
 	deck.push_front(b);
-	
+
 	while( !deck.empty() ){
 		Card t = deck.pop_front();
 		cout << "Card is: " << t << endl;
@@ -328,8 +328,8 @@ int main(){
 	// -------------------------------------------------------------------
 	// array size should be 21 since 20 elements filled previous array, then one more to cause resize.
 	cout << "Current array size :" << labDeck2.array_size()
-			<< " vs current array capacity : "
-			<< labDeck2.getCapacity() << endl;
+	     << " vs current array capacity : "
+	     << labDeck2.getCapacity() << endl;
 
 	// whitespace
 	cout << endl;
@@ -457,8 +457,8 @@ int main(){
 	cout << endl;
 	cout << endl;
 	cout << "calling dequeue() and returning element : "
-			<< myQueue.dequeue()
-			<< endl;
+	     << myQueue.dequeue()
+	     << endl;
 	cout << "current queue size: " << myQueue.queue_size() << endl;
 	cout << "current queue capacity: " << myQueue.queue_capacity() << endl;
 
@@ -470,8 +470,29 @@ int main(){
 	cout << "INFIX TO POSTFIX TESTING" << endl;
 	cout << "-------------------------------------------------------------------" << endl;
 	// -------------------------------------------------------------------
-	//cout << infix_postfix("A + B * (C - D / (E + F))") << endl;
-
+	cout << "A + B - C = " ;
+	cout << infix_postfix("A + B - C") << endl;
+	cout << endl;
+	cout << "A * B / C = " ;
+	cout << infix_postfix("A * B / C") << endl;
+	cout << endl;
+	cout << "A + B * C = " ;
+	cout << infix_postfix("A + B * C") << endl;
+	cout << endl;
+	cout << "A * B + C = " ;
+	cout << infix_postfix("A * B + C") << endl;
+	cout << endl;
+	cout << "A * B + C * D = " ;
+	cout << infix_postfix("A * B + C * D") << endl;
+	cout << endl;
+	cout << "(A + B) * (C + D) = " ;
+	cout << infix_postfix("(A + B) * (C + D)") << endl;
+	cout << endl;
+	cout << "( ( A + B ) * C ) - D = " ;
+	cout << infix_postfix("((A+B)*C)-D") << endl;
+	cout << endl;
+	cout << "A + B * (C - D / (E + F)) = " ;
+	cout << infix_postfix("A + B * (C - D / (E + F))") << endl;
 
 	// whitespace
 	cout << endl;
@@ -491,7 +512,21 @@ int main(){
 	cout << "BALANCED BRACKETS TESTING" << endl;
 	cout << "-------------------------------------------------------------------" << endl;
 	// -------------------------------------------------------------------
-	cout << balanced("((A+B)*(D-C)()()()()()(){}[])") << endl;
+	// balanced = 1
+	cout << "Test balance of { { ( [ ] [ ] ) } ( ) } = ";
+	cout << balanced("{ { ( [ ] [ ] ) } ( ) }") << endl;
+	cout << "Test balance of [ [ { { ( ( ) ) } } ] ] = ";
+	cout << balanced("[ [ { { ( ( ) ) } } ] ]") << endl;
+	cout << "Test balance of [ [ { { ( ( ) ) } } ] ] = ";
+	cout << balanced("[ ] [ ] [ ] ( ) { }") << endl;
+	cout << endl;
+	// unbalanced = 0
+	cout << "Test balance of ( [ ) ] = ";
+	cout << balanced("( [ ) ]") << endl;
+	cout << "Test balance of ( ( ( ) ] ) ) = ";
+	cout << balanced("( ( ( ) ] ) )") << endl;
+	cout << "Test balance of [ { ( ) ] = ";
+	cout << balanced("[ { ( ) ]") << endl;
 
 	// whitespace
 	cout << endl;
@@ -501,7 +536,12 @@ int main(){
 	cout << "INFIX EVALUATION TESTING" << endl;
 	cout << "-------------------------------------------------------------------" << endl;
 	// -------------------------------------------------------------------
+	cout << "evaluating: 6*2+3+2 = ";
+	cout << infix_eval("6*2+3+2") << endl;
+	cout << "evaluating: 6*(2+3)+2 = ";
 	cout << infix_eval("6*(2+3)+2") << endl;
+	cout << "evaluating: 6*(2+(3-2)) = ";
+	cout << infix_eval("6*(2+(3-2))") << endl;
 
 	return 0;
 }
@@ -555,8 +595,8 @@ string infix_postfix(string const &infix) {
 			if (precedence[c] > precedence[operator_stack.peek()]) {
 				operator_stack.push(c);
 			}
-			// Else, pop all the operators from the stack which are greater than
-			// or equal in precedence to that of the scanned operator.
+				// Else, pop all the operators from the stack which are greater than
+				// or equal in precedence to that of the scanned operator.
 			else {
 				while (!operator_stack.is_empty()){
 					char op = operator_stack.pop();
