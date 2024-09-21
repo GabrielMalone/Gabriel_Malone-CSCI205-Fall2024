@@ -1,3 +1,5 @@
+// Gabriel Malone // CSCI205 // LAB 4
+
 #ifndef List_H
 #define List_H
 
@@ -10,9 +12,12 @@ using namespace std;
 template <typename T>
 class List {
     private:
+
         size_t link_size = 0;
         Node<T>* head = new Node<T>();
+
     public:
+
         /**
          * No argument constructor
          */
@@ -22,10 +27,28 @@ class List {
          *  Accepts a templated array as a paramaeter. 
          *  Adds items to list according to their order in the array.
          */
-        List(T* array, size_t size){};
+        List(T* array, size_t size){
+            for (size_t i = 0 ; i < size ; i ++){
+                insert(array[i], i);
+            }
+        };
 
         /**
-         *  Insert a node at a specific location
+         * returns pointer to this List's head
+         */
+        Node<T>* get_head(){
+            return this->head;
+        }
+
+        /**
+         * returns pointer to this List's head
+         */
+        T get_head_element(){
+            return this->head->data;
+        }
+
+        /**
+         *  Insert a item at a specific location
          */
         void insert(T item, size_t pos){
             if (pos == 0){
@@ -56,7 +79,134 @@ class List {
             prev_node->next = newNode;              // set newNode as the next for the node prior to it
             newNode->next = cur_node;               // set newNode's next as the node it is being inserted before
             link_size ++ ;                          // increase link size
-        }   
+        }
+
+        /**
+         *  Removes the item at the specified index
+         */
+        T remove (size_t pos){
+            if (pos == 0){
+                Node<T>* og_head = head;            // if removing at position 0 (the head),
+                T item = og_head->data;
+                head = head->next;                  // node that was just after the head now becomes the head
+                link_size -- ;                      // decrease size of linked list
+                delete og_head;                     // delete the original head pointer
+                return item;                        // nuffin else to do
+            }                                       
+                                                    
+            if (pos > link_size){                   // if deleting after the head, need to see if the position falls within how many items are present (size of linked lis)
+                throw std::invalid_argument("position out of bounds"); 
+            }                                       
+            size_t counter = 1;                     // start at one since skipping the head
+            Node<T>* prev_node = head; 
+            Node<T>* cur_node = head->next;         // get the node previous to where new node will be inserted via position / start at the node right after the head
+            while (cur_node->next != NULL){         // while the current node's position != the end of the list  
+               if (counter == pos ){                // if counter reaches the desired position
+                    break;                          // break loop as you've reached your destination
+                }      
+                prev_node = cur_node;         
+                cur_node = cur_node -> next;        // keep iterating to next node
+                counter ++ ;                        // track how many nodes you've passed through    
+            }
+            prev_node->next = cur_node->next;        
+            link_size -- ;                           // decrease link size
+            T item = cur_node->data;                 // get the diesired item
+            delete cur_node;                         // remove dangling pointer
+            return item;                             // return item
+        }
+
+        /**
+         *  Get the element at the specified position
+         */
+        T get (size_t pos){
+            if (pos > link_size){
+                throw std::invalid_argument("position out of bounds"); 
+            }
+            size_t counter = 0;                     // count until reach desired position
+            Node<T>* cur_node = head;               
+            while (cur_node->next != NULL){         // traverse the list and count each time reach a new node
+                if (counter == pos){                // break look when you've arrived
+                    break;
+                }
+                cur_node = cur_node->next;
+                counter ++;
+            }
+            return cur_node->data;                  // return that node's data
+        }
+
+        /**
+         *  Return index of item if found in the linked list
+         *  Returns -1 if not found
+         */
+        int find (T item){
+            int index = 0;
+            Node<T>* cur_node = head;               
+            while (cur_node->next != NULL){         // traverse the list and count each time a new node is reached
+                if (item == cur_node->data){        // if node's data matches
+                    return index;                   // break and return index
+                }
+                index ++ ;                          // otherwise keep looking
+                cur_node = cur_node->next;          // move to next node
+            }           
+            return -1;                              // if get to here, nothing found
+        }
+
+        /**
+		 * returns how many items are in a list
+		 */
+		size_t length(){
+			return link_size;
+		}   
+
+        /**
+		 * returns how many items are in a list
+		 */
+		size_t count(){
+			return link_size;
+		}  
+
+        /**
+         *  reverse the order of items in the list
+         */
+        void reverse(){
+            T* temp = new T[link_size];             // set up temp array
+            Node<T>* cur_node_A = head;               
+            size_t index_A = 0 ;                    // index for array ^
+            while (cur_node_A->next != NULL){       // traverse the linked list
+                temp[index_A] = cur_node_A->data;   // add data to array as you go
+                cur_node_A = cur_node_A->next;      // move to next node
+                index_A ++ ;                        // increment index
+            }
+                                                    // now reverse loop through the array and set that data for the linked list
+            Node<T>* cur_node_B = head;               
+            size_t index_B = link_size -1;          // reverse index for array
+            while (cur_node_B->next != NULL){       // traverse the linked list
+                cur_node_B->data = temp[index_B];   // replace linked list data as you go
+                cur_node_B = cur_node_B->next;      // move to next node
+                index_B -- ;                        // decrement index
+            }           
+        }
+
+        /**
+         *  appends another list to this list
+         */
+        void append(List &list){
+            // dont need to resize linked list
+            // just start inserting at end of this list
+            // find the end of this list
+            Node<T>* cur_node = this->head;
+            size_t counter = 0;               
+            while (counter < link_size -1){         // traverse the list until last node
+                cur_node = cur_node->next;
+                counter ++ ;
+            }
+            // join the linked lists (this-> list's end to that list's head)
+            // although this appendage would be broken if the list that was passed in went away
+            // could update this function to make new nodes from the passed in array and insert those. 
+            cur_node->next = list.get_head();
+            this->link_size += list.length();
+
+        }
 
         /**
 		 *  print list contents
@@ -66,7 +216,7 @@ class List {
             Node<T>* current_node = head;
             size_t counter = 0;
             while (counter < link_size){
-                cout << current_node->data << ",";
+                cout << current_node->data << " -> ";
                 current_node = current_node -> next;
                 counter ++ ;
 		    }

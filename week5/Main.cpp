@@ -92,5 +92,26 @@ int main(){
     // myList3.removeDuplicates();
     // myList3.print();
 
+    int arr[5] = {1,20, 65, 199, 14};
+    int arr2[5] = {12 ,66, 405, 9, 8766};
+
+    List<int> myList5(arr, 5);
+    List<int> myList6(arr2, 5);
+
+    myList5.print();
+    cout << myList5.length() << endl;
+    cout << myList5.get_head_element() << endl;
+    myList6.print();
+    cout << myList6.length() << endl;
+    cout << myList6.get_head_element() << endl;
+
+    // cout << myList5.get(0) << endl;
+
+    // cout << myList5.remove(2) << endl;
+    // myList5.print();
+
+    myList5.append(myList6);
+    myList5.print();
+    cout << myList5.length() << endl;
     return 0;
 }
