@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include "ArrayList.hpp"
+#include "LinkedList/List.hpp"
 
 using namespace std;
 
@@ -71,20 +71,20 @@ int main(){
 
     // myList3.print();
 
-    // List<int> myList4{5};
+    List<int> myList4;
 
-    // myList4.insert(5, 0);
-    // myList4.insert(5, 0);
-    // myList4.insert(5, 0);
-    // myList4.insert(5, 0);
-    // myList4.insert(5, 0);
-    // myList4.insert(5, 0);
+    myList4.insert(1, 0);
+    myList4.insert(2, 0);
+    myList4.insert(5, 0);
+    myList4.insert(6, 2);
+    myList4.insert(9, 0);
+    myList4.insert(8, 3);
     // myList4.insert(5, 0);
     // myList4.insert(5, 0);
     // myList4.insert(5, 0);
     // myList4.insert(5, 0);
 
-    // myList4.print();
+    myList4.print();
 
     // myList3.append(myList4);
     // myList3.print();
