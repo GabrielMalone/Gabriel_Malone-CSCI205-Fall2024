@@ -37,7 +37,7 @@ class List {
                 return;                             // nuffin else to do
             }                                       
                                                     
-            if (pos > link_size - 1){               // if inserting after the head, need to see if the position falls within how many items are present (size of linked lis)
+            if (pos > link_size){                   // if inserting after the head, need to see if the position falls within how many items are present (size of linked lis)
                 throw std::invalid_argument("position out of bounds"); 
             }                                       
             size_t counter = 1;                     // start at one since skipping the head
