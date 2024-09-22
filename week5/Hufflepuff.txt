@@ -1,0 +1,25 @@
+Hufflepuff: 22
+----------------
+2 - Euan
+7 - Marcus
+10 - Melinda
+15 - Lavender
+17 - Bundy
+24 - Colin
+27 - Cedric
+29 - Dorny
+33 - Justin
+39 - Daphne
+43 - Geoffrey
+47 - Lee
+52 - Mary
+55 - Laura
+60 - Theodore
+63 - Parvati
+65 - Peter
+71 - Zacharias
+76 - Kenneth
+77 - Lisa
+82 - Oliver
+87 - Moaning
+

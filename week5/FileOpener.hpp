@@ -1,4 +1,6 @@
 // Gabriel Malone // CSCI205 // WEEK 5
+#ifndef H_FILE_OPENER
+#define H_FILE_OPENER
 
 #include <fstream>
 #include <string>
@@ -24,6 +26,9 @@ struct FileOpener{
 		return output;
 	}
 };
+
+#endif
+
 
 
 

@@ -1,5 +1,8 @@
 // Gabriel Malone // CSC205 // LAB 4 // WEEK 5
 
+#ifndef H_DORM
+#define H_DORM
+
 #include "LinkedList/LinkedList.hpp"
 #include "Student.hpp"
 
@@ -86,10 +89,12 @@ class Dorm{
          */
         void showStudents(){
             Node<Student>* s_node = students.get_head();
-            while (s_node != NULL){
-                cout << s_node->data.getName() << endl;
+            while (s_node->next != NULL){
+                cout << s_node->data.getID() << " - " << s_node->data.getName() << endl;
                 s_node = s_node->next;
             }
         }
 
 };
+
+#endif

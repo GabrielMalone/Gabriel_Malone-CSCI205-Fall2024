@@ -7,6 +7,7 @@
 #include "FileOpener.hpp"
 #include "Student.hpp"
 #include "Dorm.hpp"
+#include "FileSaver.hpp"
 
 using namespace std;
 
@@ -16,7 +17,7 @@ List<Student> allStudentObj;                                            // List 
 List<Dorm<Student> > allDormObj;                                        // List to hold all of the dorm objects
 
 size_t minPopFinder();                                                  // helper function
-void printDormLists();                                                  // confirm results
+
 
 int main(){
 
@@ -72,7 +73,8 @@ int main(){
      }                                      
     
     // TODO -> 4) output the roster from each dorm to its own text file
-    printDormLists();
+    printDormLists(allDormObj);
+    saveDormLists(allDormObj);
 
     return 0;
 }
@@ -92,17 +94,3 @@ size_t minPopFinder() {
     }
     return min_pop;
 }
-
-/**
- *  show the results of the dorm assignments for all dorms
- */
-void printDormLists(){
-    Node<Dorm<Student> >* dormObjs = allDormObj.get_head();             // iterate through linked list ^
-    while (dormObjs->next != NULL){
-        cout << dormObjs->data.getDormName() << ": " << dormObjs->data.getNumberOfStudents() << "\n";
-        dormObjs->data.showStudents();
-        dormObjs = dormObjs->next;                                      // continue iterating
-        cout << endl;
-    }
-}
-    

@@ -1,0 +1,24 @@
+Gryffindor: 21
+----------------
+1 - Hannah
+5 - Avery
+12 - Terry
+14 - Mandy
+19 - Eddie
+22 - Michael
+25 - Dennis
+30 - Dunstan
+36 - Anthony
+37 - Gregory
+44 - Olive
+46 - Gwenog
+50 - Luna
+53 - Morag
+58 - Eloise
+64 - Sally-Anne
+68 - Orla
+70 - Evan
+73 - Patricia
+80 - Kevin
+81 - Wilkes
+
