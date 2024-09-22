@@ -1,7 +1,7 @@
 // Gabriel Malone // CSCI205 // LAB 4
 
-#ifndef List_H
-#define List_H
+#ifndef Linked_List_H
+#define Linked_List_H
 
 #include <iostream>
 #include <string>
@@ -9,35 +9,54 @@
 
 using namespace std;
 
-template <typename T>
+template <class T>
 class List {
     private:
 
-        size_t link_size = 0;
-        Node<T>* head = new Node<T>();
+        size_t link_size = 0;                       // keep track of list size for various functions
+        Node<T>* head;                              // entry point to the linked list
 
     public:
 
         /**
          * No argument constructor
          */
-        List(){};
+        List(){
+            head = new Node<T>();                    // entry point to the linked list
+        };
         
         /**
          *  Accepts a templated array as a paramaeter. 
          *  Adds items to list according to their order in the array.
          */
         List(T* array, size_t size){
+            head = new Node<T>();
             for (size_t i = 0 ; i < size ; i ++){
                 insert(array[i], i);
             }
         };
+
+        ~List(){                                    // not sure this is correct
+            Node<T>* cur_node = head->next;       
+            while (cur_node->next != NULL){
+                Node<T>* tempNode = cur_node;
+                cur_node = cur_node->next;
+                delete tempNode;
+            }    
+        };	
 
         /**
          * returns pointer to this List's head
          */
         Node<T>* get_head(){
             return this->head;
+        }
+
+        /**
+         * returns pointer to this List's head
+         */
+        Node<T>* get_next(){
+            return this->next;
         }
 
         /**
@@ -205,7 +224,6 @@ class List {
             // could update this function to make new nodes from the passed in array and insert those. 
             cur_node->next = list.get_head();
             this->link_size += list.length();
-
         }
 
         /**

@@ -1,14 +1,8 @@
-#ifndef Node_H
-#define Node_H
-using namespace std;
 
 template <typename T>
 class Node {
-    public:
+    public:             // could make this private and set some getters/setters
     T data;
     Node* next;
 };
-
-#endif
-
 

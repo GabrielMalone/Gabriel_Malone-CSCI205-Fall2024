@@ -1,7 +1,7 @@
 // GABRIEL MALONE / CSCI205 / LAB 4
 
-#ifndef List_H
-#define List_H
+#ifndef Array_List_H
+#define Array_List_H
 
 #include <string>
 #include <typeinfo>
@@ -14,33 +14,29 @@ using namespace std;
 /**
  * List class
  */
-template <typename T> class List{
-	private:									//Private member variables to manage insertion and removal points		
-		size_t size = 0;		            	// number of items in the List
-		size_t capacity = 100;	            	// size of the array (Default = 100)
-		size_t front = 0;		            	// index of the front of the List
-		size_t back = capacity-1;           	// 0 index adjust
-		size_t head = 0;	                	// index of the head of the list
-		size_t tail = capacity - 1;		    	// index of the tail of the list
-		T* array;			                	// array to store items (pointer to type T, to be determined at run time
+template <class T> class List{
+	private:													//Private member variables to manage insertion and removal points		
+		size_t size = 0;		            					// number of items in the List
+		size_t capacity = 100;	            					// size of the array (Default = 100)
+		size_t front = 0;		            					// index of the front of the List
+		size_t back = capacity-1;           					// 0 index adjust
+		size_t head = 0;	                					// index of the head of the list
+		size_t tail = capacity - 1;		    					// index of the tail of the list
+		T* array;			                					// array to store items (pointer to type T, to be determined at run time
 
 		/**
 		 * Helper function to resize the array
 		 */
 		void resize(){
-			size_t old_capacity = capacity; 	// for resorting / unwrapping array on resize
-			capacity = capacity * 2;        	// size of next array = double current array
-			T* dbl_array_temp ;             	// instantiate new array
-			dbl_array_temp = new T[capacity];
-			// copy contents from old array in order
-			// start from the current head position to the end of the array
-			for (size_t i = 0 ; i < old_capacity; i ++)
+			size_t old_capacity = capacity; 					// for resorting / unwrapping array on resize
+			capacity = capacity * 2;        					// size of next array = double current array
+			T* dbl_array_temp ;             					// instantiate new array
+			dbl_array_temp = new T[capacity];					// copy contents from old array in order
+			for (size_t i = 0 ; i < old_capacity; i ++)			// start from the current head position to the end of the array
 			{
-				// zero out the head position for the new array
-				dbl_array_temp[i] = array[i];
+				dbl_array_temp[i] = array[i];					// zero out the head position for the new array
 			}
-			// set array pointer to the new, bigger temp array
-			array = dbl_array_temp;
+			array = dbl_array_temp;								// set array pointer to the new, bigger temp array
 		}
 
 		/**
@@ -73,7 +69,7 @@ template <typename T> class List{
 		 */
 		List(){
 			capacity= 10;
-			array	= new T[capacity]; // create dynamic memory for array of template type T
+			array	= new T[capacity]; 							// create dynamic memory for array of template type T
 		}					
 
 		/**
@@ -88,22 +84,16 @@ template <typename T> class List{
 		 * Constructs a List with given array of items and size
 		 */
 		List(T* arr, size_t o_size){
-			// ensure the array is not null. Throw an invalid argument exception if it is
-			if (arr == nullptr)
+			if (arr == nullptr)									// ensure the array is not null. Throw an invalid argument exception if it is
 			{
 				throw std::invalid_argument("array is null");
 			} else {
-				// set the capacity to double the size of the array
-				capacity = o_size * 2;
+				capacity = o_size * 2;							// set the capacity to double the size of the array
 				T* temp_array = new T[capacity];
-				// copy contents from old array
-				for (size_t i = 0; i < o_size; i++) {
+				for (size_t i = 0; i < o_size; i++) {			// copy contents from old array
 					temp_array[i] = arr[i];
 				}
-				// delete old pointer
-				// delete[] array;
-				// point og array at temp array
-				array = temp_array;
+				array = temp_array;								// point og array at temp array
 			}
 
 		}
@@ -154,8 +144,7 @@ template <typename T> class List{
 		 * get item at position
 		 */
 		T get(size_t pos){
-			// if invalid index
-			if (pos > capacity || pos < 0){
+			if (pos > capacity || pos < 0){						// if invalid index
 				throw std::invalid_argument("index out of bounds");
 			}
 			// otherwise
@@ -178,38 +167,34 @@ template <typename T> class List{
 					return (int)i;
 				}
 			}
-			// if nothing found return -1;
-			return -1;
+			return -1;											// if nothing found return -1;
 		}
 
 		/**
 		 * insert item at position
 		 */
-		void insert(T item, size_t pos){
-			// if index out of bounds
-			if (pos > capacity || pos < 0){
+		void insert(T item, size_t pos){									
+			if (pos > capacity || pos < 0){						// if index out of bounds
 				throw std::invalid_argument("index out of bounds");
 			}
-			size ++ ;                   // increaes size first to make the extra room for shifting
-			if (full()){                // increae capacity if needed
+			size ++ ;                  							// increaes size first to make the extra room for shifting
+			if (full()){                						// increae capacity if needed
 				resize();
 			}
-			shiftItemsUp(pos);          // move everything over to make room if needed
-			array[pos] = item;          // insert item
+			shiftItemsUp(pos);          						// move everything over to make room if needed
+			array[pos] = item;          						// insert item
 		}
 
 		/**
 		 *  remove a specific item from the array. removes first instance of that item
 		 */
-		T remove(T item){
-			// find the item first and return that position
-			int pos = find(item);
-			// if found then shift
-			if (pos > -1){              // if a valid position request
-				T item = array[pos];    // get item
-				shiftItemsDown(pos);    // need to resize array
-				size -- ;               // reduce size of array
-				return item;            // retun the removed item
+		T remove(T item){										// find the item first and return that position		
+			int pos = find(item);								// if found then shift						
+			if (pos > -1){             							// if a valid position request
+				T item = array[pos];    						// get item
+				shiftItemsDown(pos);   							// need to resize array
+				size -- ;               						// reduce size of array
+				return item;            						// retun the removed item
 			}
 			throw std::invalid_argument("item not in array");
 		}
@@ -218,11 +203,11 @@ template <typename T> class List{
 		 * remove an item via its position in the array 
 		 */
 		T remove (size_t pos){  
-			if (pos <= size){           // if a valid position request
-				T item = array[pos];    // need to resize array
-				shiftItemsDown(pos);    // and shift everything down 1 spot that was after this item
-				size -- ;               // reduce size of array
-				return item;            // retun the removed item
+			if (pos <= size){         							// if a valid position request
+				T item = array[pos];    						// need to resize array
+				shiftItemsDown(pos);    						// and shift everything down 1 spot that was after this item
+				size -- ;               						// reduce size of array
+				return item;            						// retun the removed item
 			}
 			throw std::invalid_argument("item not in array");            
 		}
@@ -269,16 +254,14 @@ template <typename T> class List{
 		/**
 		 * appends another list to this list
 		 */
-		void append(List &list){
-			// resize until enough space availabe for the append
+		void append(List &list){								// resize until enough space availabe for the append							
 			while (this->size + list.length() >= this->capacity){
 				resize();
-			}
-			size_t starting_index = this->size; // starting position for appending to current array (at the back) 
-			// now can start to append, starting from back of this->array for the length of the incoming list
+			}													// starting position for appending to current array (at the back) 
+			size_t starting_index = this->size; 				// now can start to append, starting from back of this->array for the length of the incoming list													
 			for (size_t i = 0 ; i < list.length() ; i ++ ){
 				this->array[starting_index + i] = list.get_array()[i];
-				this->size ++; // increase size of current array for each element added
+				this->size ++; 									// increase size of current array for each element added
 			}
 		}
 
