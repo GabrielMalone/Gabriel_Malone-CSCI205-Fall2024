@@ -37,12 +37,12 @@ class List {
         };
 
         ~List(){                                    // not sure this is correct
-            Node<T>* cur_node = head->next;       
-            while (cur_node->next != NULL){
-                Node<T>* tempNode = cur_node;
-                cur_node = cur_node->next;
-                delete tempNode;
-            }    
+            // Node<T>* cur_node = head->next;       
+            // while (cur_node->next != NULL){
+            //     Node<T>* tempNode = cur_node;
+            //     cur_node = cur_node->next;
+            //     delete tempNode;
+            // }    
         };	
 
         /**
@@ -137,7 +137,7 @@ class List {
         /**
          *  Get the element at the specified position
          */
-        T get (size_t pos){
+        T& get (size_t pos){
             if (pos > link_size){
                 throw std::invalid_argument("position out of bounds"); 
             }

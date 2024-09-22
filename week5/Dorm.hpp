@@ -10,6 +10,7 @@ class Dorm{
     
     private:
 
+        size_t number_of_students = 0;
         List<Student> students;
         string dorm_name = "default";
 
@@ -18,9 +19,8 @@ class Dorm{
         /**
          * Default const
          */
-        Dorm (){
+        Dorm (){}
 
-        }
         /**
          * Overloaded const
          */
@@ -31,15 +31,16 @@ class Dorm{
         /**
          *  return the linked list of students associated with this dorm
          */
-        List<Student> getStudents() const {
-            return students;
+        List<Student> getStudents() {
+            return this->students;
         }
 
         /**
          * Add a student to this dorm
          */
-        void addStudent(Student student){
-            students.insert(student, 0);
+        void addStudent(Student s){
+            this->students.insert(s, number_of_students);
+            this->number_of_students ++;
         }
 
         /**
@@ -47,6 +48,7 @@ class Dorm{
          */
         void removeStudent(string name){
            // need to traverse linked list
+           this->number_of_students --;
         }
 
         /**
@@ -54,6 +56,7 @@ class Dorm{
          */
         void removeStudent(int id){
             // need to traverse linked list
+           this-> number_of_students --;
         }
 
         /**
@@ -63,20 +66,21 @@ class Dorm{
             size_t pos = students.find(s);
             students.remove(pos);
         }
-
+        
         /**
-         * Load students from a text file into this dorm's linked list
+         * returns the number of students living in this dorm
          */
-        void loadStudents(string fileName){
-            vector<vector<string> > studentsVec = FileOpener::tokenizeFile(fileName, " ");
-            for (vector<string> student : studentsVec){                  // iterate through tokens in the vectors
-                int id =  stoi(student[0]);                              // get id
-                string name = student[1];                                // get name
-                Student s(id, name);                                     // create student objects                                                   
-                students.insert(s,0);                                    // append student object to dorm
-            }
+        size_t getNumberOfStudents() const {
+            return this->number_of_students;
         }
 
+        /**
+         * returns the name of this dorm
+         */
+        string getDormName() const {
+            return this->dorm_name;
+        }
+        
         /**
          * print a list of this dorm's current students
          */

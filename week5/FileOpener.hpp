@@ -1,26 +1,24 @@
+// Gabriel Malone // CSCI205 // WEEK 5
+
 #include <fstream>
 #include <string>
-#include <vector>
+#include "LinkedList/LinkedList.hpp"
 
 using namespace std;
 
 struct FileOpener{
-	static vector<vector<string> > tokenizeFile(string fileName, string delimeter){
-		vector<vector<string>>output;										// vector of vectors to hold final split string outputs from file
+
+	/**
+	 * Load dorms / students from a text file into a linked list
+	 */
+	static List<string> dormLoader(string fileName){	
+		List<string>output;													// linked list of strings to hold final split string outputs from file
 		fstream frF;														// new filestream obj	
-		string tStr;														// string for each task in file
+		string dormStr;														// string for each task in file
 		frF.open(fileName, ios::in);										// open file write using file object					
 		if (frF.is_open()){													// check if file is open
-			while(getline(frF, tStr)){
-				vector<string>tokens;										// hold the current split line's tokens
-				while (tStr.find(delimeter) != std::string::npos)
-				{	
-					string token = tStr.substr(0,tStr.find(delimeter));		// start splittin string at delimeter
-					tokens.push_back(token);								// place each split into vector
-					tStr = tStr.substr(tStr.find(delimeter) + 1);			// reduce size of string to post split
-				}
-				tokens.push_back(tStr);										// push the remaining string piece
-				output.push_back(tokens);									// push split string to output vector
+			while(getline(frF, dormStr)){
+				output.insert(dormStr.substr(0, dormStr.length() - 1),0);  // remove the /r return escape
 			}
 		}
 		return output;
