@@ -1,25 +1,25 @@
 Hufflepuff: 22
 ----------------
-2 - Euan
-7 - Marcus
-10 - Melinda
+3 - Stewart
+6 - Malcolm
+12 - Terry
 15 - Lavender
-17 - Bundy
-24 - Colin
-27 - Cedric
-29 - Dorny
-33 - Justin
-39 - Daphne
-43 - Geoffrey
-47 - Lee
-52 - Mary
-55 - Laura
+20 - Owen
+23 - Vincent
+25 - Dennis
+31 - Marietta
+35 - Victoria
+38 - Hermione
+44 - Olive
+48 - Bertha
+49 - Neville
+53 - Morag
 60 - Theodore
-63 - Parvati
+64 - Sally-Anne
 65 - Peter
-71 - Zacharias
+69 - Tom
 76 - Kenneth
 77 - Lisa
-82 - Oliver
-87 - Moaning
+83 - Blaise
+86 - Leanne
 

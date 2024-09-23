@@ -11,9 +11,7 @@
 
 using namespace std;
 
-List<string> allStudentStr;                                             // List to hold all the students loaded from the students text file
-List<string> allDormStr;                                                // List to hold names of the dorms loaded from the dorms text file
-List<Student> allStudentObj;                                            // List to hold all the student objects
+
 List<Dorm<Student> > allDormObj;                                        // List to hold all of the dorm objects
 
 size_t minPopFinder();                                                  // helper function
@@ -21,6 +19,9 @@ size_t minPopFinder();                                                  // helpe
 
 int main(){
 
+    List<string> allStudentStr;                                         // List to hold all the students loaded from the students text file
+    List<string> allDormStr;                                            // List to hold names of the dorms loaded from the dorms text file
+    List<Student> allStudentObj;                                        // List to hold all the student objects
     //--------------------------------------------------------------------------------------------------------------------------
     // LOAD DORM DATA -- INTO TEXT LIST THEN DORM OBJECT LIST
     //--------------------------------------------------------------------------------------------------------------------------
@@ -71,26 +72,27 @@ int main(){
             min_pop = minPopFinder();                                   // set new min pop
         } 
      }                                      
-    
-    // TODO -> 4) output the roster from each dorm to its own text file
-    printDormLists(allDormObj);
-    saveDormLists(allDormObj);
+    //--------------------------------------------------------------------------------------------------------------------------
+    // PRINT AND SAVE DORM POP INFO 
+    //--------------------------------------------------------------------------------------------------------------------------
+    printDormLists(allDormObj);                                         // show dorm info in terminal
+    saveDormLists(allDormObj);                                          // save dorm info to text files
 
     return 0;
 }
 
 /**
- *  helper function to determin the dorm with the current lowest pop
+ *  helper function to determine the dorm with the current lowest pop
  */
 size_t minPopFinder() {
-    size_t min_pop;
-    Node<Dorm<Student> >* dormObjs = allDormObj.get_head();
-    while (dormObjs->next != NULL){
-        size_t dorm_pop = dormObjs->data.getNumberOfStudents();
-        if (dorm_pop <= min_pop){
-            min_pop = dorm_pop;
+    size_t min_pop;                                                     // min pop variable initialize
+    Node<Dorm<Student> >* dormObjs = allDormObj.get_head();             // get head to traverse dorm list
+    while (dormObjs->next != NULL){                                     
+        size_t dorm_pop = dormObjs->data.getNumberOfStudents();         // get population of current dorm
+        if (dorm_pop <= min_pop){                                       // if current dorm's pop less than min
+            min_pop = dorm_pop;                                         // set new min
         }
-        dormObjs = dormObjs->next;            
+        dormObjs = dormObjs->next;                                      // move to next dorm
     }
-    return min_pop;
+    return min_pop;                                                     // return new min value
 }

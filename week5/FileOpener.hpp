@@ -13,7 +13,7 @@ struct FileOpener{
 	/**
 	 * Load dorms / students from a text file into a linked list
 	 */
-	static List<string> dormLoader(string fileName){	
+	static List<string> dormLoader(string fileName) {	
 		List<string>output;													// linked list of strings to hold final split string outputs from file
 		fstream frF;														// new filestream obj	
 		string dormStr;														// string for each task in file

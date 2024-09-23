@@ -14,7 +14,7 @@ class List {
     private:
 
         size_t link_size = 0;                       // keep track of list size for various functions
-        Node<T>* head;                              // entry point to the linked list
+        Node<T>* head;
 
     public:
 
@@ -22,7 +22,7 @@ class List {
          * No argument constructor
          */
         List(){
-            head = new Node<T>();                    // entry point to the linked list
+            head = new Node<T>;                // entry point to the linked list
         };
         
         /**
@@ -36,13 +36,15 @@ class List {
             }
         };
 
-        ~List(){                                    // not sure this is correct
-            // Node<T>* cur_node = head->next;       
-            // while (cur_node->next != NULL){
-            //     Node<T>* tempNode = cur_node;
-            //     cur_node = cur_node->next;
-            //     delete tempNode;
-            // }    
+        ~List(){      
+            cout << "deconstructor called for linked list of " << link_size <<  " items" << endl;                              // not sure this is correct
+            Node<T>* cur_node = head;
+            while (cur_node->next != NULL){
+                Node<T>* next = cur_node->next;
+                cur_node = nullptr;
+                delete cur_node;
+                cur_node = next;
+            }
         };	
 
         /**
@@ -109,6 +111,7 @@ class List {
                 T item = og_head->data;
                 head = head->next;                  // node that was just after the head now becomes the head
                 link_size -- ;                      // decrease size of linked list
+                og_head = nullptr;
                 delete og_head;                     // delete the original head pointer
                 return item;                        // nuffin else to do
             }                                       
@@ -130,6 +133,7 @@ class List {
             prev_node->next = cur_node->next;        
             link_size -- ;                           // decrease link size
             T item = cur_node->data;                 // get the diesired item
+            cur_node = nullptr;
             delete cur_node;                         // remove dangling pointer
             return item;                             // return item
         }

@@ -1,25 +1,24 @@
-Ravenclaw: 22
+Ravenclaw: 21
 ----------------
-4 - Bertram
-6 - Malcolm
-11 - Susan
-13 - Eleanor
-20 - Owen
-21 - Cho
-28 - Emma
-32 - Fawcett
-34 - Seamus
-40 - Gellert
+1 - Hannah
+7 - Marcus
+9 - Sirius
+16 - Millicent
+17 - Bundy
+22 - Michael
+27 - Cedric
+29 - Dorny
+33 - Justin
+39 - Daphne
 41 - Davy
-45 - Angelina
-51 - Remus
-56 - Draco
-59 - Moon
+47 - Lee
+50 - Luna
+55 - Laura
+58 - Eloise
 62 - Padma
-66 - James
-69 - Tom
-74 - Summers
+68 - Orla
+71 - Zacharias
+75 - Dean
 79 - Ginevra
-83 - Blaise
-86 - Leanne
+81 - Wilkes
 

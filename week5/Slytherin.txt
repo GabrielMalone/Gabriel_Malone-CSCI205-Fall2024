@@ -1,25 +1,25 @@
 Slytherin: 22
 ----------------
-3 - Stewart
+2 - Euan
 8 - Katie
-9 - Sirius
-16 - Millicent
+11 - Susan
+13 - Eleanor
 18 - Capper
-23 - Vincent
-26 - Roger
-31 - Marietta
-35 - Victoria
-38 - Hermione
+24 - Colin
+28 - Emma
+32 - Fawcett
+34 - Seamus
+37 - Gregory
 42 - Rubeus
-48 - Bertha
-49 - Neville
+46 - Gwenog
+51 - Remus
 54 - Ernie
 57 - Natalie
 61 - Pansy
-67 - Graham
-72 - Stebbins
-75 - Dean
-78 - Romilda
+66 - James
+70 - Evan
+73 - Patricia
+80 - Kevin
 84 - Rose
-85 - Derek
+87 - Moaning
 

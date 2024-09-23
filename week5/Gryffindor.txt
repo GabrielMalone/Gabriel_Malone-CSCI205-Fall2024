@@ -1,24 +1,25 @@
-Gryffindor: 21
+Gryffindor: 22
 ----------------
-1 - Hannah
+4 - Bertram
 5 - Avery
-12 - Terry
+10 - Melinda
 14 - Mandy
 19 - Eddie
-22 - Michael
-25 - Dennis
+21 - Cho
+26 - Roger
 30 - Dunstan
 36 - Anthony
-37 - Gregory
-44 - Olive
-46 - Gwenog
-50 - Luna
-53 - Morag
-58 - Eloise
-64 - Sally-Anne
-68 - Orla
-70 - Evan
-73 - Patricia
-80 - Kevin
-81 - Wilkes
+40 - Gellert
+43 - Geoffrey
+45 - Angelina
+52 - Mary
+56 - Draco
+59 - Moon
+63 - Parvati
+67 - Graham
+72 - Stebbins
+74 - Summers
+78 - Romilda
+82 - Oliver
+85 - Derek
 

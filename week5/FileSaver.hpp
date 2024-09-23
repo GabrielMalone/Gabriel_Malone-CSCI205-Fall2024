@@ -12,7 +12,7 @@ using namespace std;
 /**
  *  show the results of the dorm assignments for all dorms in terminal and via .txt files
  */
-void saveDormLists(List<Dorm<Student> > allDormObj){
+void saveDormLists(List<Dorm<Student> > allDormObj)  {
     Node<Dorm<Student> >* dormObjs = allDormObj.get_head();             // iterate through linked list ^
     while (dormObjs->next != NULL){
         ofstream outFile(dormObjs->data.getDormName() + ".txt");
@@ -33,7 +33,7 @@ void saveDormLists(List<Dorm<Student> > allDormObj){
 /**
  *  show the results of the dorm assignments for all dorms in terminal and via .txt files
  */
-void printDormLists(List<Dorm<Student> > allDormObj){
+void printDormLists(List<Dorm<Student> > allDormObj)  {
     Node<Dorm<Student> >* dormObjs = allDormObj.get_head();             // iterate through linked list ^
     while (dormObjs->next != NULL){
         cout << dormObjs->data.getDormName() << ": " << dormObjs->data.getNumberOfStudents() << "\n";
