@@ -5,15 +5,21 @@
 
 #include <iostream>
 #include <string>
-#include "Node.hpp"
+//#include "Node.hpp"
 
 using namespace std;
+
+template <class T>
+struct Node {
+    T data;
+    Node<T>* next;
+};
 
 template <class T>
 class List {
     private:
 
-        size_t link_size = 0;                       // keep track of list size for various functions
+        size_t link_size = 0;                  // keep track of list size for various functions
         Node<T>* head;
 
     public:
@@ -22,7 +28,7 @@ class List {
          * No argument constructor
          */
         List(){
-            head = new Node<T>;                // entry point to the linked list
+            head = NULL;                // entry point to the linked list
         };
         
         /**
@@ -39,7 +45,7 @@ class List {
         ~List(){      
             cout << "deconstructor called for linked list of " << link_size <<  " items" << endl;                              // not sure this is correct
             Node<T>* cur_node = head;
-            while (cur_node->next != NULL){
+            while (cur_node != NULL){
                 Node<T>* next = cur_node->next;
                 cur_node = nullptr;
                 delete cur_node;
@@ -72,6 +78,12 @@ class List {
          *  Insert a item at a specific location
          */
         void insert(T item, size_t pos){
+            if (pos == 0 && head == NULL){
+                head = new Node<T>();
+                head->data = item;
+                link_size ++;
+                return;       
+                }                                   // return, else not needed
             if (pos == 0){
                 Node<T>* newNode = new Node<T>();   // if inserting at position 0 (the head),
                 newNode->data = item;
@@ -79,15 +91,15 @@ class List {
                 head = newNode;                     // head is now the new node
                 link_size ++ ;                      // increase size of linked list
                 return;                             // nuffin else to do
-            }                                       
-                                                    
+            }  
+                                             
             if (pos > link_size){                   // if inserting after the head, need to see if the position falls within how many items are present (size of linked lis)
                 throw std::invalid_argument("position out of bounds"); 
             }                                       
             size_t counter = 1;                     // start at one since skipping the head
             Node<T>* prev_node = head; 
             Node<T>* cur_node = head->next;         // get the node previous to where new node will be inserted via position / start at the node right after the head
-            while (cur_node->next != NULL){         // while the current node's position != the end of the list  
+            while (cur_node != NULL){               // while the current node's position != the end of the list  
                if (counter == pos ){                // if counter reaches the desired position
                     break;                          // break loop as you've reached your destination
                 }      
@@ -122,7 +134,7 @@ class List {
             size_t counter = 1;                     // start at one since skipping the head
             Node<T>* prev_node = head; 
             Node<T>* cur_node = head->next;         // get the node previous to where new node will be inserted via position / start at the node right after the head
-            while (cur_node->next != NULL){         // while the current node's position != the end of the list  
+            while (cur_node != NULL){         // while the current node's position != the end of the list  
                if (counter == pos ){                // if counter reaches the desired position
                     break;                          // break loop as you've reached your destination
                 }      
@@ -147,7 +159,7 @@ class List {
             }
             size_t counter = 0;                     // count until reach desired position
             Node<T>* cur_node = head;               
-            while (cur_node->next != NULL){         // traverse the list and count each time reach a new node
+            while (cur_node != NULL){         // traverse the list and count each time reach a new node
                 if (counter == pos){                // break look when you've arrived
                     break;
                 }
@@ -164,7 +176,7 @@ class List {
         int find (T item){
             int index = 0;
             Node<T>* cur_node = head;               
-            while (cur_node->next != NULL){         // traverse the list and count each time a new node is reached
+            while (cur_node != NULL){         // traverse the list and count each time a new node is reached
                 if (item == cur_node->data){        // if node's data matches
                     return index;                   // break and return index
                 }
@@ -203,7 +215,7 @@ class List {
                                                     // now reverse loop through the array and set that data for the linked list
             Node<T>* cur_node_B = head;               
             size_t index_B = link_size -1;          // reverse index for array
-            while (cur_node_B->next != NULL){       // traverse the linked list
+            while (cur_node_B != NULL){       // traverse the linked list
                 cur_node_B->data = temp[index_B];   // replace linked list data as you go
                 cur_node_B = cur_node_B->next;      // move to next node
                 index_B -- ;                        // decrement index

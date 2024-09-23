@@ -14,13 +14,13 @@ using namespace std;
  */
 void saveDormLists(List<Dorm<Student> > allDormObj)  {
     Node<Dorm<Student> >* dormObjs = allDormObj.get_head();             // iterate through linked list ^
-    while (dormObjs->next != NULL){
+    while (dormObjs != NULL){
         ofstream outFile(dormObjs->data.getDormName() + ".txt");
         if (outFile.is_open()){
                 outFile << dormObjs->data.getDormName() << ": " << dormObjs->data.getNumberOfStudents() << "\n";
                 outFile << "----------------\n";
                 Node<Student>* s_node = dormObjs->data.getStudents().get_head();
-                while (s_node->next != NULL){
+                while (s_node != NULL){
                     outFile << s_node->data.getID() << " - " << s_node->data.getName() << "\n";
                     s_node = s_node->next;
                 }
@@ -35,7 +35,7 @@ void saveDormLists(List<Dorm<Student> > allDormObj)  {
  */
 void printDormLists(List<Dorm<Student> > allDormObj)  {
     Node<Dorm<Student> >* dormObjs = allDormObj.get_head();             // iterate through linked list ^
-    while (dormObjs->next != NULL){
+    while (dormObjs != NULL){
         cout << dormObjs->data.getDormName() << ": " << dormObjs->data.getNumberOfStudents() << "\n";
         cout << "----------------\n";
         dormObjs->data.showStudents();

@@ -31,16 +31,16 @@ class Dorm{
             this->dorm_name = dorm_name;
         }
 
-        ~Dorm(){
-            cout << "deconstructor called for DORM list of " << students.length() <<  " items" << endl;                              // not sure this is correct
-            Node<Student>* cur_node = students.get_head();
-            while (cur_node->next != NULL){
-                Node<Student>* next = cur_node->next;
-                cur_node = nullptr;
-                delete cur_node;
-                cur_node = next;
-            }
-        }
+        // ~Dorm(){
+        //     cout << "deconstructor called for DORM list of " << students.length() <<  " items" << endl;                              // not sure this is correct
+        //     Node<Student>* cur_node = students.get_head();
+        //     while (cur_node->next != NULL){
+        //         Node<Student>* next = cur_node->next;
+        //         cur_node = nullptr;
+        //         delete cur_node;
+        //         cur_node = next;
+        //     }
+        // }
 
         /**
          *  return the linked list of students associated with this dorm

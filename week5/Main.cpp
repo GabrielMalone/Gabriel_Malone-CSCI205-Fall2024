@@ -11,7 +11,6 @@
 
 using namespace std;
 
-
 List<Dorm<Student> > allDormObj;                                        // List to hold all of the dorm objects
 
 size_t minPopFinder();                                                  // helper function
@@ -25,16 +24,16 @@ int main(){
     //--------------------------------------------------------------------------------------------------------------------------
     // LOAD DORM DATA -- INTO TEXT LIST THEN DORM OBJECT LIST
     //--------------------------------------------------------------------------------------------------------------------------
-    allDormStr = FileOpener::dormLoader("dormFile.txt");                // load all dorms from text file into dormstring list
+    FileOpener::dormLoader("dormFile.txt", allDormStr);                // load all dorms from text file into dormstring list
     Node<string>* dorm_head = allDormStr.get_head();                    // iterate through linked list ^
-    while (dorm_head->next != NULL){
+    while (dorm_head != NULL){
         allDormObj.insert(Dorm<Student>(dorm_head->data), 0);           // create dorm object with dormname parameter (head->data) and insert into dorm linked list
         dorm_head = dorm_head->next;                                    // continue iterating
     }
     //--------------------------------------------------------------------------------------------------------------------------
     // LOAD STUDENT DATA -- INTO TEXT LIST THEN STUDENT OBJECT LIST
     //--------------------------------------------------------------------------------------------------------------------------    
-    allStudentStr = FileOpener::dormLoader("studentFile.txt");          // load all students from text file
+    FileOpener::dormLoader("studentFile.txt", allStudentStr);          // load all students from text file
     Node<string>* student_head = allStudentStr.get_head();              // iterate through linked list ^
     while (student_head->next != NULL){                                 // loop until tail of linked list (will always be a list of 2 items)
         List<string>tokens;	                                            // linked list to hold the split string data
@@ -87,7 +86,7 @@ int main(){
 size_t minPopFinder() {
     size_t min_pop;                                                     // min pop variable initialize
     Node<Dorm<Student> >* dormObjs = allDormObj.get_head();             // get head to traverse dorm list
-    while (dormObjs->next != NULL){                                     
+    while (dormObjs != NULL){                                     
         size_t dorm_pop = dormObjs->data.getNumberOfStudents();         // get population of current dorm
         if (dorm_pop <= min_pop){                                       // if current dorm's pop less than min
             min_pop = dorm_pop;                                         // set new min
