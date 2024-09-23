@@ -21,6 +21,9 @@ int main(){
     List<string> allStudentStr;                                         // List to hold all the students loaded from the students text file
     List<string> allDormStr;                                            // List to hold names of the dorms loaded from the dorms text file
     List<Student> allStudentObj;                                        // List to hold all the student objects
+    
+    //allStudentStr.insert(1, 0);
+    
     //--------------------------------------------------------------------------------------------------------------------------
     // LOAD DORM DATA -- INTO TEXT LIST THEN DORM OBJECT LIST
     //--------------------------------------------------------------------------------------------------------------------------
@@ -35,7 +38,7 @@ int main(){
     //--------------------------------------------------------------------------------------------------------------------------    
     FileOpener::dormLoader("studentFile.txt", allStudentStr);          // load all students from text file
     Node<string>* student_head = allStudentStr.get_head();              // iterate through linked list ^
-    while (student_head->next != NULL){                                 // loop until tail of linked list (will always be a list of 2 items)
+    while (student_head != NULL){                                 // loop until tail of linked list (will always be a list of 2 items)
         List<string>tokens;	                                            // linked list to hold the split string data
         string studentStr = student_head->data;						    // hold the current split line's tokens
         while (studentStr.find(" ") != std::string::npos)               // loop until end of string
@@ -47,7 +50,8 @@ int main(){
         }
         int studentID = stoi(tokens.get(1));                            // get the data from the list
         string studentName = tokens.get(0);                             // get the data from the list
-        allStudentObj.insert(Student(studentID, studentName),0);        // create student object and insert into student linked list
+        Student s(studentID, studentName);
+        allStudentObj.insert(s,0);                                      // create student object and insert into student linked list
         student_head = student_head->next;                              // continue iterating
     }
     //--------------------------------------------------------------------------------------------------------------------------
@@ -57,17 +61,19 @@ int main(){
      random_device rd;                                                  // random number generator for random dorm assignment
      mt19937 gen(rd());                                        
      uniform_int_distribution<> dist(0, num_of_dorms - 1);              // range from 0 index to num of dorms - 1 for 0 index
-     size_t min_pop = minPopFinder();                                   // get current minimum pop (will start at 0)
-     while (allStudentObj.length() > 0){                                // loop until all students assigned                    
+     size_t min_pop = minPopFinder(); 
+     Node<Student>* s = allStudentObj.get_head();                       // get current minimum pop (will start at 0)
+     while (s != NULL){                                                 // loop until all students assigned                    
         int random_index = dist(gen);                                   // check dorm pops at random
         Dorm<Student>& d = allDormObj.get(random_index);                // check dorm pops at random
         if (d.getNumberOfStudents() == min_pop){                        // if dorm pop matches min pop, good to go
             cout << d.getDormName() << " accepts:" << "\n";             // show that this is working
-            Student s = allStudentObj.remove(0);                        // get the next student in line
-            cout << s.getID() << " ";                                   // confirm working
-            cout << s.getName() << "\n";                                // confirm working
+                                                                        // get the next student in line
+            cout << s->data.getID() << " ";                             // confirm working
+            cout << s->data.getName() << "\n";                          // confirm working
             cout << endl;       
-            d.addStudent(s);                                            // add the student to the dorm
+            d.addStudent(s->data);
+            s = s->next;                                                // add the student to the dorm
             min_pop = minPopFinder();                                   // set new min pop
         } 
      }                                      
@@ -84,7 +90,7 @@ int main(){
  *  helper function to determine the dorm with the current lowest pop
  */
 size_t minPopFinder() {
-    size_t min_pop;                                                     // min pop variable initialize
+    size_t min_pop= 9999;                                                     // min pop variable initialize
     Node<Dorm<Student> >* dormObjs = allDormObj.get_head();             // get head to traverse dorm list
     while (dormObjs != NULL){                                     
         size_t dorm_pop = dormObjs->data.getNumberOfStudents();         // get population of current dorm

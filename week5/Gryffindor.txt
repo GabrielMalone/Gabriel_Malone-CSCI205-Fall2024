@@ -1,0 +1,24 @@
+Gryffindor: 21
+----------------
+2 - Euan
+7 - Marcus
+9 - Sirius
+14 - Mandy
+17 - Bundy
+23 - Vincent
+26 - Roger
+31 - Marietta
+33 - Justin
+39 - Daphne
+42 - Rubeus
+48 - Bertha
+50 - Luna
+54 - Ernie
+60 - Theodore
+61 - Pansy
+68 - Orla
+70 - Evan
+73 - Patricia
+77 - Lisa
+83 - Blaise
+

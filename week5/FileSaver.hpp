@@ -12,7 +12,7 @@ using namespace std;
 /**
  *  show the results of the dorm assignments for all dorms in terminal and via .txt files
  */
-void saveDormLists(List<Dorm<Student> > allDormObj)  {
+void saveDormLists(List<Dorm<Student> > & allDormObj)  {
     Node<Dorm<Student> >* dormObjs = allDormObj.get_head();             // iterate through linked list ^
     while (dormObjs != NULL){
         ofstream outFile(dormObjs->data.getDormName() + ".txt");
@@ -21,7 +21,12 @@ void saveDormLists(List<Dorm<Student> > allDormObj)  {
                 outFile << "----------------\n";
                 Node<Student>* s_node = dormObjs->data.getStudents().get_head();
                 while (s_node != NULL){
-                    outFile << s_node->data.getID() << " - " << s_node->data.getName() << "\n";
+                    int studentID = s_node->data.getID();
+                    string studentName = s_node->data.getName();
+                    outFile << studentID;
+                    outFile << " - ";
+                    outFile << studentName;
+                    outFile << "\n";
                     s_node = s_node->next;
                 }
                 dormObjs = dormObjs->next;                             
@@ -33,7 +38,7 @@ void saveDormLists(List<Dorm<Student> > allDormObj)  {
 /**
  *  show the results of the dorm assignments for all dorms in terminal and via .txt files
  */
-void printDormLists(List<Dorm<Student> > allDormObj)  {
+void printDormLists(List<Dorm<Student> >& allDormObj)  {
     Node<Dorm<Student> >* dormObjs = allDormObj.get_head();             // iterate through linked list ^
     while (dormObjs != NULL){
         cout << dormObjs->data.getDormName() << ": " << dormObjs->data.getNumberOfStudents() << "\n";

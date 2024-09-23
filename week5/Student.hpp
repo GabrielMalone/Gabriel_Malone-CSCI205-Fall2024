@@ -12,7 +12,9 @@ class Student{
 	public:
 
 		Student(){
-			
+			id = 0;
+			name = "";
+			dorm = "";
 		}
 
 		Student(int id, std::string name){

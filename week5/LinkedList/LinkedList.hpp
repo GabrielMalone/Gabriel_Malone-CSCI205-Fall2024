@@ -42,12 +42,11 @@ class List {
             }
         };
 
-        ~List(){      
+        ~List(){   
             cout << "deconstructor called for linked list of " << link_size <<  " items" << endl;                              // not sure this is correct
             Node<T>* cur_node = head;
             while (cur_node != NULL){
                 Node<T>* next = cur_node->next;
-                cur_node = nullptr;
                 delete cur_node;
                 cur_node = next;
             }
