@@ -77,7 +77,7 @@ int main(){
                                                                         // case is O(n) back of list. 
 
     cout << endl;
-    cout << "result of 'get(5)' from array list: " << a_item << "\n";      // confirm results
+    cout << "result of 'get(5)' from array list: " << a_item << "\n";   // confirm results
     cout << "result of 'get(5)' from linked list: " << l_item << "\n";     
 
     //--------------------------------------------------------------------------------------------------------------------------
@@ -92,7 +92,7 @@ int main(){
                                                                         // the item is at back of list O(n) or not found.
 
     cout << endl;
-    cout << "array list item '45' found at index: " << indexA << "\n";       // confirm results
+    cout << "array list item '45' found at index: " << indexA << "\n";  // confirm results
     cout << "linked list item '45  found at index: " << indexB << "\n";
 
 
@@ -152,7 +152,17 @@ int main(){
     //--------------------------------------------------------------------------------------------------------------------------
     // REMOVE DUPLICATES -- ARRAY VS LIST  -- need to fix and implement for both
     //--------------------------------------------------------------------------------------------------------------------------
+                                                                        // theoretically, append should be time complexity of 
+                                                                        // constant for linked lists, just need to point the
+                                                                        // current list tail at the head of the list being
+                                                                        // appended. My original function did this but had memory
+                                                                        // issues in linux. so I traversed the list being appended
+                                                                        // with insert and that fixed the memory issue. 
 
+                                                                        // array list must be linear time for appending, since you need
+                                                                        // to both iterate through the new list being appended, but also
+                                                                        // need to iterate to resize. so both memory and time intensive.
+                                                                        
     arrayList.insert(1, 4);                                             // create some duplictes in the array list
     arrayList.insert(1, 5);
     arrayList.insert(1, 6);
