@@ -1,0 +1,24 @@
+Gryffindor: 21
+----------------
+1 - Hannah
+8 - Katie
+12 - Terry
+14 - Mandy
+17 - Bundy
+21 - Cho
+28 - Emma
+32 - Fawcett
+35 - Victoria
+37 - Gregory
+43 - Geoffrey
+48 - Bertha
+49 - Neville
+54 - Ernie
+57 - Natalie
+64 - Sally-Anne
+67 - Graham
+72 - Stebbins
+73 - Patricia
+77 - Lisa
+84 - Rose
+

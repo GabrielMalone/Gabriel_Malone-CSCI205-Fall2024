@@ -1,0 +1,25 @@
+Hufflepuff: 22
+----------------
+4 - Bertram
+6 - Malcolm
+9 - Sirius
+15 - Lavender
+18 - Capper
+23 - Vincent
+26 - Roger
+29 - Dorny
+33 - Justin
+38 - Hermione
+42 - Rubeus
+45 - Angelina
+51 - Remus
+56 - Draco
+59 - Moon
+61 - Pansy
+66 - James
+69 - Tom
+75 - Dean
+78 - Romilda
+81 - Wilkes
+86 - Leanne
+

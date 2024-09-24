@@ -14,7 +14,7 @@ using namespace std;
 /**
  * List class
  */
-template <class T> class List{
+template <class T> class A_List{
 	private:													//Private member variables to manage insertion and removal points		
 		size_t size = 0;		            					// number of items in the List
 		size_t capacity = 100;	            					// size of the array (Default = 100)
@@ -36,6 +36,7 @@ template <class T> class List{
 			{
 				dbl_array_temp[i] = array[i];					// zero out the head position for the new array
 			}
+			delete[] array;										// delete old array on resize
 			array = dbl_array_temp;								// set array pointer to the new, bigger temp array
 		}
 
@@ -67,7 +68,7 @@ template <class T> class List{
 		/**
 		 * Default constructor. Creates list with a capacity of 10
 		 */
-		List(){
+		A_List(){
 			capacity= 10;
 			array	= new T[capacity]; 							// create dynamic memory for array of template type T
 		}					
@@ -75,7 +76,7 @@ template <class T> class List{
 		/**
 		 * Constructs a List with given capacity (size of underlying array)
 		 */
-		List(size_t cap){
+		A_List(size_t cap){
 			capacity = cap;
 			array = new T[cap];
 		}
@@ -83,7 +84,7 @@ template <class T> class List{
 		/**
 		 * Constructs a List with given array of items and size
 		 */
-		List(T* arr, size_t o_size){
+		A_List(T* arr, size_t o_size){
 			if (arr == nullptr)									// ensure the array is not null. Throw an invalid argument exception if it is
 			{
 				throw std::invalid_argument("array is null");
@@ -101,7 +102,7 @@ template <class T> class List{
 		/**
 		 * Free dynamic memory allocated for the List
 		 */
-		~List(){
+		~A_List(){
 			delete[] array;
 		}
 
@@ -184,21 +185,7 @@ template <class T> class List{
 			shiftItemsUp(pos);          						// move everything over to make room if needed
 			array[pos] = item;          						// insert item
 		}
-
-		/**
-		 *  remove a specific item from the array. removes first instance of that item
-		 */
-		T remove(T item){										// find the item first and return that position		
-			int pos = find(item);								// if found then shift						
-			if (pos > -1){             							// if a valid position request
-				T item = array[pos];    						// get item
-				shiftItemsDown(pos);   							// need to resize array
-				size -- ;               						// reduce size of array
-				return item;            						// retun the removed item
-			}
-			throw std::invalid_argument("item not in array");
-		}
-		
+	
 		/**
 		 * remove an item via its position in the array 
 		 */
@@ -248,13 +235,14 @@ template <class T> class List{
 				temp[index] = array[i-1];                        // place items from back of current array into front of temp
 				index ++;                                        // increment temp index
 			}
+			delete[] array;
 			array = temp;                                        // set old array pointer equal to the temp 
 		}
 
 		/**
 		 * appends another list to this list
 		 */
-		void append(List &list){								// resize until enough space availabe for the append							
+		void append(A_List &list){								// resize until enough space availabe for the append							
 			while (this->size + list.length() >= this->capacity){
 				resize();
 			}													// starting position for appending to current array (at the back) 
