@@ -205,7 +205,7 @@ template <class T> class A_List{
 		void removeDuplicates(){
 		   size_t index = 0;									// starting index (at front of array)	
 		   T current_obejct = array[index];						// get the first object from the array
-		   while (index != size){								// run loop until index == the size of the array
+		   while (index < size-1){								// run loop until index == the size of the array
 				size_t copies = 0;								// track number of copies of the current item being checked
 				for (size_t i = index ; i < size - 1; i ++){	// loop through the array
 					if (current_obejct == array[i + 1]){		// if the iterated object == current object
@@ -229,11 +229,11 @@ template <class T> class A_List{
 		 * reverse items in a list
 		 */
 		void reverse(){											// my non memory intensive version of reversal
-			size_t indexA = 0;
-			size_t indexB = size -1;
-			while (indexA < indexB){
-				T tempA = array[indexA];
-				T tempB = array[indexB];						
+			size_t indexA = 0;									// front index
+			size_t indexB = size -1;							// back index
+			while (indexA < indexB){							// loop until both ends meet
+				T tempA = array[indexA];						// temp item from front of array
+				T tempB = array[indexB];						// temp item from back of array
 				array[indexA] = tempB; 							// front gets back item
 				array[indexB] = tempA; 							// back gets front item
 				indexA ++ ;										// converge towards middle

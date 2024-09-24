@@ -232,6 +232,29 @@ class List {
         }
 
         /**
+         * remove duplicated items from the list
+         */
+        void removeDuplicates(){
+            Node<T>* n = head;
+            Node<T>* next = head->next;
+            size_t counter = 0;
+            while (n != NULL ){
+                while (next != NULL){
+                    if (n->data == next->data){
+                        counter ++;
+                    }
+                    next = next->next;
+                }
+                for (size_t i = 1 ; i < counter ; i ++){
+                    remove(find(n->data));
+                }
+                next = head;
+                n = n->next;
+                counter = 0;
+            }
+        }
+
+        /**
 		 *  print list contents
 		 */
 		void print(){

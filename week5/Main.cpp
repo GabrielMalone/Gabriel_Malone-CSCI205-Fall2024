@@ -3,12 +3,11 @@
 #include <iostream>
 #include <string>
 #include <random>
-#include "LinkedList/LinkedList.hpp"
-#include "ArrayList/ArrayList.hpp"
-#include "FileOpener.hpp"
-#include "Student.hpp"
-#include "Dorm.hpp"
-#include "FileSaver.hpp"
+#include "List/ArrayList.hpp"
+#include "backend/FileOpener.hpp"
+#include "backend/Student.hpp"
+#include "backend/Dorm.hpp"
+#include "backend/FileSaver.hpp"
 
 using namespace std;
 
@@ -113,7 +112,11 @@ int main(){
 
     cout << endl;
     cout << "array list item removed at index 5: " << itemA << "\n";    // confirm results
+    cout << "array list after removal: ";
+    arrayList.print();
     cout << "linked list item found at index 5: "  << itemB << "\n";
+    cout << "linked list after remvoal: ";
+    linkedList.print();
 
     //--------------------------------------------------------------------------------------------------------------------------
     // COUNT -- ARRAY VS LIST 
@@ -148,7 +151,6 @@ int main(){
     linkedList.reverse();                                               // reverse
     linkedList.print();                                                 // confirm results
 
-
     //--------------------------------------------------------------------------------------------------------------------------
     // REMOVE DUPLICATES -- ARRAY VS LIST  -- need to fix and implement for both
     //--------------------------------------------------------------------------------------------------------------------------
@@ -162,20 +164,40 @@ int main(){
                                                                         // array list must be linear time for appending, since you need
                                                                         // to both iterate through the new list being appended, but also
                                                                         // need to iterate to resize. so both memory and time intensive.
-                                                                        
-    arrayList.insert(1, 4);                                             // create some duplictes in the array list
+    cout << endl;
+
+    arrayList.insert(1, 0);                                             // create some duplictes in the array list
     arrayList.insert(1, 5);
     arrayList.insert(1, 6);
     arrayList.insert(1, 7);
+    arrayList.insert(1, 0);                                             // create some duplictes in the array list
+    arrayList.insert(2, 5);
+    arrayList.insert(1, 6);
+    arrayList.insert(2, 0);
+    arrayList.insert(2, 1);
+    arrayList.insert(1, 2);
+    arrayList.insert(2, 3);
     cout << "duplicates added: ";
     arrayList.print();                                                  // confirm duplicates
+    //arrayList.removeDuplicates();
     
-    linkedList.insert(1, 0);                                            // create some duplictes in the linked list
+    linkedList.insert(5, 0);                                             // create some duplictes in the array list
     linkedList.insert(1, 5);
-    linkedList.insert(1, 6);
+    linkedList.insert(4, 6);
     linkedList.insert(1, 7);
+    linkedList.insert(3, 0);                                             // create some duplictes in the array list
+    linkedList.insert(2, 5);
+    linkedList.insert(1, 6);
+    linkedList.insert(2, 0);
+    linkedList.insert(2, 1);
+    linkedList.insert(1, 2);
+    linkedList.insert(2, 3);
+    linkedList.insert(9, 3);
     cout << "duplicates added: ";
     linkedList.print();                                                 // confirm duplicates
+    cout << "duplicates removed: ";
+    linkedList.removeDuplicates();                                      // confirm no duplicates
+    linkedList.print();
 
     //--------------------------------------------------------------------------------------------------------------------------
     // APPEND -- ARRAY VS LIST 
@@ -205,9 +227,6 @@ int main(){
     cout << "array list after append: \n";    
     arrayList.print();
 
-
-    
-
     //--------------------------------------------------------------------------------------------------------------------------
     // DORM PORTION OF LAB INITIALIZE LOCAL LISTS
     //--------------------------------------------------------------------------------------------------------------------------
@@ -221,7 +240,7 @@ int main(){
     //--------------------------------------------------------------------------------------------------------------------------
     // LOAD DORM DATA -- INTO TEXT LIST THEN DORM OBJECT LIST
     //--------------------------------------------------------------------------------------------------------------------------
-    FileOpener::dormLoader("dormFile.txt", allDormStr);                 // load all dorms from text file into dormstring list
+    FileOpener::dormLoader("text_source/dormFile.txt", allDormStr);                 // load all dorms from text file into dormstring list
     Node<string>* dorm_head = allDormStr.get_head();                    // iterate through linked list ^
     while (dorm_head != NULL){
         allDormObj.insert(Dorm<Student>(dorm_head->data), 0);           // create dorm object with dormname parameter (head->data) and insert into dorm linked list
@@ -230,7 +249,7 @@ int main(){
     //--------------------------------------------------------------------------------------------------------------------------
     // LOAD STUDENT DATA -- INTO TEXT LIST THEN STUDENT OBJECT LIST
     //--------------------------------------------------------------------------------------------------------------------------    
-    FileOpener::dormLoader("studentFile.txt", allStudentStr);           // load all students from text file
+    FileOpener::dormLoader("text_source/studentFile.txt", allStudentStr);           // load all students from text file
     Node<string>* student_head = allStudentStr.get_head();              // iterate through linked list ^
     while (student_head != NULL){                                       // loop until tail of linked list (will always be a list of 2 items)
         List<string>tokens;	                                            // linked list to hold the split string data

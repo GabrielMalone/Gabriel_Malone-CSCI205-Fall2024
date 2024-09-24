@@ -1,0 +1,13 @@
+{
+    "configurations": [
+    
+  
+    {
+        "name": "(lldb) Attach",
+        "type": "cppdbg",
+        "request": "attach",
+        "program": "${workspaceFolder}./test",
+        "MIMode": "lldb"
+    }
+    ]
+}

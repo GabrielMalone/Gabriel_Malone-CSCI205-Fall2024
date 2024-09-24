@@ -3,7 +3,7 @@
 #ifndef H_DORM
 #define H_DORM
 
-#include "LinkedList/LinkedList.hpp"
+#include "../List/LinkedList.hpp"
 #include "Student.hpp"
 
 using namespace std;

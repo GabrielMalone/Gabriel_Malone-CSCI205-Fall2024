@@ -4,8 +4,7 @@
 
 #include <fstream>
 #include <string>
-#include "LinkedList/LinkedList.hpp"
-
+#include "../List/LinkedList.hpp"
 using namespace std;
 
 struct FileOpener{
