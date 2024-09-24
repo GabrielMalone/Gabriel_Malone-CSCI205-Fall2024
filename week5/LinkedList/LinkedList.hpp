@@ -201,10 +201,10 @@ class List {
          *  reverse the order of items in the list
          */
         void reverse(){
-            T* temp = new T[link_size];             // set up temp array
+            T* temp = new T[link_size];             // set up temp array , wait lol why did I do this. need to redo this logic. 
             Node<T>* cur_node_A = head;               
             size_t index_A = 0 ;                    // index for array ^
-            while (cur_node_A->next != NULL){       // traverse the linked list
+            while (cur_node_A != NULL){             // traverse the linked list
                 temp[index_A] = cur_node_A->data;   // add data to array as you go
                 cur_node_A = cur_node_A->next;      // move to next node
                 index_A ++ ;                        // increment index
@@ -216,27 +216,19 @@ class List {
                 cur_node_B->data = temp[index_B];   // replace linked list data as you go
                 cur_node_B = cur_node_B->next;      // move to next node
                 index_B -- ;                        // decrement index
-            }           
+            }
+            delete[] temp;           
         }
 
         /**
          *  appends another list to this list
          */
-        void append(List &list){
-            // dont need to resize linked list
-            // just start inserting at end of this list
-            // find the end of this list
-            Node<T>* cur_node = this->head;
-            size_t counter = 0;               
-            while (counter < link_size -1){         // traverse the list until last node
-                cur_node = cur_node->next;
-                counter ++ ;
+        void append(List &list){                    // originally had this function just p9ointing at another list, but this caused memory issues in linux
+            Node<T>* n = list.get_head();
+            while (n != NULL){
+                this->insert(n->data, link_size);
+                n = n->next;
             }
-            // join the linked lists (this-> list's end to that list's head)
-            // although this appendage would be broken if the list that was passed in went away
-            // could update this function to make new nodes from the passed in array and insert those. 
-            cur_node->next = list.get_head();
-            this->link_size += list.length();
         }
 
         /**

@@ -77,8 +77,8 @@ int main(){
                                                                         // case is O(n) back of list. 
 
     cout << endl;
-    cout << "result of 'get' from array list: " << a_item << "\n";      // confirm results
-    cout << "result of 'get' from linked list: " << l_item << "\n";     
+    cout << "result of 'get(5)' from array list: " << a_item << "\n";      // confirm results
+    cout << "result of 'get(5)' from linked list: " << l_item << "\n";     
 
     //--------------------------------------------------------------------------------------------------------------------------
     // FIND ITEM AT (POSITION) -- ARRAY VS LIST 
@@ -92,8 +92,8 @@ int main(){
                                                                         // the item is at back of list O(n) or not found.
 
     cout << endl;
-    cout << "array list item found at index: " << indexA << "\n";       // confirm results
-    cout << "linked list item found at index: " << indexB << "\n";
+    cout << "array list item '45' found at index: " << indexA << "\n";       // confirm results
+    cout << "linked list item '45  found at index: " << indexB << "\n";
 
 
     //--------------------------------------------------------------------------------------------------------------------------
@@ -106,14 +106,96 @@ int main(){
                                                                         // if items needs to be shifted, however, this will be a linear
                                                                         // O(n) operation to shift items down so that they remain contiguous. 
 
-    int itemB = linkedList.remove(5);                                    // remove and return item from linked list at the specified index
+    int itemB = linkedList.remove(5);                                   // remove and return item from linked list at the specified index
                                                                         // time complexity to find the item to remove is O(n) since 
                                                                         // list needs to be traversed. however, no shifting will need to take place
                                                                         // since pointers being used, non-contiguous memory allocation. 
 
     cout << endl;
-    cout << "array list item removed at index 5: " << itemA << "\n";   // confirm results
+    cout << "array list item removed at index 5: " << itemA << "\n";    // confirm results
     cout << "linked list item found at index 5: "  << itemB << "\n";
+
+    //--------------------------------------------------------------------------------------------------------------------------
+    // COUNT -- ARRAY VS LIST 
+    //--------------------------------------------------------------------------------------------------------------------------  
+                                                                        // both of these are O(1) constant since each class 
+                                                                        // keeps track of the size of the list in a variable
+    cout << endl;
+    cout << "array list has: " << arrayList.count() << " items\n";      // confirm results
+    cout << "linked list has: " << linkedList.count() << " items\n";    // confirm results
+
+    //--------------------------------------------------------------------------------------------------------------------------
+    // REVERSE -- ARRAY VS LIST 
+    //--------------------------------------------------------------------------------------------------------------------------
+                                                                        // reversal for array requires time complexity of O(n)
+                                                                        // since need to iterate through the entirety of the list
+                                                                        // to get each item for reversal    
+
+                                                                        // reversal for linked list also requires time complexity
+                                                                        // of O(n) linear since entirety of list will need to be
+                                                                        // traversed                           
+    cout << endl;
+    cout << "array list prior to reverse: \n"; 
+    arrayList.print();                                                  // show list prior to reversal
+    cout << "array list post reverse: \n"; 
+    arrayList.reverse();                                                // reverse
+    arrayList.print();                                                  // confirm results
+
+    cout << endl;
+    cout << "linked list prior to reverse: \n";     
+    linkedList.print();                                                 // show list prior to reversal
+    cout << "linked list post reverse: \n";  
+    linkedList.reverse();                                               // reverse
+    linkedList.print();                                                 // confirm results
+
+
+    //--------------------------------------------------------------------------------------------------------------------------
+    // REMOVE DUPLICATES -- ARRAY VS LIST  -- need to fix and implement for both
+    //--------------------------------------------------------------------------------------------------------------------------
+
+    arrayList.insert(1, 4);                                             // create some duplictes in the array list
+    arrayList.insert(1, 5);
+    arrayList.insert(1, 6);
+    arrayList.insert(1, 7);
+    cout << "duplicates added: ";
+    arrayList.print();                                                  // confirm duplicates
+    
+    linkedList.insert(1, 0);                                            // create some duplictes in the linked list
+    linkedList.insert(1, 5);
+    linkedList.insert(1, 6);
+    linkedList.insert(1, 7);
+    cout << "duplicates added: ";
+    linkedList.print();                                                 // confirm duplicates
+
+    //--------------------------------------------------------------------------------------------------------------------------
+    // APPEND -- ARRAY VS LIST 
+    //--------------------------------------------------------------------------------------------------------------------------
+
+    List<int>linkedList2;                                               // make a new list
+    A_List<int> arrayList2;                                             // instantiate ARRAY list
+
+    for (size_t i = 0 ; i < 10 ; i ++){                                 // fill each list with 10 values
+        arrayList2.insert(i, i);
+        linkedList2.insert(i,i);
+    }
+    cout << endl;
+    cout << "new linked list: \n";     
+    linkedList2.print();  
+    cout << "original linked list prior to append: \n";     
+    linkedList.print();
+    linkedList.append(linkedList2);
+    cout << "linked list after append: \n";    
+    linkedList.print();
+    cout << endl;
+    cout << "new array list: \n";     
+    arrayList2.print();  
+    cout << "original array list prior to append: \n";     
+    arrayList.print();
+    arrayList.append(arrayList2);
+    cout << "array list after append: \n";    
+    arrayList.print();
+
+
     
 
     //--------------------------------------------------------------------------------------------------------------------------

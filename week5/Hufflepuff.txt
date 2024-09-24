@@ -1,25 +1,25 @@
 Hufflepuff: 22
 ----------------
-4 - Bertram
+1 - Hannah
 6 - Malcolm
-9 - Sirius
-15 - Lavender
-18 - Capper
-23 - Vincent
-26 - Roger
+11 - Susan
+14 - Mandy
+17 - Bundy
+21 - Cho
+27 - Cedric
 29 - Dorny
-33 - Justin
-38 - Hermione
+35 - Victoria
+37 - Gregory
 42 - Rubeus
-45 - Angelina
-51 - Remus
+46 - Gwenog
+50 - Luna
 56 - Draco
 59 - Moon
-61 - Pansy
+62 - Padma
 66 - James
-69 - Tom
-75 - Dean
-78 - Romilda
+70 - Evan
+76 - Kenneth
+80 - Kevin
 81 - Wilkes
 86 - Leanne
 

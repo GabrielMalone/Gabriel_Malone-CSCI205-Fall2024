@@ -19,9 +19,9 @@ struct FileOpener{
 		string name;
 		frF.open(fileName, ios::in);										// open file write using file object					
 		if (frF.is_open()){													// check if file is open
-			while(getline(frF, dormStr)){
-				name = dormStr.substr(0, dormStr.length() - 1);
-				stringList.insert(name,0);  // remove the /r return escape
+			while(getline(frF, dormStr)){									// get the string from each line
+				name = dormStr.substr(0, dormStr.length() - 1);				
+				stringList.insert(name,0);  								// remove the /r return escape
 			}
 		}
 		frF.close();														// close

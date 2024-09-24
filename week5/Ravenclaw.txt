@@ -1,25 +1,24 @@
-Ravenclaw: 22
+Ravenclaw: 21
 ----------------
-2 - Euan
-5 - Avery
-11 - Susan
-16 - Millicent
+4 - Bertram
+7 - Marcus
+10 - Melinda
+15 - Lavender
 20 - Owen
 22 - Michael
-25 - Dennis
-31 - Marietta
-34 - Seamus
-40 - Gellert
+28 - Emma
+30 - Dunstan
+33 - Justin
+38 - Hermione
 41 - Davy
-46 - Gwenog
-50 - Luna
-53 - Morag
+45 - Angelina
+51 - Remus
+54 - Ernie
 58 - Eloise
-62 - Padma
-65 - Peter
-70 - Evan
-76 - Kenneth
-80 - Kevin
-83 - Blaise
-85 - Derek
+63 - Parvati
+67 - Graham
+72 - Stebbins
+75 - Dean
+78 - Romilda
+84 - Rose
 

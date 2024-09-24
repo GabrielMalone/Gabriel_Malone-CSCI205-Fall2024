@@ -228,15 +228,17 @@ template <class T> class A_List{
 		/**
 		 * reverse items in a list
 		 */
-		void reverse(){
-			T* temp = new T[size];                               // set up temp array
-			size_t index = 0;                                    // index for temp array to start at front
-			for (size_t i = size ; i > 0 ; i -- ){               // reverse iterate through current array
-				temp[index] = array[i-1];                        // place items from back of current array into front of temp
-				index ++;                                        // increment temp index
+		void reverse(){											// my non memory intensive version of reversal
+			size_t indexA = 0;
+			size_t indexB = size -1;
+			while (indexA < indexB){
+				T tempA = array[indexA];
+				T tempB = array[indexB];						
+				array[indexA] = tempB; 							// front gets back item
+				array[indexB] = tempA; 							// back gets front item
+				indexA ++ ;										// converge towards middle
+				indexB -- ;										// converge towards middle
 			}
-			delete[] array;
-			array = temp;                                        // set old array pointer equal to the temp 
 		}
 
 		/**
