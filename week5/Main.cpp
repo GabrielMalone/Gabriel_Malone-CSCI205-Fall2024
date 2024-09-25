@@ -170,7 +170,7 @@ int main(){
     arrayList.insert(1, 5);
     arrayList.insert(1, 6);
     arrayList.insert(1, 7);
-    arrayList.insert(1, 0);                                             // create some duplictes in the array list
+    arrayList.insert(1, 0);                                             
     arrayList.insert(2, 5);
     arrayList.insert(1, 6);
     arrayList.insert(2, 0);
@@ -178,14 +178,16 @@ int main(){
     arrayList.insert(1, 2);
     arrayList.insert(2, 3);
     cout << "duplicates added: ";
-    arrayList.print();                                                  // confirm duplicates
-    //arrayList.removeDuplicates();
+    arrayList.print();  
+    cout << "duplicates removed: ";                                     // confirm duplicates
+    arrayList.removeDuplicates();
+    arrayList.print();                                                  // confirm no duplicates
     
-    linkedList.insert(5, 0);                                             // create some duplictes in the array list
+    linkedList.insert(5, 0);                                            // create some duplictes in the array list
     linkedList.insert(1, 5);
     linkedList.insert(4, 6);
     linkedList.insert(1, 7);
-    linkedList.insert(3, 0);                                             // create some duplictes in the array list
+    linkedList.insert(3, 0);                                          
     linkedList.insert(2, 5);
     linkedList.insert(1, 6);
     linkedList.insert(2, 0);
@@ -236,11 +238,10 @@ int main(){
     List<Student> allStudentObj;                                        // List to hold all the student objects
     
     
-    
     //--------------------------------------------------------------------------------------------------------------------------
     // LOAD DORM DATA -- INTO TEXT LIST THEN DORM OBJECT LIST
     //--------------------------------------------------------------------------------------------------------------------------
-    FileOpener::dormLoader("text_source/dormFile.txt", allDormStr);                 // load all dorms from text file into dormstring list
+    FileOpener::dormLoader("text_source/dormFile.txt", allDormStr);     // load all dorms from text file into dormstring list
     Node<string>* dorm_head = allDormStr.get_head();                    // iterate through linked list ^
     while (dorm_head != NULL){
         allDormObj.insert(Dorm<Student>(dorm_head->data), 0);           // create dorm object with dormname parameter (head->data) and insert into dorm linked list
@@ -249,7 +250,7 @@ int main(){
     //--------------------------------------------------------------------------------------------------------------------------
     // LOAD STUDENT DATA -- INTO TEXT LIST THEN STUDENT OBJECT LIST
     //--------------------------------------------------------------------------------------------------------------------------    
-    FileOpener::dormLoader("text_source/studentFile.txt", allStudentStr);           // load all students from text file
+    FileOpener::dormLoader("text_source/studentFile.txt", allStudentStr); // load all students from text file
     Node<string>* student_head = allStudentStr.get_head();              // iterate through linked list ^
     while (student_head != NULL){                                       // loop until tail of linked list (will always be a list of 2 items)
         List<string>tokens;	                                            // linked list to hold the split string data
@@ -299,18 +300,18 @@ int main(){
     return 0;
 }
 
-/**
- *  helper function to determine the dorm with the current lowest pop
- */
-size_t minPopFinder() {
-    size_t min_pop = 9999;                                              // min pop variable initialize
-    Node<Dorm<Student> >* dormObjs = allDormObj.get_head();             // get head to traverse dorm list
-    while (dormObjs != NULL){                                     
-        size_t dorm_pop = dormObjs->data.getNumberOfStudents();         // get population of current dorm
-        if (dorm_pop <= min_pop){                                       // if current dorm's pop less than min
-            min_pop = dorm_pop;                                         // set new min
+    /**
+     *  helper function to determine the dorm with the current lowest pop
+     */
+    size_t minPopFinder() {
+        size_t min_pop = 9999;                                         // min pop variable initialize
+        Node<Dorm<Student> >* dormObjs = allDormObj.get_head();        // get head to traverse dorm list
+        while (dormObjs != NULL){                                     
+            size_t dorm_pop = dormObjs->data.getNumberOfStudents();    // get population of current dorm
+            if (dorm_pop <= min_pop){                                  // if current dorm's pop less than min
+                min_pop = dorm_pop;                                    // set new min
+            }
+            dormObjs = dormObjs->next;                                 // move to next dorm
         }
-        dormObjs = dormObjs->next;                                      // move to next dorm
+        return min_pop;                                                // return new min value
     }
-    return min_pop;                                                     // return new min value
-}

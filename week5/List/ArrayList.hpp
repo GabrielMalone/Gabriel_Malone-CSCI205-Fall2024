@@ -203,27 +203,40 @@ template <class T> class A_List{
 		 * remove duplicates from the list
 		 */
 		void removeDuplicates(){
-		   size_t index = 0;									// starting index (at front of array)	
-		   T current_obejct = array[index];						// get the first object from the array
-		   while (index < size-1){								// run loop until index == the size of the array
-				size_t copies = 0;								// track number of copies of the current item being checked
-				for (size_t i = index ; i < size - 1; i ++){	// loop through the array
-					if (current_obejct == array[i + 1]){		// if the iterated object == current object
-						copies ++;								// increment copies present
+			size_t index = 0;									// index for moving through the current array
+			size_t temp_index = 0;								// index for moving through the first temp array (holds the found unique items)
+			size_t temp_size = size + 1;						// size for the temp array, + 1 comes from tinkering, may not be necessary
+			T* temp = new T [temp_size];						// instantiate new array
+			for (size_t i = 0 ; i < temp_size ; i ++){			// iterate through and set values to something other than junk values. this was an issue in linux
+				temp[i] = -999999999;;
+			}
+			while (index < size){								// loop throgh current array
+				T current_item = array[index];					// get item for comparison
+				bool in_array = false;							// if not in temp array, add to temp array
+				for (size_t i = 0; i < temp_size; i ++){		// compare current item to what is currently in temp array
+					T temp_item = temp[i];
+					if (current_item == temp_item){
+						in_array = true;						// if already present, go ahead and stop lookin
+						break;
 					}
 				}
-				if (copies > 0){								// if copies of current object present
-					for (size_t i = 0 ; i < copies ; i ++){		// remove current object for however many times it was duplicated
-						remove(current_obejct);
-					}	
-					index = 0;									// if copies were present and items removed, start the loop over from the start // since remove removes items from front a new front will be present
+				if (! in_array){								// if not in temp array 
+					temp[temp_index] = current_item;			// add it
+					temp_index ++ ;								// increment temp index
 				}
-				else {
-					index ++;									// otherwise move on to the next item in the array and check the remainder of the array against it
-				}
-				current_obejct = array[index];					// set the current object accordingly
-		   }
+				index ++ ;										// move to next item in original array
+			}
+			T* final = new T[temp_index + 1];					// now that we know how many unique items there are can make the new duplicate free array
+			for (size_t i = 0 ; i  < temp_index + 1 ; i ++){	// get items from temp array
+				final[i] = temp[i];								// place them in final array
+			}
+			delete [] array;									// memory clean up
+			delete [] temp;
+			array = final;
+			size = temp_index;									// set new size of this arraylist
+			capacity = temp_index + 1;							// set new capacity of this arraylist. +1 from tinkering, not sure why needed yet. mem issues otherwise.
 		}
+		   
 		   
 		/**
 		 * reverse items in a list

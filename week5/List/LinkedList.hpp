@@ -223,36 +223,80 @@ class List {
         /**
          *  appends another list to this list
          */
-        void append(List &list){                    // originally had this function just p9ointing at another list, but this caused memory issues in linux
-            Node<T>* n = list.get_head();
+        void append(List &list){                    // originally had this function just p9ointing at another list, 
+            Node<T>* n = list.get_head();           // but this caused memory issues in linux
             while (n != NULL){
                 this->insert(n->data, link_size);
                 n = n->next;
             }
         }
 
-        /**
-         * remove duplicated items from the list
+         /**
+         * remove duplicated items from the list    // my entirely inneficient solution to appease linux and valgrind
          */
         void removeDuplicates(){
-            Node<T>* n = head;
-            Node<T>* next = head->next;
-            size_t counter = 0;
-            while (n != NULL ){
-                while (next != NULL){
-                    if (n->data == next->data){
-                        counter ++;
+            T* temparr = new T[link_size];          // initialize a temp array
+            for (size_t i = 0 ; i < link_size ; i ++){
+				temparr[i] = -999999999;
+			}
+            size_t tempIndex = 0;                   // index for temp array
+            bool inArry = false;                    // keep track of unique elements
+            Node<T>* node = head;                   // traverse list
+            while (node != NULL){
+                inArry = false;
+                for (size_t i = 0 ; i < link_size ; i ++){
+                    if (node->data == temparr[i]){  // if item in list
+                        inArry = true;              // then it be in list
                     }
-                    next = next->next;
                 }
-                for (size_t i = 1 ; i < counter ; i ++){
-                    remove(find(n->data));
+                if (! inArry){
+                    temparr[tempIndex] = node->data;// if looped through array and it wasn't there, add it to array
+                    tempIndex ++ ;
                 }
-                next = head;
-                n = n->next;
-                counter = 0;
+                node = node->next;
             }
+           
+            Node<T>* cur_node = head;               // delete the old linked list - sigh
+            while (cur_node != NULL){
+                Node<T>* next = cur_node->next;
+                delete cur_node;
+                cur_node = next;
+            }
+            
+            Node<T>* newNode = new Node<T>();       // make a new linked list 
+            head = newNode;                         // of length = unique values in array
+            newNode->data = temparr[0];
+            for (size_t i = 1 ; i < tempIndex; i ++){
+                newNode->next = new Node<T>();
+                newNode = newNode->next;
+                newNode->data = temparr[i];
+            }
+            link_size = tempIndex;
+            delete [] temparr;                      // delete temp array
         }
+
+        // /**                                      // linux and valgrind didn't like this but im guessing this is more in line what is supposed to be done
+        //  * remove duplicated items from the list
+        //  */
+        // void removeDuplicates(){
+        //     Node<T>* n = head;
+        //     Node<T>* next = head->next;
+        //     size_t counter = 0;
+        //     while (n != NULL ){
+        //         while (next != NULL){
+        //             if (n->data == next->data){
+        //                 counter ++;
+        //             }
+        //             next = next->next;
+        //         }
+        //         for (size_t i = 1 ; i < counter ; i ++){ 
+        //             remove(find(n->data));
+        //         }
+        //         next = head;
+        //         n = n->next;
+        //         counter = 0;
+        //     }
+        // }
 
         /**
 		 *  print list contents
