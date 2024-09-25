@@ -75,7 +75,7 @@ class Dorm{
          */
         void showStudents(){
             Node<Student>* s_node = students.get_head();
-            while (s_node->next != NULL){
+            while (s_node != NULL){
                 cout << s_node->data.getID() << " - " << s_node->data.getName() << endl;
                 s_node = s_node->next;
             }
