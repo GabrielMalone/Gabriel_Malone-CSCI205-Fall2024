@@ -33,5 +33,12 @@ class Student{
 		void setDorm(std::string dorm){
 			this->dorm = dorm;
 		};
+		
+		/**
+		 *  needed to overload this for main functionality
+		*/
+		bool operator == (Student &otherStudent) const {
+			return this->id == otherStudent.getID();
+		}
 };
 #endif

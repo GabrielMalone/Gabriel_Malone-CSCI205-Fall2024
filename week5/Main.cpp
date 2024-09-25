@@ -10,10 +10,11 @@
 #include "backend/FileSaver.hpp"
 
 using namespace std;
-
+Dorm<Student> d;                                                        // default global dorm for reasons
 List<Dorm<Student> > allDormObj;                                        // List to hold all of the dorm objects
 size_t minPopFinder();                                                  // helper function
-
+Student getStudent(int);                                                // helper function
+Dorm<Student>& getDorm(string);                                         // helper function
 
 int main(){
 
@@ -204,7 +205,13 @@ int main(){
     //--------------------------------------------------------------------------------------------------------------------------
     // APPEND -- ARRAY VS LIST 
     //--------------------------------------------------------------------------------------------------------------------------
-
+                                                                        // Ideally, the time complexity for the linked list append
+                                                                        // would be constant O(1) by just pointing the original list
+                                                                        // at the head of the list to be appended, with no extra memmory needed
+                                                                        // I had this set up...
+                                                                        // but was having memory issues. As a result, both my list and
+                                                                        // array iterate with time complexity O(n) in order to get the data 
+                                                                        // from the lists being appended.
     List<int>linkedList2;                                               // make a new list
     A_List<int> arrayList2;                                             // instantiate ARRAY list
 
@@ -285,18 +292,46 @@ int main(){
             //                                                          // get the next student in line
             // cout << s->data.getID() << " ";                          // confirm working
             // cout << s->data.getName() << "\n";                       // confirm working
-            // cout << endl;       
+            // cout << endl;       '
+            s->data.setDorm(d.getDormName());                           // set dorm name for each student
             d.addStudent(s->data);
             s = s->next;                                                // add the student to the dorm
             min_pop = minPopFinder();                                   // set new min pop
         } 
-     }                                      
+     }     
+
+    //--------------------------------------------------------------------------------------------------------------------------
+    // SHOW ABILITY TO REASSIGN STUDENTS  -  1) FIND STUDENT VIA UNIQUE ID 
+    //--------------------------------------------------------------------------------------------------------------------------
+    printDormLists(allDormObj);                                       // show dorm info in terminal
+    Student studentFound = getStudent(15);                            // get and remove student from their current dorm
+    cout << "-----------------------------------------------------\n" << endl;                            
+    cout << "FOUND AND REMOVED STUDENT: '" << studentFound.getName() << "' FROM DORM: '"  << studentFound.getDorm() << "'\n" << endl;
+    cout << "-----------------------------------------------------\n" << endl; 
+    cout << "DORM: '" << getDorm(studentFound.getDorm()).getDormName() << "' NOW HAS: " << getDorm(studentFound.getDorm()).getNumberOfStudents() << " STUDENTS\n" << endl;
+    cout << "-----------------------------------------------------\n" << endl; 
+    //--------------------------------------------------------------------------------------------------------------------------
+    // SHOW ABILITY TO REASSIGN STUDENTS  -  2) ADD STUDENT TO ANOTHER DORM
+    //--------------------------------------------------------------------------------------------------------------------------
+    getDorm("Ravenclaw").addStudent(studentFound);
+    string newDorm  = "Ravenclaw";
+    cout << "TRANSFER: " << studentFound.getName() << " TO DORM: ";
+    cin >> newDorm;
+    getDorm(newDorm).addStudent(studentFound);
+    cout << "-----------------------------------------------------\n" << endl;                            
+    cout << "ADDED STUDENT: '" << studentFound.getName() << "' INTO DORM: '"  << newDorm << "'\n" << endl;
+    cout << "-----------------------------------------------------\n" << endl; 
+    cout << "-----------------------------------------------------\n" << endl; 
+    cout << "DORM: '" << getDorm(studentFound.getDorm()).getDormName() << "' NOW HAS: " << getDorm(studentFound.getDorm()).getNumberOfStudents() << " STUDENTS\n" << endl;
+    cout << "-----------------------------------------------------\n" << endl; 
+    getDorm(studentFound.getDorm()).showStudents();
+                                                                         
     //--------------------------------------------------------------------------------------------------------------------------
     // PRINT AND SAVE DORM POP INFO 
     //--------------------------------------------------------------------------------------------------------------------------
     //printDormLists(allDormObj);                                       // show dorm info in terminal
     saveDormLists(allDormObj);                                          // save dorm info to text files
-
+    
     return 0;
 }
 
@@ -315,3 +350,42 @@ int main(){
         }
         return min_pop;                                                // return new min value
     }
+
+    /**
+     * Select a student via ID. 
+     * This will return the student from the dorm (removing the student from that dorm)
+     * and will place the student into the dorm passed in as a parameter
+     */
+    Student getStudent(int studentID){
+        Student s;
+        Node<Dorm<Student> >* dorms = allDormObj.get_head();           // iterate through list of dorms 
+        while (dorms != NULL){                                         // put this function in dorm class                          
+            Node<Student>* student_node = dorms->data.getStudents().get_head();
+            while (student_node != NULL){                              // loop through students at that dorm
+                if (student_node->data.getID() == studentID){          // find student with desired ID 
+                    s = student_node->data;                            // get that student's student object
+                    dorms->data.removeStudent(s);                      // remove them from this dorm
+                    return s;                                          // return the student
+                    }
+                    student_node = student_node -> next;
+                }
+                dorms = dorms->next;
+            }
+             return s;                                                 // return null student if no student found
+        }
+
+        /**
+         * get dorm object via dormname
+         */
+        Dorm<Student>& getDorm(string dormName){
+            Node<Dorm<Student> >* dorms = allDormObj.get_head();       // iterate through list of dorms
+            while (dorms != NULL){
+                if (dormName == dorms->data.getDormName()){             // if dormname parameter matches current dorm, return it
+                return dorms->data;      
+                }
+                dorms = dorms->next;
+            }
+            return d;
+        }
+       
+    

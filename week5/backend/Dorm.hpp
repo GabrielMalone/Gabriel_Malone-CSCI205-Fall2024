@@ -24,7 +24,6 @@ class Dorm{
          */
         Dorm (){}
 
-
         /**
          * Overloaded const
          */
@@ -42,25 +41,10 @@ class Dorm{
         /**
          * Add a student to this dorm
          */
-        void addStudent(Student s){
+        void addStudent(Student& s){                    
+            s.setDorm(this->dorm_name);
             this->students.insert(s, number_of_students);
             this->number_of_students ++;
-        }
-
-        /**
-         * remove a student from this dorm via name
-         */
-        void removeStudent(string name){
-           // need to traverse linked list
-           this->number_of_students --;
-        }
-
-        /**
-         * remove a student from this dorm via ID
-         */
-        void removeStudent(int id){
-            // need to traverse linked list
-           this-> number_of_students --;
         }
 
         /**
@@ -69,6 +53,7 @@ class Dorm{
         void removeStudent(Student s){
             size_t pos = students.find(s);
             students.remove(pos);
+            this-> number_of_students --;
         }
         
         /**
@@ -84,7 +69,7 @@ class Dorm{
         string getDormName() const {
             return this->dorm_name;
         }
-        
+    
         /**
          * print a list of this dorm's current students
          */
@@ -95,6 +80,13 @@ class Dorm{
                 s_node = s_node->next;
             }
         }
+
+        /**
+		 *  needed to overload this for main functionality
+		*/
+		bool operator == (Dorm<Student> &otherDorm) const {
+			return this->dorm_name == otherDorm.getDormName();
+		}
 
 };
 

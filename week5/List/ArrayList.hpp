@@ -208,7 +208,7 @@ template <class T> class A_List{
 			size_t temp_size = size + 1;						// size for the temp array, + 1 comes from tinkering, may not be necessary
 			T* temp = new T [temp_size];						// instantiate new array
 			for (size_t i = 0 ; i < temp_size ; i ++){			// iterate through and set values to something other than junk values. this was an issue in linux
-				temp[i] = -999999999;;
+				temp[i] = -999999999;
 			}
 			while (index < size){								// loop throgh current array
 				T current_item = array[index];					// get item for comparison
