@@ -304,32 +304,38 @@ int main(){
     // SHOW ABILITY TO REASSIGN STUDENTS  -  1) FIND STUDENT VIA UNIQUE ID 
     //--------------------------------------------------------------------------------------------------------------------------
     printDormLists(allDormObj);                                       // show dorm info in terminal
-    Student studentFound = getStudent(15);                            // get and remove student from their current dorm
+    size_t searched_ID;                                               // var to hold studentID that user searches for
+    cout << "ENTER ID OF STUDENT TO TRANSFER: ";                      
+    cin >> searched_ID;                                               // get ID, invalid inputs will return defaul values
+    
+    Student studentFound = getStudent(searched_ID);                   // get and remove student from their current dorm
     cout << "-----------------------------------------------------\n" << endl;                            
-    cout << "FOUND AND REMOVED STUDENT: '" << studentFound.getName() << "' FROM DORM: '"  << studentFound.getDorm() << "'\n" << endl;
+    cout << "FOUND AND REMOVED STUDENT: '" << studentFound.getName() << "' FROM DORM: '" 
+        << studentFound.getDorm() << "'\n" << endl;                   // get dormName of dorm to which this student belongs
     cout << "-----------------------------------------------------\n" << endl; 
-    cout << "DORM: '" << getDorm(studentFound.getDorm()).getDormName() << "' NOW HAS: " << getDorm(studentFound.getDorm()).getNumberOfStudents() << " STUDENTS\n" << endl;
+    cout << "DORM: '" << getDorm(studentFound.getDorm()).getDormName() << "' NOW HAS: " 
+        << getDorm(studentFound.getDorm()).getNumberOfStudents() << " STUDENTS\n" << endl;
     cout << "-----------------------------------------------------\n" << endl; 
     //--------------------------------------------------------------------------------------------------------------------------
     // SHOW ABILITY TO REASSIGN STUDENTS  -  2) ADD STUDENT TO ANOTHER DORM
     //--------------------------------------------------------------------------------------------------------------------------
-    getDorm("Ravenclaw").addStudent(studentFound);
-    string newDorm  = "Ravenclaw";
+    string newDorm;
     cout << "TRANSFER: " << studentFound.getName() << " TO DORM: ";
     cin >> newDorm;
-    getDorm(newDorm).addStudent(studentFound);
+    getDorm(newDorm).addStudent(studentFound);                      // add stuedent to the selected dorm // student is lost forever if this fails
     cout << "-----------------------------------------------------\n" << endl;                            
     cout << "ADDED STUDENT: '" << studentFound.getName() << "' INTO DORM: '"  << newDorm << "'\n" << endl;
     cout << "-----------------------------------------------------\n" << endl; 
+
+    cout << "DORM: '" << getDorm(studentFound.getDorm()).getDormName() << "' NOW HAS: "
+            << getDorm(studentFound.getDorm()).getNumberOfStudents() << " STUDENTS\n" << endl;
     cout << "-----------------------------------------------------\n" << endl; 
-    cout << "DORM: '" << getDorm(studentFound.getDorm()).getDormName() << "' NOW HAS: " << getDorm(studentFound.getDorm()).getNumberOfStudents() << " STUDENTS\n" << endl;
-    cout << "-----------------------------------------------------\n" << endl; 
-    getDorm(studentFound.getDorm()).showStudents();
+    getDorm(studentFound.getDorm()).showStudents();                 // confirm this worked
+
                                                                          
     //--------------------------------------------------------------------------------------------------------------------------
     // PRINT AND SAVE DORM POP INFO 
     //--------------------------------------------------------------------------------------------------------------------------
-    //printDormLists(allDormObj);                                       // show dorm info in terminal
     saveDormLists(allDormObj);                                          // save dorm info to text files
     
     return 0;

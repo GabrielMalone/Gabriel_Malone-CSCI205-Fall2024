@@ -18,10 +18,6 @@ template <class T> class A_List{
 	private:													//Private member variables to manage insertion and removal points		
 		size_t size = 0;		            					// number of items in the List
 		size_t capacity = 100;	            					// size of the array (Default = 100)
-		size_t front = 0;		            					// index of the front of the List
-		size_t back = capacity-1;           					// 0 index adjust
-		size_t head = 0;	                					// index of the head of the list
-		size_t tail = capacity - 1;		    					// index of the tail of the list
 		T* array;			                					// array to store items (pointer to type T, to be determined at run time
 
 		/**
