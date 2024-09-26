@@ -167,6 +167,22 @@ template <class T> class A_List{
 			return -1;											// if nothing found return -1;
 		}
 
+
+		/**
+		 * insert item at position 0 when no position argument given
+		 */
+		void insert(T item){									
+			size ++ ;                  							// increaes size first to make the extra room for shifting
+			if (full()){                						// increae capacity if needed
+				resize();
+			}
+			shiftItemsUp(0);          							// move everything over to make room if needed
+			array[0] = item;          							// insert item
+		}
+	
+
+
+
 		/**
 		 * insert item at position
 		 */
