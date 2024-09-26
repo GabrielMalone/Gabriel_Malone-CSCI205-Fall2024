@@ -11,6 +11,7 @@
 #include "frontend/Menu.hpp"
 
 using namespace std;
+
 Dorm<Student> d;                                                        // default global dorm for reasons
 List<Dorm<Student> > allDormObj;                                        // List to hold all of the dorm objects
 size_t minPopFinder();                                                  // helper function

@@ -75,6 +75,24 @@ class List {
         T get_head_element(){
             return this->head->data;
         }
+        /**
+         *  Insert item at front of list without position argument
+         */
+        void insert(T item){
+            if (head == NULL){                      // if inserting at the front of linked list
+                head = new Node<T>();               // make new node
+                head->data = item;                  // set data 
+                tail = head;                        // set tail as head as well since only one node exists
+                link_size ++;                       // increment by 1 
+                return;                             // return, else not needed
+            }                                   
+            Node<T>* newNode = new Node<T>();       // if inserting at position 0 (the head),
+            newNode->data = item;
+            newNode->next = head;                   // new node moves in front of current head
+            head = newNode;                         // head is now the new node
+            link_size ++ ;                          // increase size of linked list
+            return;                                 // nuffin else to do
+        }
 
         /**
          *  Insert a item at a specific location

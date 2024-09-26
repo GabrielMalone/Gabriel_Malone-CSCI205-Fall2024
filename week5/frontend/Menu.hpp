@@ -5,11 +5,11 @@
 
 #include <iostream>
 #include <string>
-#include "List/ArrayList.hpp"
-#include "backend/FileOpener.hpp"
-#include "backend/Student.hpp"
-#include "backend/Dorm.hpp"
-#include "backend/FileSaver.hpp"
+#include "../List/ArrayList.hpp"
+#include "../backend/FileOpener.hpp"
+#include "../backend/Student.hpp"
+#include "../backend/Dorm.hpp"
+#include "../backend/FileSaver.hpp"
 #include <iomanip>
 
 using namespace std;
