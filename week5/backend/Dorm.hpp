@@ -5,6 +5,7 @@
 
 #include "../List/LinkedList.hpp"
 #include "Student.hpp"
+#include <iomanip>
 
 using namespace std;
 
@@ -75,10 +76,19 @@ class Dorm{
          */
         void showStudents(){
             Node<Student>* s_node = students.get_head();
+            int count = 0;
             while (s_node != NULL){
-                cout << s_node->data.getID() << " - " << s_node->data.getName() << endl;
+                cout 
+                    << setw(2) << s_node->data.getID() << setw(1) << left << " - " <<  setw(10) << s_node->data.getName() <<  "  ";
+
                 s_node = s_node->next;
+                count ++ ;
+                if (count > 3){
+                    cout << endl;
+                    count = 0;
+                }
             }
+            cout << "\n+------------------------------------------------------------------+" << endl;
         }
 
         /**

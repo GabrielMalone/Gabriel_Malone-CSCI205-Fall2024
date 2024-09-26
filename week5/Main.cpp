@@ -8,6 +8,7 @@
 #include "backend/Student.hpp"
 #include "backend/Dorm.hpp"
 #include "backend/FileSaver.hpp"
+#include "Menu.hpp"
 
 using namespace std;
 Dorm<Student> d;                                                        // default global dorm for reasons
@@ -16,7 +17,10 @@ size_t minPopFinder();                                                  // helpe
 Student getStudent(int);                                                // helper function
 Dorm<Student>& getDorm(string);                                         // helper function
 
+
 int main(){
+
+    
 
     //--------------------------------------------------------------------------------------------------------------------------
     // INSERT (ITEM, POSITION) -- ARRAY VS LIST  (also testing PRINT and LENGTH)
@@ -337,7 +341,13 @@ int main(){
     // PRINT AND SAVE DORM POP INFO 
     //--------------------------------------------------------------------------------------------------------------------------
     saveDormLists(allDormObj);                                          // save dorm info to text files
-    
+    // Menu::welcomeMenu(allDormObj);
+    // Menu::listDorms(allDormObj);
+    // Dorm<Student>& dormSelected = getDorm(Menu::dormSelect(allDormObj));
+    // dormSelected.showStudents();
+    // Menu::subMenu();
+
+
     return 0;
 }
 
@@ -386,12 +396,12 @@ int main(){
         Dorm<Student>& getDorm(string dormName){
             Node<Dorm<Student> >* dorms = allDormObj.get_head();       // iterate through list of dorms
             while (dorms != NULL){
-                if (dormName == dorms->data.getDormName()){             // if dormname parameter matches current dorm, return it
+                if (dormName == dorms->data.getDormName()){            // if dormname parameter matches current dorm, return it
                 return dorms->data;      
                 }
                 dorms = dorms->next;
             }
-            return d;
+            return d;                                                   
         }
        
     

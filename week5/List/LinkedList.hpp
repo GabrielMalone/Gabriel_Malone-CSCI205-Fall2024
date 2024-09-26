@@ -20,6 +20,7 @@ class List {
 
         size_t link_size = 0;           // keep track of list size for various functions
         Node<T>* head;
+        Node<T>* tail;
 
     public:
 
@@ -41,8 +42,7 @@ class List {
             }
         };
 
-        ~List(){   
-            //cout << "deconstructor called for linked list of " << link_size <<  " items" << endl;                          
+        ~List(){                           
             Node<T>* cur_node = head;
             while (cur_node != NULL){
                 Node<T>* next = cur_node->next;
@@ -56,6 +56,10 @@ class List {
          */
         Node<T>* get_head(){
             return this->head;
+        }
+
+        Node<T>* get_tail(){
+            return this->tail;
         }
 
         /**
@@ -76,12 +80,13 @@ class List {
          *  Insert a item at a specific location
          */
         void insert(T item, size_t pos){
-            if (pos == 0 && head == NULL){
-                head = new Node<T>();
-                head->data = item;
-                link_size ++;
-                return;       
-                }                                   // return, else not needed
+            if (pos == 0 && head == NULL){         // if inserting at the front of linked list
+                head = new Node<T>();              // make new node
+                head->data = item;                 // set data 
+                tail = head;                       // set tail as head as well since only one node exists
+                link_size ++;                      // increment by 1 
+                return;                            // return, else not needed
+                }                                   
             if (pos == 0){
                 Node<T>* newNode = new Node<T>();   // if inserting at position 0 (the head),
                 newNode->data = item;
@@ -89,11 +94,19 @@ class List {
                 head = newNode;                     // head is now the new node
                 link_size ++ ;                      // increase size of linked list
                 return;                             // nuffin else to do
+            }
+            if (pos == link_size){                  // if inserting at the back
+                Node<T>* newNode = new Node<T>();   // same logic as head insertion
+                newNode->data = item;               // constant time operation
+                tail->next = newNode;
+                tail = newNode;
+                link_size ++;
+                return;    
             }  
                                              
             if (pos > link_size){                   // if inserting after the head, need to see if the position falls within how many items are present (size of linked lis)
                 throw std::invalid_argument("position out of bounds"); 
-            }                                       
+            }                                      
             size_t counter = 1;                     // start at one since skipping the head
             Node<T>* prev_node = head; 
             Node<T>* cur_node = head->next;         // get the node previous to where new node will be inserted via position / start at the node right after the head
@@ -109,7 +122,7 @@ class List {
             newNode->data = item;                   // with parameter's data
             prev_node->next = newNode;              // set newNode as the next for the node prior to it
             newNode->next = cur_node;               // set newNode's next as the node it is being inserted before
-            link_size ++ ;                          // increase link size
+            link_size ++ ;                          // increase link size      
         }
 
         /**
@@ -223,14 +236,14 @@ class List {
         /**
          *  appends another list to this list
          */
-        void append(List &list){                    // originally had this function just p9ointing at another list, 
-            Node<T>* n = list.get_head();           // but this caused memory issues in linux
-            while (n != NULL){
-                this->insert(n->data, link_size);
-                n = n->next;
-            }
-        }
-
+        void append(List& list){                    // originally had this function just p9ointing at another list, 
+            tail->next = list.head;
+            tail = list.tail;
+            link_size += list.link_size;
+            list.head = nullptr;                    // set these nullptrs to avoid double deletes
+            list.tail = nullptr;                    // the appending list's destructor will e called and traverse the shared pointers
+        }                                           // then called again when the list being appenended's destructor is called
+                                                    // nothign will try to be deleted at this point if the pointer is null, though
          /**
          * remove duplicated items from the list    // my entirely inneficient solution to appease linux and valgrind
          */
@@ -267,12 +280,15 @@ class List {
             head = newNode;                         // of length = unique values in array
             newNode->data = temparr[0];
             for (size_t i = 1 ; i < tempIndex; i ++){
-                newNode->next = new Node<T>();
+                Node<T>* next = new Node<T>();
+                newNode->next = next;
+                tail = newNode->next;
                 newNode = newNode->next;
                 newNode->data = temparr[i];
             }
             link_size = tempIndex;
-            delete [] temparr;                      // delete temp array
+            tail->data = temparr[tempIndex -1];
+            delete[] temparr;
         }
 
         // /**                                      // linux and valgrind didn't like this but im guessing this is more in line what is supposed to be done
