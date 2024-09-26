@@ -8,7 +8,7 @@
 #include "backend/Student.hpp"
 #include "backend/Dorm.hpp"
 #include "backend/FileSaver.hpp"
-#include "Menu.hpp"
+#include "frontend/Menu.hpp"
 
 using namespace std;
 Dorm<Student> d;                                                        // default global dorm for reasons
@@ -20,12 +20,14 @@ Dorm<Student>& getDorm(string);                                         // helpe
 
 int main(){
 
+    cout << endl;
     
+    cout << "//--------------------------------------------------------------------------------------------------------------------------" << endl;
+    cout << "INSERT (ITEM, POSITION) -- ARRAY VS LIST  (also testing PRINT and LENGTH)                                                   " << endl;  
+    cout << "//--------------------------------------------------------------------------------------------------------------------------" << endl;  
 
-    //--------------------------------------------------------------------------------------------------------------------------
-    // INSERT (ITEM, POSITION) -- ARRAY VS LIST  (also testing PRINT and LENGTH)
-    //--------------------------------------------------------------------------------------------------------------------------
-    
+    cout << endl;
+
     A_List<int> arrayList;                                             // instantiate ARRAY list
     List<int> linkedList;                                              // instantiate LINKED list
 
@@ -33,6 +35,7 @@ int main(){
         arrayList.insert(i, i);
         linkedList.insert(i,i);
     }
+
     cout << "Array List of length "  << arrayList.length() << ": ";    // confirm this works
     arrayList.print();  
     cout << "Linked List of length " << linkedList.length() << ": ";                                            
@@ -60,12 +63,14 @@ int main(){
     cout << "Array List result of inserting '45' at index '5': ";       // confirm insertion works
     arrayList.print();  
     cout << "Linked List result of inserting '45' at index '5': ";                                            
-    linkedList.print();             
+    linkedList.print();
 
-    //--------------------------------------------------------------------------------------------------------------------------
-    // GET ITEM AT (POSITION) -- ARRAY VS LIST 
-    //--------------------------------------------------------------------------------------------------------------------------                                             
-
+    cout << endl;
+    
+    cout << "//--------------------------------------------------------------------------------------------------------------------------" << endl;
+    cout << " GET ITEM AT (POSITION) -- ARRAY VS LIST                                                                                    " << endl;  
+    cout << "//--------------------------------------------------------------------------------------------------------------------------" << endl;  
+                                                 
     int a_item = arrayList.get(5);                                      // get item at index 5 (should return 45)
                                                                         // time complexity for returning item at index for an
                                                                         // array list should be O(1) since this is an indexing
@@ -82,11 +87,14 @@ int main(){
 
     cout << endl;
     cout << "result of 'get(5)' from array list: " << a_item << "\n";   // confirm results
-    cout << "result of 'get(5)' from linked list: " << l_item << "\n";     
+    cout << "result of 'get(5)' from linked list: " << l_item << "\n";  
 
-    //--------------------------------------------------------------------------------------------------------------------------
-    // FIND ITEM AT (POSITION) -- ARRAY VS LIST 
-    //--------------------------------------------------------------------------------------------------------------------------  
+    
+    cout << endl;
+    
+    cout << "//--------------------------------------------------------------------------------------------------------------------------" << endl;
+    cout << "FIND ITEM AT (POSITION) -- ARRAY VS LIST                                                                                    " << endl;  
+    cout << "//--------------------------------------------------------------------------------------------------------------------------" << endl;  
 
     size_t indexA = arrayList.find(45);                                 // find first instance of this item in the list and return index                                                                     
     size_t indexB = linkedList.find(45);                                // find first instance of this item in the list and return index
@@ -99,11 +107,12 @@ int main(){
     cout << "array list item '45' found at index: " << indexA << "\n";  // confirm results
     cout << "linked list item '45  found at index: " << indexB << "\n";
 
-
-    //--------------------------------------------------------------------------------------------------------------------------
-    // REMOVE ITEM AT (POSITION) -- ARRAY VS LIST 
-    //--------------------------------------------------------------------------------------------------------------------------  
-
+    cout << endl;
+    
+    cout << "//--------------------------------------------------------------------------------------------------------------------------" << endl;
+    cout << "REMOVE ITEM AT (POSITION) -- ARRAY VS LIST                                                                                  " << endl;  
+    cout << "//--------------------------------------------------------------------------------------------------------------------------" << endl;  
+  
     int itemA = arrayList.remove(5);                                    // remove and return item from array list at the specified index
                                                                         // time complexity for array list to find the item to remove 
                                                                         // is O(1) since indexing operation and memory is contiguous. 
@@ -123,25 +132,30 @@ int main(){
     cout << "linked list after remvoal: ";
     linkedList.print();
 
-    //--------------------------------------------------------------------------------------------------------------------------
-    // COUNT -- ARRAY VS LIST 
-    //--------------------------------------------------------------------------------------------------------------------------  
+    cout << endl;
+    
+    cout << "//--------------------------------------------------------------------------------------------------------------------------" << endl;
+    cout << "COUNT -- ARRAY VS LIST                                                                                                      " << endl;  
+    cout << "//--------------------------------------------------------------------------------------------------------------------------" << endl;  
                                                                         // both of these are O(1) constant since each class 
                                                                         // keeps track of the size of the list in a variable
     cout << endl;
     cout << "array list has: " << arrayList.count() << " items\n";      // confirm results
     cout << "linked list has: " << linkedList.count() << " items\n";    // confirm results
 
-    //--------------------------------------------------------------------------------------------------------------------------
-    // REVERSE -- ARRAY VS LIST 
-    //--------------------------------------------------------------------------------------------------------------------------
-                                                                        // reversal for array requires time complexity of O(n)
-                                                                        // since need to iterate through the entirety of the list
-                                                                        // to get each item for reversal    
+    cout << endl;
+    
+    cout << "//--------------------------------------------------------------------------------------------------------------------------" << endl;
+    cout << "REVERSE -- ARRAY VS LIST                                                                                                    " << endl;  
+    cout << "//--------------------------------------------------------------------------------------------------------------------------" << endl;  
+    
+                                                                        // reversal on the array list I have set to be O(n), but no extra memory
+                                                                        // needed since I just swap values directly in the same array. 
 
-                                                                        // reversal for linked list also requires time complexity
-                                                                        // of O(n) linear since entirety of list will need to be
-                                                                        // traversed                           
+                                                                        // reversal for the linked list required at least O(n) as well, but also extra memory
+                                                                        // to store the current state of the list (in a dynamic array)/
+                                                                        // the dynamic array is then iterated through backwards and the nodes are updated
+                                                                        // with those values. 
     cout << endl;
     cout << "array list prior to reverse: \n"; 
     arrayList.print();                                                  // show list prior to reversal
@@ -156,19 +170,18 @@ int main(){
     linkedList.reverse();                                               // reverse
     linkedList.print();                                                 // confirm results
 
-    //--------------------------------------------------------------------------------------------------------------------------
-    // REMOVE DUPLICATES -- ARRAY VS LIST  -- need to fix and implement for both
-    //--------------------------------------------------------------------------------------------------------------------------
-                                                                        // theoretically, append should be time complexity of 
-                                                                        // constant for linked lists, just need to point the
-                                                                        // current list tail at the head of the list being
-                                                                        // appended. My original function did this but had memory
-                                                                        // issues in linux. so I traversed the list being appended
-                                                                        // with insert and that fixed the memory issue. 
-
-                                                                        // array list must be linear time for appending, since you need
-                                                                        // to both iterate through the new list being appended, but also
-                                                                        // need to iterate to resize. so both memory and time intensive.
+    cout << endl;
+    
+    cout << "//--------------------------------------------------------------------------------------------------------------------------" << endl;
+    cout << " REMOVE DUPLICATES -- ARRAY VS LIST  -- need to fix and implement for both                                                  " << endl;  
+    cout << "//--------------------------------------------------------------------------------------------------------------------------" << endl;  
+                                                                        // removing duplicates for both the array and the linked lists
+                                                                        // required a time complexity of linear O(n) since both lists
+                                                                        // need to iterated through in their entirety to find potential duplicates
+                                                                        // extra memeory needed as well to store found duplciates. ahtough I did 
+                                                                        // come up with a solution that did not require extra memory for the linked list
+                                                                        // but valgrind did not like it. 
+                                                                
     cout << endl;
 
     arrayList.insert(1, 0);                                             // create some duplictes in the array list
@@ -206,16 +219,20 @@ int main(){
     linkedList.removeDuplicates();                                      // confirm no duplicates
     linkedList.print();
 
-    //--------------------------------------------------------------------------------------------------------------------------
-    // APPEND -- ARRAY VS LIST 
-    //--------------------------------------------------------------------------------------------------------------------------
-                                                                        // Ideally, the time complexity for the linked list append
-                                                                        // would be constant O(1) by just pointing the original list
-                                                                        // at the head of the list to be appended, with no extra memmory needed
-                                                                        // I had this set up...
-                                                                        // but was having memory issues. As a result, both my list and
-                                                                        // array iterate with time complexity O(n) in order to get the data 
-                                                                        // from the lists being appended.
+    cout << endl;
+    
+    cout << "//--------------------------------------------------------------------------------------------------------------------------" << endl;
+    cout << "APPEND -- ARRAY VS LIST                                                                                                     " << endl;  
+    cout << "//--------------------------------------------------------------------------------------------------------------------------" << endl;  
+
+    cout << endl; 
+
+                                                                        // the time complexity for the linked list append
+                                                                        // is constant O(1) by just pointing the original list
+                                                                        // at the head of the list to be appended, with no extra memmory needed.
+                                                                        // array iterates with time complexity O(n) in order to get the data 
+                                                                        // from the lists being appended. extra memory needed for temp array as well.
+
     List<int>linkedList2;                                               // make a new list
     A_List<int> arrayList2;                                             // instantiate ARRAY list
 
@@ -240,8 +257,16 @@ int main(){
     cout << "array list after append: \n";    
     arrayList.print();
 
+    cout << endl;
+    
+    cout << "//--------------------------------------------------------------------------------------------------------------------------" << endl;
+    cout << "DORM PORTION OF LAB  - dorms loaded, students assigned to dorms with fewest students, at random.                           "  << endl;  
+    cout << "//--------------------------------------------------------------------------------------------------------------------------" << endl;  
+
+    cout << endl; 
+
     //--------------------------------------------------------------------------------------------------------------------------
-    // DORM PORTION OF LAB INITIALIZE LOCAL LISTS
+    // INITIALIZE LOCAL LISTS
     //--------------------------------------------------------------------------------------------------------------------------
 
     List<string> allStudentStr;                                         // List to hold all the students loaded from the students text file
@@ -307,6 +332,7 @@ int main(){
     //--------------------------------------------------------------------------------------------------------------------------
     // SHOW ABILITY TO REASSIGN STUDENTS  -  1) FIND STUDENT VIA UNIQUE ID 
     //--------------------------------------------------------------------------------------------------------------------------
+    cout << endl;
     printDormLists(allDormObj);                                       // show dorm info in terminal
     size_t searched_ID;                                               // var to hold studentID that user searches for
     cout << "ENTER ID OF STUDENT TO TRANSFER: ";                      

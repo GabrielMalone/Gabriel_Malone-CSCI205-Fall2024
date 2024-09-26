@@ -214,7 +214,7 @@ class List {
          *  reverse the order of items in the list
          */
         void reverse(){
-            T* temp = new T[link_size];             // set up temp array , wait lol why did I do this. need to redo this logic. 
+            T* temp = new T[link_size];             // set up temp array 
             Node<T>* cur_node_A = head;               
             size_t index_A = 0 ;                    // index for array ^
             while (cur_node_A != NULL){             // traverse the linked list
