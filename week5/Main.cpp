@@ -138,8 +138,8 @@ int main(){
     cout << "//--------------------------------------------------------------------------------------------------------------------------" << endl;
     cout << "COUNT -- ARRAY VS LIST                                                                                                      " << endl;  
     cout << "//--------------------------------------------------------------------------------------------------------------------------" << endl;  
-                                                                        // both of these are O(1) constant since each class 
-                                                                        // keeps track of the size of the list in a variable
+                                                                         // both of these are O(1) constant since each class 
+                                                                         // keeps track of the size of the list in a variable
     cout << endl;
     cout << "array list has: " << arrayList.length() << " items\n";      // confirm results
     cout << "linked list has: " << linkedList.length() << " items\n";    // confirm results
@@ -178,10 +178,10 @@ int main(){
     cout << "//--------------------------------------------------------------------------------------------------------------------------" << endl;  
                                                                         // removing duplicates for both the array and the linked lists
                                                                         // required a time complexity of linear O(n) since both lists
-                                                                        // need to iterated through in their entirety to find potential duplicates
+                                                                        // need to be iterated through in their entirety to find potential duplicates.
                                                                         // extra memeory needed as well to store found duplciates. ahtough I did 
-                                                                        // come up with a solution that did not require extra memory for the linked list
-                                                                        // but valgrind did not like it. 
+                                                                        // come up with a solution that did not require extra memory 
+                                                                        // for the linked list but valgrind did not like it. 
                                                                 
 
     //--------------------------------------------------------------------------------------------------------------------------
@@ -368,15 +368,15 @@ int main(){
     // SHOW ABILITY TO REASSIGN STUDENTS  -  1) FIND STUDENT VIA UNIQUE ID 
     //--------------------------------------------------------------------------------------------------------------------------
     cout << endl;
-    printDormLists(allDormObj);                                       // show dorm info in terminal
-    size_t searched_ID;                                               // var to hold studentID that user searches for
+    printDormLists(allDormObj);                                                                     // show dorm info in terminal
+    size_t searched_ID;                                                           // var to hold studentID that user searches for
     cout << "ENTER ID OF STUDENT TO TRANSFER: ";                      
-    cin >> searched_ID;                                               // get ID, invalid inputs will return defaul values
+    cin >> searched_ID;                                                       // get ID, invalid inputs will return defaul values
     
-    Student studentFound = getStudent(searched_ID);                   // get and remove student from their current dorm
+    Student studentFound = getStudent(searched_ID);                             // get and remove student from their current dorm
     cout << "-----------------------------------------------------\n" << endl;                            
     cout << "FOUND AND REMOVED STUDENT: '" << studentFound.getName() << "' FROM DORM: '" 
-        << studentFound.getDorm() << "'\n" << endl;                   // get dormName of dorm to which this student belongs
+        << studentFound.getDorm() << "'\n" << endl;                         // get dormName of dorm to which this student belongs
     cout << "-----------------------------------------------------\n" << endl; 
     cout << "DORM: '" << getDorm(studentFound.getDorm()).getDormName() << "' NOW HAS: " 
         << getDorm(studentFound.getDorm()).getNumberOfStudents() << " STUDENTS\n" << endl;
@@ -387,13 +387,13 @@ int main(){
     string newDorm;
     cout << "TRANSFER: " << studentFound.getName() << " TO DORM: ";
     cin >> newDorm;
-    getDorm(newDorm).addStudent(studentFound);                      // add stuedent to the selected dorm // student is lost forever if this fails
+    getDorm(newDorm).addStudent(studentFound);     // add stuedent to the selected dorm // student is lost forever if this fails
     cout << "-----------------------------------------------------\n" << endl;                            
     cout << "ADDED STUDENT: '" << studentFound.getName() << "' INTO DORM: '"  << newDorm << "'\n" << endl;
     cout << "-----------------------------------------------------\n" << endl; 
 
     cout << "DORM: '" << getDorm(studentFound.getDorm()).getDormName() << "' NOW HAS: "
-            << getDorm(studentFound.getDorm()).getNumberOfStudents() << " STUDENTS\n" << endl;
+         << getDorm(studentFound.getDorm()).getNumberOfStudents() << " STUDENTS\n" << endl;
     cout << "-----------------------------------------------------\n" << endl; 
     getDorm(studentFound.getDorm()).showStudents();                 // confirm this worked
 
@@ -401,10 +401,14 @@ int main(){
     //--------------------------------------------------------------------------------------------------------------------------
     // PRINT AND SAVE DORM POP INFO 
     //--------------------------------------------------------------------------------------------------------------------------
-    saveDormLists(allDormObj);                                          // save dorm info to text files
+    saveDormLists(allDormObj);                                                                    // save dorm info to text files
 
     return 0;
 }
+
+    //--------------------------------------------------------------------------------------------------------------------------
+    // HELPER FUNCTIONS FOR THE DORM TASKS 
+    //--------------------------------------------------------------------------------------------------------------------------
 
     /**
      *  helper function to determine the dorm with the current lowest pop
