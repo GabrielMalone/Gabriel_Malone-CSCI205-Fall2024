@@ -368,12 +368,6 @@ int main(){
     // PRINT AND SAVE DORM POP INFO 
     //--------------------------------------------------------------------------------------------------------------------------
     saveDormLists(allDormObj);                                          // save dorm info to text files
-    // Menu::welcomeMenu(allDormObj);
-    // Menu::listDorms(allDormObj);
-    // Dorm<Student>& dormSelected = getDorm(Menu::dormSelect(allDormObj));
-    // dormSelected.showStudents();
-    // Menu::subMenu();
-
 
     return 0;
 }
@@ -407,7 +401,7 @@ int main(){
             while (student_node != NULL){                              // loop through students at that dorm
                 if (student_node->data.getID() == studentID){          // find student with desired ID 
                     s = student_node->data;                            // get that student's student object
-                    dorms->data.removeStudent(s);                      // remove them from this dorm
+                    dorms->data.removeStudent(s);                       // remove them from this dorm
                     return s;                                          // return the student
                     }
                     student_node = student_node -> next;

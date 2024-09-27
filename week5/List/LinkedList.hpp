@@ -152,11 +152,20 @@ class List {
                 T item = og_head->data;
                 head = head->next;                  // node that was just after the head now becomes the head
                 link_size -- ;                      // decrease size of linked list
-                og_head = nullptr;
                 delete og_head;                     // delete the original head pointer
                 return item;                        // nuffin else to do
-            }                                       
-                                                    
+            }
+            if (pos == link_size){                  // if removing from the back
+                Node<T>* n = head;                  // if removing at position 0 (the head),
+                while (n->next != NULL){   
+                    n = n->next;
+                }
+                T item = n->next->data;
+                delete tail;
+                tail = n;
+                link_size --;
+                return item;    
+            }                                                                              
             if (pos > link_size){                   // if deleting after the head, need to see if the position falls within how many items are present (size of linked lis)
                 throw std::invalid_argument("position out of bounds"); 
             }                                       
