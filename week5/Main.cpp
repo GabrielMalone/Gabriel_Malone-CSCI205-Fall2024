@@ -29,7 +29,7 @@ int main(){
 
     cout << endl;
 
-    A_List<int> arrayList;                                             // instantiate ARRAY list
+    A_List<int> arrayList (30);                                        // instantiate ARRAY list
     List<int> linkedList;                                              // instantiate LINKED list
 
     for (size_t i = 0 ; i < 10 ; i ++){                                // fill each list with 10 values
@@ -141,8 +141,8 @@ int main(){
                                                                         // both of these are O(1) constant since each class 
                                                                         // keeps track of the size of the list in a variable
     cout << endl;
-    cout << "array list has: " << arrayList.count() << " items\n";      // confirm results
-    cout << "linked list has: " << linkedList.count() << " items\n";    // confirm results
+    cout << "array list has: " << arrayList.length() << " items\n";      // confirm results
+    cout << "linked list has: " << linkedList.length() << " items\n";    // confirm results
 
     cout << endl;
     
@@ -174,7 +174,7 @@ int main(){
     cout << endl;
     
     cout << "//--------------------------------------------------------------------------------------------------------------------------" << endl;
-    cout << " REMOVE DUPLICATES -- ARRAY VS LIST  -- need to fix and implement for both                                                  " << endl;  
+    cout << " REMOVE DUPLICATES & COUNT-- ARRAY VS LIST                                                                                  " << endl;  
     cout << "//--------------------------------------------------------------------------------------------------------------------------" << endl;  
                                                                         // removing duplicates for both the array and the linked lists
                                                                         // required a time complexity of linear O(n) since both lists
@@ -183,9 +183,11 @@ int main(){
                                                                         // come up with a solution that did not require extra memory for the linked list
                                                                         // but valgrind did not like it. 
                                                                 
-    cout << endl;
 
-    arrayList.insert(1, 0);                                             // create some duplictes in the array list
+    //--------------------------------------------------------------------------------------------------------------------------
+    // ARRAY LIST ADD DUPLICATES                                      
+    //--------------------------------------------------------------------------------------------------------------------------
+    arrayList.insert(1, 0);                                             
     arrayList.insert(1, 5);
     arrayList.insert(1, 6);
     arrayList.insert(1, 7);
@@ -197,12 +199,29 @@ int main(){
     arrayList.insert(1, 2);
     arrayList.insert(2, 3);
     cout << "duplicates added: ";
-    arrayList.print();  
+    arrayList.print();
+    //--------------------------------------------------------------------------------------------------------------------------
+    // COUNT THE DUPLICATES PRESENT IN ARRAY LIST                                
+    //--------------------------------------------------------------------------------------------------------------------------
+    for (size_t i  = 0 ; i < arrayList.length(); i ++ ){
+        size_t c = arrayList.count(i);
+        if (c > 1){
+            cout << "There are now "
+            << c 
+            << " number "<< i << "'s" 
+            << endl;
+        }
+    }
+    //--------------------------------------------------------------------------------------------------------------------------
+    // REMOVE AND CONFIRM REMOVAL OF DUPLICATES IN ARRAY LIST                            
+    //--------------------------------------------------------------------------------------------------------------------------
     cout << "duplicates removed: ";                                     // confirm duplicates
     arrayList.removeDuplicates();
     arrayList.print();                                                  // confirm no duplicates
-    
-    linkedList.insert(5, 0);                                            // create some duplictes in the array list
+    //--------------------------------------------------------------------------------------------------------------------------
+    // LINKED LIST ADD DUPLICATES                                      
+    //--------------------------------------------------------------------------------------------------------------------------
+    linkedList.insert(5, 0);                                           
     linkedList.insert(1, 5);
     linkedList.insert(4, 6);
     linkedList.insert(1, 7);
@@ -215,7 +234,22 @@ int main(){
     linkedList.insert(2, 3);
     linkedList.insert(9, 3);
     cout << "duplicates added: ";
-    linkedList.print();                                                 // confirm duplicates
+    linkedList.print();
+    //--------------------------------------------------------------------------------------------------------------------------
+    // COUNT THE DUPLICATES PRESENT IN LINKED LIST                            
+    //--------------------------------------------------------------------------------------------------------------------------
+    for (size_t i  = 0 ; i < linkedList.length(); i ++ ){
+        size_t c = linkedList.count(i);
+        if (c > 1){
+            cout << "There are now "
+            << c 
+            << " number "<< i << "'s" 
+            << endl;
+        }
+    }         
+    //--------------------------------------------------------------------------------------------------------------------------
+    // REMOVE AND CONFIRM REMOVAL OF DUPLICATES IN LINKED LIST                              
+    //--------------------------------------------------------------------------------------------------------------------------                                      // confirm duplicates
     cout << "duplicates removed: ";
     linkedList.removeDuplicates();                                      // confirm no duplicates
     linkedList.print();

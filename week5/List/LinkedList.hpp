@@ -233,10 +233,17 @@ class List {
         /**
 		 * returns how many items are in a list
 		 */
-		size_t count(){
-			return link_size;
+		size_t count(T item) {                     
+            size_t count = 0;                       // increase counnt when item found          
+			Node<T>* n = head;                      // traverse list
+            while(n != NULL){
+                if (n->data == item){                // if item found
+                    count ++;                        // increase count
+                }
+                n = n->next;
+            }
+            return count;
 		}  
-
         /**
          *  reverse the order of items in the list
          */

@@ -151,17 +151,23 @@ template <class T> class A_List{
 		/**
 		 * returns how many items are in a list
 		 */
-		size_t count(){
-			return size;
+		size_t count(T item) {							// pass in a reference so dont waste mem copying
+			size_t count = 0;			
+			for (size_t i = 0 ; i < size ; i ++){				// iterate through array
+				if (item == array[i]){							// if match found
+					count ++ ;									// increase count
+				}
+			}
+			return count;
 		}
 
 		/**
 		 *  find item and return its position
 		 */
-		int find(T item){
-			for (size_t i = 0 ; i < size ; i ++){
-				if (item == array[i]){
-					return (int)i;
+		int find(T item){										
+			for (size_t i = 0 ; i < size ; i ++){				// iterate through array
+				if (item == array[i]){							// if a match
+					return (int)i;								// return position found
 				}
 			}
 			return -1;											// if nothing found return -1;
@@ -180,9 +186,6 @@ template <class T> class A_List{
 			array[0] = item;          							// insert item
 		}
 	
-
-
-
 		/**
 		 * insert item at position
 		 */
