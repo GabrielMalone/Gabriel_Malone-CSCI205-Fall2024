@@ -395,13 +395,13 @@ int main(){
     cout << "DORM: '" << getDorm(studentFound.getDorm()).getDormName() << "' NOW HAS: "
          << getDorm(studentFound.getDorm()).getNumberOfStudents() << " STUDENTS\n" << endl;
     cout << "-----------------------------------------------------\n" << endl; 
-    getDorm(studentFound.getDorm()).showStudents();                 // confirm this worked
+    getDorm(studentFound.getDorm()).showStudents();                                                       // confirm this worked
 
                                                                          
     //--------------------------------------------------------------------------------------------------------------------------
     // PRINT AND SAVE DORM POP INFO 
     //--------------------------------------------------------------------------------------------------------------------------
-    saveDormLists(allDormObj);                                                                    // save dorm info to text files
+    saveDormLists(allDormObj);                                                                   // save dorm info to text files
 
     return 0;
 }
@@ -439,23 +439,23 @@ Student getStudent(int studentID){
         while (student_node != NULL){                              // loop through students at that dorm
             if (student_node->data.getID() == studentID){          // find student with desired ID 
                 s = student_node->data;                            // get that student's student object
-                dorms->data.removeStudent(s);                       // remove them from this dorm
+                dorms->data.removeStudent(s);                      // remove them from this dorm
                 return s;                                          // return the student
                 }
                 student_node = student_node -> next;
             }
             dorms = dorms->next;
         }
-            return s;                                                 // return null student if no student found
+            return s;                                               // return null student if no student found
     }
 
 /**
  * get dorm object via dormname
  */
 Dorm<Student>& getDorm(string dormName){
-    Node<Dorm<Student> >* dorms = allDormObj.get_head();       // iterate through list of dorms
+    Node<Dorm<Student> >* dorms = allDormObj.get_head();            // iterate through list of dorms
     while (dorms != NULL){
-        if (dormName == dorms->data.getDormName()){            // if dormname parameter matches current dorm, return it
+        if (dormName == dorms->data.getDormName()){                 // if dormname parameter matches current dorm, return it
         return dorms->data;      
         }
         dorms = dorms->next;
