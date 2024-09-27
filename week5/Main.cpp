@@ -249,9 +249,9 @@ int main(){
     }         
     //--------------------------------------------------------------------------------------------------------------------------
     // REMOVE AND CONFIRM REMOVAL OF DUPLICATES IN LINKED LIST                              
-    //--------------------------------------------------------------------------------------------------------------------------                                      // confirm duplicates
+    //--------------------------------------------------------------------------------------------------------------------------                                      
     cout << "duplicates removed: ";
-    linkedList.removeDuplicates();                                      // confirm no duplicates
+    linkedList.removeDuplicates();                                      
     linkedList.print();
 
     cout << endl;
