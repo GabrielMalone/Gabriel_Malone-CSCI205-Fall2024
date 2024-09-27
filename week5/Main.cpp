@@ -406,61 +406,61 @@ int main(){
     return 0;
 }
 
-    //--------------------------------------------------------------------------------------------------------------------------
-    // HELPER FUNCTIONS FOR THE DORM TASKS 
-    //--------------------------------------------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------------------------------
+// HELPER FUNCTIONS FOR THE DORM TASKS 
+//--------------------------------------------------------------------------------------------------------------------------
 
-    /**
-     *  helper function to determine the dorm with the current lowest pop
-     */
-    size_t minPopFinder() {
-        size_t min_pop = 9999;                                         // min pop variable initialize
-        Node<Dorm<Student> >* dormObjs = allDormObj.get_head();        // get head to traverse dorm list
-        while (dormObjs != NULL){                                     
-            size_t dorm_pop = dormObjs->data.getNumberOfStudents();    // get population of current dorm
-            if (dorm_pop <= min_pop){                                  // if current dorm's pop less than min
-                min_pop = dorm_pop;                                    // set new min
-            }
-            dormObjs = dormObjs->next;                                 // move to next dorm
+/**
+ *  helper function to determine the dorm with the current lowest pop
+ */
+size_t minPopFinder() {
+    size_t min_pop = 9999;                                         // min pop variable initialize
+    Node<Dorm<Student> >* dormObjs = allDormObj.get_head();        // get head to traverse dorm list
+    while (dormObjs != NULL){                                     
+        size_t dorm_pop = dormObjs->data.getNumberOfStudents();    // get population of current dorm
+        if (dorm_pop <= min_pop){                                  // if current dorm's pop less than min
+            min_pop = dorm_pop;                                    // set new min
         }
-        return min_pop;                                                // return new min value
+        dormObjs = dormObjs->next;                                 // move to next dorm
+    }
+    return min_pop;                                                // return new min value
+}
+
+/**
+ * Select a student via ID. 
+ * This will return the student from the dorm (removing the student from that dorm)
+ * and will place the student into the dorm passed in as a parameter
+ */
+Student getStudent(int studentID){
+    Student s;
+    Node<Dorm<Student> >* dorms = allDormObj.get_head();           // iterate through list of dorms 
+    while (dorms != NULL){                                         // put this function in dorm class                          
+        Node<Student>* student_node = dorms->data.getStudents().get_head();
+        while (student_node != NULL){                              // loop through students at that dorm
+            if (student_node->data.getID() == studentID){          // find student with desired ID 
+                s = student_node->data;                            // get that student's student object
+                dorms->data.removeStudent(s);                       // remove them from this dorm
+                return s;                                          // return the student
+                }
+                student_node = student_node -> next;
+            }
+            dorms = dorms->next;
+        }
+            return s;                                                 // return null student if no student found
     }
 
-    /**
-     * Select a student via ID. 
-     * This will return the student from the dorm (removing the student from that dorm)
-     * and will place the student into the dorm passed in as a parameter
-     */
-    Student getStudent(int studentID){
-        Student s;
-        Node<Dorm<Student> >* dorms = allDormObj.get_head();           // iterate through list of dorms 
-        while (dorms != NULL){                                         // put this function in dorm class                          
-            Node<Student>* student_node = dorms->data.getStudents().get_head();
-            while (student_node != NULL){                              // loop through students at that dorm
-                if (student_node->data.getID() == studentID){          // find student with desired ID 
-                    s = student_node->data;                            // get that student's student object
-                    dorms->data.removeStudent(s);                       // remove them from this dorm
-                    return s;                                          // return the student
-                    }
-                    student_node = student_node -> next;
-                }
-                dorms = dorms->next;
-            }
-             return s;                                                 // return null student if no student found
+/**
+ * get dorm object via dormname
+ */
+Dorm<Student>& getDorm(string dormName){
+    Node<Dorm<Student> >* dorms = allDormObj.get_head();       // iterate through list of dorms
+    while (dorms != NULL){
+        if (dormName == dorms->data.getDormName()){            // if dormname parameter matches current dorm, return it
+        return dorms->data;      
         }
-
-        /**
-         * get dorm object via dormname
-         */
-        Dorm<Student>& getDorm(string dormName){
-            Node<Dorm<Student> >* dorms = allDormObj.get_head();       // iterate through list of dorms
-            while (dorms != NULL){
-                if (dormName == dorms->data.getDormName()){            // if dormname parameter matches current dorm, return it
-                return dorms->data;      
-                }
-                dorms = dorms->next;
-            }
-            return d;                                                   
-        }
-       
+        dorms = dorms->next;
+    }
+    return d;                                                   
+}
+    
     
