@@ -187,13 +187,20 @@ int main(){
     // that would update itself whenever the head is updated in any of the List class' functions. 
     
     List<int> newList;                                                             // create a new List
-    for (size_t i = 0 ; i < 20 ; i ++){                                     // fill it with some values
+    for (size_t i = 0 ; i < 8 ; i ++){                                     // fill it with some values
         newList.insert(i);
     }
 
     cout << newList.get_head_element() << endl;                 // check head element prior to printing
     newList.print();                                                          // check that print works
     cout << newList.get_head_element() << endl;           // confirm that head has been reset correctly
+
+    //-------------------------------------------------------------------------------------------------
+    // RECURSIVE REVERSE LIST METHOD
+    //------------------------------------------------------------------------------------------------- 
+
+    newList.reverse();
+    newList.print();
 
     //-------------------------------------------------------------------------------------------------
     // run graphs
@@ -209,8 +216,6 @@ int main(){
 		cout << "  all .txt data cleared\n" << endl;
 	}
 
-    
-    
     return 0;
 }
 
@@ -400,8 +405,10 @@ bool nested(string str){
     }
     str = str.substr(1, str.length()-2);                                // adjust string from both sides
     return (front == '(' && back == ')') * nested(str);                           // return 1/0 to stack
-}      // I don't know why I had to do minus 2 instead of minus 1, though, debugger showed was necessary
+}      
+       // I don't know why I had to do minus 2 instead of minus 1, though, debugger showed was necessary
            // degubber showing no difference between setting end of str equal to lenth() vs length() - 1
+
 ////---------------------------------------------------------------------------------------------------
 
 

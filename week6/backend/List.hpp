@@ -23,8 +23,10 @@ class List {
     private:
 
         size_t link_size = 0;                              // keep track of list size for various functions
+        size_t og_link_size = link_size;
         Node<T>* head;
         Node<T>* og_head;
+        Node<T>* og_tail;
         Node<T>* tail;
 
     public:
@@ -97,7 +99,8 @@ class List {
                 head->data = item;                  // set data 
                 tail = head;                        // set tail as head as well since only one node exists
                 link_size ++;                       // increment by 1
-                og_head =head; 
+                og_head = head; 
+                og_tail = tail;
                 return;                             // return, else not needed
             }                                   
             Node<T>* newNode = new Node<T>();       // if inserting at position 0 (the head),
@@ -119,6 +122,7 @@ class List {
                 tail = head;                       // set tail as head as well since only one node exists
                 link_size ++;                      // increment by 1 
                 og_head = head;
+                og_tail = tail;
                 return;                            // return, else not needed
                 }                                   
             if (pos == 0){
@@ -135,6 +139,7 @@ class List {
                 newNode->data = item;               // constant time operation
                 tail->next = newNode;
                 tail = newNode;
+                og_tail = tail;
                 link_size ++;
                 return;    
             }  
@@ -159,6 +164,7 @@ class List {
             newNode->next = cur_node;               // newNode's next = the node before which it is being inserted
             link_size ++ ;                          // increase link size      
         }
+        
         //-------------------------------------------------------------------------------------------------
         /**
          *  Removes the item at the specified index
@@ -181,6 +187,7 @@ class List {
                 T item = n->next->data;
                 delete tail;
                 tail = n;
+                og_tail = tail;
                 link_size --;
                 return item;    
             }                                                                              
@@ -204,6 +211,7 @@ class List {
             delete cur_node;                        // remove dangling pointer
             return item;                            // return item
         }
+
         //-------------------------------------------------------------------------------------------------
         /**
          *  Get the element at the specified position
@@ -223,6 +231,7 @@ class List {
             }
             return cur_node->data;                  // return that node's data
         }
+
         //-------------------------------------------------------------------------------------------------
         /**
          *  Return index of item if found in the linked list
@@ -240,13 +249,15 @@ class List {
             }           
             return -1;                              // if get to here, nothing found
         }
+
        //-------------------------------------------------------------------------------------------------
         /**
 		 * returns how many items are in a list
 		 */
 		size_t length(){
 			return link_size;
-		}   
+		}
+
         //-------------------------------------------------------------------------------------------------
         /**
 		 * returns how many items are in a list
@@ -255,36 +266,37 @@ class List {
             size_t count = 0;                       // increase counnt when item found          
 			Node<T>* n = head;                      // traverse list
             while(n != NULL){
-                if (n->data == item){                // if item found
-                    count ++;                        // increase count
+                if (n->data == item){               // if item found
+                    count ++;                       // increase count
                 }
                 n = n->next;
             }
             return count;
 		}
+
         //-------------------------------------------------------------------------------------------------
         /**
-         *  reverse the order of items in the list
+         * reverse the data in the linked list recursively
          */
         void reverse(){
-            T* temp = new T[link_size];             // set up temp array 
-            Node<T>* cur_node_A = head;               
-            size_t index_A = 0 ;                    // index for array ^
-            while (cur_node_A != NULL){             // traverse the linked list
-                temp[index_A] = cur_node_A->data;   // add data to array as you go
-                cur_node_A = cur_node_A->next;      // move to next node
-                index_A ++ ;                        // increment index
+            Node<T>* front_n = head;                    // for iterating to find the pre-tail node
+            T front = head->data;                       // temp data for swapping 
+            T back = tail->data;                        // temp data for swapping
+            if (head == tail){                          // base case = head and tail touch (approaching from both ends)
+                head = og_head;                         // when done, reset head node
+                tail = og_tail;                         // when done, reset tail node
+                return;                             
             }
-                                                    // reverse loop the array and set the data for the linked list
-            Node<T>* cur_node_B = head;               
-            size_t index_B = link_size -1;          // reverse index for array
-            while (cur_node_B != NULL){             // traverse the linked list
-                cur_node_B->data = temp[index_B];   // replace linked list data as you go
-                cur_node_B = cur_node_B->next;      // move to next node
-                index_B -- ;                        // decrement index
+            head->data = back;                          // swap front and back data
+            tail->data = front;                         // swap back and front data
+            head = head->next;                          // move head node to node after it
+            while (front_n!= tail){                     // iterate to adjust tail (since no back references)
+                front_n = front_n->next;
             }
-            delete[] temp;           
+            tail = front_n;                             // adjust tail to node in front of it
+            reverse();                                  // continue...
         }
+
         //-------------------------------------------------------------------------------------------------
         /**
          *  appends another list to this list
@@ -362,6 +374,8 @@ class List {
             head = head->next;                   // move to next node 
             print();
         }
+        
+        // overload the equals operator
 };
 
 #endif
