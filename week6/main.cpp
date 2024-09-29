@@ -18,6 +18,8 @@ string reverse_string_itr(string&);
 string reverse_string_rec(string);
 void recursive_print_count(int, int);
 int recursive_sum_array(int*, int);
+int len(int);
+int dog_ears(int);
 //-----------------------------------------------------------------------------------------------------
 //  MAIN
 //-----------------------------------------------------------------------------------------------------
@@ -86,7 +88,7 @@ int main(){
     //-------------------------------------------------------------------------------------------------
     //-------------------------------------------------------------------------------------------------
     //  iterative algo average num of operations
-    //-------------------------------------------------------------------------------------------------
+
     int sum_a = 0;
     Node<int>* n = itr_res.get_head();
     while (n != NULL){
@@ -106,7 +108,7 @@ int main(){
 
     //-------------------------------------------------------------------------------------------------
     //  recursive algo average num of operations
-    //-------------------------------------------------------------------------------------------------
+
     int sum_b = 0;                                                   // iterate through list of reuslts
     Node<int>* m = rec_res.get_head();
     while (m != NULL){
@@ -153,6 +155,17 @@ int main(){
     //------------------------------------------------------------------------------------------------- 
         int arr[] = {5, 4, 3, 2, 1};
         cout << recursive_sum_array(arr, 5) << endl;
+
+    //-------------------------------------------------------------------------------------------------
+    // RECURSIVE LENGTH METHOD
+    //------------------------------------------------------------------------------------------------- 
+        cout << len(1234567890) << endl;
+
+    //-------------------------------------------------------------------------------------------------
+    // RECURSIVE DOG EARS COUNTER
+    //------------------------------------------------------------------------------------------------- 
+        cout << dog_ears(10) << endl;
+
     //-------------------------------------------------------------------------------------------------
     // run graphs
     //-------------------------------------------------------------------------------------------------
@@ -223,15 +236,15 @@ string reverse_string_itr(string& str){                             // time comp
 // RECURSIVE REVERSE STRING METHOD
 //-----------------------------------------------------------------------------------------------------
 
-                                                     // This function takes in a string as a parameter.
-  // If the string's length is 0, the function returns the string ("") and exits the functions's scope.
-                        // At which point whatever was returned to the stack unwinds in a LIFO pattern.
- // Otherwise, the function takes the back character of the current string and returns it to the stack,
-                                                                               // with the operand '+'.
-      // then the function is called recursively, passing the same string (minus the back character) as 
-      // a parameter, thus reudcing the string size by one and satfisfying all three requirements for a 
-  // recursive function (base case, manipulation of size of main variable (reduction in this case)) and  
-                                               // the calling of the same function until base case met. 
+// This function takes in a string as a parameter.
+// If the string's length is 0, the function returns the string ("") and exits the functions's scope.
+// At which point whatever was returned to the stack unwinds in a LIFO pattern.
+// Otherwise, the function takes the back character of the current string and returns it to the stack,
+// with the operand '+'.
+// then the function is called recursively, passing the same string (minus the back character) as 
+// a parameter, thus reudcing the string size by one and satfisfying all three requirements for a 
+// recursive function (base case, manipulation of size of main variable (reduction in this case)) and  
+// the calling of the same function until base case met. 
 
 string reverse_string_rec(string str){                                  
     if (str.length() == 0){                                            // base case is string size = 0
@@ -244,9 +257,9 @@ string reverse_string_rec(string str){
 // RECURSIVE PRINT COUNT METHOD
 //-----------------------------------------------------------------------------------------------------
 
-     // this method is similar to the above method, but instead of building up the stack, since nothing
-  // needs to unwound, you can simply print 'n' and its updates (n+1). the function will then break and 
-                                                         // exit its scope when n equals the base case. 
+// this method is similar to the above method, but instead of building up the stack, since nothing
+// needs to unwound, you can simply print 'n' and its updates (n+1). the function will then break and 
+// exit its scope when n equals the base case. 
 
 void recursive_print_count(int n, int base){                             // pass in start and end value
     if (n == base){                                                               // if n = base , quit
@@ -261,10 +274,10 @@ void recursive_print_count(int n, int base){                             // pass
 // RECURSIVE SUM ARRAY METHOD
 //-----------------------------------------------------------------------------------------------------
 
-              // Same pattern as above, but now this one uses the stack like the string reverse method,
-                                    // to unwind and sum the values that have been stored on the stack.
-                                                        // the values being the last item in the array.
-     // the last item in the array is then altered each recursion call decrementing the array size by 1
+// Same pattern as above, but now this one uses the stack like the string reverse method,
+// to unwind and sum the values that have been stored on the stack.
+// the values being the last item in the array.
+// the last item in the array is then altered each recursion call decrementing the array size by 1
 
 
 int recursive_sum_array(int* arr, int size){            // pass in pointer to array and the array size
@@ -273,6 +286,51 @@ int recursive_sum_array(int* arr, int size){            // pass in pointer to ar
     }
     return arr[size-1] + recursive_sum_array(arr, size - 1); // get value at back/decrement array by 1
 }
+
+//-----------------------------------------------------------------------------------------------------
+// RECURSIVE LENGTH METHOD
+//-----------------------------------------------------------------------------------------------------
+
+// To find the length of a digit (that is in base 10), just perform recursive division by 10 until 
+// that division results in 0. We don't actually care about the values that result from the division
+// so we just return '1' to serve as a count for each time the recursion occurs. 
+// Thus: 
+// 1) base case = the number passed in equals 0
+// 2) function is recursively called
+// 3) 'n' the number passed in is reduced by n / 10 each recursive call.
+// this method will run and place values on the stack for the length of the digit that is entered.
+
+int len(int n){                                                                             
+    if (n / 10 == 0){
+        return 1;
+    }
+    return 1 + len(n/10);
+}
+
+
+//-----------------------------------------------------------------------------------------------------
+// RECURSIVE DOG EARS COUNTER
+//-----------------------------------------------------------------------------------------------------
+
+// To find the number of dog ears of the dogs in line when dogs in an even position have 3 ears
+// and dogs in an odd posiition have 2 ears, is another addition via stack returns algo. 
+// This time we just need to check whether to return a 2 or a 3 to the stack via modulus division 
+// (aka checking for even vs odd). The function satisfies the recursive requirements by:
+// 1) base case  exists , function knows to exit its scop when num_dogs = 0
+// 2) num_dogs reduces its value each recursive call
+// 3) num_dogs called recursively until base case met. 
+// call stack unwinds once function exits its scope and adds the numbers placed on the stack. 
+
+int dog_ears(int num_dogs){
+    if (num_dogs == 0){
+        return 0;
+    }
+    if (num_dogs % 2 != 0 ){
+        return 2 + dog_ears(num_dogs - 1);
+    }
+    return 3 + dog_ears(num_dogs - 1);
+}
+
 ////---------------------------------------------------------------------------------------------------
 
 
