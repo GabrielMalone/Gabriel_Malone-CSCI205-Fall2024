@@ -7,29 +7,35 @@
 #include <string>
 
 using namespace std;
-
+//--------------------------------------------------------------------------------------------------------
+// NODE TO CREATE LINKED LIST 
+//--------------------------------------------------------------------------------------------------------
 template <class T>
 struct Node {
     T data;
     Node<T>* next;
 };
-
+//--------------------------------------------------------------------------------------------------------
+// LIST CLASS 
+//--------------------------------------------------------------------------------------------------------
 template <class T>
 class List {
     private:
 
-        size_t link_size = 0;                               // keep track of list size for various functions
+        size_t link_size = 0;                              // keep track of list size for various functions
         Node<T>* head;
         Node<T>* og_head;
         Node<T>* tail;
 
     public:
-
+        //-------------------------------------------------------------------------------------------------
+        // LIST CONSTRUCTORS AND DESTRUCTOR
+        //-------------------------------------------------------------------------------------------------
         /**
          * No argument constructor
          */
         List(){
-            head = NULL;                                // entry point to the linked list
+            head = NULL;                                                   // entry point to the linked list
         };
         
         /**
@@ -52,7 +58,9 @@ class List {
                 cur_node = next;
             }
         };	
-
+        //-------------------------------------------------------------------------------------------------
+        // GETTERS AND SETTERS
+        //-------------------------------------------------------------------------------------------------
         /**
          * returns pointer to this List's head
          */
@@ -77,6 +85,9 @@ class List {
         T get_head_element(){
             return this->head->data;
         }
+        //-------------------------------------------------------------------------------------------------
+        // MAIN METHODS
+        //-------------------------------------------------------------------------------------------------
         /**
          *  Insert item at front of list without position argument
          */
@@ -128,12 +139,12 @@ class List {
                 return;    
             }  
                                              
-            if (pos > link_size){                   // if inserting after the head, need to see if the position falls within how many items are present (size of linked lis)
+            if (pos > link_size){                  
                 throw std::invalid_argument("position out of bounds"); 
             }                                      
             size_t counter = 1;                     // start at one since skipping the head
-            Node<T>* prev_node = head; 
-            Node<T>* cur_node = head->next;         // get the node previous to where new node will be inserted via position / start at the node right after the head
+            Node<T>* prev_node = head;              // node previous to where new node will be inserted
+            Node<T>* cur_node = head->next;         // start at the node right after the head
             while (cur_node != NULL){               // while the current node's position != the end of the list  
                if (counter == pos ){                // if counter reaches the desired position
                     break;                          // break loop as you've reached your destination
@@ -145,10 +156,10 @@ class List {
             Node<T>* newNode = new Node<T>();       // create new node 
             newNode->data = item;                   // with parameter's data
             prev_node->next = newNode;              // set newNode as the next for the node prior to it
-            newNode->next = cur_node;               // set newNode's next as the node it is being inserted before
+            newNode->next = cur_node;               // newNode's next = the node before which it is being inserted
             link_size ++ ;                          // increase link size      
         }
-
+        //-------------------------------------------------------------------------------------------------
         /**
          *  Removes the item at the specified index
          */
@@ -173,12 +184,12 @@ class List {
                 link_size --;
                 return item;    
             }                                                                              
-            if (pos > link_size){                   // if deleting after the head, need to see if the position falls within how many items are present (size of linked lis)
+            if (pos > link_size){                   
                 throw std::invalid_argument("position out of bounds"); 
             }                                       
             size_t counter = 1;                     // start at one since skipping the head
-            Node<T>* prev_node = head; 
-            Node<T>* cur_node = head->next;         // get the node previous to where new node will be inserted via position / start at the node right after the head
+            Node<T>* prev_node = head;              // start at the node right after the head
+            Node<T>* cur_node = head->next;         // get the node previous to where new node will be inserted via position
             while (cur_node != NULL){               // while the current node's position != the end of the list  
                if (counter == pos ){                // if counter reaches the desired position
                     break;                          // break loop as you've reached your destination
@@ -193,7 +204,7 @@ class List {
             delete cur_node;                        // remove dangling pointer
             return item;                            // return item
         }
-
+        //-------------------------------------------------------------------------------------------------
         /**
          *  Get the element at the specified position
          */
@@ -212,7 +223,7 @@ class List {
             }
             return cur_node->data;                  // return that node's data
         }
-
+        //-------------------------------------------------------------------------------------------------
         /**
          *  Return index of item if found in the linked list
          *  Returns -1 if not found
@@ -220,7 +231,7 @@ class List {
         int find (T item){
             int index = 0;
             Node<T>* cur_node = head;               
-            while (cur_node != NULL){               // traverse the list and count each time a new node is reached
+            while (cur_node != NULL){               // traverse the list and count each new node reached
                 if (item == cur_node->data){        // if node's data matches
                     return index;                   // break and return index
                 }
@@ -229,14 +240,14 @@ class List {
             }           
             return -1;                              // if get to here, nothing found
         }
-
+       //-------------------------------------------------------------------------------------------------
         /**
 		 * returns how many items are in a list
 		 */
 		size_t length(){
 			return link_size;
 		}   
-
+        //-------------------------------------------------------------------------------------------------
         /**
 		 * returns how many items are in a list
 		 */
@@ -251,7 +262,7 @@ class List {
             }
             return count;
 		}
-          
+        //-------------------------------------------------------------------------------------------------
         /**
          *  reverse the order of items in the list
          */
@@ -264,7 +275,7 @@ class List {
                 cur_node_A = cur_node_A->next;      // move to next node
                 index_A ++ ;                        // increment index
             }
-                                                    // now reverse loop through the array and set that data for the linked list
+                                                    // reverse loop the array and set the data for the linked list
             Node<T>* cur_node_B = head;               
             size_t index_B = link_size -1;          // reverse index for array
             while (cur_node_B != NULL){             // traverse the linked list
@@ -274,18 +285,22 @@ class List {
             }
             delete[] temp;           
         }
-
+        //-------------------------------------------------------------------------------------------------
         /**
          *  appends another list to this list
          */
-        void append(List& list){                    // originally had this function just p9ointing at another list, 
+        void append(List& list){                   
             tail->next = list.head;
             tail = list.tail;
             link_size += list.link_size;
             list.head = nullptr;                    // set these nullptrs to avoid double deletes
-            list.tail = nullptr;                    // the appending list's destructor will e called and traverse the shared pointers
-        }                                           // then called again when the list being appenended's destructor is called
-                                                    // nothign will try to be deleted at this point if the pointer is null, though
+            list.tail = nullptr;                    // otherwise the appending list's destructor 
+                                                    // called and traverses the shared pointers
+        }                                           // then called again when the list being appenended's 
+                                                    // destructor is called nothign will try to be deleted at
+                                                    // this point if the pointer is null, though
+
+        //-------------------------------------------------------------------------------------------------                                            
          /**
          * remove duplicated items from the list    // my entirely inneficient solution to appease linux and valgrind
          */
@@ -333,7 +348,7 @@ class List {
             og_head = head;
             delete[] temparr;
         }
-
+        //-------------------------------------------------------------------------------------------------   
         /**
          *  recursive print method
          */
