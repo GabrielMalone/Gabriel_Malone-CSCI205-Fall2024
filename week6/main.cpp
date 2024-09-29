@@ -187,7 +187,7 @@ int main(){
     // that would update itself whenever the head is updated in any of the List class' functions. 
     
     List<int> newList;                                                             // create a new List
-    for (size_t i = 0 ; i < 8 ; i ++){                                     // fill it with some values
+    for (size_t i = 0 ; i < 20 ; i ++){                                     // fill it with some values
         newList.insert(i);
     }
 

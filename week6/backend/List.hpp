@@ -108,6 +108,7 @@ class List {
             newNode->next = head;                   // new node moves in front of current head
             head = newNode;                         // head is now the new node
             link_size ++ ;                          // increase size of linked list
+            og_link_size ++ ;
             og_head = head;
             return;                                 // nuffin else to do
         }
@@ -121,6 +122,7 @@ class List {
                 head->data = item;                 // set data 
                 tail = head;                       // set tail as head as well since only one node exists
                 link_size ++;                      // increment by 1 
+                og_link_size = link_size;
                 og_head = head;
                 og_tail = tail;
                 return;                            // return, else not needed
@@ -131,6 +133,7 @@ class List {
                 newNode->next = head;               // new node moves in front of current head
                 head = newNode;                     // head is now the new node
                 link_size ++ ;                      // increase size of linked list
+                og_link_size = link_size;
                 og_head = head;
                 return;                             // nuffin else to do
             }
@@ -141,6 +144,7 @@ class List {
                 tail = newNode;
                 og_tail = tail;
                 link_size ++;
+                og_link_size = link_size;
                 return;    
             }  
                                              
@@ -162,7 +166,8 @@ class List {
             newNode->data = item;                   // with parameter's data
             prev_node->next = newNode;              // set newNode as the next for the node prior to it
             newNode->next = cur_node;               // newNode's next = the node before which it is being inserted
-            link_size ++ ;                          // increase link size      
+            link_size ++ ;                          // increase link size 
+            og_link_size = link_size;     
         }
         
         //-------------------------------------------------------------------------------------------------
@@ -175,6 +180,7 @@ class List {
                 T item = og_heada->data;
                 head = head->next;                  // node that was just after the head now becomes the head
                 link_size -- ;                      // decrease size of linked list
+                og_link_size = link_size;
                 delete og_heada;                    // delete the original head pointer
                 og_head = head;
                 return item;                        // nuffin else to do
@@ -189,6 +195,7 @@ class List {
                 tail = n;
                 og_tail = tail;
                 link_size --;
+                og_link_size = link_size;
                 return item;    
             }                                                                              
             if (pos > link_size){                   
@@ -207,6 +214,7 @@ class List {
             }
             prev_node->next = cur_node->next;        
             link_size -- ;                          // decrease link size
+            og_link_size = link_size;
             T item = cur_node->data;                // get the diesired item
             delete cur_node;                        // remove dangling pointer
             return item;                            // return item
@@ -282,18 +290,20 @@ class List {
             Node<T>* front_n = head;                    // for iterating to find the pre-tail node
             T front = head->data;                       // temp data for swapping 
             T back = tail->data;                        // temp data for swapping
-            if (head == tail){                          // base case = head and tail touch (approaching from both ends)
+            if (link_size <= 1){                        // base case = head and tail touch (approaching from both ends)
                 head = og_head;                         // when done, reset head node
                 tail = og_tail;                         // when done, reset tail node
+                link_size = og_link_size;
                 return;                             
             }
             head->data = back;                          // swap front and back data
             tail->data = front;                         // swap back and front data
             head = head->next;                          // move head node to node after it
-            while (front_n!= tail){                     // iterate to adjust tail (since no back references)
+            while (front_n->next != tail){              // iterate to adjust tail (since no back references)
                 front_n = front_n->next;
             }
             tail = front_n;                             // adjust tail to node in front of it
+            link_size -= 2 ;
             reverse();                                  // continue...
         }
 
@@ -305,6 +315,7 @@ class List {
             tail->next = list.head;
             tail = list.tail;
             link_size += list.link_size;
+            og_link_size = link_size;
             list.head = nullptr;                    // set these nullptrs to avoid double deletes
             list.tail = nullptr;                    // otherwise the appending list's destructor 
                                                     // called and traverses the shared pointers
@@ -356,6 +367,7 @@ class List {
                 newNode->data = temparr[i];
             }
             link_size = tempIndex;
+            og_link_size = link_size;
             tail->data = temparr[tempIndex -1];
             og_head = head;
             delete[] temparr;
@@ -365,8 +377,8 @@ class List {
          *  recursive print method
          */
         void print(){
-            if (head == tail){                   // base case when head reaches tail 
-                cout << tail->data << endl;
+            if (head->next == NULL){                   // base case when head reaches tail 
+                cout << head->data << endl;
                 head = og_head;                  // reset head to its original value
                 return;
             }
