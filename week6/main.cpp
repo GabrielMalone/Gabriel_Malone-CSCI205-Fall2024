@@ -30,7 +30,7 @@ int main(){
     //-------------------------------------------------------------------------------------------------
     //  ITERATIVE EUCLIDs ALGO
     //-------------------------------------------------------------------------------------------------
-    algo_count_itr = 0;                                                                // reset counter                                            
+    algo_count_itr = 0;                                                                // reset counter
     cout << "Via the iterative method, the GCD of "     
          << a 
          << " and " 
@@ -50,9 +50,9 @@ int main(){
          << " and " 
          << b 
          << " is " 
-         << EUC_GCD_REC(a, b)                                                              // run alog
+         << EUC_GCD_REC(a, b)                                                               // run alog
          << ". this algorith ran " 
-         << algo_count_rec                                                     // algo time complexity
+         << algo_count_rec                                                      // algo time complexity
          << " time(s)." 
          << endl;
     //-------------------------------------------------------------------------------------------------
@@ -223,15 +223,15 @@ string reverse_string_itr(string& str){                             // time comp
 // RECURSIVE REVERSE STRING METHOD
 //-----------------------------------------------------------------------------------------------------
 
-// This function takes in a string as a parameter.
-// If the string's length is 0, the function returns the string ("") and exits the functions's scope.
-// At which point whatever was returned to the stack unwinds in a LIFO pattern.
-// Otherwise, the function takes the back character of the current string and returns it to the stack,
-// with the operand '+'.
-// then the function is called recursively, passing the same string (minus the back character) as 
-// a parameter, thus reudcing the string size by one and satfisfying all three requirements for a 
-// recursive function (base case, manipulation of size of main variable (reduction in this case)) and  
-// the calling of the same function until base case met. 
+                                                     // This function takes in a string as a parameter.
+  // If the string's length is 0, the function returns the string ("") and exits the functions's scope.
+                        // At which point whatever was returned to the stack unwinds in a LIFO pattern.
+ // Otherwise, the function takes the back character of the current string and returns it to the stack,
+                                                                               // with the operand '+'.
+      // then the function is called recursively, passing the same string (minus the back character) as 
+      // a parameter, thus reudcing the string size by one and satfisfying all three requirements for a 
+  // recursive function (base case, manipulation of size of main variable (reduction in this case)) and  
+                                               // the calling of the same function until base case met. 
 
 string reverse_string_rec(string str){                                  
     if (str.length() == 0){                                            // base case is string size = 0
@@ -244,27 +244,27 @@ string reverse_string_rec(string str){
 // RECURSIVE PRINT COUNT METHOD
 //-----------------------------------------------------------------------------------------------------
 
-// this method is similar to the above method, but instead of building up the stack, since nothing
-// needs to unwound, you can simply print 'n' and its updates (n+1). the function will then break and 
-// exit its scope when n equals the base case. 
+     // this method is similar to the above method, but instead of building up the stack, since nothing
+  // needs to unwound, you can simply print 'n' and its updates (n+1). the function will then break and 
+                                                         // exit its scope when n equals the base case. 
 
-void recursive_print_count(int n, int base){                            // pass in start and end value
-    if (n == base){                                                              // if n = base , quit
+void recursive_print_count(int n, int base){                             // pass in start and end value
+    if (n == base){                                                               // if n = base , quit
         cout << n << endl;
         return;
     }
-    cout << n << " ";                                                         // print current n value     
-    recursive_print_count(n + 1, base);                                            // increment n by 1
+    cout << n << " ";                                                          // print current n value     
+    recursive_print_count(n + 1, base);                                             // increment n by 1
 }
 
 //-----------------------------------------------------------------------------------------------------
 // RECURSIVE SUM ARRAY METHOD
 //-----------------------------------------------------------------------------------------------------
 
-// Same pattern as above, but now this one uses the stack like the string reverse method,
-// to unwind and sum the values that have been stored on the stack.
-// the values being the last item in the array.
-// the last item in the array is then altered each recursion call decrementing the array size by 1
+              // Same pattern as above, but now this one uses the stack like the string reverse method,
+                                    // to unwind and sum the values that have been stored on the stack.
+                                                        // the values being the last item in the array.
+     // the last item in the array is then altered each recursion call decrementing the array size by 1
 
 
 int recursive_sum_array(int* arr, int size){            // pass in pointer to array and the array size
