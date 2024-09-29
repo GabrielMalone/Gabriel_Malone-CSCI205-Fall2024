@@ -322,13 +322,13 @@ int len(int n){
 // call stack unwinds once function exits its scope and adds the numbers placed on the stack. 
 
 int dog_ears(int num_dogs){
-    if (num_dogs == 0){
-        return 0;
+    if (num_dogs == 0){                                                                    // base case
+        return 0;                                                 // no new values to add at this point
     }
-    if (num_dogs % 2 != 0 ){
-        return 2 + dog_ears(num_dogs - 1);
+    if (num_dogs % 2 != 0 ){                                           // if a dog in odd line position
+        return 2 + dog_ears(num_dogs - 1);                                        // add 2 to the stack
     }
-    return 3 + dog_ears(num_dogs - 1);
+    return 3 + dog_ears(num_dogs - 1);        // otherwise its a dog with 3 ears, so add 3 to the stack
 }
 
 ////---------------------------------------------------------------------------------------------------
