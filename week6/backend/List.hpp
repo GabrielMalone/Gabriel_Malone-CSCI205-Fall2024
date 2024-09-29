@@ -20,6 +20,7 @@ class List {
 
         size_t link_size = 0;                               // keep track of list size for various functions
         Node<T>* head;
+        Node<T>* og_head;
         Node<T>* tail;
 
     public:
@@ -40,6 +41,7 @@ class List {
             for (size_t i = 0 ; i < size ; i ++){
                 insert(array[i], i);
             }
+            og_head = head;
         };
 
         ~List(){                           
@@ -83,7 +85,8 @@ class List {
                 head = new Node<T>();               // make new node
                 head->data = item;                  // set data 
                 tail = head;                        // set tail as head as well since only one node exists
-                link_size ++;                       // increment by 1 
+                link_size ++;                       // increment by 1
+                og_head =head; 
                 return;                             // return, else not needed
             }                                   
             Node<T>* newNode = new Node<T>();       // if inserting at position 0 (the head),
@@ -91,6 +94,7 @@ class List {
             newNode->next = head;                   // new node moves in front of current head
             head = newNode;                         // head is now the new node
             link_size ++ ;                          // increase size of linked list
+            og_head = head;
             return;                                 // nuffin else to do
         }
 
@@ -103,6 +107,7 @@ class List {
                 head->data = item;                 // set data 
                 tail = head;                       // set tail as head as well since only one node exists
                 link_size ++;                      // increment by 1 
+                og_head = head;
                 return;                            // return, else not needed
                 }                                   
             if (pos == 0){
@@ -111,6 +116,7 @@ class List {
                 newNode->next = head;               // new node moves in front of current head
                 head = newNode;                     // head is now the new node
                 link_size ++ ;                      // increase size of linked list
+                og_head = head;
                 return;                             // nuffin else to do
             }
             if (pos == link_size){                  // if inserting at the back
@@ -148,11 +154,12 @@ class List {
          */
         T remove (size_t pos){
             if (pos == 0){
-                Node<T>* og_head = head;            // if removing at position 0 (the head),
-                T item = og_head->data;
+                Node<T>* og_heada = head;           // if removing at position 0 (the head),
+                T item = og_heada->data;
                 head = head->next;                  // node that was just after the head now becomes the head
                 link_size -- ;                      // decrease size of linked list
-                delete og_head;                     // delete the original head pointer
+                delete og_heada;                    // delete the original head pointer
+                og_head = head;
                 return item;                        // nuffin else to do
             }
             if (pos == link_size){                  // if removing from the back
@@ -243,7 +250,8 @@ class List {
                 n = n->next;
             }
             return count;
-		}  
+		}
+          
         /**
          *  reverse the order of items in the list
          */
@@ -322,46 +330,22 @@ class List {
             }
             link_size = tempIndex;
             tail->data = temparr[tempIndex -1];
+            og_head = head;
             delete[] temparr;
         }
 
-        // /**                                      // linux and valgrind didn't like this but im guessing this is more in line what is supposed to be done
-        //  * remove duplicated items from the list
-        //  */
-        // void removeDuplicates(){
-        //     Node<T>* n = head;
-        //     Node<T>* next = head->next;
-        //     size_t counter = 0;
-        //     while (n != NULL ){
-        //         while (next != NULL){
-        //             if (n->data == next->data){
-        //                 counter ++;
-        //             }
-        //             next = next->next;
-        //         }
-        //         for (size_t i = 1 ; i < counter ; i ++){ 
-        //             remove(find(n->data));
-        //         }
-        //         next = head;
-        //         n = n->next;
-        //         counter = 0;
-        //     }
-        // }
-
         /**
-		 *  print list contents
-		 */
-		void print(){
-            cout << "[";
-            Node<T>* current_node = head;
-            size_t counter = 0;
-            while (counter < link_size){
-                cout << current_node->data << " -> ";
-                current_node = current_node -> next;
-                counter ++ ;
-		    }
-            cout << "]";
-			cout << endl;
+         *  recursive print method
+         */
+        void print(){
+            if (head == tail){                   // base case when head reaches tail 
+                cout << tail->data << endl;
+                head = og_head;                  // reset head to its original value
+                return;
+            }
+            cout << head->data << " -> ";        // print current node's data
+            head = head->next;                   // move to next node 
+            print();
         }
 };
 

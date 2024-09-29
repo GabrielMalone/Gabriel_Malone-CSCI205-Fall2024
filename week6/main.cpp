@@ -20,6 +20,8 @@ void recursive_print_count(int, int);
 int recursive_sum_array(int*, int);
 int len(int);
 int dog_ears(int);
+string strip(string, char);
+bool nested(string);
 //-----------------------------------------------------------------------------------------------------
 //  MAIN
 //-----------------------------------------------------------------------------------------------------
@@ -165,6 +167,33 @@ int main(){
     // RECURSIVE DOG EARS COUNTER
     //------------------------------------------------------------------------------------------------- 
         cout << dog_ears(10) << endl;
+
+    //-------------------------------------------------------------------------------------------------
+    // RECURSIVE STRING STRIPPER
+    //------------------------------------------------------------------------------------------------- 
+        cout << strip("123-45-6789", '-') << endl;
+
+    //-------------------------------------------------------------------------------------------------
+    // RECURSIVE NESTED PARENTHESES CHECKER
+    //------------------------------------------------------------------------------------------------- 
+        cout << nested("(())") << endl;
+
+    //-------------------------------------------------------------------------------------------------
+    // RECURSIVE LIST PRINT METHOD
+    //------------------------------------------------------------------------------------------------- 
+    // the recursive print function requires calling print on the head node recursively until 
+    // the head node reaches the tail node. The list class needed to be updated to handle the head 
+    // constantly changing by this function call by implementing another variable (Node<T>* og_head)
+    // that would update itself whenever the head is updated in any of the List class' functions. 
+    
+    List<int> newList;                                                             // create a new List
+    for (size_t i = 0 ; i < 20 ; i ++){                                     // fill it with some values
+        newList.insert(i);
+    }
+
+    cout << newList.get_head_element() << endl;                 // check head element prior to printing
+    newList.print();                                                          // check that print works
+    cout << newList.get_head_element() << endl;           // confirm that head has been reset correctly
 
     //-------------------------------------------------------------------------------------------------
     // run graphs
@@ -331,6 +360,48 @@ int dog_ears(int num_dogs){
     return 3 + dog_ears(num_dogs - 1);        // otherwise its a dog with 3 ears, so add 3 to the stack
 }
 
+//-----------------------------------------------------------------------------------------------------
+// RECURSIVE STRING STRIP METHOD
+//-----------------------------------------------------------------------------------------------------
+
+// This is the same logic as the string reversal, but instead of taking the back index and returning
+// that to the stack, we are taking the front index of the string and returning that to the stack.
+// in addition, we are decreasing the size of the string from the front instead of from the back
+// in order to continually shift that front index character. 
+
+string strip(string str, char c){   
+    if (str.length() == 0){        // base case, return from scope of function when str length is zero
+        return str;                                                                  // str will be ""
+    }
+    if (str[0] != c){                             // check front of string against char to be stripped
+        return str[0] + strip(str.substr(1, str.length()), c);  // if char to keep, return it to stack
+    }
+    return "" + strip(str.substr(1, str.length()), c);                 // otherwise return "" to stack
+}
+
+//-----------------------------------------------------------------------------------------------------
+// RECURSIVE NESTED PARENTHESES PAIR CHECKER 
+//-----------------------------------------------------------------------------------------------------
+// This function returns whether the front and back chars of a string are matched parentheses pairs.
+// Similar to the previous methods, but this time using mulitplication in the recursion. 
+// if the front and back chars are a pair, a 1 is returned to the stack (bool true). 
+// if they are not a pair, a 0 is returned to the stack.
+// both are returned to the stack with the multiplication operator
+// function is called recurisevly with the string incremented to next char from the front and
+// the char decremented to previous char from the back. 
+// when the stack unwinds, if ever there was a false in the stack, due to multiplying by zero, false
+// will be returned as the final result. Otherwise all multiplication of 1 by itself will return 1,true
+
+bool nested(string str){
+    char front = str[0];                                                               // get front char
+    char back = str[str.length()-1];                                                    // get back char
+    if (str.length() == 2){    // base case, if at last two chars, check to see if a pair of parentheses
+        return (front == '(' && back == ')');                     // return to stack true or false (1/0)
+    }
+    str = str.substr(1, str.length()-2);                                // adjust string from both sides
+    return (front == '(' && back == ')') * nested(str);                           // return 1/0 to stack
+}      // I don't know why I had to do minus 2 instead of minus 1, though, debugger showed was necessary
+           // degubber showing no difference between setting end of str equal to lenth() vs length() - 1
 ////---------------------------------------------------------------------------------------------------
 
 
