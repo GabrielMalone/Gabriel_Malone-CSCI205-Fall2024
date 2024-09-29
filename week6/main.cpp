@@ -211,7 +211,7 @@ int EUC_GCD_ITR(int a, int b){                                             // ti
 string reverse_string_itr(string& str){                             // time complexity for this is O(n)
     string rev_str;                                                    // since two un-nested for-loops
     Stack<char>char_stack;                                                  // stack to hold characters 
-    for (int i = 0 ; i  < (int)str.length() ; i ++){   // since stack is LIFO, this will result in a reverse 
+    for (int i = 0 ; i  < (int)str.length() ; i ++){    // stack is LIFO, this will result in a reverse 
         char_stack.push(str[i]);// string by pushing to stack each character during a forward iteration
     }                                                                         // of the original string
     for (int i = 0 ; i < (int)str.length() ; i ++ ){
