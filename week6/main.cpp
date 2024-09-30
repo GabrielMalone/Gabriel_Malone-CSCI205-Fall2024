@@ -201,10 +201,11 @@ int main(){
     // For this method I took inspiration from the logic I used in the array list reversal --
     // using temp data from the front and back of the list for each iteration and swapping the data at
     // those positions, then moving the front of the list up by one and the back of the list down
-    // by one. With recursion the base case is when the head and the tail 'meet' (are equal to eachother).
-    // I needed use global variables for original head and tail data since otherwise the original data
-    // would have been lost with the recursive functions needing to update head and tail each call. 
-    // I made sure the other methods in the class updated these global variables when needed. 
+    // by one. With recursion the base case is when the head and the tail 'meet' 
+    // (are equal to eachother). I needed use global variables for original head and tail 
+    // data since otherwise the original datawould have been lost with the recursive functions 
+    // needing to update head and tail each call. I made sure the other methods in the class updated 
+    // these global variables where needed. 
 
     newList.reverse();
     newList.print();

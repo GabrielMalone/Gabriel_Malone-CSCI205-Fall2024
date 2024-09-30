@@ -23,10 +23,10 @@ class List {
     private:
 
         size_t link_size = 0;                              // keep track of list size for various functions
-        size_t og_link_size = link_size;
-        Node<T>* head;
-        Node<T>* og_head;
-        Node<T>* og_tail;
+        size_t og_link_size = link_size;                   // for recursive functions
+        Node<T>* head;                      
+        Node<T>* og_head;                                  // for recursive functions
+        Node<T>* og_tail;                                  // for recursive functions
         Node<T>* tail;
 
     public:
@@ -377,7 +377,7 @@ class List {
          *  recursive print method
          */
         void print(){
-            if (head->next == NULL){                   // base case when head reaches tail 
+            if (head->next == NULL){             // base case when head reaches tail 
                 cout << head->data << endl;
                 head = og_head;                  // reset head to its original value
                 return;
