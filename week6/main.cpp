@@ -1,3 +1,4 @@
+//-----------------------------------------------------------------------------------------------------
 // GABRIEL MALONE // CSCI205 // WEEK 6 // RECURSION
 //-----------------------------------------------------------------------------------------------------
 #include <iostream>
@@ -406,16 +407,16 @@ string strip(string str, char c){
 // will be returned as the final result. Otherwise all multiplication of 1 by itself will return 1,true
 
 bool nested(string str){
-    char front = str[0];                                                               // get front char
-    char back = str[str.length()-1];                                                    // get back char
-    if (str.length() == 2){    // base case, if at last two chars, check to see if a pair of parentheses
-        return (front == '(' && back == ')');                     // return to stack true or false (1/0)
+    char front = str[0];                                                              // get front char
+    char back = str[str.length()-1];                                                   // get back char
+    if (str.length() == 2){   // base case, if at last two chars, check to see if a pair of parentheses
+        return (front == '(' && back == ')');                    // return to stack true or false (1/0)
     }
-    str = str.substr(1, str.length()-2);                                // adjust string from both sides
-    return (front == '(' && back == ')') * nested(str);                           // return 1/0 to stack
+    str = str.substr(1, str.length()-2);                               // adjust string from both sides
+    return (front == '(' && back == ')') * nested(str);                          // return 1/0 to stack
 }      
-       // I don't know why I had to do minus 2 instead of minus 1, though, debugger showed was necessary
-           // degubber showing no difference between setting end of str equal to lenth() vs length() - 1
+      // I don't know why I had to do minus 2 instead of minus 1, though, debugger showed was necessary
+          // degubber showing no difference between setting end of str equal to lenth() vs length() - 1
 
 ////---------------------------------------------------------------------------------------------------
 
