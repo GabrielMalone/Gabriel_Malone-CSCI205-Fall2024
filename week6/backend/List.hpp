@@ -28,6 +28,7 @@ class List {
         Node<T>* og_head;                                  // for recursive functions
         Node<T>* og_tail;                                  // for recursive functions
         Node<T>* tail;
+        string name;
 
     public:
         //-------------------------------------------------------------------------------------------------
@@ -86,6 +87,13 @@ class List {
          */
         T get_head_element(){
             return this->head->data;
+        }
+
+        void setName(string name){
+            this->name = name;
+        }
+        string getName(){
+            return this->name;
         }
         //-------------------------------------------------------------------------------------------------
         // MAIN METHODS
@@ -376,6 +384,8 @@ class List {
         /**
          *  recursive print method
          */
+        // Time complexity O(n)
+        // Spacial complexity 
         void print(){
             if (head->next == NULL){             // base case when head reaches tail 
                 cout << head->data << endl;
@@ -386,7 +396,6 @@ class List {
             head = head->next;                   // move to next node 
             print();
         }
-        
         // overload the equals operator
 };
 
