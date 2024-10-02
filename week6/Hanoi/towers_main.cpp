@@ -102,7 +102,6 @@ void initializeGame(size_t towerHeight){
  * graphically display the current tower in terminal
  */
 void printTowers(){
-    // get heighest stack to iterate from
     Node<Disc>* a = tower_A.get_head();// get the head of each tower so you can iterate through the discs
     Node<Disc>* b = tower_B.get_head();
     Node<Disc>* c = tower_C.get_head();
@@ -123,7 +122,7 @@ void printTowers(){
     int start_print_heightC = tower_C.length();
     bool A_can_print = false;                        // bool switches for each tower's go ahead to print
     bool B_can_print = false;
-    bool C_can_print = false;                   
+    bool C_can_print = false;                    
     cout << "                   tower a                                      tower b                                        tower c\n" << endl;
     for (int i = 0 ; i < tower_depth ; i ++){            // iterate for duration of the GUI height I set
         if (start_print_heightA  - height == 0){    // once these trigger, that tower can start printing
