@@ -539,7 +539,7 @@ string strip(string str, char c){
 // function is called recurisevly with the string incremented to next char from the front and
 // the char decremented to previous char from the back. 
 // when the stack unwinds, if ever there was a false in the stack, due to multiplying by zero, false
-// will be returned as the final result. Otherwise all multiplication of 1 by itself will return 1,true
+// will be returned as the final result. Otherwise all multiplication of 1 by itself will return true
 
 // TIME / SPACIAL REQUIREMENTS - O(n) liner since the function recusrively iterates through a string
 
