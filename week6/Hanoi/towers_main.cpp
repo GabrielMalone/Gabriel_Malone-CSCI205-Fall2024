@@ -117,7 +117,7 @@ void printTowers(){
     }
     if ((int)tower_C.length() > height){
         height = tower_C.length();
-    }                                                  // start printing from the tallest tower's height
+    }                                                 
     int start_print_heightA = tower_A.length(); // these used to see when tower can start printing discs
     int start_print_heightB = tower_B.length();
     int start_print_heightC = tower_C.length();
@@ -125,7 +125,7 @@ void printTowers(){
     bool B_can_print = false;
     bool C_can_print = false;                   
     cout << "                   tower a                                      tower b                                        tower c\n" << endl;
-    for (int i = 0 ; i < tower_depth ; i ++){                   // iterate for duration of tallest tower
+    for (int i = 0 ; i < tower_depth ; i ++){            // iterate for duration of the GUI height I set
         if (start_print_heightA  - height == 0){    // once these trigger, that tower can start printing
             A_can_print = true;
         }
