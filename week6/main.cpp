@@ -30,11 +30,12 @@ int main(){
     //-------------------------------------------------------------------------------------------------
     //  COMPARE ITERATIVE VS RECURSIVE FOR EUCLID'S GCD with a single run to confirm both work
     //-------------------------------------------------------------------------------------------------
-    int a = 120000;
-    int b = 89;
+    int a = 109872;
+    int b = 102;
     //-------------------------------------------------------------------------------------------------
     //  ITERATIVE EUCLIDs ALGO
     //-------------------------------------------------------------------------------------------------
+    cout << "------------------------------------------------------------------------------------------" << endl;
     algo_count_itr = 0;                                                                // reset counter
     cout << "Via the iterative method, the GCD of "     
          << a 
@@ -42,10 +43,11 @@ int main(){
          << b 
          << " is " 
          << EUC_GCD_ITR(a, b)                                                               // run algo
-         << ". this algorith ran " 
+         << ". This algorithm ran " 
          << algo_count_itr                                                      // algo time complexity
          << " time(s)." 
          << endl;
+    cout << "------------------------------------------------------------------------------------------" << endl;
     //-------------------------------------------------------------------------------------------------
     //  RECURSIVE EUCLIDs ALGO
     //-------------------------------------------------------------------------------------------------
@@ -56,16 +58,17 @@ int main(){
          << b 
          << " is " 
          << EUC_GCD_REC(a, b)                                                               // run alog
-         << ". this algorith ran " 
+         << ". This algorithm ran " 
          << algo_count_rec                                                      // algo time complexity
          << " time(s)." 
          << endl;
+    cout << "------------------------------------------------------------------------------------------" << endl;
     //-------------------------------------------------------------------------------------------------
     //  RUN AND COMAPRE A VRIETY OF GCD TESTS / AVERAGE AND COMPARE NUMBER OF OPERATIONS
     //-------------------------------------------------------------------------------------------------
     algo_count_itr = 0;                                                              // restet counters
     algo_count_rec = 0;
-    int c = 999;                                                    // starting value a for GCD algos
+    int c = 9999;                                                    // starting value a for GCD algos
     int index = 0;
 
     List<int> rec_res;                                                     // hold results for rec algo
@@ -73,8 +76,8 @@ int main(){
     random_device rd;                             // random number generator for random dorm assignment
     mt19937 gen(rd());
                                             
-    uniform_int_distribution<> dist(1,  100);     // range from 0 index to num of dorms - 1 for 0 index                                                
-    cout << "calculating efficiency of both algorithms over 99999 iterations... " << endl;
+    uniform_int_distribution<> dist(1,  100);     // range from 0 index to num of dorms - 1 for 0 index                                            
+    cout << "calculating efficiency of both algorithms over 9999 iterations... " << endl;
     for (int i = c ; i > 0; i  -- ){
         int random_int = dist(gen);  
         EUC_GCD_ITR(c,random_int);
@@ -98,13 +101,11 @@ int main(){
         sum_a += n->data;
         n = n->next;
     }
-
-    cout << "The average number of operations for the iterative algorithm was: "
-        << "length of list: "
-        << itr_res.length()
-        << " / "
-        << "sum of results in list: "
+    cout << "avg num operations for the iterative algo was: "
+        << "Σ operations per run: "
         << sum_a
+        << " / "
+        << itr_res.length()
         << " = "
         << sum_a / itr_res.length() 
         << endl;
@@ -118,25 +119,28 @@ int main(){
         sum_b += m->data;
         m = m->next;
     }
-    
-    cout << "The average number of operations for the recursive algorithm was: "
-        << "length of list: "
-        << rec_res.length()
-        << " / "
-        << "sum of results in list: "
+    cout << "avg num operations for the recursive algo was: "
+        << "Σ operations per run: "
         << sum_b
+        << " / "
+        << rec_res.length()
         << " = "
         << sum_b / rec_res.length() 
         << endl;
-
+    cout << "------------------------------------------------------------------------------------------" << endl;
     //-------------------------------------------------------------------------------------------------
-    // REVERSE STRING ITERATE METHOD
+    // REVERSE STRING ITERATE METHOD " << endl;
     //-------------------------------------------------------------------------------------------------
+    algo_count_itr = 0;                                                               // reset counters 
+    algo_count_rec = 0;
     string str_to_reverse = "Gabriel123!";
     cout << "Reverse string '"
          << str_to_reverse
          << "' via iterating and Stack: "
          << reverse_string_itr(str_to_reverse)
+         << ". This algo ran " 
+         << algo_count_itr                                                     // algo time complexity
+         << " times." 
          << endl;
 
     //-------------------------------------------------------------------------------------------------
@@ -146,39 +150,109 @@ int main(){
          << str_to_reverse
          << "' via recursion: "
          << reverse_string_rec(str_to_reverse)
+         << ". This algo ran " 
+         << algo_count_rec                                                      // algo time complexity
+         << " times." 
          << endl;
-
+    cout << "------------------------------------------------------------------------------------------" << endl;
     //-------------------------------------------------------------------------------------------------
     // RECURSIVE COUNT METHOD
     //-------------------------------------------------------------------------------------------------   
-        recursive_print_count(1,50);
-
+        algo_count_rec = 0;                                                           // reset counters
+        cout << "Recursively count from 1 to 22: ";
+        recursive_print_count(1,22);                                                       
+        cout << "This algorithm ran " 
+             << algo_count_rec                                                  // algo time complexity
+             << " times." 
+             << endl;
+    cout << "------------------------------------------------------------------------------------------" << endl;
     //-------------------------------------------------------------------------------------------------
     // RECURSIVE SUM ARRAY METHOD
     //------------------------------------------------------------------------------------------------- 
+        algo_count_rec = 0;                                                           // reset counters
         int arr[] = {5, 4, 3, 2, 1};
-        cout << recursive_sum_array(arr, 5) << endl;
-
+        cout 
+         << "The sum of the array (via recursion) of {5, 4, 3, 2, 1} is "
+         << recursive_sum_array(arr, 5)
+         << ". This algo ran " 
+         << algo_count_rec                                                      // algo time complexity
+         << " times." 
+         << endl;
+    cout << "------------------------------------------------------------------------------------------" << endl;
     //-------------------------------------------------------------------------------------------------
     // RECURSIVE LENGTH METHOD
-    //------------------------------------------------------------------------------------------------- 
-        cout << len(1234567890) << endl;
-
+    //-------------------------------------------------------------------------------------------------
+        algo_count_rec = 0;                                                           // reset counters 
+        cout << "The length of the digit 1234567890 is: "
+             << len(1234567890) 
+             << " This algo ran " 
+             << algo_count_rec
+             << " times."
+             << endl;
+        
+    cout << "------------------------------------------------------------------------------------------" << endl;
     //-------------------------------------------------------------------------------------------------
     // RECURSIVE DOG EARS COUNTER
     //------------------------------------------------------------------------------------------------- 
-        cout << dog_ears(10) << endl;
-
+        algo_count_rec = 0;                                                           // reset counters 
+        cout << "Count the number of ears for a line of 10 dogs: "      
+             << dog_ears(10)
+             << ". This algo ran " 
+             << algo_count_rec
+             << " times."
+             << endl; 
+    cout << "------------------------------------------------------------------------------------------" << endl;
     //-------------------------------------------------------------------------------------------------
     // RECURSIVE STRING STRIPPER
     //------------------------------------------------------------------------------------------------- 
-        cout << strip("123-45-6789", '-') << endl;
-
+        algo_count_rec = 0;                                                           // reset counters
+        cout << "strip the character '-' from the string '123-45-6789': "
+             << strip("123-45-6789", '-')
+             << ". This algo ran " 
+             << algo_count_rec
+             << " times." 
+             << endl;
+    cout << "------------------------------------------------------------------------------------------" << endl;
     //-------------------------------------------------------------------------------------------------
     // RECURSIVE NESTED PARENTHESES CHECKER
     //------------------------------------------------------------------------------------------------- 
-        cout << nested("(())") << endl;
-
+        algo_count_rec = 0;                                                           // reset counters
+        cout << "Test for matching parentheses with '((()))'";
+            if (nested("((()))")){
+                cout << " = true";
+            } else {
+                cout << " = false";
+            }
+            cout 
+             << ". This algo ran " 
+             << algo_count_rec
+             << " times." 
+            << endl;
+        algo_count_rec = 0;  
+        cout << "Test for matching parentheses with '((())'";
+            if (nested("((())")){
+                cout << " = true";
+            } else {
+                cout << " = false";
+            }
+            cout 
+             << ". This algo ran " 
+             << algo_count_rec
+             << " times." 
+             << endl;
+        algo_count_rec = 0;  
+        cout << "Test for matching parentheses with '((())]'";
+            if (nested("((())]")){
+                cout << " = true";
+            } else {
+                cout << " = false";
+            }
+            cout 
+             << ". This algo ran " 
+             << algo_count_rec
+             << " times." 
+             << endl;
+    cout << "------------------------------------------------------------------------------------------" << endl;
     //-------------------------------------------------------------------------------------------------
     // RECURSIVE LIST PRINT METHOD
     //------------------------------------------------------------------------------------------------- 
@@ -188,14 +262,18 @@ int main(){
     // that would update itself whenever the head is updated in any of the List class' functions. 
     
     List<int> newList;                                                             // create a new List
-    for (size_t i = 0 ; i < 20 ; i ++){                                     // fill it with some values
+    for (size_t i = 0 ; i < 17 ; i ++){                                     // fill it with some values
         newList.insert(i);
     }
 
-    cout << newList.get_head_element() << endl;                 // check head element prior to printing
+    cout << "Just created a linked list of 17 INTS. current head of list: "
+         << newList.get_head_element()                          // check head element prior to printing
+         << endl; 
+    cout << "now printing recursively, updating head each recursive call...."  << endl;                                            
     newList.print();                                                          // check that print works
+    cout << "confirming that head properly reset at end of print: ";
     cout << newList.get_head_element() << endl;           // confirm that head has been reset correctly
-
+    cout << "------------------------------------------------------------------------------------------" << endl;
     //-------------------------------------------------------------------------------------------------
     // RECURSIVE REVERSE LIST METHOD
     //------------------------------------------------------------------------------------------------- 
@@ -207,10 +285,12 @@ int main(){
     // data since otherwise the original datawould have been lost with the recursive functions 
     // needing to update head and tail each call. I made sure the other methods in the class updated 
     // these global variables where needed. 
-
+    cout << "recursively reversing the list: " << endl;
     newList.reverse();
     newList.print();
-
+    cout << "new head: " << newList.get_head_element() << endl;
+    cout << "new tail: " << newList.get_tail()->data << endl;
+    cout << "------------------------------------------------------------------------------------------" << endl;
     //-------------------------------------------------------------------------------------------------
     // run graphs
     //-------------------------------------------------------------------------------------------------
@@ -240,9 +320,9 @@ int EUC_GCD_REC(int a, int b){                                // take in two num
         return a;                                                                     // return the GCD
     }
     algo_count_rec ++;
-    return EUC_GCD_REC(b, a%b);                         // recursively call, switching parameter values
-                                                       // and passing 'b' as the remainder of 'a' / 'b'
-}    
+    return EUC_GCD_REC(b, a%b);                         // recursively call, switching parameter values     
+}                                                                        // and reducing a by modulus b
+                                                        // and passing 'b' as the remainder of 'a' / 'b'
 
 //-----------------------------------------------------------------------------------------------------
 // EUCLID'S GCD ITERATIVE ALGO
@@ -271,6 +351,7 @@ string reverse_string_itr(string& str){                             // time comp
         char_stack.push(str[i]);// string by pushing to stack each character during a forward iteration
     }                                                                         // of the original string
     for (int i = 0 ; i < (int)str.length() ; i ++ ){
+        algo_count_itr ++;
         rev_str += char_stack.pop();
     }
     return rev_str;
@@ -289,10 +370,20 @@ string reverse_string_itr(string& str){                             // time comp
 // recursive function (base case, manipulation of size of main variable (reduction in this case)) and  
 // the calling of the same function until base case met. 
 
+// TIME COMPLEIXTY/ SPACIAL COMPLEXITY is O(n) since the function will recurse character by character
+
+// MEMORY REQUIREMENTS for this function are : 
+// 1) the return address : 8 bytes
+// 2) string variable will vary depend on its size: 1byte per character in the string. 
+// 3) the same will go for the 'char' back character declared in the function. 
+// therefore the final mem total for this function is at least 10 bytes with no limit on its maximum,
+// per placement on the stack.
+
 string reverse_string_rec(string str){                                  
     if (str.length() == 0){                                            // base case is string size = 0
         return str;
     }
+    algo_count_rec ++;
     char back = str[str.length()-1];                                   // get back character of string
     return back + reverse_string_rec(str.substr(0, str.length()-1));   // build back char by back char
 }
@@ -304,7 +395,16 @@ string reverse_string_rec(string str){
 // needs to unwound, you can simply print 'n' and its updates (n+1). the function will then break and 
 // exit its scope when n equals the base case. 
 
+// TIME COMPLEXITY / SPACIAL COMPLEXITY is O(n) since the function will recurse character by character
+
+//  MEMORY REQUIREMENTS for this function are:
+// 1) memory address for the function - 8 bytes
+// 2) the two ints passed in as parameters (4 bytes each) - 8 bytes
+// 3) no new variables declared within the function, thus
+// the total memory for each placement of this function on the stack will be 12 bytes. 
+
 void recursive_print_count(int n, int base){                             // pass in start and end value
+    algo_count_rec ++ ;
     if (n == base){                                                               // if n = base , quit
         cout << n << endl;
         return;
@@ -322,8 +422,17 @@ void recursive_print_count(int n, int base){                             // pass
 // the values being the last item in the array.
 // the last item in the array is then altered each recursion call decrementing the array size by 1
 
+// TIME COMPLEXITY for this recursive function is O(n) since the size is reduced by 1 each recursion.
+
+// MEMORY REQUIREMENTS for this function are:
+// 1) the address for the function: 8 bytes
+// 2) the pointer to the array passed in as a parameter: 8 bytes
+// 3) the int for the size of the array passed in as a parameter: 4 bytes
+// no other variables set in the function itself, 
+// thus total mem required per placement on stack: 12 bytes
 
 int recursive_sum_array(int* arr, int size){            // pass in pointer to array and the array size
+    algo_count_rec ++ ;
     if (size == 0){                                                                       // base case
         return 0;                                                          // no values left, return 0
     }
@@ -343,7 +452,11 @@ int recursive_sum_array(int* arr, int size){            // pass in pointer to ar
 // 3) 'n' the number passed in is reduced by n / 10 each recursive call.
 // this method will run and place values on the stack for the length of the digit that is entered.
 
-int len(int n){                                                                             
+// TIME COMPLEXITY / SPACIAL COMPLEXITY I think linear O(n) even though using division, the division
+// will happen for however long the digit entered is (base 10 numbers).
+
+int len(int n){ 
+    algo_count_rec ++;                                                                            
     if (n / 10 == 0){
         return 1;
     }
@@ -362,9 +475,18 @@ int len(int n){
 // 1) base case  exists , function knows to exit its scop when num_dogs = 0
 // 2) num_dogs reduces its value each recursive call
 // 3) num_dogs called recursively until base case met. 
-// call stack unwinds once function exits its scope and adds the numbers placed on the stack. 
+// call stack unwinds once function exits its scope and adds the numbers placed on the stack.
+
+// TIME / SPACIAL COMPLEXITY is O(n) linear, since the var is reduced by 1 for each recursion. 
+
+// MEMORY REQUIREMENTS :
+// 1) the int passed in as a variable will require 4 bytes,
+// 2_ the 0, 2, and 3 are al ints declared in the function and will require 4 bytes (12 total).
+// Thus 16 bytes + the memory address for the function, 8 bytes, is 24 bytes total per placement
+// on the stack. 
 
 int dog_ears(int num_dogs){
+    algo_count_rec ++ ;
     if (num_dogs == 0){                                                                    // base case
         return 0;                                                 // no new values to add at this point
     }
@@ -383,13 +505,26 @@ int dog_ears(int num_dogs){
 // in addition, we are decreasing the size of the string from the front instead of from the back
 // in order to continually shift that front index character. 
 
+// TIME / SPACIAL REQUIREMENTS = O(n) since the string is reduced by one from both ends (2 total)
+// reach recursive call. 
+
+// MEMORY REQUIREMENTS 
+// 1) string variable will be based on size of string passed in (1 byte per char)
+// 2) 1 byte for the char passed in (to be stripped)
+// 3) 1 byte for the "" blank string added to the return value
+// 4) 8 bytes for the memory address
+// for a total of at least 11 bytes per placement on the stack
+
 string strip(string str, char c){   
     if (str.length() == 0){        // base case, return from scope of function when str length is zero
+        algo_count_rec ++ ;
         return str;                                                                  // str will be ""
     }
-    if (str[0] != c){                             // check front of string against char to be stripped
+    if (str[0] != c){  
+        algo_count_rec ++ ;                       // check front of string against char to be stripped
         return str[0] + strip(str.substr(1, str.length()), c);  // if char to keep, return it to stack
     }
+    algo_count_rec ++ ;
     return "" + strip(str.substr(1, str.length()), c);                 // otherwise return "" to stack
 }
 
@@ -406,17 +541,31 @@ string strip(string str, char c){
 // when the stack unwinds, if ever there was a false in the stack, due to multiplying by zero, false
 // will be returned as the final result. Otherwise all multiplication of 1 by itself will return 1,true
 
+// TIME / SPACIAL REQUIREMENTS - O(n) liner since the function recusrively iterates through a string
+
+// MEMORY REQUIREMENTS :
+// 1) string passed in as parameter will be at least 1 byte (1 byte per character)
+// 2) two chars set at the top = 1 + 1, 2 bytes
+// 3) '2' in condtional is, INT, 4 bytes
+// 4) memory address of function = 8 bytes
+// for a total of at least 14 bytes per placement on the stack
+
 bool nested(string str){
-    char front = str[0];                                                              // get front char
-    char back = str[str.length()-1];                                                   // get back char
-    if (str.length() == 2){   // base case, if at last two chars, check to see if a pair of parentheses
-        return (front == '(' && back == ')');                    // return to stack true or false (1/0)
+    algo_count_rec ++ ;
+    if (str.length() % 2 == 0){                               // can proceed if string length is even
+        char front = str[0];                                                        // get front char
+        char back = str[str.length()-1];                                             // get back char
+        if (str.length() == 2){// base case, if last two chars, check to see if a pair of parentheses
+            return (front == '(' && back == ')');              // return to stack true or false (1/0)
+            
+        }
+        str = str.substr(1, str.length()-2);                         // adjust string from both sides
+        return (front == '(' && back == ')') * nested(str);                    // return 1/0 to stack
     }
-    str = str.substr(1, str.length()-2);                               // adjust string from both sides
-    return (front == '(' && back == ')') * nested(str);                          // return 1/0 to stack
+    return false;                                           // if uneven string to start with = false
 }      
-      // I don't know why I had to do minus 2 instead of minus 1, though, debugger showed was necessary
-          // degubber showing no difference between setting end of str equal to lenth() vs length() - 1
+    // I don't know why I had to do minus 2 instead of minus 1, though, debugger showed was necessary
+        // degubber showing no difference between setting end of str equal to lenth() vs length() - 1
 
 ////---------------------------------------------------------------------------------------------------
 

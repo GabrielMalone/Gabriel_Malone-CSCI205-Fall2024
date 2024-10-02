@@ -14,7 +14,7 @@ private:
 
 public:
 
-	Stack()= default; // my IDE suggested this
+	Stack() = default; // my IDE suggested this
 
 	// overloaded constructor
 	Stack(size_t cap){
