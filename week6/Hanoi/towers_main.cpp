@@ -115,11 +115,9 @@ void printTowers(){
     int height = 0;// this will serve as a way to track what height of the tower the print function is at
     if ((int)tower_A.length() > height){                     // now let's find which tower is the tallest
         height = tower_A.length();
-      
     }
     if ((int)tower_B.length() > height){
         height = tower_B.length();
-      
     }
     if ((int)tower_C.length() > height){
         height = tower_C.length();
@@ -147,14 +145,12 @@ void printTowers(){
         if (a != NULL && A_can_print && tower_A.length() >= tower_depth - i){           
             a->data.print_disc();
             a = a->next;
-         
         } else {
             cout << "["<<setw(spacing)<<"] ";                           // if cant print, place a blank
         }
         if (b != NULL && B_can_print && tower_B.length() >= tower_depth - i){
             b->data.print_disc();
-            b = b->next;
-         
+            b = b->next;  
         } else {
             cout << "["<<setw(spacing)<<"] ";                           // if cant print, place a blank
         }
