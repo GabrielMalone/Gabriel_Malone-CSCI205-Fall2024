@@ -70,7 +70,6 @@ void moveDisk(List<Disc>& fp, List<Disc>& tp){
     Disc top = fp.remove(0);
     tp.insert(top);
     printTowers();
-
 }
 //-----------------------------------------------------------------------------------------------------
 // logic adapted from runestone, just plugged in my towers, GUI, and print statements
@@ -83,7 +82,6 @@ void towers_of_hanoi(int height, List<Disc>& fromPole, List<Disc>& toPole, List<
         towers_of_hanoi(height-1, withPole, toPole, fromPole); //Recursive call
     }
 }   
-
 //-----------------------------------------------------------------------------------------------------
 // Helper functions
 //-----------------------------------------------------------------------------------------------------
