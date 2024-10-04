@@ -58,6 +58,7 @@ int main(){
 // logic adapted from runestone, just plugged in my towers, GUI, and print statements
 //-----------------------------------------------------------------------------------------------------
 void moveDisk(List<Disc>& fp, List<Disc>& tp){
+    counter ++ ;
     cout << CLEAR_SCREEN;    // Clear the screen
     cout << CURSOR_TOP_LEFT;
     cout << setw(136) << setfill('-') << "" << endl;
@@ -74,12 +75,11 @@ void moveDisk(List<Disc>& fp, List<Disc>& tp){
 //-----------------------------------------------------------------------------------------------------
 // logic adapted from runestone, just plugged in my towers, GUI, and print statements
 //-----------------------------------------------------------------------------------------------------
-void towers_of_hanoi(int height, List<Disc>& fromPole, List<Disc>& toPole, List<Disc>& withPole){
+void towers_of_hanoi(int height, List<Disc>& tower_A, List<Disc>& tower_C, List<Disc>& tower_B){
     if (height >= 1){
-        counter ++ ;
-        towers_of_hanoi(height-1, fromPole, withPole, toPole); //Recursive call
-        moveDisk(fromPole, toPole);
-        towers_of_hanoi(height-1, withPole, toPole, fromPole); //Recursive call
+        towers_of_hanoi(height-1, tower_A, tower_B, tower_C); //Recursive call
+        moveDisk(tower_A, tower_C);
+        towers_of_hanoi(height-1, tower_B, tower_C, tower_A); //Recursive call
     }
 }   
 //-----------------------------------------------------------------------------------------------------
