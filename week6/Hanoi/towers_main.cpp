@@ -20,7 +20,6 @@ List<Disc>tower_C;
 size_t tower_depth;
 int speed;
 int counter = 0;
-int tower_size;
 string CLEAR_SCREEN  = "\033[2J";                                                  
 string CURSOR_TOP_LEFT = "\033[H";
 //-----------------------------------------------------------------------------------------------------
