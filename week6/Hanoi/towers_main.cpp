@@ -28,7 +28,8 @@ string CURSOR_TOP_LEFT = "\033[H";
 void initializeGame(size_t);                 // this will fill tower A with the desired number of discs
 void printTowers();                                      // this will print all three towers every turn
 void moveDisk(List<Disc>&, List<Disc>&);                  // runestone logic for the recursive function
-void towers_of_hanoi(int, List<Disc>&, List<Disc>&, List<Disc>&);// runeton's recursive logic for hanoi
+void towers_of_hanoi_logic(int, List<Disc>&, List<Disc>&, List<Disc>&);   // runetone's logic for hanoi
+void towers_of_hanoi();                                             // parameterless method to run game
 
 int main(){
     //-------------------------------------------------------------------------------------------------
@@ -51,7 +52,7 @@ int main(){
     //-------------------------------------------------------------------------------------------------
     // run the algo and GUI
     //-------------------------------------------------------------------------------------------------
-    towers_of_hanoi(tower_A.length(), tower_A, tower_C, tower_B);
+    towers_of_hanoi();
     return 0;
 }
 //-----------------------------------------------------------------------------------------------------
@@ -75,11 +76,11 @@ void moveDisk(List<Disc>& fp, List<Disc>& tp){
 //-----------------------------------------------------------------------------------------------------
 // logic adapted from runestone, just plugged in my towers, GUI, and print statements
 //-----------------------------------------------------------------------------------------------------
-void towers_of_hanoi(int height, List<Disc>& tower_A, List<Disc>& tower_C, List<Disc>& tower_B){
+void towers_of_hanoi_logic(int height, List<Disc>& tower_A, List<Disc>& tower_C, List<Disc>& tower_B){
     if (height >= 1){
-        towers_of_hanoi(height-1, tower_A, tower_B, tower_C); //Recursive call
+        towers_of_hanoi_logic(height-1, tower_A, tower_B, tower_C); //Recursive call
         moveDisk(tower_A, tower_C);
-        towers_of_hanoi(height-1, tower_B, tower_C, tower_A); //Recursive call
+        towers_of_hanoi_logic(height-1, tower_B, tower_C, tower_A); //Recursive call
     }
 }   
 //-----------------------------------------------------------------------------------------------------
@@ -98,6 +99,10 @@ void initializeGame(size_t towerHeight){
         tower_A.insert(d, index);
         index ++;
     }                                             
+}
+
+void towers_of_hanoi(){
+    towers_of_hanoi_logic(tower_A.length(), tower_A, tower_C, tower_B);
 }
 //-----------------------------------------------------------------------------------------------------
 // Graphic output
