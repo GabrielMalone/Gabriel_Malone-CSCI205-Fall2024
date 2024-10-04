@@ -56,7 +56,7 @@ class Disc{
             this->disc_num = num;                           // set width at construction
             this->disc_color = COLORS.get(disc_num%7);      // wrap around indexing 
         }                                                   // set color via disc size
-        int get_disc_num(){                                 // get disc's width
+        int get_disc_num(){                                 
             return this->disc_num;
         }
         string getColor(){
@@ -69,7 +69,7 @@ class Disc{
             if (disc_num % 2 == 0){
                 disc_num ++ ;
             }
-            int padding = 20;
+            int padding = 20;      // how wide to make the graphical ouput for each disc 
             if ((padding * 2 ) + disc_num > 40)
             while ((padding * 2 ) + disc_num > 40){
                 padding -- ;

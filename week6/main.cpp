@@ -73,10 +73,10 @@ int main(){
 
     List<int> rec_res;                                                     // hold results for rec algo
     List<int> itr_res;                                                     // hold results for itr algo    
-    random_device rd;                             // random number generator for random dorm assignment
+    random_device rd;                              // random number generator for random val assignment
     mt19937 gen(rd());
                                             
-    uniform_int_distribution<> dist(1,  100);     // range from 0 index to num of dorms - 1 for 0 index                                            
+    uniform_int_distribution<> dist(1,  100);               // range from 0 to 100 for the rnadom value                                            
     cout << "calculating efficiency of both algorithms over 9999 iterations... " << endl;
     for (int i = c ; i > 0; i  -- ){
         int random_int = dist(gen);  
@@ -86,7 +86,7 @@ int main(){
         rec_res.insert(algo_count_rec, index);                         // place result of run into list
         //cout << i << endl;                                          // see if frozen or still running
         index ++ ;
-        algo_count_itr = 0;                                                          // restet counters
+        algo_count_itr = 0;                                                           // reset counters
         algo_count_rec = 0;
     }
     //-------------------------------------------------------------------------------------------------
@@ -282,7 +282,7 @@ int main(){
     // those positions, then moving the front of the list up by one and the back of the list down
     // by one. With recursion the base case is when the head and the tail 'meet' 
     // (are equal to eachother). I needed use global variables for original head and tail 
-    // data since otherwise the original datawould have been lost with the recursive functions 
+    // data since otherwise the original data would have been lost with the recursive functions 
     // needing to update head and tail each call. I made sure the other methods in the class updated 
     // these global variables where needed. 
     cout << "recursively reversing the list: " << endl;
@@ -381,7 +381,7 @@ string reverse_string_itr(string& str){                             // time comp
 
 string reverse_string_rec(string str){                                  
     if (str.length() == 0){                                            // base case is string size = 0
-        return str;
+        return str;                                                                   // str = "" here
     }
     algo_count_rec ++;
     char back = str[str.length()-1];                                   // get back character of string
@@ -401,7 +401,7 @@ string reverse_string_rec(string str){
 // 1) memory address for the function - 8 bytes
 // 2) the two ints passed in as parameters (4 bytes each) - 8 bytes
 // 3) no new variables declared within the function, thus
-// the total memory for each placement of this function on the stack will be 12 bytes. 
+// the total memory for each placement of this function on the stack will be 16 bytes. 
 
 void recursive_print_count(int n, int base){                             // pass in start and end value
     algo_count_rec ++ ;
@@ -442,7 +442,6 @@ int recursive_sum_array(int* arr, int size){            // pass in pointer to ar
 //-----------------------------------------------------------------------------------------------------
 // RECURSIVE LENGTH METHOD
 //-----------------------------------------------------------------------------------------------------
-
 // To find the length of a digit (that is in base 10), just perform recursive division by 10 until 
 // that division results in 0. We don't actually care about the values that result from the division
 // so we just return '1' to serve as a count for each time the recursion occurs. 
