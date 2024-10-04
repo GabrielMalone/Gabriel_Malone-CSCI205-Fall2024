@@ -134,13 +134,13 @@ void printTowers(){
          << setw(48) <<"tower c\n" 
          << endl;
     for (size_t i = 0 ; i < tower_depth ; i ++){         // iterate for duration of the GUI height I set
-        if (start_print_heightA  - height == 0){    // once these trigger, that tower can start printing
+        if (start_print_heightA == height){         // once these trigger, that tower can start printing
             A_can_print = true;
         }
-        if (start_print_heightB  - height == 0){
+        if (start_print_heightB == height){
             B_can_print = true;
         }
-        if (start_print_heightC -  height == 0 ){
+        if (start_print_heightC == height){
             C_can_print = true;
         }
         if (a != NULL && A_can_print && tower_A.length() >= tower_depth - i){           
