@@ -20,6 +20,7 @@ List<Disc>tower_C;
 size_t tower_depth;
 int speed;
 int counter = 0;
+int tower_size;
 string CLEAR_SCREEN  = "\033[2J";                                                  
 string CURSOR_TOP_LEFT = "\033[H";
 //-----------------------------------------------------------------------------------------------------
@@ -41,11 +42,9 @@ int main(){
     //-------------------------------------------------------------------------------------------------
     // collect input from user
     //-------------------------------------------------------------------------------------------------
-    string towersize;
     cout << "Welcome to the Towers of Hanoi\nPlease enter size of tower: ";
-    cin >> towersize;
-    tower_depth = stoi(towersize);
-    initializeGame(stoi(towersize) * 2);
+    cin >> tower_depth;
+    initializeGame(tower_depth * 2);
     printTowers();
     cout << "Enter speed (0-100)";     // 0 fastest, 100 slowest, can enter any number you want, though
     cin >> speed;
