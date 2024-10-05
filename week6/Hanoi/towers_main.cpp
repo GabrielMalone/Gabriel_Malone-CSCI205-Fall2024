@@ -57,27 +57,50 @@ int main(){
 // logic adapted from runestone, just plugged in my towers, GUI, and print statements
 //-----------------------------------------------------------------------------------------------------
 void moveDisk(List<Disc>& fp, List<Disc>& tp){
-    counter ++ ;
-    cout << CLEAR_SCREEN;    // Clear the screen
-    cout << CURSOR_TOP_LEFT;
-    cout << setw(136) << setfill('-') << "" << endl;
+    //-----------------------------------------------------------------
+    counter ++ ;                                        // count moves 
+    //-----------------------------------------------------------------
+    // PRINT HEADER
+    //-----------------------------------------------------------------
+    cout << CLEAR_SCREEN;                           // Clear the screen
+    cout << CURSOR_TOP_LEFT;            // keep terminal from scrolling
+    cout << setw(136) << setfill('-') << "" << endl; 
     cout <<"MOVE NUMBER: " 
          << counter 
          << " Moving disk "; fp.get_head_element().print_disc(); cout 
          << "from " << fp.getName() 
          << " to " << tp.getName() << endl;
     cout << setw(136) << setfill('-') << "" << setfill(' ')<< endl;
-    Disc top = fp.remove(0);
-    tp.insert(top);
-    printTowers();
+    //-----------------------------------------------------------------
+    Disc top = fp.remove(0);            // pop the top of the from pole
+    tp.insert(top);                          // place it on the to pole
+    //-----------------------------------------------------------------
+    printTowers();                                  // show the results
 }
 //-----------------------------------------------------------------------------------------------------
-// logic adapted from runestone, just plugged in my towers, GUI, and print statements
+// logic adapted from runestone, just plugged in my towers, graphics, and print statements
 //-----------------------------------------------------------------------------------------------------
 void towers_of_hanoi_logic(int height, List<Disc>& tower_A, List<Disc>& tower_C, List<Disc>& tower_B){
+    //-----------------------------------------------------------------------------
+    // base case is when height == 0
+    //-----------------------------------------------------------------------------
     if (height >= 1){
+        //-------------------------------------------------------------------------
+        // first recursive call swaps towers B and C continuously until base case
+        //-------------------------------------------------------------------------
         towers_of_hanoi_logic(height-1, tower_A, tower_B, tower_C); //Recursive call
+        //-------------------------------------------------------------------------
+        // move disk called each unwind of the stack, 
+        // tower C will differ each unwind (and A will differ when second 
+        // recursive function calls its own move disk (with A and C still swapping))
+        //-------------------------------------------------------------------------
         moveDisk(tower_A, tower_C);
+        //-------------------------------------------------------------------------
+        // second recursive call placed on stack each time first recursive call is 
+        // placed on stack. second recursive call will run during each unwind and 
+        // will place its own recursive calls (acting as the first recursive call
+        // above) for however large the 'height' variable is at that time. 
+        //-------------------------------------------------------------------------
         towers_of_hanoi_logic(height-1, tower_B, tower_C, tower_A); //Recursive call
     }
 }   

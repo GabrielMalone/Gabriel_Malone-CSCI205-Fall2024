@@ -66,16 +66,17 @@ class Disc{
         // Print discs with colors, padding is dynamic so always the same width output
         //------------------------------------------------------------------------------
         void print_disc(){              // THIS ONLY WORKS WITH ODDLY SIZED DISC NUMBERS
+        int limit = 40;
             if (disc_num % 2 == 0){
                 disc_num ++ ;
             }
             int padding = 20;      // how wide to make the graphical ouput for each disc 
-            if ((padding * 2 ) + disc_num > 40)
-            while ((padding * 2 ) + disc_num > 40){
+            if ((padding * 2 ) + disc_num > limit)
+            while ((padding * 2 ) + disc_num > limit){
                 padding -- ;
             }
-            if ((padding * 2 ) + disc_num < 40)
-            while ((padding * 2 ) + disc_num < 40){
+            if ((padding * 2 ) + disc_num < limit)
+            while ((padding * 2 ) + disc_num < limit){
                 padding ++ ;
             }
             cout  << "[ "
