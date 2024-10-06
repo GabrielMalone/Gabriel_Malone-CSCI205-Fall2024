@@ -285,6 +285,22 @@ int main(){
     // data since otherwise the original data would have been lost with the recursive functions 
     // needing to update head and tail each call. I made sure the other methods in the class updated 
     // these global variables where needed. 
+    
+
+    // Time complexity for the recursive reverse function is O(N) since the entire list will be 
+    // traversed via recursion, two nodes at a time. 
+
+    // spacial complexity will be 8 bytes for the method address, plus three new variables per 
+    // function (front, back temp vars plus the new Node). I think those are 8 bytes each, 
+    // for a total of 24bytes per placement on the stack. 
+
+    // time complexity for the recursive print method will also be O(N) since, again, the entire
+    // list will need to be traversed, one node at a time.
+
+    // the spacial complexity for the recursive print method will be 8 bytes for the method address
+    // with no other mem requirements since no new variables created within the function (only 
+    // global variables used).
+    
     cout << "recursively reversing the list: " << endl;
     newList.reverse();
     newList.print();

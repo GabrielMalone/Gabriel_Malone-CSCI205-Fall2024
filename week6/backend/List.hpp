@@ -384,8 +384,6 @@ class List {
         /**
          *  recursive print method
          */
-        // Time complexity O(n)
-        // Spacial complexity 
         void print(){
             if (head->next == NULL){             // base case when head reaches tail 
                 cout << head->data << endl;
