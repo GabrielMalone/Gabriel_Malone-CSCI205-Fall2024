@@ -241,8 +241,8 @@ int main(){
              << " times." 
              << endl;
         algo_count_rec = 0;  
-        cout << "Test for matching parentheses with '((())]'";
-            if (nested("((())]")){
+        cout << "Test for matching parentheses with '(((]))'";
+            if (nested("(((]))")){
                 cout << " = true";
             } else {
                 cout << " = false";
@@ -559,10 +559,10 @@ bool nested(string str){
             
         }
         str = str.substr(1, str.length()-2);                         // adjust string from both sides
-        return (front == '(' && back == ')') * nested(str);                    // return 1/0 to stack
-    }
+        return (front == '(' && back == ')') && nested(str); // return 1 or 0 to stack, linux threw a 
+    }                                               // warning with '*' though, suggested && instead.
     return false;                                           // if uneven string to start with = false
-}      
+}  // with the && , if front and back arent equal, nested(str) won't be called false returned overall
     // I don't know why I had to do minus 2 instead of minus 1, though, debugger showed was necessary
         // degubber showing no difference between setting end of str equal to lenth() vs length() - 1
 
