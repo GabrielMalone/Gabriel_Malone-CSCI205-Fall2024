@@ -139,7 +139,7 @@ int main(){
     FileOpener::contactLoader("backend/contacts.txt", contacts);     // load the contacts into the linked list
     ClosedHashTable<Contact> contactMap;                                 // create a blank map of type Contact
     Node<Contact>* n = contacts.get_head();                 // iterate through the contacts in the linked list
-    while (n!=NULL){
+    while (n != NULL){
         Contact contact = n->data;                                                     // pull out the contact
         string key = contact.getPhone();                               // get the phone number to use as a key
         contactMap.put(key, contact);                  // place the key and value (value being contact object)
@@ -198,7 +198,7 @@ int main(){
     << RESET << endl; 
    
 
-
+    
 
     return 0;
 }

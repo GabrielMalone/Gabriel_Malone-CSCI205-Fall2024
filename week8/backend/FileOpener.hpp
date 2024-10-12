@@ -23,13 +23,13 @@ struct FileOpener{
 		if (frF.is_open()){													// check if file is open
 			while(getline(frF, contact)){									// get the string from each line
 				int delimiter = contact.find(',');
-				name = contact.substr(0, delimiter);
+				name = contact.substr(0, delimiter);						// get name
 				contact = contact.substr(delimiter + 1, contact.length());
 				delimiter = contact.find(',');
-				email = contact.substr(0, delimiter);
-				phone = contact.substr(delimiter + 1, contact.length());	
-				Contact c {name, email, phone}	;		
-				stringList.insert(c);  										// remove the /r return escape
+				email = contact.substr(0, delimiter);						// get email
+				phone = contact.substr(delimiter + 1, contact.length());	// get phone
+				Contact c {name, email, phone}	;							// create contact object
+				stringList.insert(c);  										// place object in list
 			}
 		}
 		frF.close();														// close

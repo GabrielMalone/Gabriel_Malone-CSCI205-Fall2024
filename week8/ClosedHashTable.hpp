@@ -10,7 +10,7 @@
 
 using namespace std;
 //--------------------------------------------------------------------------------------------------------
-// HASHMAP CLASS
+// CLOSED HASHMAP CLASS
 //--------------------------------------------------------------------------------------------------------
 	// Each element in the hash table is a list of HashNodes (linked list)
 	// Each HashNode contains a key-value pair
@@ -128,7 +128,7 @@ class ClosedHashTable {
 		//-----------------------------------------------------------------------------------------------
 		~ClosedHashTable(){
 			delete [] table;
-		}	// destructor
+		}	
 		//-----------------------------------------------------------------------------------------------
 		// PUT - place a key and a value into the map
 		//-----------------------------------------------------------------------------------------------
@@ -139,15 +139,16 @@ class ClosedHashTable {
 					resize();	
 				}
 				this->table[hash(key)].insert(HashNode(key,value));	//place data in linked list at bucket
-			}
-			List<HashNode>& current_bucket = this->table[hash(key)];			      // get bucket at hk
-			Node<HashNode>* n = current_bucket.get_head();				   // get that bucket's head node
-			while (n != NULL){			     // traverse the current linked list until matching key found
-				if (n->data.key == key){
-					n->data.value = value;							  // replace old value with new value
-					break;														      // break when found
+			} else {											 // if key was already present, update it
+				List<HashNode>& current_bucket = this->table[hash(key)];			  // get bucket at hk
+				Node<HashNode>* n = current_bucket.get_head();			   // get that bucket's head node
+				while (n != NULL){			 // traverse the current linked list until matching key found
+					if (n->data.key == key){
+						n->data.value = value;					      // replace old value with new value
+						break;														  // break when found
+					}
+					n = n->next;
 				}
-				n = n->next;
 			}
 		}
 		//-----------------------------------------------------------------------------------------------

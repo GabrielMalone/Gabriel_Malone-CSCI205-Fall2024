@@ -2,12 +2,14 @@
 #include <fstream>	// ofstream and file output
 #include <ctime>	// benchmarking
 #include <iomanip>	// fixed display of double
+#include "ClosedHashTable.hpp"
 
 using namespace std;
 
 // function prototypes
 int binary_search(int *, int, int, int &);
 int linear_search(int *, int, int, int &);
+int closed_hashtable_search(int *, int, int, int &);
 void fill_array(int *, int);
 void benchmark(int);
 
@@ -16,6 +18,7 @@ int main(){
 
 	ofstream f1("linear_search.txt");	// record counts of computations into a file
 	ofstream f2("binary_search.txt");	// record counts of computations into a file
+	ofstream f3("hashtable_search.txt");// record counts of computations into a file
 
 	int counts 	= 0;					// counts of computations, used as a refernce parameter to functions
 	int index 	= 0;					// index of key in array
@@ -38,7 +41,9 @@ int main(){
 		counts = 0;										// reset counts
 		index = binary_search(array, N, -1, counts);	// binary search for -1 in array
 		f2 << N << " " << counts << endl;				// record counts to file
-
+		counts = 0;										// reset counts
+		index = closed_hashtable_search(array, N, -1, counts);	// binary search for -1 in array
+		f3 << N << " " << counts << endl;				// record counts to file
 		delete[]  array;	// deallocate array used in this iteration
 	}
 
@@ -81,6 +86,16 @@ int binary_search(int *array, int size, int key, int &counts){
 	return index;
 }
 
+int closed_hashtable_search(int *array, int size, int key, int &counts){
+	string key_str = to_string(key);
+	ClosedHashTable<int>cht(size);						// create a Closed HashTable of size of array
+	for (int i = 0 ; i < size ; i ++){					// fill table with key, value pairs 
+		string int_str = to_string(array[i]);			// (key being string of the int, value being that int)
+		cht.put(int_str, i);
+	}
+	return cht[key_str];
+}
+
 void benchmark(int N){
 	int* array = new int[N];								// allocate array with size of N
 	fill_array(array, N);									// fill array with values 1 to N
@@ -101,6 +116,16 @@ void benchmark(int N){
 	// benchmarking binary search
 	start = clock();										// start clock
 	binary_search(array, N, -1, counts);					// binary search for -1 in array
+	end = clock();											// end clock
+	time = (double)(end - start) / CLOCKS_PER_SEC;			// compute time
+	cout << "Binary search time: " << fixed << time << endl;// print time
+	cout << "Binary Search Comparisons: " << counts << endl;// print counts
+
+	counts = 0;												// reset counts
+
+	// benchmarking binary search
+	start = clock();										// start clock
+	closed_hashtable_search(array, N, -1, counts);			// closed_hashtable_search for -1 in array
 	end = clock();											// end clock
 	time = (double)(end - start) / CLOCKS_PER_SEC;			// compute time
 	cout << "Binary search time: " << fixed << time << endl;// print time
