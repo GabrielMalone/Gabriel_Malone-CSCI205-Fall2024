@@ -87,7 +87,7 @@ int main(){
         cout << GREEN << "true" << RESET << endl;
     } else {
         cout << RED << "false" << RESET << endl;
-    }                                                                               // confirm numbers add up
+    }                                                                                // confirm numbers add up
     //--------------------------------------------------------------------------------------------------------
     cout << "Average number of collisions per bucket: ";
     cout << MAGENTA << testmap.avg_depth() << RESET << endl;        // average number of collisions per bucket
@@ -179,7 +179,7 @@ int main(){
         cout << GREEN << "true" << RESET << endl;
     } else {
         cout << RED << "false" << RESET << endl;
-    }                                                                               // confirm numbers add up
+    }                                                                                // confirm numbers add up
     //--------------------------------------------------------------------------------------------------------
     cout << "Average number of collisions per bucket: ";
     cout << MAGENTA << contactMap.avg_depth() << RESET << endl;     // average number of collisions per bucket
