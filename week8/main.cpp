@@ -53,7 +53,7 @@ int main(){
     testmap.put(g, myint);
     string goob = MAGENTA + "goob" + RESET;
     //--------------------------------------------------------------------------------------------------------
-    //testmap.print();                                                             // print current state of map
+    //testmap.print();                                                           // print current state of map
     //--------------------------------------------------------------------------------------------------------  
     cout << GREEN 
     <<"--------------------------------------------------------------------------------------------------- "
@@ -117,9 +117,9 @@ int main(){
     //--------------------------------------------------------------------------------------------------------
     cout << "Getting value from key " << g << ": "<< testmap.get(g) << endl;                       // test get
     //--------------------------------------------------------------------------------------------------------
-    cout << "Removing " << g << " from map... ";                                                 // test removal                             
+    cout << "Removing " << g << " from map... ";                                               // test removal                             
     testmap.remove(g);  
-    cout << "Map now contains key " << g << ": ";                                               // confirm removal
+    cout << "Map now contains key " << g << ": ";                                           // confirm removal
         if (testmap.contains(g)) {
             cout << GREEN << "true" << RESET << endl;
         } else {
@@ -141,8 +141,8 @@ int main(){
     Node<Contact>* n = contacts.get_head();                 // iterate through the contacts in the linked list
     while (n!=NULL){
         Contact contact = n->data;                                                     // pull out the contact
-        string key = contact.getPhone();                             // get the phone number to use as a key
-        contactMap.put(key, contact);                // place the key and value (value being contact object)
+        string key = contact.getPhone();                               // get the phone number to use as a key
+        contactMap.put(key, contact);                  // place the key and value (value being contact object)
         n = n->next;
     }
 
@@ -155,7 +155,7 @@ int main(){
     <<"--------------------------------------------------------------------------------------------------- " 
     << RESET << endl;                                                                         
     cout << "Map capacity = ";
-    cout << MAGENTA << contactMap.map_capacity() << RESET;                             // return correct capacity
+    cout << MAGENTA << contactMap.map_capacity() << RESET;                          // return correct capacity
     cout << ". Is this number prime? ";
     if (testmap.is_prime(contactMap.map_capacity())){
         cout << GREEN << "true" << RESET << endl;
@@ -164,13 +164,13 @@ int main(){
     }
     //--------------------------------------------------------------------------------------------------------   
     cout << "Number of key/value pairs in map: ";
-    cout << MAGENTA << contactMap.m_size() << RESET << endl;           // return number of key/value pairs in map
+    cout << MAGENTA << contactMap.m_size() << RESET << endl;        // return number of key/value pairs in map
     //-------------------------------------------------------------------------------------------------------- 
     cout << "Number of used buckets in map: ";
-    cout << MAGENTA << contactMap.count_full() << RESET << endl;                         // how many used buckets
+    cout << MAGENTA << contactMap.count_full() << RESET << endl;                      // how many used buckets
     //--------------------------------------------------------------------------------------------------------  
     cout << "Number of empty buckets in map: ";
-    cout << MAGENTA << contactMap.count_empty() << RESET << endl;                      // how many unused buckets
+    cout << MAGENTA << contactMap.count_empty() << RESET << endl;                   // how many unused buckets
     //--------------------------------------------------------------------------------------------------------
     cout << "Number of empty buckets " << MAGENTA << contactMap.count_empty() << RESET 
          << " + number of used buckets "<< MAGENTA << contactMap.count_full() << RESET << " = capacity "
@@ -182,10 +182,10 @@ int main(){
     }                                                                               // confirm numbers add up
     //--------------------------------------------------------------------------------------------------------
     cout << "Average number of collisions per bucket: ";
-    cout << MAGENTA << contactMap.avg_depth() << RESET << endl;        // average number of collisions per bucket
+    cout << MAGENTA << contactMap.avg_depth() << RESET << endl;     // average number of collisions per bucket
     //--------------------------------------------------------------------------------------------------------
     cout << "Highest number of collisions present in map: ";
-    cout << MAGENTA << contactMap.max_depth() << RESET << endl;     // test to find the most number of collisions
+    cout << MAGENTA << contactMap.max_depth() << RESET << endl;  // test to find the most number of collisions
     //--------------------------------------------------------------------------------------------------------
     cout << "Percent buckets empty (number of buckets used vs number of pairs):  "; // how many unused buckets
     cout << MAGENTA << (double)contactMap.count_full() / (double)contactMap.m_size()  << RESET << endl;                                  
