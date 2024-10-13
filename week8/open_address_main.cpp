@@ -19,16 +19,16 @@ int main(){
     //--------------------------------------------------------------------------------------------------------
     random_device rd;                                 
     mt19937 gen(rd());
-    string s = "1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";                           // characters
+    string s = "1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";                 // characters
     uniform_int_distribution<> dist(1, s.length()-1);              // random index for string building in loop
-    uniform_int_distribution<> rand(5, 20);                  // random length for each string to place in map
+    uniform_int_distribution<> rand(5, 20);                   // random length for each string to place in map
     //--------------------------------------------------------------------------------------------------------
     OpenHashTable<int>testmap; // initialize an empty map. loop below will test resize functionality as well
     string str = "";
     //--------------------------------------------------------------------------------------------------------
     // RANDOM STRING BUILDER
     //--------------------------------------------------------------------------------------------------------
-    for (int i = 0 ; i < 100 ; i ++ ){                     // how many times to place a string into the map
+    for (int i = 0 ; i < 100 ; i ++ ){                        // how many times to place a string into the map
         str = "";                                                                       // reset for each loop
         int rand_len = rand(gen);                                        // select string length for this loop
         for (int j = 0 ; j < rand_len ; j ++ ){                                            // build the string
@@ -44,7 +44,7 @@ int main(){
     testmap.put(g, myint);
     string goob = "goob";
     //--------------------------------------------------------------------------------------------------------
-    testmap.print();                                                           // print current state of map
+    testmap.print();                                                             // print current state of map
     //--------------------------------------------------------------------------------------------------------
     cout << "number of resizes to fill this map: ";                      // return number of resizes completed
     cout << Colors::MAGENTA << testmap.times_resized() <<Colors::RESET << endl;  
@@ -198,7 +198,7 @@ int main(){
     cout << "total number of collisions avoided creating map ";     // average number of collisions per bucket
     cout << Colors::MAGENTA << contactMap.collisions_avoid() << Colors::RESET << endl;     
     //--------------------------------------------------------------------------------------------------------
-    // cout << "Highest number of collisions present in map: ";     // test to find the most number of collisions
+    // cout << "Highest number of collisions present in map: ";  // test to find the most number of collisions
     // cout << Colors::MAGENTA << contactMap.max_depth() << Colors::RESET << endl;  
     //--------------------------------------------------------------------------------------------------------
     cout << "Percent buckets empty (number of buckets used vs number of pairs):  "; // how many unused buckets
