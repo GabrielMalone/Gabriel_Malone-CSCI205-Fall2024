@@ -23,7 +23,7 @@ int main(){
     uniform_int_distribution<> dist(1, s.length()-1);              // random index for string building in loop
     uniform_int_distribution<> rand(5, 20);                   // random length for each string to place in map
     //--------------------------------------------------------------------------------------------------------
-    OpenHashTable<int>testmap; // initialize an empty map. loop below will test resize functionality as well
+    OpenHashTable<int>testmap;   // initialize an empty map. loop below will test resize functionality as well
     string str = "";
     //--------------------------------------------------------------------------------------------------------
     // RANDOM STRING BUILDER

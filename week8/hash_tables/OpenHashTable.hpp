@@ -7,7 +7,7 @@
 #include <iomanip>
 #include <iostream>
 #include "../backend/colors.hpp"
-#include "../backend/ArrayList.hpp"
+
 
 using namespace std;
 //--------------------------------------------------------------------------------------------------------
@@ -130,7 +130,7 @@ class OpenHashTable{
 			if (key.length()>0){
 				int cur_index = hash(key);
 				int quadr_fact = 1;
-				while (table[cur_index].used){								// if in use, go to next spot
+				while (table[cur_index].used){							    // if in use, go to next spot
 					if (table[cur_index].key == key){   // if in use and the same key, update key's value
 						table[cur_index].value = value;
 						cout << "updating key" << endl;
@@ -149,7 +149,7 @@ class OpenHashTable{
 					this->table[cur_index].key = key;
 					this->table[cur_index].used = true;	
 				} else {
-					throw out_of_range("No Index Available");				    // if no index available
+					throw out_of_range("No Index Available");				  // if no index available
 				}
 			}
 		}
