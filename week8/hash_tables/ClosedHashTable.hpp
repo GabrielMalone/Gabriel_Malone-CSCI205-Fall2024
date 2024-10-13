@@ -48,7 +48,8 @@ class ClosedHashTable {
 		List<HashNode>* table;								// dynamically allocated array of LinkedLists
 		int size;										   // number of key-value pairs in the hash table
 		int capacity;												 // number of slots in the hash table
-		int resizes;											  // number of times this map has resized											 					
+		int resizes;											  // number of times this map has resized
+		int nc = 0;									// to count number of operations to complete a search											 					
 		//-----------------------------------------------------------------------------------------------
 		// HASH - 
 		//-----------------------------------------------------------------------------------------------
@@ -156,7 +157,8 @@ class ClosedHashTable {
 		//-----------------------------------------------------------------------------------------------
 		// GET - get value associated with key
 		//-----------------------------------------------------------------------------------------------	
-		V& get(string& key){	
+		V& get(string& key){
+			nc = 0;	
 			if (this->contains(key)){
 				List<HashNode>& current_bucket = this->table[hash(key)];			  // get bucket at hk
 				Node<HashNode>* n = current_bucket.get_head();			   // get that bucket's head node
@@ -165,6 +167,7 @@ class ClosedHashTable {
 						return n->data.value;						      // return the value of that key
 					}
 					n = n->next;
+					nc ++ ;													// count number of operations
 				}
 			}
 			throw out_of_range("KeyError");											   // if no key found
@@ -173,6 +176,7 @@ class ClosedHashTable {
 		// REMOVE - remove key-value pair from hash table
 		//-----------------------------------------------------------------------------------------------	 
 		bool remove(string& key){
+			nc = 0;
 			if (this->contains(key)){
 				List<HashNode>& current_bucket = this->table[hash(key)];			  // get bucket at hk
 				Node<HashNode>* n = current_bucket.get_head();			   // get that bucket's head node
@@ -192,6 +196,7 @@ class ClosedHashTable {
 		// CONTAINS - see if key exists in map
 		//-----------------------------------------------------------------------------------------------	
 		bool contains(string& key){
+			nc = 0;
 			List<HashNode>& current_bucket = this->table[hash(key)];			      // get bucket at hk
 			Node<HashNode>* n = current_bucket.get_head();				   // get that bucket's head node
 			while (n != NULL){			     // traverse the current linked list until matching key found
@@ -199,6 +204,7 @@ class ClosedHashTable {
 					return true;
 				}
 				n = n->next;
+				nc ++ ;
 			}
 			return false;
 		}
@@ -276,5 +282,8 @@ class ClosedHashTable {
 			return this->resizes;
 		}
 		//-----------------------------------------------------------------------------------------------
+		int search_count(){									// return how many operations the search took
+			return this->nc;
+		}
 };		
 #endif

@@ -42,6 +42,7 @@ class OpenHashTable{
 		int capacity;		// number of slots in the hash table
 		int resizes = 0;
 		int collisions_avoided = 0;
+		int nc = 0;
 
 		//-----------------------------------------------------------------------------------------------
 		// HASH - 
@@ -211,12 +212,14 @@ class OpenHashTable{
 		// GET - get value associated with key
 		//-----------------------------------------------------------------------------------------------	
 		V get(string& key){
+			nc = 0;
 			if (this->contains(key)){
 				int cur_index = hash(key);
 				int quadr_fact = 1;
 				while (this->table[cur_index].key != key){		   // see if key is present at that index
 					cur_index += (quadr_fact) * (quadr_fact);
-					quadr_fact ++;	
+					quadr_fact ++ ;											
+					nc ++ ;													   // time complexity tracker
 				}
 				return this->table[cur_index].value;								      // return value
 			}
@@ -226,6 +229,7 @@ class OpenHashTable{
 		// CONTAINS - see if key exists in map
 		//-----------------------------------------------------------------------------------------------
 		bool contains(string& key){
+			nc = 0;
 			int cur_index = hash(key);
 			int quadr_fact = 1;
 			while (cur_index < capacity){				  	       			 // look until no buckets lef		      
@@ -234,6 +238,7 @@ class OpenHashTable{
 				}
 				cur_index += (quadr_fact) * (quadr_fact);
 				quadr_fact ++;	
+				nc ++ ;														   // time complexity tracker
 			}
 			return false;
 		}
@@ -303,6 +308,8 @@ class OpenHashTable{
 		int count_full(){return this->capacity - count_empty();}      // return how many slots are filled
 		//-----------------------------------------------------------------------------------------------
 		int collisions_avoid(){return this->collisions_avoided;}      // return how many slots are filled
+		//-----------------------------------------------------------------------------------------------
+		int search_count(){return this->nc;}			   // return time complexity of search operations
 		//-----------------------------------------------------------------------------------------------
 	};
 #endif

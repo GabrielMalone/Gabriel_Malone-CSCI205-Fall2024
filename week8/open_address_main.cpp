@@ -19,16 +19,16 @@ int main(){
     //--------------------------------------------------------------------------------------------------------
     random_device rd;                                 
     mt19937 gen(rd());
-    string s = "1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";                 // characters
-    uniform_int_distribution<> dist(1, s.length()-1);              // random index for string building in loop
-    uniform_int_distribution<> rand(5, 20);                   // random length for each string to place in map
+    string s = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";                           // characters
+    uniform_int_distribution<> dist(0, s.length()-1);              // random index for string building in loop
+    uniform_int_distribution<> rand(10, 200);                 // random length for each string to place in map
     //--------------------------------------------------------------------------------------------------------
     OpenHashTable<int>testmap;   // initialize an empty map. loop below will test resize functionality as well
     string str = "";
     //--------------------------------------------------------------------------------------------------------
     // RANDOM STRING BUILDER
     //--------------------------------------------------------------------------------------------------------
-    for (int i = 0 ; i < 100 ; i ++ ){                        // how many times to place a string into the map
+    for (int i = 0 ; i < 500000 ; i ++ ){                     // how many times to place a string into the map
         str = "";                                                                       // reset for each loop
         int rand_len = rand(gen);                                        // select string length for this loop
         for (int j = 0 ; j < rand_len ; j ++ ){                                            // build the string
@@ -51,7 +51,7 @@ int main(){
     cout << Colors::GREEN 
     <<"--------------------------------------------------------------------------------------------------- "
     << Colors::RESET << endl;
-    cout << Colors::GREEN <<"       <INT>MAP DATA - using random strings for keys" << Colors::RESET << endl;    
+    cout << Colors::GREEN <<"  OPEN <INT>MAP DATA - using random strings for keys" << Colors::RESET << endl;    
     cout << Colors::GREEN 
     <<"--------------------------------------------------------------------------------------------------- " 
     << Colors::RESET << endl;                                                                         
@@ -108,13 +108,19 @@ int main(){
          } else {
             cout << Colors::RED << "false" << Colors::RESET << endl;
          }
-    
+    //-------------------------------------------------------------------------------------------------------- 
+    cout << "It took " << Colors::GREEN << testmap.search_count() << Colors::RESET   // test search complexity
+         << " operations to find " << g << endl;
+    //-------------------------------------------------------------------------------------------------------- 
     cout << "Map contains key " << goob << ": ";
          if (testmap.contains(goob)) {
             cout << Colors::GREEN << "true" << Colors::RESET << endl;
          } else {
             cout << Colors::RED << "false" << Colors::RESET << endl;
          } 
+   //-------------------------------------------------------------------------------------------------------- 
+    cout << "It took " << Colors::GREEN << testmap.search_count() << Colors::RESET   // test search complexity
+         << " operations to find " << goob << " not present" << endl;
     //--------------------------------------------------------------------------------------------------------
     cout << "Getting value from key " << g << ": "<< testmap.get(g) << endl;                       // test get
     //--------------------------------------------------------------------------------------------------------
@@ -147,7 +153,7 @@ int main(){
     OpenHashTable<Contact> contactMap;                                   // create a blank map of type Contact
     Node<Contact>* n = contacts.get_head();                 // iterate through the contacts in the linked list
     int index = 0;
-    while (index < 100){
+    while (index < 100000){
         Contact contact = n->data;                                                     // pull out the contact
         string key = contact.getPhone();                               // get the phone number to use as a key
         contactMap.put(key, contact);                  // place the key and value (value being contact object)
@@ -155,15 +161,18 @@ int main(){
         index ++;
     }
 
-    contactMap.print();
+    //contactMap.print();
     cout << Colors::GREEN 
     <<"--------------------------------------------------------------------------------------------------- "
     << Colors::RESET << endl;
-    cout << Colors::GREEN <<"  <CONTACT>MAP DATA - using phone numbers as keys " << Colors::RESET << endl;    
+    cout << Colors::GREEN <<" OPEN <CONTACT>MAP DATA - using phone numbers as keys " << Colors::RESET << endl;    
     cout << Colors::GREEN 
     <<"--------------------------------------------------------------------------------------------------- " 
-    << Colors::RESET << endl;                                                                         
-    cout << "Map capacity = ";
+    << Colors::RESET << endl;  
+    cout << "number of resizes to fill this map: ";                      // return number of resizes completed
+    cout << Colors::MAGENTA << contactMap.times_resized() <<Colors::RESET << endl;  
+    cout << Colors::GREEN                                                                        
+         << "Map capacity = ";
     cout << Colors::MAGENTA << contactMap.map_capacity() << Colors::RESET;        // return correct capacity
     cout << ". Is this number prime? ";
     if (testmap.is_prime(contactMap.map_capacity())){

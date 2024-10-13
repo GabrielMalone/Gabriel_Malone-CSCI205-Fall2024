@@ -21,7 +21,7 @@ int main(){
     mt19937 gen(rd());
     string s = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";                           // characters
     uniform_int_distribution<> dist(0, s.length()-1);              // random index for string building in loop
-    uniform_int_distribution<> rand(10, 10);                  // random length for each string to place in map
+    uniform_int_distribution<> rand(10, 500);                  // random length for each string to place in map
     //--------------------------------------------------------------------------------------------------------
     ClosedHashTable<int>testmap; // initialize an empty map. loop below will test resize functionality as well
     //--------------------------------------------------------------------------------------------------------
@@ -29,7 +29,7 @@ int main(){
     //--------------------------------------------------------------------------------------------------------
     // RANDOM STRING BUILDER
     //--------------------------------------------------------------------------------------------------------
-    for (int i = 0 ; i < 200000 ; i ++ ){                     // how many times to place a string into the map
+    for (int i = 0 ; i < 500000 ; i ++ ){                     // how many times to place a string into the map
         str = "";                                                                       // reset for each loop
         int rand_len = rand(gen);                                        // select string length for this loop
         for (int j = 0 ; j < rand_len ; j ++ ){                                            // build the string
@@ -45,12 +45,12 @@ int main(){
     testmap.put(g, myint);
     string goob = Colors::MAGENTA + "goob" + Colors::RESET;
     //--------------------------------------------------------------------------------------------------------
-    testmap.print();                                                           // print current state of map
+    //testmap.print();                                                           // print current state of map
     //--------------------------------------------------------------------------------------------------------  
     cout << Colors::GREEN 
     <<"--------------------------------------------------------------------------------------------------- "
     << Colors::RESET << endl;
-    cout << Colors::GREEN <<"       <INT>MAP DATA - using random strings for keys" << Colors::RESET << endl;    
+    cout << Colors::GREEN <<" CLOSED<INT>MAP DATA - using random strings for keys" << Colors::RESET << endl;    
     cout << Colors::GREEN 
     <<"--------------------------------------------------------------------------------------------------- " 
     << Colors::RESET << endl;                                                                         
@@ -107,13 +107,19 @@ int main(){
          } else {
             cout << Colors::RED << "false" << Colors::RESET << endl;
          }
-    
+    //-------------------------------------------------------------------------------------------------------- 
+    cout << "It took " << Colors::GREEN << testmap.search_count() << Colors::RESET   // test search complexity
+         << " operations to find " << g << endl;
+    //-------------------------------------------------------------------------------------------------------- 
     cout << "Map contains key " << goob << ": ";
          if (testmap.contains(goob)) {
             cout << Colors::GREEN << "true" << Colors::RESET << endl;
          } else {
             cout << Colors::RED << "false" << Colors::RESET << endl;
          } 
+    //-------------------------------------------------------------------------------------------------------- 
+    cout << "It took " << Colors::GREEN << testmap.search_count() << Colors::RESET   // test search complexity
+         << " operations to find " << goob << " not present" << endl;
     //--------------------------------------------------------------------------------------------------------
     cout << "Getting value from key " << g << ": "<< testmap.get(g) << endl;                       // test get
     //--------------------------------------------------------------------------------------------------------
@@ -153,7 +159,7 @@ int main(){
     cout << Colors::GREEN 
     <<"--------------------------------------------------------------------------------------------------- "
     << Colors::RESET << endl;
-    cout << Colors::GREEN <<"  <CONTACT>MAP DATA - using phone numbers as keys " << Colors::RESET << endl;    
+    cout << Colors::GREEN <<" CLOSED<CONTACT>MAP DATA - using phone numbers as keys " << Colors::RESET << endl;    
     cout << Colors::GREEN 
     <<"--------------------------------------------------------------------------------------------------- " 
     << Colors::RESET << endl;                                                                         
