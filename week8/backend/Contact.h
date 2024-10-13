@@ -1,3 +1,6 @@
+#ifndef CONTACT_H
+#define CONTACT_H
+
 #include <string>
 #include <iostream>
 
@@ -29,3 +32,6 @@ private:
 	std::string email_;
 	std::string phone_;
 };
+
+
+#endif

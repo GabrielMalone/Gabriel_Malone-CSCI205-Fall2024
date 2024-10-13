@@ -2,33 +2,34 @@
 //------------------------------------------------------------------------------------------------------------
 // Gabriel Malone / CSCI 205 / WEEK 8 / CLOSED MAPS TESTING
 //------------------------------------------------------------------------------------------------------------
-#include "hash_tables/OpenHashTable.hpp"
+#include "hash_tables/ClosedHashTable.hpp"
 #include <iostream>
 #include <string>
 #include <random>
 #include "backend/Contact.h"
 #include "backend/FileOpener.hpp"
 #include "backend/colors.hpp"
-#include "backend/List.hpp"
+
 //------------------------------------------------------------------------------------------------------------
 using namespace std;
-
+                                    
 int main(){
     //--------------------------------------------------------------------------------------------------------
     // SET UP FOR STRING RANDOMIZATION
     //--------------------------------------------------------------------------------------------------------
     random_device rd;                                 
     mt19937 gen(rd());
-    string s = "1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";                           // characters
-    uniform_int_distribution<> dist(1, s.length()-1);              // random index for string building in loop
-    uniform_int_distribution<> rand(5, 20);                  // random length for each string to place in map
+    string s = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";                           // characters
+    uniform_int_distribution<> dist(0, s.length()-1);              // random index for string building in loop
+    uniform_int_distribution<> rand(10, 10);                  // random length for each string to place in map
     //--------------------------------------------------------------------------------------------------------
-    OpenHashTable<int>testmap; // initialize an empty map. loop below will test resize functionality as well
+    ClosedHashTable<int>testmap; // initialize an empty map. loop below will test resize functionality as well
+    //--------------------------------------------------------------------------------------------------------
     string str = "";
     //--------------------------------------------------------------------------------------------------------
     // RANDOM STRING BUILDER
     //--------------------------------------------------------------------------------------------------------
-    for (int i = 0 ; i < 100 ; i ++ ){                     // how many times to place a string into the map
+    for (int i = 0 ; i < 200000 ; i ++ ){                     // how many times to place a string into the map
         str = "";                                                                       // reset for each loop
         int rand_len = rand(gen);                                        // select string length for this loop
         for (int j = 0 ; j < rand_len ; j ++ ){                                            // build the string
@@ -39,15 +40,13 @@ int main(){
     //--------------------------------------------------------------------------------------------------------
     // CONSTANT VARIABLE 
     //--------------------------------------------------------------------------------------------------------
-    string g = "gabe" ;                                 //constant used to test features with known key value
+    string g = Colors::MAGENTA + "gabe" + Colors::RESET; //constant used to test features with known key value
     int myint = 100;
     testmap.put(g, myint);
-    string goob = "goob";
+    string goob = Colors::MAGENTA + "goob" + Colors::RESET;
     //--------------------------------------------------------------------------------------------------------
     testmap.print();                                                           // print current state of map
-    //--------------------------------------------------------------------------------------------------------
-    cout << "number of resizes to fill this map: ";                      // return number of resizes completed
-    cout << Colors::MAGENTA << testmap.times_resized() <<Colors::RESET << endl;  
+    //--------------------------------------------------------------------------------------------------------  
     cout << Colors::GREEN 
     <<"--------------------------------------------------------------------------------------------------- "
     << Colors::RESET << endl;
@@ -88,11 +87,11 @@ int main(){
         cout << Colors::RED << "false" << Colors::RESET << endl;
     }                                                                                // confirm numbers add up
     //--------------------------------------------------------------------------------------------------------
-    cout << "total number of collisions avoided creating map ";     // average number of collisions per bucket
-    cout << Colors::MAGENTA << testmap.collisions_avoid() << Colors::RESET << endl;  
+    cout << "Average number of collisions per bucket: ";            // average number of collisions per bucket
+    cout << Colors::MAGENTA << testmap.avg_depth() << Colors::RESET << endl;  
     //--------------------------------------------------------------------------------------------------------
-    // cout << "Highest number of collisions present in map: ";  // test to find the most number of collisions
-    // cout << Colors::MAGENTA << testmap.max_depth() << Colors::RESET << endl;     
+    cout << "Highest number of collisions present in map: ";     // test to find the most number of collisions
+    cout << Colors::MAGENTA << testmap.max_depth() << Colors::RESET << endl;     
     //--------------------------------------------------------------------------------------------------------
     cout << "Percent buckets empty (number of buckets used vs number of pairs):  "; // how many unused buckets
     cout << Colors::MAGENTA << (double)testmap.count_full() / (double)testmap.m_size()  
@@ -136,26 +135,21 @@ int main(){
     cout << Colors::GREEN 
     <<"--------------------------------------------------------------------------------------------------- " 
     << Colors::RESET << endl; 
-    //testmap.print();                                                           // print current state of map
-    
-
     //--------------------------------------------------------------------------------------------------------  
     // Create a map of 100k contacts
     //--------------------------------------------------------------------------------------------------------  
     List<Contact> contacts;                                                    // Linked list to hold contacts
     FileOpener::contactLoader("backend/contacts.txt", contacts);     // load the contacts into the linked list
-    OpenHashTable<Contact> contactMap;                                   // create a blank map of type Contact
+    ClosedHashTable<Contact> contactMap;                                 // create a blank map of type Contact
     Node<Contact>* n = contacts.get_head();                 // iterate through the contacts in the linked list
-    int index = 0;
-    while (index < 100){
+    while (n != NULL){
         Contact contact = n->data;                                                     // pull out the contact
         string key = contact.getPhone();                               // get the phone number to use as a key
         contactMap.put(key, contact);                  // place the key and value (value being contact object)
         n = n->next;
-        index ++;
     }
 
-    contactMap.print();
+    //contactMap.print();
     cout << Colors::GREEN 
     <<"--------------------------------------------------------------------------------------------------- "
     << Colors::RESET << endl;
@@ -195,11 +189,11 @@ int main(){
         cout << Colors::RED << "false" << Colors::RESET << endl;
     }                                                                                // confirm numbers add up
     //--------------------------------------------------------------------------------------------------------
-    cout << "total number of collisions avoided creating map ";     // average number of collisions per bucket
-    cout << Colors::MAGENTA << contactMap.collisions_avoid() << Colors::RESET << endl;     
+    cout << "Average number of collisions per bucket: ";            // average number of collisions per bucket
+    cout << Colors::MAGENTA << contactMap.avg_depth() << Colors::RESET << endl;     
     //--------------------------------------------------------------------------------------------------------
-    // cout << "Highest number of collisions present in map: ";     // test to find the most number of collisions
-    // cout << Colors::MAGENTA << contactMap.max_depth() << Colors::RESET << endl;  
+    cout << "Highest number of collisions present in map: ";     // test to find the most number of collisions
+    cout << Colors::MAGENTA << contactMap.max_depth() << Colors::RESET << endl;  
     //--------------------------------------------------------------------------------------------------------
     cout << "Percent buckets empty (number of buckets used vs number of pairs):  "; // how many unused buckets
     cout << Colors::MAGENTA << (double)contactMap.count_full() / (double)contactMap.m_size()  
@@ -212,6 +206,9 @@ int main(){
     cout << Colors::GREEN 
     <<"--------------------------------------------------------------------------------------------------- " 
     << Colors::RESET << endl; 
+   
+
+    
 
     return 0;
 }

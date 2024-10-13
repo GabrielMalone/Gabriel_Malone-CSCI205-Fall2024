@@ -6,7 +6,8 @@
 
 #include <iostream>
 #include <string>
-#include "backend/List.hpp"	
+#include "../backend/List.hpp"	
+#include "../backend/colors.hpp"
 
 using namespace std;
 //--------------------------------------------------------------------------------------------------------
@@ -46,8 +47,8 @@ class ClosedHashTable {
 		//-----------------------------------------------------------------------------------------------
 		List<HashNode>* table;								// dynamically allocated array of LinkedLists
 		int size;										   // number of key-value pairs in the hash table
-		int capacity;	
-													 				// number of slots in the hash table
+		int capacity;												 // number of slots in the hash table
+		int resizes;											  // number of times this map has resized											 					
 		//-----------------------------------------------------------------------------------------------
 		// HASH - 
 		//-----------------------------------------------------------------------------------------------
@@ -56,7 +57,7 @@ class ClosedHashTable {
 		unsigned long long hash(const string& key) {
 			unsigned long long hash = 1 ;
 			for (int i = 0 ; i < key.length(); i ++){
-				hash += static_cast<unsigned long long>(key[i]) * (((i+1*13) * (i+1*61)));			
+				hash += static_cast<unsigned long long>(key[i]) * ((i+1*13) * (i+1*61)) % capacity;			
 			}
 			return hash % capacity;
 		}
@@ -65,13 +66,13 @@ class ClosedHashTable {
 		// LOADFACTOR - helper function to determine load factor
 		//-----------------------------------------------------------------------------------------------
 		double loadFactor() {
-			return this->size / this->capacity;
+			return  this->size / this->capacity;
 		}
 		//-----------------------------------------------------------------------------------------------
 		// RESIZE? - helper function to determine if we should resize
 		//-----------------------------------------------------------------------------------------------
 		bool should_resize() {
-			double load_size = .75;
+			double load_size = .9;
 			if (loadFactor() > load_size) return true;
 			return false;
 		}
@@ -80,8 +81,9 @@ class ClosedHashTable {
 		//-----------------------------------------------------------------------------------------------
 		// will need to rehash all key-value pairs  because new capacity == new modulus division number
 		void resize() {
+			resizes ++ ;
 			int old_capacity = capacity;									  // for iterating old table
-			capacity = capacity + (capacity * .5);						// resize capacity to 50% larger,
+			capacity = capacity + (capacity * 2);						
 			if (! is_prime(capacity)){								       // then find next prime number
 				capacity = find_next_prime(capacity);
 			}							
@@ -214,12 +216,9 @@ class ClosedHashTable {
 		bool empty(){return size == 0;}								  // check if the hash table is empty
 		//-----------------------------------------------------------------------------------------------	
 		void print() const {										// print the state of the current map
-			string RESET = "\033[0m";                          				// ANSI escape code variables
-			string YELLOW = "\033[33m";
-			string BLUE = "\033[34m";
 			for (int i = 0; i < this->capacity; ++i) {
-				cout << "table[" << YELLOW << i << RESET << "]: ";
-				if (table[i].length() == 0) cout << BLUE << "EMPTY" << RESET << endl; 	// is slot empty?
+				cout << "table[" << Colors::YELLOW << i << Colors::RESET << "]: ";
+				if (table[i].length() == 0) cout << Colors::BLUE << "EMPTY" << Colors::RESET << endl; 
 				else table[i].print();	
 			}
 		}
@@ -272,5 +271,10 @@ class ClosedHashTable {
 					return false;
 			return true;
 		}
+		//-----------------------------------------------------------------------------------------------
+		int times_resized(){									   // how many times has this map resized
+			return this->resizes;
+		}
+		//-----------------------------------------------------------------------------------------------
 };		
 #endif
