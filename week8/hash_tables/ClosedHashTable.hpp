@@ -79,10 +79,10 @@ class ClosedHashTable {
 		//-----------------------------------------------------------------------------------------------
 		// RESIZE 
 		//-----------------------------------------------------------------------------------------------
-		// will need to rehash all key-value pairs  because new capacity == new modulus division number
+		  // will need to rehash all key-value pairs  because new capacity == new modulus division number
 		void resize() {
 			resizes ++ ;
-			int old_capacity = capacity;									  // for iterating old table
+			int old_capacity = capacity;									   // for iterating old table
 			capacity = capacity + (capacity * 2);						
 			if (! is_prime(capacity)){								       // then find next prime number
 				capacity = find_next_prime(capacity);
