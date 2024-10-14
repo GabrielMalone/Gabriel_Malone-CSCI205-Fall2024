@@ -49,10 +49,10 @@ class OpenHashTable{
 		//-----------------------------------------------------------------------------------------------
 		// the multiplying by a square (and never being zero, 
 		// helped prevent a bunch of collisions happening near the start of every map
-		int hash(const string& key) {
-			int hash = 1 ;
-			for (int i = 0 ; i < (int)key.length(); i ++){
-				hash += static_cast<int>(key[i]) * (((i+1*13) * (i+1*61)));			
+		unsigned long long hash(const string& key) {
+			unsigned long long hash = 1 ;
+			for (int i = 0 ; i < key.length(); i ++){
+				hash += static_cast<unsigned long long>(key[i]) * ((i+1*13) * (i+1*61)) % capacity;			
 			}
 			return hash % capacity;
 		}
@@ -83,12 +83,17 @@ class OpenHashTable{
 			if (! is_prime(capacity)){								   	   // then find next prime number
 				capacity = find_next_prime(capacity);
 			}
-			HashNode* new_table = new HashNode[capacity];						     // set up new table	
+			HashNode* temp_table = new HashNode[old_capacity];
 			for (int i = 0 ; i < old_capacity ; i ++){
-				new_table[hash(table[i].key)] = table[i];
+				temp_table[i] = table[i];
 			}
-			delete[] table;
-			table = new_table;								 
+			HashNode* new_table = new HashNode[capacity];	
+			delete[] table;					     									// set up new table	
+			table = new_table;
+			for (int i = 0 ; i < old_capacity ; i ++){
+				put_with_quadratic_probe(temp_table[i].key, temp_table[i].value);  // rehash and place into new array at new loc
+			}
+			delete [] temp_table;							 
 		}
 
 		//-----------------------------------------------------------------------------------------------
@@ -212,7 +217,7 @@ class OpenHashTable{
 		// GET - get value associated with key
 		//-----------------------------------------------------------------------------------------------	
 		V& get(string& key){
-			nc = 0;
+			nc = 1;
 			if (contains(key)){
 				int cur_index = hash(key);
 				int quadr_fact = 1;
@@ -228,13 +233,13 @@ class OpenHashTable{
 		//-----------------------------------------------------------------------------------------------
 		// CONTAINS - see if key exists in map
 		//-----------------------------------------------------------------------------------------------
-		bool contains(string& key){
-			nc = 0;
-			int cur_index = hash(key);
+		bool contains(string& key_in){
+			nc = 1;
+			int cur_index = hash(key_in);
 			int quadr_fact = 1;
 			while (cur_index < capacity){				  	       			 // look until no buckets lef
 				nc ++ ;														   // time complexity tracker	      
-				if (this->table[cur_index].key == key && ! this->table[cur_index].deleted){
+				if (this->table[cur_index].key == key_in && ! this->table[cur_index].deleted){
 					return true;
 				}
 				cur_index += (quadr_fact) * (quadr_fact);

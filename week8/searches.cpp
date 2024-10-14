@@ -34,25 +34,26 @@ int main(){
 	int index 	= 0;					// index of key in array
 	int size 	= 0;					// problem size
 
+
 	// execute 100 times with increasing problem size
-	for (int i = 1; i < 100; ++i){
+	for (int i = 1; i < 1000; ++i){
 		// allocate and fill array  
 		size = i*10;						// problem size
-		uniform_int_distribution<> rand(1, size-1);   
+		//uniform_int_distribution<> rand(10, size);   
 		int *array = new int[size];		// allocate array with size of N
 		fill_array(array, size);			// fill array with values 1 to N
-		int rand_key = size; 
+		int rand_key = size-1; 
 		ClosedHashTable<int>cht(size);						// create a Closed HashTable of size of array
 		for (int i = 0 ; i < size ; i ++){					// fill table with key, value pairs 
 			string int_str = to_string(array[i]);			// (key being string of the int, value being that int)
 			cht.put(int_str, i);
 		}
 		OpenHashTable<int>oht(size);						// create a Closed HashTable of size of array
-		for (int i = 0 ; i < size ; i ++){					// fill table with key, value pairs 
+		for (int i = 1 ; i < size ; i ++){					// fill table with key, value pairs 
 			string int_str = to_string(array[i]);			// (key being string of the int, value being that int)
 			oht.put(int_str, i);
 		}
-		// call functions with search key. 
+		//call functions with search key. 
 		// Change 3rd parameter to -1 to test worst case
 		// Change 3rd parameter to N/2 to test average case
 		// Change 3rd parameter to 1 to test best case
@@ -65,6 +66,7 @@ int main(){
 		counts = 0;										// reset counts
 		closed_hashtable_search(rand_key, counts, cht);	// binary search for -1 in array
 		f3 << size << " " << counts << endl;				// record counts to file
+		counts = 0;
 		open_hashtable_search(rand_key, counts, oht);	// binary search for -1 in array
 		f4 << size << " " << counts << endl;				// record counts to file
 		delete[]  array;	// deallocate array used in this iteration
@@ -176,7 +178,7 @@ void benchmark(int size){
 	end = clock();											// end clock
 	time = (double)(end - start) / CLOCKS_PER_SEC;			// compute time
 	cout << "closed_hash_table search time: " << fixed << time << endl;// print time
-	cout << "closed_hash_table Search Comparisons: " << counts << endl;// print counts
+	cout << "closed_hash_table Search Comparisons: " << counts << endl<< endl;// print counts
 			
 	counts = 0;												// reset counts
 
@@ -186,7 +188,7 @@ void benchmark(int size){
 	end = clock();											// end clock
 	time = (double)(end - start) / CLOCKS_PER_SEC;			// compute time
 	cout << "open_hash_table search time: " << fixed << time << endl;// print time
-	cout << "open_hash_table Search Comparisons: " << counts << endl;// print counts
+	cout << "open_hash_table Search Comparisons: " << counts << endl<< endl;// print counts
 
 	delete[] array;											// deallocate array
 }

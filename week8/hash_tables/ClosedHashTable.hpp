@@ -176,7 +176,7 @@ class ClosedHashTable {
 		// REMOVE - remove key-value pair from hash table
 		//-----------------------------------------------------------------------------------------------	 
 		bool remove(string& key){
-			nc = 0;
+			nc = 1;
 			if (contains(key)){
 				List<HashNode>& current_bucket = this->table[hash(key)];			  // get bucket at hk
 				Node<HashNode>* n = current_bucket.get_head();			   // get that bucket's head node

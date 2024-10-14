@@ -25,11 +25,18 @@ int main(){
     //--------------------------------------------------------------------------------------------------------
     ClosedHashTable<int>testmap; // initialize an empty map. loop below will test resize functionality as well
     //--------------------------------------------------------------------------------------------------------
+    // CONSTANT VARIABLE 
+    //--------------------------------------------------------------------------------------------------------
+    string g = Colors::MAGENTA + "gabe" + Colors::RESET; //constant used to test features with known key value
+    int myint = 100;
+    testmap.put(g, myint);
+    string goob = Colors::MAGENTA + "goob" + Colors::RESET;
+    //--------------------------------------------------------------------------------------------------------
     string str = "";
     //--------------------------------------------------------------------------------------------------------
     // RANDOM STRING BUILDER
     //--------------------------------------------------------------------------------------------------------
-    for (int i = 0 ; i < 500000 ; i ++ ){                     // how many times to place a string into the map
+    for (int i = 0 ; i < 500 ; i ++ ){                     // how many times to place a string into the map
         str = "";                                                                       // reset for each loop
         int rand_len = rand(gen);                                        // select string length for this loop
         for (int j = 0 ; j < rand_len ; j ++ ){                                            // build the string
@@ -38,12 +45,8 @@ int main(){
         testmap.put(str, i);                // place the random string in the map as a key with , 'i' as value
     }
     //--------------------------------------------------------------------------------------------------------
-    // CONSTANT VARIABLE 
+    // PRINT CURRENT STATE OF MAP
     //--------------------------------------------------------------------------------------------------------
-    string g = Colors::MAGENTA + "gabe" + Colors::RESET; //constant used to test features with known key value
-    int myint = 100;
-    testmap.put(g, myint);
-    string goob = Colors::MAGENTA + "goob" + Colors::RESET;
     //--------------------------------------------------------------------------------------------------------
     testmap.print();                                                             // print current state of map
     //--------------------------------------------------------------------------------------------------------  
@@ -53,15 +56,24 @@ int main(){
     cout << Colors::GREEN <<" CLOSED<INT>MAP DATA - using random strings for keys" << Colors::RESET << endl;    
     cout << Colors::GREEN 
     <<"--------------------------------------------------------------------------------------------------- " 
-    << Colors::RESET << endl;                                                                         
+    << Colors::RESET << endl;
+    //--------------------------------------------------------------------------------------------------------
+    // SHOW CURRENT MAP CAPACITY
+    //--------------------------------------------------------------------------------------------------------                                                                         
     cout << "Map capacity = ";
     cout << Colors::MAGENTA << testmap.map_capacity() << Colors::RESET;           // return correct capacity
+    //--------------------------------------------------------------------------------------------------------
+    // IS THIS NUMBER PRIME?
+    //--------------------------------------------------------------------------------------------------------
     cout << ". Is this number prime? ";
     if (testmap.is_prime(testmap.map_capacity())){
         cout << Colors::GREEN << "true" << Colors::RESET << endl;
     } else {
         cout << Colors::RED << "false" << Colors::RESET << endl;
     }
+    //--------------------------------------------------------------------------------------------------------
+    // OTHER METRICS
+    //--------------------------------------------------------------------------------------------------------
     //--------------------------------------------------------------------------------------------------------   
     cout << "Number of key/value pairs in map: ";
     cout << Colors::MAGENTA << testmap.m_size() << Colors::RESET << endl;  // return number of key/value pairs 
@@ -95,34 +107,46 @@ int main(){
     //--------------------------------------------------------------------------------------------------------
     cout << "Percent buckets empty (number of buckets used vs number of pairs):  "; // how many unused buckets
     cout << Colors::MAGENTA << (double)testmap.count_full() / (double)testmap.m_size()  
-         << Colors::RESET << endl;                                  
+         << Colors::RESET << endl;        
+    //--------------------------------------------------------------------------------------------------------
+    // LOAD FACTOR
+    //--------------------------------------------------------------------------------------------------------                          
     //-------------------------------------------------------------------------------------------------------- 
     cout << Colors::YELLOW << "Load factor 𝜆" << Colors::RESET << " : "; 
     cout << Colors::YELLOW << (double)testmap.count_full() / (double)testmap.map_capacity()  
          << Colors::RESET << endl;
     //-------------------------------------------------------------------------------------------------------- 
     cout << "Map contains key " << g << ": ";                                                 // test contains
-         if (testmap.contains(g)) {
+         if (testmap.contains(g)) {                                        // placed in map, should be present
             cout << Colors::GREEN << "true" << Colors::RESET << endl;
          } else {
             cout << Colors::RED << "false" << Colors::RESET << endl;
          }
+    //--------------------------------------------------------------------------------------------------------
+    // TESTING FIND AND CONTAINS
+    //--------------------------------------------------------------------------------------------------------  
     //-------------------------------------------------------------------------------------------------------- 
     cout << "It took " << Colors::GREEN << testmap.search_count() << Colors::RESET   // test search complexity
          << " operations to find " << g << endl;
     //-------------------------------------------------------------------------------------------------------- 
     cout << "Map contains key " << goob << ": ";
-         if (testmap.contains(goob)) {
+         if (testmap.contains(goob)) {                              // never placed in map should return false
             cout << Colors::GREEN << "true" << Colors::RESET << endl;
          } else {
             cout << Colors::RED << "false" << Colors::RESET << endl;
-         } 
+         }
+    //--------------------------------------------------------------------------------------------------------
+    // TIME COMPLEXITY DATA
+    //--------------------------------------------------------------------------------------------------------   
     //-------------------------------------------------------------------------------------------------------- 
     cout << "It took " << Colors::GREEN << testmap.search_count() << Colors::RESET   // test search complexity
          << " operations to find " << goob << " not present" << endl;
     //--------------------------------------------------------------------------------------------------------
-    cout << "Getting value from key " << g << ": " << testmap.get(g) << endl;                       // test get
+    cout << "Getting value from key " << g << ": " << testmap.get(g) << endl;                      // test get
     //--------------------------------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------------------------------------
+    // TESTING REMOVE
+    //--------------------------------------------------------------------------------------------------------  
     cout << "Removing " << g << " from map... ";                                               // test removal                             
     testmap.remove(g);  
     cout << "Map now contains key " << g << ": ";                                           // confirm removal
@@ -130,7 +154,10 @@ int main(){
             cout << Colors::GREEN << "true" << Colors::RESET << endl;
         } else {
             cout << Colors::RED << "false" << Colors::RESET << endl;
-        }     
+        }
+    //--------------------------------------------------------------------------------------------------------
+    // MISC DATA
+    //--------------------------------------------------------------------------------------------------------       
     //--------------------------------------------------------------------------------------------------------        
     cout << "Current number of key/value pairs in map: ";           // return number of key/value pairs in map
     cout << Colors::MAGENTA << testmap.m_size() <<Colors::RESET << endl;   
@@ -141,8 +168,10 @@ int main(){
     cout << Colors::GREEN 
     <<"--------------------------------------------------------------------------------------------------- " 
     << Colors::RESET << endl; 
+
+
     //--------------------------------------------------------------------------------------------------------  
-    // Create a map of 100k contacts
+    // TESTING WITH CONTACT OBJECTS  / Create a map of 100k contacts
     //--------------------------------------------------------------------------------------------------------  
     List<Contact> contacts;                                                    // Linked list to hold contacts
     FileOpener::contactLoader("backend/contacts.txt", contacts);     // load the contacts into the linked list
