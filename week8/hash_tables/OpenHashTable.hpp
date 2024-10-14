@@ -211,9 +211,9 @@ class OpenHashTable{
 		//-----------------------------------------------------------------------------------------------
 		// GET - get value associated with key
 		//-----------------------------------------------------------------------------------------------	
-		V get(string& key){
+		V& get(string& key){
 			nc = 0;
-			if (this->contains(key)){
+			if (contains(key)){
 				int cur_index = hash(key);
 				int quadr_fact = 1;
 				while (this->table[cur_index].key != key){		   // see if key is present at that index

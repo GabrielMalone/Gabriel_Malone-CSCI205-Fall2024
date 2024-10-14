@@ -170,7 +170,7 @@ class ClosedHashTable {
 					nc ++ ;													// count number of operations
 				}
 			}
-			throw out_of_range("KeyError");											   // if no key found
+			throw out_of_range("Key Error, Key Does Not Exist");											   // if no key found
 		}	
 		//-----------------------------------------------------------------------------------------------
 		// REMOVE - remove key-value pair from hash table
