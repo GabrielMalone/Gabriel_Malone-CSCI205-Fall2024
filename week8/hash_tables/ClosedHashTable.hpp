@@ -136,7 +136,7 @@ class ClosedHashTable {
 		// PUT - place a key and a value into the map
 		//-----------------------------------------------------------------------------------------------
 		void put(string& key, V& value){
-			if (! this->contains(key)){ 		    // check if the key being inserted is already present
+			if (! contains(key)){ 		    // check if the key being inserted is already present
 				this->size ++;													  // increase size of map
 				if (should_resize()){									 // check to see if resize needed
 					resize();	
@@ -177,7 +177,7 @@ class ClosedHashTable {
 		//-----------------------------------------------------------------------------------------------	 
 		bool remove(string& key){
 			nc = 0;
-			if (this->contains(key)){
+			if (contains(key)){
 				List<HashNode>& current_bucket = this->table[hash(key)];			  // get bucket at hk
 				Node<HashNode>* n = current_bucket.get_head();			   // get that bucket's head node
 				while (n != NULL){			 // traverse the current linked list until matching key found
@@ -195,16 +195,16 @@ class ClosedHashTable {
 		//-----------------------------------------------------------------------------------------------
 		// CONTAINS - see if key exists in map
 		//-----------------------------------------------------------------------------------------------	
-		bool contains(string& key){
-			nc = 0;
-			List<HashNode>& current_bucket = this->table[hash(key)];			      // get bucket at hk
+		bool contains(string& key_in){
+			nc = 1;
+			List<HashNode>& current_bucket = this->table[hash(key_in)];			      // get bucket at hk
 			Node<HashNode>* n = current_bucket.get_head();				   // get that bucket's head node
 			while (n != NULL){			     // traverse the current linked list until matching key found
-				if (n->data.key == key){
+				nc ++ ;
+				if (n->data.key == key_in){
 					return true;
 				}
 				n = n->next;
-				nc ++ ;
 			}
 			return false;
 		}

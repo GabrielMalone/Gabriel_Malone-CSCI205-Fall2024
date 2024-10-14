@@ -35,7 +35,7 @@ int main(){
 	int size 	= 0;					// problem size
 
 	// execute 100 times with increasing problem size
-	for (int i = 1; i < 1000; ++i){
+	for (int i = 1; i < 100; ++i){
 		// allocate and fill array  
 		size = i*10;						// problem size
 		uniform_int_distribution<> rand(1, size-1);   
@@ -71,7 +71,7 @@ int main(){
 	}
 
 	// benchmarking
-	benchmark(10000000);	// benchmark linear and binary search with problem size of 1000
+	benchmark(1000);	// benchmark linear and binary search with problem size of 1000
 	return 0;
 }
 
@@ -110,23 +110,28 @@ int binary_search(int *array, int size, int key, int &counts){
 }
 
 int closed_hashtable_search(int key, int &counts, ClosedHashTable<int>& cht){
+	int index = -1;
 	string key_str = to_string(key);
 	try {
-		return cht.get(key_str);
+		index = cht.get(key_str);
+		counts = cht.search_count();
 	} catch (error_code){
-		return -1;
+		return index;
 	}
-	counts = cht.search_count();
+	return index;
 }
+	
 
 int open_hashtable_search(int key, int &counts, OpenHashTable<int>& oht){
+	int index = -1;
 	string key_str = to_string(key);
 	try {
-		return oht.get(key_str);
+		index = oht.get(key_str);
+		counts = oht.search_count();
 	} catch (error_code){
-		return -1;
+		return index;
 	}
-	counts = oht.search_count();
+	return index;
 }
 
 void benchmark(int size){
@@ -137,6 +142,11 @@ void benchmark(int size){
 	for (int i = 0 ; i < size ; i ++){					// fill table with key, value pairs 
 		string int_str = to_string(array[i]);			// (key being string of the int, value being that int)
 		cht2.put(int_str, i);
+	}
+	OpenHashTable<int>oht2(size);
+	for (int i = 0 ; i < size ; i ++){					// fill table with key, value pairs 
+		string int_str = to_string(array[i]);			// (key being string of the int, value being that int)
+		oht2.put(int_str, i);
 	}
 	cout << "Benchmarking with problem size of " << size << endl;
 
@@ -152,7 +162,7 @@ void benchmark(int size){
 
 	// benchmarking binary search
 	start = clock();										// start clock
-	binary_search(array, size, size, counts);					// binary search for -1 in array
+	binary_search(array, size, size, counts);				// binary search for -1 in array
 	end = clock();											// end clock
 	time = (double)(end - start) / CLOCKS_PER_SEC;			// compute time
 	cout << "Binary search time: " << fixed << time << endl;// print time
@@ -167,6 +177,16 @@ void benchmark(int size){
 	time = (double)(end - start) / CLOCKS_PER_SEC;			// compute time
 	cout << "closed_hash_table search time: " << fixed << time << endl;// print time
 	cout << "closed_hash_table Search Comparisons: " << counts << endl;// print counts
+			
+	counts = 0;												// reset counts
+
+	//benchmarking binary search
+	start = clock();										// start clock
+	open_hashtable_search(size, counts, oht2);				// closed_hashtable_search for -1 in array
+	end = clock();											// end clock
+	time = (double)(end - start) / CLOCKS_PER_SEC;			// compute time
+	cout << "open_hash_table search time: " << fixed << time << endl;// print time
+	cout << "open_hash_table Search Comparisons: " << counts << endl;// print counts
 
 	delete[] array;											// deallocate array
 }

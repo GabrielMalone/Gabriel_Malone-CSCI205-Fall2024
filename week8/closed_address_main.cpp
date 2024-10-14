@@ -45,7 +45,7 @@ int main(){
     testmap.put(g, myint);
     string goob = Colors::MAGENTA + "goob" + Colors::RESET;
     //--------------------------------------------------------------------------------------------------------
-    //testmap.print();                                                           // print current state of map
+    testmap.print();                                                             // print current state of map
     //--------------------------------------------------------------------------------------------------------  
     cout << Colors::GREEN 
     <<"--------------------------------------------------------------------------------------------------- "
@@ -121,7 +121,7 @@ int main(){
     cout << "It took " << Colors::GREEN << testmap.search_count() << Colors::RESET   // test search complexity
          << " operations to find " << goob << " not present" << endl;
     //--------------------------------------------------------------------------------------------------------
-    cout << "Getting value from key " << g << ": "<< testmap.get(g) << endl;                       // test get
+    cout << "Getting value from key " << g << ": " << testmap.get(g) << endl;                       // test get
     //--------------------------------------------------------------------------------------------------------
     cout << "Removing " << g << " from map... ";                                               // test removal                             
     testmap.remove(g);  

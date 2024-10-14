@@ -85,7 +85,7 @@ class OpenHashTable{
 			}
 			HashNode* new_table = new HashNode[capacity];						     // set up new table	
 			for (int i = 0 ; i < old_capacity ; i ++){
-				new_table[i] = table[i];
+				new_table[hash(table[i].key)] = table[i];
 			}
 			delete[] table;
 			table = new_table;								 
@@ -104,7 +104,7 @@ class OpenHashTable{
 		// LINEAR PROBE - helper function to put key-value pairs into the hash table using linear probing
 		//-----------------------------------------------------------------------------------------------
 		void put_with_linear_probe(string& key, V& value){
-			int cur_index = hash(key);
+			int cur_index = hash(key, this->capacity);
 			while (cur_index < capacity && this->table[cur_index].key != ""){
 				collisions_avoided ++;
 				cur_index ++;
@@ -217,9 +217,9 @@ class OpenHashTable{
 				int cur_index = hash(key);
 				int quadr_fact = 1;
 				while (this->table[cur_index].key != key){		   // see if key is present at that index
+					nc ++ ;													   // time complexity tracker
 					cur_index += (quadr_fact) * (quadr_fact);
 					quadr_fact ++ ;											
-					nc ++ ;													   // time complexity tracker
 				}
 				return this->table[cur_index].value;								      // return value
 			}
@@ -232,13 +232,13 @@ class OpenHashTable{
 			nc = 0;
 			int cur_index = hash(key);
 			int quadr_fact = 1;
-			while (cur_index < capacity){				  	       			 // look until no buckets lef		      
+			while (cur_index < capacity){				  	       			 // look until no buckets lef
+				nc ++ ;														   // time complexity tracker	      
 				if (this->table[cur_index].key == key && ! this->table[cur_index].deleted){
 					return true;
 				}
 				cur_index += (quadr_fact) * (quadr_fact);
 				quadr_fact ++;	
-				nc ++ ;														   // time complexity tracker
 			}
 			return false;
 		}
