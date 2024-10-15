@@ -55,10 +55,10 @@ class ClosedHashTable {
 		//-----------------------------------------------------------------------------------------------
 		// the multiplying by a square (and never being zero, 
 		// helped prevent a bunch of collisions happening near the start of every map
-		unsigned long long hash(const string& key) {
-			unsigned long long hash = 1 ;
+		int hash(const string& key) {
+			int hash = 0 ;
 			for (int i = 0 ; i < key.length(); i ++){
-				hash += static_cast<unsigned long long>(key[i]) * ((i+1*13) * (i+1*61)) % capacity;			
+				hash += static_cast<int>(key[i]) * ((i+1*13) * (i+1*61));			
 			}
 			return hash % capacity;
 		}
@@ -158,7 +158,6 @@ class ClosedHashTable {
 		// GET - get value associated with key
 		//-----------------------------------------------------------------------------------------------	
 		V& get(string& key){
-			nc = 0;	
 			if (this->contains(key)){
 				List<HashNode>& current_bucket = this->table[hash(key)];			  // get bucket at hk
 				Node<HashNode>* n = current_bucket.get_head();			   // get that bucket's head node
@@ -167,16 +166,14 @@ class ClosedHashTable {
 						return n->data.value;						      // return the value of that key
 					}
 					n = n->next;
-					nc ++ ;													// count number of operations
 				}
 			}
-			throw out_of_range("Key Error, Key Does Not Exist");											   // if no key found
+			throw out_of_range("Key Error, Key Does Not Exist");					   // if no key found
 		}	
 		//-----------------------------------------------------------------------------------------------
 		// REMOVE - remove key-value pair from hash table
 		//-----------------------------------------------------------------------------------------------	 
 		bool remove(string& key){
-			nc = 1;
 			if (contains(key)){
 				List<HashNode>& current_bucket = this->table[hash(key)];			  // get bucket at hk
 				Node<HashNode>* n = current_bucket.get_head();			   // get that bucket's head node
@@ -196,7 +193,7 @@ class ClosedHashTable {
 		// CONTAINS - see if key exists in map
 		//-----------------------------------------------------------------------------------------------	
 		bool contains(string& key_in){
-			nc = 1;
+			nc = 0;
 			List<HashNode>& current_bucket = this->table[hash(key_in)];			      // get bucket at hk
 			Node<HashNode>* n = current_bucket.get_head();				   // get that bucket's head node
 			while (n != NULL){			     // traverse the current linked list until matching key found

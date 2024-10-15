@@ -49,10 +49,10 @@ class OpenHashTable{
 		//-----------------------------------------------------------------------------------------------
 		// the multiplying by a square (and never being zero, 
 		// helped prevent a bunch of collisions happening near the start of every map
-		unsigned long long hash(const string& key) {
-			unsigned long long hash = 1 ;
+		int hash(const string& key) {
+			int hash = 1 ;
 			for (int i = 0 ; i < key.length(); i ++){
-				hash += static_cast<unsigned long long>(key[i]) * ((i+1*13) * (i+1*61)) % capacity;			
+				hash += (static_cast<int>(key[i]) * ((i+ 1*7919)) * (i + 1 * 607));	// this combo of primes seems to work best, no idea why	
 			}
 			return hash % capacity;
 		}
@@ -79,7 +79,7 @@ class OpenHashTable{
 		void resize(){ // rehash all key-value pairs  because new capacity == new modulus division number
 			resizes ++;
 			int old_capacity = capacity;									   // for iterating old table
-			capacity = capacity + (capacity * 2);			    		// resize capacity to 50% larger,
+			capacity = capacity + (capacity * .5);			    		// resize capacity to 50% larger,
 			if (! is_prime(capacity)){								   	   // then find next prime number
 				capacity = find_next_prime(capacity);
 			}
@@ -91,7 +91,7 @@ class OpenHashTable{
 			delete[] table;					     									// set up new table	
 			table = new_table;
 			for (int i = 0 ; i < old_capacity ; i ++){
-				put_with_quadratic_probe(temp_table[i].key, temp_table[i].value);  // rehash and place into new array at new loc
+				put_with_quadratic_probe(temp_table[i].key, temp_table[i].value);   // rehash and place 
 			}
 			delete [] temp_table;							 
 		}
@@ -106,49 +106,18 @@ class OpenHashTable{
 			return n;															// return the found prime
 		}
 		//-----------------------------------------------------------------------------------------------
-		// LINEAR PROBE - helper function to put key-value pairs into the hash table using linear probing
-		//-----------------------------------------------------------------------------------------------
-		void put_with_linear_probe(string& key, V& value){
-			int cur_index = hash(key, this->capacity);
-			while (cur_index < capacity && this->table[cur_index].key != ""){
-				collisions_avoided ++;
-				cur_index ++;
-			}
-			this->table[cur_index].value = value;
-			this->table[cur_index].key = key;
-		}
-		//-----------------------------------------------------------------------------------------------
-		// LINEAR PROBE RESIZE - helper function to put key-value pairs into the hash table using linear 
-		//-----------------------------------------------------------------------------------------------
-		void linear_probe_resize(string& key, V& value, HashNode* new_table){
-			int cur_index = hash(key);
-			while (cur_index < capacity && new_table[cur_index].key != "" ){
-				collisions_avoided ++;
-				cur_index ++;
-			}
-			new_table[cur_index].value = value;
-			new_table[cur_index].key = key;
-		}
-		//-----------------------------------------------------------------------------------------------
 		// QUADRATIC PROBE - helper function to put key-value pairs in hash table with quadratic probing
 		//-----------------------------------------------------------------------------------------------
 		void put_with_quadratic_probe(std::string& key, V& value){
 			if (key.length()>0){
 				int cur_index = hash(key);
-				int quadr_fact = 1;
 				while (table[cur_index].used){							    // if in use, go to next spot
 					if (table[cur_index].key == key){   // if in use and the same key, update key's value
 						table[cur_index].value = value;
 						cout << "updating key" << endl;
 						return;
 					}
-					collisions_avoided ++;
-					cur_index += (quadr_fact) * (quadr_fact);
-					quadr_fact ++;
-					if (cur_index >= capacity){
-						resize();
-						quadr_fact = 1;
-					}
+					cur_index = (cur_index + 1) % capacity;
 				}
 				if (cur_index < capacity){
 					this->table[cur_index].value = value;
@@ -157,6 +126,7 @@ class OpenHashTable{
 				} else {
 					throw out_of_range("No Index Available");				  // if no index available
 				}
+				
 			}
 		}
 		
@@ -217,13 +187,11 @@ class OpenHashTable{
 		// GET - get value associated with key
 		//-----------------------------------------------------------------------------------------------	
 		V& get(string& key){
-			nc = 1;
 			if (contains(key)){
 				int cur_index = hash(key);
 				int quadr_fact = 1;
-				while (this->table[cur_index].key != key){		   // see if key is present at that index
-					nc ++ ;													   // time complexity tracker
-					cur_index += (quadr_fact) * (quadr_fact);
+				while (this->table[cur_index].key != key){		   // see if key is present at that index						
+					cur_index = (cur_index + 1) % capacity;
 					quadr_fact ++ ;											
 				}
 				return this->table[cur_index].value;								      // return value
@@ -233,17 +201,17 @@ class OpenHashTable{
 		//-----------------------------------------------------------------------------------------------
 		// CONTAINS - see if key exists in map
 		//-----------------------------------------------------------------------------------------------
-		bool contains(string& key_in){
+		bool contains(string& key_in){ // this will degrade to O(n)
 			nc = 1;
+			int i = 0;
 			int cur_index = hash(key_in);
-			int quadr_fact = 1;
-			while (cur_index < capacity){				  	       			 // look until no buckets lef
-				nc ++ ;														   // time complexity tracker	      
+			while (i < capacity){				  	       					// look until no buckets lef      
 				if (this->table[cur_index].key == key_in && ! this->table[cur_index].deleted){
 					return true;
 				}
-				cur_index += (quadr_fact) * (quadr_fact);
-				quadr_fact ++;	
+				cur_index = (cur_index + 1) % capacity;
+				nc ++;
+				i ++ ;
 			}
 			return false;
 		}

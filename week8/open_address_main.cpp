@@ -30,7 +30,7 @@ int main(){
     // CONSTANT VARIABLE 
     //--------------------------------------------------------------------------------------------------------
     string g = "gabe" ;                                 //constant used to test features with known key value
-    string h = "canyoufindme";
+    string h = "69";
     int myint = 100;
     int myint2 = 69;
     testmap.put(g, myint);
@@ -108,13 +108,6 @@ int main(){
     cout << "total number of collisions avoided creating map ";     // average number of collisions per bucket
     cout << Colors::MAGENTA << testmap.collisions_avoid() << Colors::RESET << endl;  
     //--------------------------------------------------------------------------------------------------------
-    // cout << "Highest number of collisions present in map: ";  // test to find the most number of collisions
-    // cout << Colors::MAGENTA << testmap.max_depth() << Colors::RESET << endl;     
-    //--------------------------------------------------------------------------------------------------------
-    cout << "Percent buckets empty (number of buckets used vs number of pairs):  "; // how many unused buckets
-    cout << Colors::MAGENTA << (double)testmap.m_size() / (double)testmap.map_capacity()  
-         << Colors::RESET << endl;                                  
-    //--------------------------------------------------------------------------------------------------------
     // LOAD FACTOR
     //--------------------------------------------------------------------------------------------------------   
     //-------------------------------------------------------------------------------------------------------- 
@@ -174,7 +167,9 @@ int main(){
     //testmap.print();                                                           // print current state of map
     
     cout << "finding h..." << testmap.get(h) << endl;
-
+    //-------------------------------------------------------------------------------------------------------- 
+    cout << "It took " << Colors::GREEN << testmap.search_count() << Colors::RESET   // test search complexity
+         << " operations to find " << h << " present" << endl;
     //--------------------------------------------------------------------------------------------------------  
     // TESTING WITH CONTACT OBJECTS  /  Create a map of 100k contacts
     //--------------------------------------------------------------------------------------------------------  
@@ -183,7 +178,7 @@ int main(){
     OpenHashTable<Contact> contactMap;                                   // create a blank map of type Contact
     Node<Contact>* n = contacts.get_head();                 // iterate through the contacts in the linked list
     int index = 0;
-    while (index < 100000){
+    while (index < 1000){
         Contact contact = n->data;                                                     // pull out the contact
         string key = contact.getPhone();                               // get the phone number to use as a key
         contactMap.put(key, contact);                  // place the key and value (value being contact object)
@@ -191,7 +186,7 @@ int main(){
         index ++;
     }
 
-    contactMap.print();
+    //contactMap.print();
     cout << Colors::GREEN 
     <<"--------------------------------------------------------------------------------------------------- "
     << Colors::RESET << endl;
@@ -240,12 +235,8 @@ int main(){
     // cout << "Highest number of collisions present in map: ";  // test to find the most number of collisions
     // cout << Colors::MAGENTA << contactMap.max_depth() << Colors::RESET << endl;  
     //--------------------------------------------------------------------------------------------------------
-    cout << "Percent buckets empty (number of buckets used vs number of pairs):  "; // how many unused buckets
-    cout << Colors::MAGENTA << (double)contactMap.count_full() / (double)contactMap.m_size()  
-         << Colors::RESET << endl;                                  
-    //-------------------------------------------------------------------------------------------------------- 
     cout << Colors::YELLOW << "Load factor 𝜆" << Colors::RESET << " : "; 
-    cout << Colors::YELLOW << (double)contactMap.count_full() / (double)contactMap.map_capacity()  
+    cout << Colors::YELLOW << (double)contactMap.count_full() / (double)contactMap.map_capacity() 
          << Colors::RESET << endl;
     //-------------------------------------------------------------------------------------------------------- 
     cout << Colors::GREEN 
