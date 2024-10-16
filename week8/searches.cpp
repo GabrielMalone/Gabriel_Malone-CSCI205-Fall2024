@@ -21,7 +21,7 @@ void fillMaps(A_List<int>&,ClosedHashTable<int>&, OpenHashTable<int>&);
 // TEST VARIABLES
 //-----------------------------------------------------------------------------------------------------------
 int problem_size;
-int num_experiments = 100;														// num experiements to run
+int num_experiments = 2000;														// num experiements to run
 int counts;
 int key = 0;
 //-----------------------------------------------------------------------------------------------------------
@@ -56,10 +56,8 @@ int main(){
 		int end = list[list.length()-1];
 		int not_found = -1;
 
-		key = front;
-		// key = middle;
-		// key = end;
-		// key = not_found;
+		key = middle;
+
 
 		counts = 0;										
 		// linear_search(key, list);	
@@ -115,7 +113,7 @@ void binary_search(int key, A_List<int>&list){
 void closed_hashtable_search(int key, ClosedHashTable<int>&cht){
 	string key_str = to_string(key);
 	try {
-		cht.contains(key_str);
+		cht.get(key_str);
 		counts = cht.search_count();
 	} catch (out_of_range){cout<<"error closed" <<endl;}
 }
@@ -123,7 +121,7 @@ void closed_hashtable_search(int key, ClosedHashTable<int>&cht){
 void open_hashtable_search(int key, OpenHashTable<int>&oht){
 	string key_str = to_string(key);
 	try {
-		oht.contains(key_str);
+		oht.get(key_str);
 		counts = oht.search_count();
 	} catch (out_of_range){cout<<"error open trying to get: " << key << endl;}
 }

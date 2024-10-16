@@ -17,6 +17,7 @@ int main(){
     //--------------------------------------------------------------------------------------------------------
     // SET UP FOR STRING RANDOMIZATION
     //--------------------------------------------------------------------------------------------------------
+   
     random_device rd;                                 
     mt19937 gen(rd());
     string s = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";                           // characters
@@ -36,7 +37,7 @@ int main(){
     //--------------------------------------------------------------------------------------------------------
     // RANDOM STRING BUILDER
     //--------------------------------------------------------------------------------------------------------
-    for (int i = 0 ; i < 1000000 ; i ++ ){                     // how many times to place a string into the map
+    for (int i = 0 ; i < 100000 ; i ++ ){                     // how many times to place a string into the map
         str = "";                                                                       // reset for each loop
         int rand_len = rand(gen);                                        // select string length for this loop
         for (int j = 0 ; j < rand_len ; j ++ ){                                            // build the string
@@ -241,9 +242,6 @@ int main(){
     cout << Colors::GREEN 
     <<"--------------------------------------------------------------------------------------------------- " 
     << Colors::RESET << endl; 
-   
-
-    
 
     return 0;
 }
