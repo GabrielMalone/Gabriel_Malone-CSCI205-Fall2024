@@ -142,7 +142,6 @@ class ClosedHashTable {
 				if (should_resize()){									 // check to see if resize needed
 				resize();	
 				}
-				cout << "placing item: " << value << endl;
 				this->table[hash(key)].insert(HashNode(key,value));	//place data in linked list at bucket
 			}
 		//-----------------------------------------------------------------------------------------------
@@ -171,7 +170,6 @@ class ClosedHashTable {
 				while (n != NULL){			 // traverse the current linked list until matching key found
 					if (n->data.key == key){			
 						n->data.key = "";									  		  // remove that node
-						cout << "removing key: " << key << endl;
 						current_bucket.remove(current_bucket.find(n->data));     // remove node from list
 						this->size -- ;												// decrement map size
 						return true;								 // return true for found and removed
@@ -201,9 +199,10 @@ class ClosedHashTable {
 		//-----------------------------------------------------------------------------------------------
 		// OVERLOADED [] 
 		//-----------------------------------------------------------------------------------------------	
-		V& operator[](string& key)	{
+		V& operator[](string& key) {
 			return get(key);
-		}	
+		}
+	
 		//-----------------------------------------------------------------------------------------------
 		// HELPER METHODS
 		//-----------------------------------------------------------------------------------------------			

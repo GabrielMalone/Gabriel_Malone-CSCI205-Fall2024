@@ -54,8 +54,9 @@ class OpenHashTable{
 			for (int i = 0 ; i < key.length(); i ++){
 				hash += static_cast<int>(key[i]) * ((i+1*13) * (i+1*61)) % capacity;			
 			}
-			return hash % capacity;
+			return abs(hash) % capacity;
 		}
+
 		//-----------------------------------------------------------------------------------------------
 		// LOADFACTOR - helper function to determine load factor
 		//-----------------------------------------------------------------------------------------------
@@ -111,17 +112,15 @@ class OpenHashTable{
 			if (key.length()>0){
 				int i = 0;
 				int cur_index = hash(key);
-				while (i < capacity && table[cur_index].used && ! this->table[cur_index].deleted){				// if in use, go to next spot
-					if (table[cur_index].key == key){   // if in use and the same key, update key's value
+				while (i < capacity && table[cur_index].used && ! this->table[cur_index].deleted){
+					if (table[cur_index].key == key){   				// if in use update key's value
 						table[cur_index].value = value;
-						cout << "updating key" << endl;
 						return;
 					}
 					cur_index = (cur_index + i) % capacity;
 					i ++ ;
 				}
 				if (cur_index < capacity){
-					cout << "placing item: "<< value << endl;
 					this->table[cur_index].key = key;
 					this->table[cur_index].value = value;
 					this->table[cur_index].used = true;
@@ -175,16 +174,12 @@ class OpenHashTable{
 				cur_index =  (cur_index + 1) % capacity;
 				i ++;
 			}
-			cout << "removing key: " << key << " and value: " << this->table[cur_index].value;
 			this->table[cur_index].deleted = true;						// when found, set as deleted
 			this->table[cur_index].used = false;
 			this->table[cur_index].key = "";							// when found, set as deleted
-			cout << this->table[cur_index].key << endl;					// when found, set as deleted
 			this->size -- ;
-			return true;
-			cout << "nothing found for key: " << key << endl;
-			return false;															// nothing found
-			
+			return (this->table[cur_index].deleted);									
+			throw out_of_range("KeyError - Key Does Not Exist");				   // if no key found
 		}	
 		//-----------------------------------------------------------------------------------------------
 		// GET - get value associated with key
@@ -193,12 +188,12 @@ class OpenHashTable{
 			nc = 1;
 			int cur_index = hash(key);
 			int i  = 0;
-			while (i < capacity && this->table[cur_index].key != key){		   // see if key is present at that index						
+			while (i < capacity && this->table[cur_index].key != key){// if key is present at that index						
 				cur_index = (cur_index  + 1 ) % capacity;
 				i ++;
 				nc ++ ;									
 			}
-			return this->table[cur_index].value;								      // return value
+			return this->table[cur_index].value;								         // return value
 			throw out_of_range("KeyError - Key Does Not Exist");					  // if no key found
 		}
 		//-----------------------------------------------------------------------------------------------
@@ -206,24 +201,20 @@ class OpenHashTable{
 		//-----------------------------------------------------------------------------------------------
 		bool contains(string& key){ // this will degrade to O(n)
 			nc = 1;
-			int cur_index = 0;
-			int i = 0;
-			while (i < capacity){		   // see if key is present at that index	
-				if (this->table[cur_index].key == key){
-					return true;
-				}						
-				cur_index = (cur_index + 1 );
+			int cur_index = hash(key);
+			int i  = 0;
+			while (i < capacity && this->table[cur_index].key != key){// see if key is present at that index						
+				cur_index = (cur_index  + 1 ) % capacity;
 				i ++;
-				nc ++ ;								
+				nc ++ ;									
 			}
-			return false;					  // if no key found
+			return (! this->table[cur_index].deleted);								     // return value
+			throw out_of_range("KeyError - Key Does Not Exist");					  // if no key found
 		}
 		//-----------------------------------------------------------------------------------------------
 		// OVERLOADED [] 
 		//-----------------------------------------------------------------------------------------------	
-		V& operator[](string& key)	{
-			return get(key);
-		}	
+
 		//-----------------------------------------------------------------------------------------------
 		// HELPER METHODS
 		//-----------------------------------------------------------------------------------------------	
