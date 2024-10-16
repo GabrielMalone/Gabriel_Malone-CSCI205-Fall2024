@@ -47,8 +47,8 @@ for experiment in experiments:
     plt.plot(experiments[experiment][0],experiments[experiment][1], scalex=True, scaley=True, linewidth=1.0, aa=True)
 plt.title("Comparison of Computations Required")
 plt.legend(experiments)
-plt.xlabel("Number of Trials")
-plt.ylabel("N-Value Computations")
+plt.xlabel("Size of Array")
+plt.ylabel("Searches Required to Find Item")
 plt.grid(True)
 plt.show()
 

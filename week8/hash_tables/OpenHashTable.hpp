@@ -32,12 +32,6 @@ class OpenHashTable{
 			bool used;			 
 			HashNode() : key(""), value(V()), deleted(false), used(false) {}
 			HashNode(string& k, V& v) : key(k), value(v), deleted(false), used(false) {}
-			void update_key(string& key){
-				this->key = key;
-			}
-			void update_value(V& value){
-				this->value = value;
-			}
 		};
 
 		// So that you can focus on the details of hash table implementation, we will
@@ -55,14 +49,13 @@ class OpenHashTable{
 		//-----------------------------------------------------------------------------------------------
 		// the multiplying by a square (and never being zero, 
 		// helped prevent a bunch of collisions happening near the start of every map
-			int hash(const string& key) {
+		int hash(const string& key) {
 			int hash = 0 ;
 			for (int i = 0 ; i < key.length(); i ++){
 				hash += static_cast<int>(key[i]) * ((i+1*13) * (i+1*61)) % capacity;			
 			}
 			return hash % capacity;
 		}
-
 		//-----------------------------------------------------------------------------------------------
 		// LOADFACTOR - helper function to determine load factor
 		//-----------------------------------------------------------------------------------------------
@@ -118,7 +111,7 @@ class OpenHashTable{
 			if (key.length()>0){
 				int i = 0;
 				int cur_index = hash(key);
-				while (table[cur_index].used){							    // if in use, go to next spot
+				while (i < capacity && table[cur_index].used && ! this->table[cur_index].deleted){				// if in use, go to next spot
 					if (table[cur_index].key == key){   // if in use and the same key, update key's value
 						table[cur_index].value = value;
 						cout << "updating key" << endl;
@@ -129,9 +122,10 @@ class OpenHashTable{
 				}
 				if (cur_index < capacity){
 					cout << "placing item: "<< value << endl;
-					this->table[cur_index].update_key(key);
-					this->table[cur_index].update_value(value);
+					this->table[cur_index].key = key;
+					this->table[cur_index].value = value;
 					this->table[cur_index].used = true;
+					this->table[cur_index].deleted = false;
 				} else {
 					throw out_of_range("No Index Available");				  // if no index available
 				}
@@ -175,18 +169,22 @@ class OpenHashTable{
 		// REMOVE - remove key-value pair from hash table
 		//-----------------------------------------------------------------------------------------------	
 		bool remove(string& key){
-			if (this->contains(key)){
-				int cur_index = hash(key);						   // see if key is present at that index
-				while (cur_index < capacity && this->table[cur_index].key != key){		   
-					cur_index ++;
-				}
-				this->table[cur_index].deleted = true;						// when found, set as deleted
-				this->table[cur_index].used = false;
-				this->table[cur_index].key = "";							// when found, set as deleted
-				this->size -- ;
-				return true;
+			int cur_index = hash(key);						   // see if key is present at that index
+			int i = 0;
+			while (i < capacity && this->table[cur_index].key != key){		   
+				cur_index =  (cur_index + 1) % capacity;
+				i ++;
 			}
-			return false;																 // nothing found
+			cout << "removing key: " << key << " and value: " << this->table[cur_index].value;
+			this->table[cur_index].deleted = true;						// when found, set as deleted
+			this->table[cur_index].used = false;
+			this->table[cur_index].key = "";							// when found, set as deleted
+			cout << this->table[cur_index].key << endl;					// when found, set as deleted
+			this->size -- ;
+			return true;
+			cout << "nothing found for key: " << key << endl;
+			return false;															// nothing found
+			
 		}	
 		//-----------------------------------------------------------------------------------------------
 		// GET - get value associated with key
@@ -206,19 +204,19 @@ class OpenHashTable{
 		//-----------------------------------------------------------------------------------------------
 		// CONTAINS - see if key exists in map
 		//-----------------------------------------------------------------------------------------------
-		bool contains(string& key_in){ // this will degrade to O(n)
+		bool contains(string& key){ // this will degrade to O(n)
 			nc = 1;
+			int cur_index = 0;
 			int i = 0;
-			int cur_index = hash(key_in);
-			while (i < capacity){				  	       					// look until no buckets lef      
-				if (this->table[cur_index].key == key_in && ! this->table[cur_index].deleted){
+			while (i < capacity){		   // see if key is present at that index	
+				if (this->table[cur_index].key == key){
 					return true;
-				}
-				cur_index = (cur_index + 1) % capacity;
-				nc ++;
-				i ++ ;
+				}						
+				cur_index = (cur_index + 1 );
+				i ++;
+				nc ++ ;								
 			}
-			return false;
+			return false;					  // if no key found
 		}
 		//-----------------------------------------------------------------------------------------------
 		// OVERLOADED [] 

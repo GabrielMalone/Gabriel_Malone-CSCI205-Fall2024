@@ -20,21 +20,6 @@ template <class T> class A_List{
 		size_t capacity = 100;	            					// size of the array (Default = 100)
 		T* array;			                					// array to store items (pointer to type T, to be determined at run time
 
-		/**
-		 * Helper function to resize the array
-		 */
-		void resize(){
-			size_t old_capacity = capacity; 					// for resorting / unwrapping array on resize
-			capacity = capacity * 2;        					// size of next array = double current array
-			T* dbl_array_temp ;             					// instantiate new array
-			dbl_array_temp = new T[capacity];					// copy contents from old array in order
-			for (size_t i = 0 ; i < old_capacity; i ++)			// start from the current head position to the end of the array
-			{
-				dbl_array_temp[i] = array[i];					// zero out the head position for the new array
-			}
-			delete[] array;										// delete old array on resize
-			array = dbl_array_temp;								// set array pointer to the new, bigger temp array
-		}
 
 		/**
 		 * for operations that remove items from the array
@@ -60,6 +45,24 @@ template <class T> class A_List{
 		}
 
 	public:
+		/**
+		 * Helper function to resize the array
+		 */
+		void resize(){
+			size_t old_capacity = capacity; 					// for resorting / unwrapping array on resize
+			capacity = capacity * 10;        					// size of next array = double current array
+			while (! is_prime(capacity)){
+				capacity = find_next_prime(capacity);
+			}
+			T* dbl_array_temp ;             					// instantiate new array
+			dbl_array_temp = new T[capacity];					// copy contents from old array in order
+			for (size_t i = 0 ; i < old_capacity; i ++)			// start from the current head position to the end of the array
+			{
+				dbl_array_temp[i] = array[i];					// zero out the head position for the new array
+			}
+			delete[] array;										// delete old array on resize
+			array = dbl_array_temp;								// set array pointer to the new, bigger temp array
+		}
 
 		/**
 		 * Default constructor. Creates list with a capacity of 10
@@ -306,6 +309,23 @@ template <class T> class A_List{
 		T& operator[](int index)
 		{
 			return array[index];
+		}
+
+		bool is_prime(int n) {
+			if (n <= 1) return false;
+			if (n <= 3) return true;
+			if (n % 2 == 0 || n % 3 == 0) return false;
+			for (int i = 5; i * i <= n; i = i + 6)
+				if (n % i == 0 || n % (i + 2) == 0)
+					return false;
+			return true;
+		}
+
+		int find_next_prime(int n) {
+			while (! is_prime(n)){
+				n ++;						  // keep checking every integer after n to see if it's prime
+			}
+			return n;															// return the found prime
 		}
 
 };
