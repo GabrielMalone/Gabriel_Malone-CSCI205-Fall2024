@@ -7,6 +7,8 @@
 #include <iomanip>
 #include <iostream>
 #include "../backend/colors.hpp"
+#include "../backend/List.hpp"
+
 
 
 using namespace std;
@@ -15,7 +17,7 @@ using namespace std;
 //--------------------------------------------------------------------------------------------------------
 template<typename V>
 class OpenHashTable{
-	private:
+	public:
 		// Each element in the hash table is a HashNode
 		// Each HashNode contains a key-value pair and a flag to indicate if it is deleted
 		// The key is a string, and the value is of type V
@@ -28,21 +30,27 @@ class OpenHashTable{
 		struct HashNode {
 			string key;
 			V value;
-			bool deleted;
-			bool used;			 
-			HashNode() : key(""), value(V()), deleted(false), used(false) {}
-			HashNode(string& k, V& v) : key(k), value(v), deleted(false), used(false) {}
+			bool deleted;		 
+			HashNode(){
+				key = "";
+				deleted = false;
+			}
+			HashNode(string& k, V& v){
+				key = k;
+				value = v;
+			}
 		};
 
 		// So that you can focus on the details of hash table implementation, we will
 		// implement the hash table using a fixed size array instead of a vector
 		// this will allow you to focus on the details of resizing
 		HashNode* table;	// dynamically allocated array of HashNodes
-		int size =0;			// number of key-value pairs in the hash table
-		int capacity=0;		// number of slots in the hash table
+		int size = 0;			// number of key-value pairs in the hash table
+		int capacity = 0;		// number of slots in the hash table
 		int resizes = 0;
 		int collisions_avoided = 0;
 		int nc = 0;
+
 
 		//-----------------------------------------------------------------------------------------------
 		// HASH - 
@@ -52,9 +60,9 @@ class OpenHashTable{
 		int hash(const string& key) {
 			int hash = 0 ;
 			for (int i = 0 ; i < key.length(); i ++){
-				hash += static_cast<int>(key[i]) * ((i+1*7) * (i+1*9679));			
+				hash += static_cast<int>(key[i]) * ((i+1*13) * (i+1*61)) % this->capacity;			
 			}
-			return abs(hash) % capacity;
+			return hash % this->capacity;
 		}
 
 		//-----------------------------------------------------------------------------------------------
@@ -69,24 +77,35 @@ class OpenHashTable{
 		//-----------------------------------------------------------------------------------------------
 		// RESIZE 
 		//-----------------------------------------------------------------------------------------------
-		void resize(){ // rehash all key-value pairs  because new capacity == new modulus division number
-			resizes ++;
-			int old_capacity = capacity;									   // for iterating old table
-			capacity = capacity + (capacity * 10);			    		// resize capacity to 50% larger,
-			if (! is_prime(capacity)){								   	   // then find next prime number
-				capacity = find_next_prime(capacity);
+		void resize(){ 				
+			this->resizes ++;																			// track
+			int old_capacity = this->capacity; 							 // for looping through og table
+			this->capacity = find_next_prime(this->capacity + (this->capacity * 5)); 	 // set new size
+			HashNode* new_table = new HashNode[this->capacity];					     // create new table
+			for (int i = 0 ; i < old_capacity ; i ++){						   // loop through old table
+				if (this->table[i].key != "" && ! this->table[i].deleted ) 		    // get the live keys
+					put_with_linear_probe(this->table[i].key,this->table[i].value, new_table); // rehash 
 			}
-			HashNode* temp_table = new HashNode[old_capacity];
-			for (int i = 0 ; i < old_capacity ; i ++){
-				temp_table[i] = table[i];
+			delete[] this->table;														 // clean up mem		     						
+			this->table = new_table;													 // assign table		 
+		}
+		//-----------------------------------------------------------------------------------------------
+		// LINEAR PROBE - helper function to put key-value pairs in hash table with linear probing
+		//-----------------------------------------------------------------------------------------------
+		void put_with_linear_probe(const std::string& key_in, V& value_in, HashNode* new_table){
+			if (key_in != ""){
+				int i = 0;
+				int cur_index = hash(key_in);
+				while (i < capacity ){
+					if (new_table[cur_index].key == "" && ! new_table[cur_index].deleted){
+						new_table[cur_index].key = key_in;
+						new_table[cur_index].value = value_in;
+						return;
+					}
+					cur_index = (cur_index + 1) % capacity;
+					i ++ ;
+				}
 			}
-			HashNode* new_table = new HashNode[capacity];	
-			delete[] table;					     									// set up new table	
-			table = new_table;
-			for (int i = 0 ; i < old_capacity ; i ++){
-				put_with_quadratic_probe(temp_table[i].key, temp_table[i].value);   // rehash and place 
-			}
-			delete [] temp_table;							 
 		}
 
 		//-----------------------------------------------------------------------------------------------
@@ -98,32 +117,7 @@ class OpenHashTable{
 			}
 			return n;															// return the found prime
 		}
-		//-----------------------------------------------------------------------------------------------
-		// QUADRATIC PROBE - helper function to put key-value pairs in hash table with quadratic probing
-		//-----------------------------------------------------------------------------------------------
-		void put_with_quadratic_probe(std::string& key, V& value){
-			if (key.length()>0){
-				int i = 0;
-				int cur_index = hash(key);
-				while (i < capacity && table[cur_index].used){
-					if (table[cur_index].key == key){   				// if in use update key's value
-						table[cur_index].value = value;
-						return;
-					}
-					cur_index = (cur_index + i) % capacity;
-					i ++ ;
-				}
-				if (cur_index < capacity){
-					this->table[cur_index].key = key;
-					this->table[cur_index].value = value;
-					this->table[cur_index].used = true;
-					this->table[cur_index].deleted = false;
-				} else {
-					throw out_of_range("No Index Available");				  // if no index available
-				}
-			}
-		}
-		
+
 
 	public:
 		//-----------------------------------------------------------------------------------------------
@@ -138,6 +132,8 @@ class OpenHashTable{
 		// NO ARGUMENT CONSTRUCTOR
 		//-----------------------------------------------------------------------------------------------
 		OpenHashTable() : size(0), capacity(11){
+			this->capacity = capacity;
+			this->size = 0;
 			table = new HashNode[find_next_prime(capacity)];
 		}		
 		//-----------------------------------------------------------------------------------------------
@@ -154,7 +150,7 @@ class OpenHashTable{
 				resize();	
 			}
 			this->size ++;	
-			put_with_quadratic_probe(key, value);
+			put_with_linear_probe(key, value, this->table);
 		}
 		//-----------------------------------------------------------------------------------------------
 		// LOADFACTOR - helper function to determine load factor
@@ -165,51 +161,55 @@ class OpenHashTable{
 		//-----------------------------------------------------------------------------------------------
 		// REMOVE - remove key-value pair from hash table
 		//-----------------------------------------------------------------------------------------------	
-		bool remove(string& key){
-			int cur_index = hash(key);						   // see if key is present at that index
+		bool remove(string& key_in){
+			int cur_index = hash(key_in);						   // see if key is present at that index
 			int i = 0;
-			this->size --;
-			while (i < capacity && this->table[cur_index].key != key){		   
-				cur_index =  (cur_index + 1) % capacity;
+			while (i < capacity){
+				if (table[cur_index].key == key_in){
+					table[cur_index].deleted = true;						// when found, set as deleted
+					table[cur_index].key = "";							    // when found, set as deleted
+					this->size -- ;	
+					return (table[cur_index].deleted);
+													
+				}		   
+				cur_index = (cur_index + 1) % capacity;
 				i ++;
 			}
-			if (! this->table[cur_index].deleted){
-			}
-			this->table[cur_index].deleted = true;						// when found, set as deleted
-			this->table[cur_index].used = false;
-			this->table[cur_index].key = "";							// when found, set as deleted
-			return (this->table[cur_index].deleted);									
+			cout << "key: " << key_in << " with hash: " <<  hash(key_in) << endl;
+            cout << "value at " << key_in << " = " << get(key_in) << endl;
 			throw out_of_range("KeyError - Key Does Not Exist");				   // if no key found
 		}	
 		//-----------------------------------------------------------------------------------------------
 		// GET - get value associated with key
 		//-----------------------------------------------------------------------------------------------	
-		V& get(string& key){
-			this->nc = 1;
-			int cur_index = hash(key);
-			int i  = 0;
-			while (i < capacity && this->table[cur_index].key != key){// if key is present at that index						
-				cur_index = (cur_index  + 1 ) % capacity;
+		V& get(const string& key_in){
+			this->nc = 1;																// track N value
+			int cur_index = hash(key_in);												// get hash index
+			int i  = 0;													// stop from overrunning map size
+			while (i < this->capacity){								   
+				if (this->table[cur_index].key == key_in){			   // if key is present at that index	
+					return this->table[cur_index].value;				// return reference to that value
+				}								
+				cur_index = (cur_index + 1 ) % this->capacity;					// linear probe otherwise
 				i ++;
 				this->nc ++ ;							
 			}
-			return this->table[cur_index].value;								         // return value
 			throw out_of_range("KeyError - Key Does Not Exist");					  // if no key found
 		}
 		//-----------------------------------------------------------------------------------------------
 		// CONTAINS - see if key exists in map
 		//-----------------------------------------------------------------------------------------------
-		bool contains(string& key){ // this will degrade to O(n)
-		if (key.length() > 0){
-			int cur_index = hash(key);
+		bool contains(const string& key_in){ // this will degrade to O(n)
+			int cur_index = hash(key_in);
 			int i  = 0;
-			while (i < capacity && this->table[cur_index].key != key){// see if key is present at that index						
-				cur_index = (cur_index  + 1 ) % capacity;
+			while (i < capacity){// see if key is present at that index		
+				if (table[cur_index].key == key_in){
+					return true;
+				}				
+				cur_index = (cur_index + 1 ) % capacity;
 				i ++;							
 			}
-			return (this->table[cur_index].key == key);								  // return value
-		}
-			throw out_of_range("KeyError - Key Does Not Exist");					  // if no key found
+			return false;								 
 		}
 		//-----------------------------------------------------------------------------------------------
 		// OVERLOADED [] 
@@ -222,7 +222,7 @@ class OpenHashTable{
 		bool empty(){return size == 0;}								  // check if the hash table is empty
 		//-----------------------------------------------------------------------------------------------
 		void print() const {										// print the state of the current map
-			for (int i = 0; i < this->capacity; ++i) {
+			for (int i = 0; i < capacity; ++i) {
 				cout << "table[" 
 					 << Colors::YELLOW 
 					 << i << Colors::RESET 

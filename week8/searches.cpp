@@ -22,7 +22,7 @@ void fillMaps(A_List<int>&,ClosedHashTable<int>&, OpenHashTable<int>&);
 // TEST VARIABLES
 //-----------------------------------------------------------------------------------------------------------
 int problem_size;
-int num_experiments = 500;														// num experiements to run
+int num_experiments = 1000;														// num experiements to run
 int counts;
 int key = 0;
 //-----------------------------------------------------------------------------------------------------------
@@ -57,12 +57,11 @@ int main(){
 		int end = list[list.length()-1];
 		int not_found = -1;
 
-		key = end;
-
+		key = front;
 
 		counts = 0;										
-		// linear_search(key, list);	
-		// f1 << problem_size << " " << counts << endl;				
+		linear_search(key, list);	
+		f1 << problem_size << " " << counts << endl;				
 		counts = 0;										
 		binary_search(key, list);
 		f2 << problem_size << " " << counts << endl;				
