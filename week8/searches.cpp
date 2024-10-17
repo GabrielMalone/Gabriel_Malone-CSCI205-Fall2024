@@ -15,6 +15,7 @@ void open_hashtable_search(int, OpenHashTable<int>&);
 void binary_search(int, A_List<int>&);
 void linear_search(int, A_List<int>&);
 void graph();
+void benchmark(int);
 void fillMaps(A_List<int>&,ClosedHashTable<int>&, OpenHashTable<int>&);
 
 //-----------------------------------------------------------------------------------------------------------
@@ -56,7 +57,7 @@ int main(){
 		int end = list[list.length()-1];
 		int not_found = -1;
 
-		key = front;
+		key = end;
 
 
 		counts = 0;										
@@ -73,6 +74,7 @@ int main(){
 		f4 << problem_size << " " << counts << endl;				
 	}
 	
+	benchmark(key);
 	graph();
 
 	return 0;
@@ -135,4 +137,51 @@ void graph() {
 		cout << "\n  graphs created successfully!\n" << endl;
 		cout << "  all .txt data cleared\n" << endl;
 	}
+}
+
+void benchmark(int key){
+	ClosedHashTable<int>cht2(num_experiments);										// maps for testing
+	OpenHashTable<int>oht2(num_experiments);											// maps for testing
+	A_List<int>list2;																// list for testing	
+	fillMaps(list2, cht2, oht2);	
+	
+
+	cout << "Benchmarking with problem size of " << problem_size << endl;
+
+	counts = 0;
+	// benchmarking linear search
+	clock_t start = clock();															  // start clock
+	linear_search(key, list2);											
+	clock_t end = clock();																	// end clock
+	double time = (double)(end - start) / CLOCKS_PER_SEC;								 // compute time
+	cout << "Linear search time: " << fixed << time << endl;							   // print time
+	cout << "Linear Search Comparisons: " << counts << endl << endl;					 // print counts
+
+	counts = 0;																			 // reset counts
+
+	start = clock();																	  // start clock
+	binary_search(key, list2);										
+	end = clock();																			// end clock
+	time = (double)(end - start) / CLOCKS_PER_SEC;										 // compute time
+	cout << "Binary search time: " << fixed << time << endl;							   // print time
+	cout << "Binary Search Comparisons: " << counts << endl << endl;					 // print counts
+
+	counts = 0;																			 // reset counts
+
+	start = clock();																	  // start clock
+	open_hashtable_search(key, oht2);										
+	end = clock();																			// end clock
+	time = (double)(end - start) / CLOCKS_PER_SEC;										 // compute time
+	cout << "Open Hash search time: " << fixed << time << endl;							   // print time
+	cout << "Open Hash Search Comparisons: " << counts << endl << endl;					  // print counts
+
+	counts = 0;																			 // reset counts
+
+	start = clock();																	  // start clock
+	closed_hashtable_search(key, cht2);										
+	end = clock();																			// end clock
+	time = (double)(end - start) / CLOCKS_PER_SEC;										 // compute time
+	cout << "Closed Hash search time: " << fixed << time << endl;						   // print time
+	cout << "Closed Hash Search Comparisons: " << counts << endl << endl;				 // print counts
+
 }
