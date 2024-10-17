@@ -136,8 +136,6 @@ class ClosedHashTable {
 		// PUT - place a key and a value into the map
 		//-----------------------------------------------------------------------------------------------
 		void put(string& key, V& value){
-				List<HashNode>& current_bucket = this->table[hash(key)];			  // get bucket at hk
-				Node<HashNode>* n = current_bucket.get_head();			   // get that bucket's head node
 				this->size ++;													  // increase size of map
 				if (should_resize()){									 // check to see if resize needed
 				resize();	

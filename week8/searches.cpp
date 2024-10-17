@@ -56,12 +56,12 @@ int main(){
 		int end = list[list.length()-1];
 		int not_found = -1;
 
-		key = end;
+		key = front;
 
 
 		counts = 0;										
-		linear_search(key, list);	
-		f1 << problem_size << " " << counts << endl;				
+		// linear_search(key, list);	
+		// f1 << problem_size << " " << counts << endl;				
 		counts = 0;										
 		binary_search(key, list);
 		f2 << problem_size << " " << counts << endl;				

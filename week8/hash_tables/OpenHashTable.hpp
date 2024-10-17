@@ -38,8 +38,8 @@ class OpenHashTable{
 		// implement the hash table using a fixed size array instead of a vector
 		// this will allow you to focus on the details of resizing
 		HashNode* table;	// dynamically allocated array of HashNodes
-		int size;			// number of key-value pairs in the hash table
-		int capacity;		// number of slots in the hash table
+		int size =0;			// number of key-value pairs in the hash table
+		int capacity=0;		// number of slots in the hash table
 		int resizes = 0;
 		int collisions_avoided = 0;
 		int nc = 0;
@@ -52,16 +52,9 @@ class OpenHashTable{
 		int hash(const string& key) {
 			int hash = 0 ;
 			for (int i = 0 ; i < key.length(); i ++){
-				hash += static_cast<int>(key[i]) * ((i+1*13) * (i+1*61)) % capacity;			
+				hash += static_cast<int>(key[i]) * ((i+1*7) * (i+1*9679));			
 			}
 			return abs(hash) % capacity;
-		}
-
-		//-----------------------------------------------------------------------------------------------
-		// LOADFACTOR - helper function to determine load factor
-		//-----------------------------------------------------------------------------------------------
-		double loadFactor() {
-			return this->size / this->capacity;
 		}
 
 		//-----------------------------------------------------------------------------------------------
@@ -79,7 +72,7 @@ class OpenHashTable{
 		void resize(){ // rehash all key-value pairs  because new capacity == new modulus division number
 			resizes ++;
 			int old_capacity = capacity;									   // for iterating old table
-			capacity = capacity + (capacity * 2);			    		// resize capacity to 50% larger,
+			capacity = capacity + (capacity * 10);			    		// resize capacity to 50% larger,
 			if (! is_prime(capacity)){								   	   // then find next prime number
 				capacity = find_next_prime(capacity);
 			}
@@ -112,7 +105,7 @@ class OpenHashTable{
 			if (key.length()>0){
 				int i = 0;
 				int cur_index = hash(key);
-				while (i < capacity && table[cur_index].used && ! this->table[cur_index].deleted){
+				while (i < capacity && table[cur_index].used){
 					if (table[cur_index].key == key){   				// if in use update key's value
 						table[cur_index].value = value;
 						return;
@@ -157,27 +150,34 @@ class OpenHashTable{
 		// PUT - place a key and a value into the map
 		//-----------------------------------------------------------------------------------------------
 		void put(string& key, V& value){
-			this->size ++;													  // increase size of map
 			if (should_resize()){									 // check to see if resize needed
 				resize();	
 			}
+			this->size ++;	
 			put_with_quadratic_probe(key, value);
 		}
-
+		//-----------------------------------------------------------------------------------------------
+		// LOADFACTOR - helper function to determine load factor
+		//-----------------------------------------------------------------------------------------------
+		double loadFactor() {
+			return this->size / this->capacity;
+		}
 		//-----------------------------------------------------------------------------------------------
 		// REMOVE - remove key-value pair from hash table
 		//-----------------------------------------------------------------------------------------------	
 		bool remove(string& key){
 			int cur_index = hash(key);						   // see if key is present at that index
 			int i = 0;
+			this->size --;
 			while (i < capacity && this->table[cur_index].key != key){		   
 				cur_index =  (cur_index + 1) % capacity;
 				i ++;
 			}
+			if (! this->table[cur_index].deleted){
+			}
 			this->table[cur_index].deleted = true;						// when found, set as deleted
 			this->table[cur_index].used = false;
 			this->table[cur_index].key = "";							// when found, set as deleted
-			this->size -- ;
 			return (this->table[cur_index].deleted);									
 			throw out_of_range("KeyError - Key Does Not Exist");				   // if no key found
 		}	
@@ -185,13 +185,13 @@ class OpenHashTable{
 		// GET - get value associated with key
 		//-----------------------------------------------------------------------------------------------	
 		V& get(string& key){
-			nc = 1;
+			this->nc = 1;
 			int cur_index = hash(key);
 			int i  = 0;
 			while (i < capacity && this->table[cur_index].key != key){// if key is present at that index						
 				cur_index = (cur_index  + 1 ) % capacity;
 				i ++;
-				nc ++ ;									
+				this->nc ++ ;							
 			}
 			return this->table[cur_index].value;								         // return value
 			throw out_of_range("KeyError - Key Does Not Exist");					  // if no key found
@@ -200,15 +200,15 @@ class OpenHashTable{
 		// CONTAINS - see if key exists in map
 		//-----------------------------------------------------------------------------------------------
 		bool contains(string& key){ // this will degrade to O(n)
-			nc = 1;
+		if (key.length() > 0){
 			int cur_index = hash(key);
 			int i  = 0;
 			while (i < capacity && this->table[cur_index].key != key){// see if key is present at that index						
 				cur_index = (cur_index  + 1 ) % capacity;
-				i ++;
-				nc ++ ;									
+				i ++;							
 			}
-			return (! this->table[cur_index].deleted);								     // return value
+			return (this->table[cur_index].key == key);								  // return value
+		}
 			throw out_of_range("KeyError - Key Does Not Exist");					  // if no key found
 		}
 		//-----------------------------------------------------------------------------------------------
@@ -278,5 +278,6 @@ class OpenHashTable{
 		//-----------------------------------------------------------------------------------------------
 		int search_count(){return this->nc;}			   // return time complexity of search operations
 		//-----------------------------------------------------------------------------------------------
+		void reset_count(){this->nc = 0;}
 	};
 #endif
