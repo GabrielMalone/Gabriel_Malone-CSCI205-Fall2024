@@ -14,7 +14,7 @@
 OpenHashTable<int>testmap;  
 ClosedHashTable<int>testmap2;  
 int counter = 0;
-int sizer = 100;
+int sizer = 10;
 
 int main(){
 
@@ -29,14 +29,14 @@ int main(){
     while (true){
         sizer++;
         string str = "";
-        for (int i = 0 ; i < sizer ; i ++ ){      
+        for (int i = 1 ; i < sizer ; i ++ ){      
             str = "";
             str += to_string(i);                
-            testmap.put(str, i);                            
+            testmap[str] = i;                          
         }
         counter = 0;
         testmap.print();
-        for (int i = 0 ; i < sizer ; i ++ ){      
+        for (int i = 1 ; i < sizer ; i ++ ){      
             str = "";
             str += to_string(i);              
             counter ++ ;
@@ -49,7 +49,7 @@ int main(){
                 << endl;
         }
         counter = 0;
-        for (int i = 0 ; i < sizer ; i ++ ){    
+        for (int i = 1 ; i < sizer ; i ++ ){    
         str = "";
         str += to_string(i);              
         counter ++ ;

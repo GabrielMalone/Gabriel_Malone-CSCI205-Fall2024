@@ -124,7 +124,7 @@ void open_hashtable_search(int key, OpenHashTable<int>&oht){
 	string key_str = to_string(key);
 	try {
 		oht.contains(key_str); // for not found 
-		// oht.get(key_str); // for all other searches
+		//oht.get(key_str); // for all other searches
 		counts = oht.search_count();
 	} catch (out_of_range){cout<<"error open trying to get: " << key << endl;}
 }
@@ -142,7 +142,7 @@ void graph() {
 
 void benchmark(int key){
 	ClosedHashTable<int>cht2(num_experiments);										// maps for testing
-	OpenHashTable<int>oht2(num_experiments);											// maps for testing
+	OpenHashTable<int>oht2(num_experiments);										// maps for testing
 	A_List<int>list2;																// list for testing	
 	fillMaps(list2, cht2, oht2);	
 	
