@@ -88,25 +88,25 @@ class OpenHashTable{
 			this->table = new_table;													 // assign table		 
 		}
 		//-----------------------------------------------------------------------------------------------
-		// LINEAR PROBE - helper function to put key-value pairs in hash table with linear probing
+		// QUADRATIC PROBE - helper function to put key-value pairs in hash table with quadratic probing
 		//-----------------------------------------------------------------------------------------------
 		void put_with_linear_probe(const std::string& key_in, V& value_in, HashNode* new_table){
-			if (key_in != ""){
-				int i = 0;
-				int quadratic = 0;
-				int cur_index = hash(key_in);
-				int og_hash = cur_index;
-				while (i < capacity ){
-					if (new_table[cur_index].key == key_in){
+			if (key_in != ""){															// validity check			
+				int i = 0;													  // to prevent infinite loop
+				int quadratic = 0;										   // value for quadratic probing
+				int cur_index = hash(key_in);								              // hash the key
+				int og_hash = cur_index;									  // store this as a constant
+				while (i < capacity ){							 // can iterate every bucket if necessary
+					if (new_table[cur_index].key == key_in){	               // check if updating a key
 						new_table[cur_index].value = value_in;
 						return;
 					}
-					if (new_table[cur_index].key == ""){
+					if (new_table[cur_index].key == ""){			// otherwise place key in empty bucket
 						new_table[cur_index].key = key_in;
 						new_table[cur_index].value = value_in;
 						return;
 					}
-					cur_index = (og_hash +  ((quadratic) * (quadratic))) % capacity;
+					cur_index = (og_hash +  ((quadratic) * (quadratic))) % capacity; // jump quadratically
 					quadratic ++ ;
 					i ++ ;
 				}
@@ -188,7 +188,7 @@ class OpenHashTable{
 		// GET - get value associated with key
 		//-----------------------------------------------------------------------------------------------	
 		V& get(const string& key_in){
-			this->nc = 1;															 // track N value
+			this->nc = 1;															     // track N value
 			int cur_index = hash(key_in);												// get hash index
 			int i  = 0;
 			int quadratic = 0;
@@ -205,15 +205,15 @@ class OpenHashTable{
 			throw out_of_range("KeyGetError - Key Does Not Exist");					  // if no key found
 		}
 		//-----------------------------------------------------------------------------------------------
-		// CONTAINS - see if key exists in map
+		// CONTAINS - see if key exists in map, 
 		//-----------------------------------------------------------------------------------------------
-		bool contains(const string& key_in){ // this will degrade to O(n)
+		bool contains(const string& key_in){ 							
 			int cur_index = hash(key_in);
 			int i  = 0;	
 			int quadratic = 0;
 			int og_hash = cur_index;
 			this->nc = 1;
-			while (i < capacity){// see if key is present at that index		
+			while (i < capacity){	
 				if (table[cur_index].key == key_in){
 					return true;
 				}				
@@ -229,7 +229,7 @@ class OpenHashTable{
 		//-----------------------------------------------------------------------------------------------	
 		V& operator [] (const string& key_in) {
 			this->size ++;	
-			if (should_resize()){									 	// check to see if resize needed
+			if (should_resize()){									 	 // check to see if resize needed
 				resize();	
 				}
 				int i = 0;
@@ -238,7 +238,7 @@ class OpenHashTable{
 				int og_hash = cur_index;
 				while (i < capacity ){
 					if (this->table[cur_index].key == key_in){
-						return this->table[cur_index].value;	//  update  - return reference to table slot
+						return this->table[cur_index].value; //  update  - return reference to table slot
 		
 					}
 					if (this->table[cur_index].key == ""){
@@ -249,7 +249,7 @@ class OpenHashTable{
 					quadratic ++ ;
 					i ++ ;
 				}
-				throw out_of_range("KeyGetError - Key Does Not Exist");					  // if no key found
+				throw out_of_range("KeyGetError - Key Does Not Exist");				    // if no key found
 			}
 		
 		V& operator = (V& val) {											

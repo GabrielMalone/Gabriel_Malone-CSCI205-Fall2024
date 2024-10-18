@@ -147,17 +147,17 @@ class ClosedHashTable {
 		// GET - get value associated with key
 		//-----------------------------------------------------------------------------------------------	
 		V& get(string& key){
-			nc = 1;																		   // N value
-			List<HashNode>& current_bucket = this->table[hash(key)];			  // get bucket at hk
-			Node<HashNode>* n = current_bucket.get_head();			   // get that bucket's head node
-			while (n != NULL){			 // traverse the current linked list until matching key found
+			nc = 1;																		   	   // N value
+			List<HashNode>& current_bucket = this->table[hash(key)];			  	  // get bucket at hk
+			Node<HashNode>* n = current_bucket.get_head();			   	   // get that bucket's head node
+			while (n != NULL){			     // traverse the current linked list until matching key found
 				if (n->data.key == key){
-					return n->data.value;						      // return the value of that key
+					return n->data.value;						          // return the value of that key
 				}
 				n = n->next;
 				nc ++;
 			}
-			throw out_of_range("Key Error, Key Does Not Exist");				  // if no key found
+			throw out_of_range("Key Error, Key Does Not Exist");				       // if no key found
 		}	
 		//-----------------------------------------------------------------------------------------------
 		// REMOVE - remove key-value pair from hash table
