@@ -58,7 +58,7 @@ class ClosedHashTable {
 		// helped prevent a bunch of collisions happening near the start of every map
 		int hash(const string& key) {
 			int hash = 0 ;
-			for (int i = 0 ; i < key.length(); i ++){
+			for (int i = 0 ; i < (int)key.length(); i ++){
 				hash += static_cast<int>(key[i]) * ((i+1*1223) * (i+1*61)) % capacity;			
 			}
 			return hash % capacity;
