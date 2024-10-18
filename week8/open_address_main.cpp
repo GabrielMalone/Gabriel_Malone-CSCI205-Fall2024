@@ -137,14 +137,14 @@ int main(){
     //--------------------------------------------------------------------------------------------------------
     // FILL MAP
     //--------------------------------------------------------------------------------------------------------
-    testmap.put(g, val);
+    testmap[g] = val;
     keyHolder.insert(g);
 
     string str = "";
     for (int i = 0 ; i < problem_size ; i ++ ){               // how many times to place a string into the map
         str = "";
         str += to_string(i);                 // or can just test with numbers if you want for easier debugging
-        testmap.put(str, i);                // place the random string in the map as a key with , 'i' as value
+        testmap[str] = i;                // place the random string in the map as a key with , 'i' as value
         keyHolder.insert(str);                      
     }
 

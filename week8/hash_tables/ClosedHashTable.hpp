@@ -50,6 +50,7 @@ class ClosedHashTable {
 		int capacity;												 // number of slots in the hash table
 		int resizes = 0;									      // number of times this map has resized
 		int nc = 0;									// to count number of operations to complete a search											 					
+		HashNode bracket_node;
 		//-----------------------------------------------------------------------------------------------
 		// HASH - 
 		//-----------------------------------------------------------------------------------------------
@@ -195,13 +196,6 @@ class ClosedHashTable {
 			return false;
 		}
 		//-----------------------------------------------------------------------------------------------
-		// OVERLOADED [] 
-		//-----------------------------------------------------------------------------------------------	
-		V& operator[](string& key) {
-			return get(key);
-		}
-	
-		//-----------------------------------------------------------------------------------------------
 		// HELPER METHODS
 		//-----------------------------------------------------------------------------------------------			
 		int m_size() {return size;}				// return the number of key-value pairs in the hash table
@@ -272,5 +266,22 @@ class ClosedHashTable {
 		int search_count(){									// return how many operations the search took
 			return this->nc;
 		}
+		//-----------------------------------------------------------------------------------------------
+		// OVERLOADED [] and = for []= assignments in map
+		//-----------------------------------------------------------------------------------------------	
+		V& operator [] (const string& key_in) {
+			this->size ++;	
+			if (should_resize()){									 	// check to see if resize needed
+				resize();	
+			}
+			this->bracket_node.key = key_in;
+			this->table[hash(key_in)].insert(this->bracket_node);
+			return this->bracket_node.value;
+				throw out_of_range("KeyGetError - Key Does Not Exist");				  // if no key found
+			}
+			V& operator = (V& val) {											
+			return val;
+		}
+
 };		
 #endif
