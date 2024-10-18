@@ -73,7 +73,7 @@ class ClosedHashTable {
 		// RESIZE? - helper function to determine if we should resize
 		//-----------------------------------------------------------------------------------------------
 		bool should_resize() {
-			double load_size = .5;
+			double load_size = .9;
 			if (loadFactor() > load_size) return true;
 			return false;
 		}
@@ -84,7 +84,7 @@ class ClosedHashTable {
 		void resize() {
 			resizes ++ ;
 			int old_capacity = capacity;									   // for iterating old table
-			capacity = capacity + (capacity * 2);						
+			capacity = capacity + (capacity * .5);						
 			if (! is_prime(capacity)){								       // then find next prime number
 				capacity = find_next_prime(capacity);
 			}							

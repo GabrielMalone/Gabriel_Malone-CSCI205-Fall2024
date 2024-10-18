@@ -57,7 +57,7 @@ int main(){
 		int end = list[list.length()-1];
 		int not_found = -1;
 
-		key = front;
+		key = end;
 
 		counts = 0;										
 		linear_search(key, list);	
