@@ -30,10 +30,8 @@ class OpenHashTable{
 		struct HashNode {
 			string key;
 			V value;
-			bool deleted;		 
 			HashNode(){
 				key = "";
-				deleted = false;
 			}
 			HashNode(string& k, V& v){
 				key = k;
@@ -51,7 +49,6 @@ class OpenHashTable{
 		int collisions_avoided = 0;
 		int nc = 0;
 
-
 		//-----------------------------------------------------------------------------------------------
 		// HASH - 
 		//-----------------------------------------------------------------------------------------------
@@ -60,7 +57,7 @@ class OpenHashTable{
 		int hash(const string& key) {
 			int hash = 0 ;
 			for (int i = 0 ; i < key.length(); i ++){
-				hash += static_cast<int>(key[i]) * ((i+1*13) * (i+1*61)) % this->capacity;			
+				hash += static_cast<int>(key[i]) * ((i+1*1223) * (i+1*7));			
 			}
 			return hash % this->capacity;
 		}
@@ -78,12 +75,12 @@ class OpenHashTable{
 		// RESIZE 
 		//-----------------------------------------------------------------------------------------------
 		void resize(){ 				
-			this->resizes ++;																			// track
+			this->resizes *=2;																			// track
 			int old_capacity = this->capacity; 							 // for looping through og table
-			this->capacity = find_next_prime(this->capacity + (this->capacity * 5)); 	 // set new size
+			this->capacity = find_next_prime(this->capacity + (this->capacity * .5)); 	 // set new size
 			HashNode* new_table = new HashNode[this->capacity];					     // create new table
 			for (int i = 0 ; i < old_capacity ; i ++){						   // loop through old table
-				if (this->table[i].key != "" && ! this->table[i].deleted ) 		    // get the live keys
+				if (this->table[i].key != "") 		    // get the live keys
 					put_with_linear_probe(this->table[i].key,this->table[i].value, new_table); // rehash 
 			}
 			delete[] this->table;														 // clean up mem		     						
@@ -97,7 +94,11 @@ class OpenHashTable{
 				int i = 0;
 				int cur_index = hash(key_in);
 				while (i < capacity ){
-					if (new_table[cur_index].key == "" && ! new_table[cur_index].deleted){
+					if (new_table[cur_index].key == key_in){
+						new_table[cur_index].value = value_in;
+						return;
+					}
+					if (new_table[cur_index].key == ""){
 						new_table[cur_index].key = key_in;
 						new_table[cur_index].value = value_in;
 						return;
@@ -166,10 +167,9 @@ class OpenHashTable{
 			int i = 0;
 			while (i < capacity){
 				if (table[cur_index].key == key_in){
-					table[cur_index].deleted = true;						// when found, set as deleted
 					table[cur_index].key = "";							    // when found, set as deleted
 					this->size -- ;	
-					return (table[cur_index].deleted);
+					return (true);
 													
 				}		   
 				cur_index = (cur_index + 1) % capacity;
@@ -183,7 +183,7 @@ class OpenHashTable{
 		// GET - get value associated with key
 		//-----------------------------------------------------------------------------------------------	
 		V& get(const string& key_in){
-			this->nc = 1;																// track N value
+			// this->nc = 1;																// track N value
 			int cur_index = hash(key_in);												// get hash index
 			int i  = 0;													// stop from overrunning map size
 			while (i < this->capacity){								   
@@ -192,9 +192,9 @@ class OpenHashTable{
 				}								
 				cur_index = (cur_index + 1 ) % this->capacity;					// linear probe otherwise
 				i ++;
-				this->nc ++ ;							
+				// this->nc ++ ;							
 			}
-			throw out_of_range("KeyError - Key Does Not Exist");					  // if no key found
+			throw out_of_range("KeyGetError - Key Does Not Exist");					  // if no key found
 		}
 		//-----------------------------------------------------------------------------------------------
 		// CONTAINS - see if key exists in map
@@ -202,12 +202,14 @@ class OpenHashTable{
 		bool contains(const string& key_in){ // this will degrade to O(n)
 			int cur_index = hash(key_in);
 			int i  = 0;
+			this->nc = 1;
 			while (i < capacity){// see if key is present at that index		
 				if (table[cur_index].key == key_in){
 					return true;
 				}				
 				cur_index = (cur_index + 1 ) % capacity;
-				i ++;							
+				i ++;	
+				this->nc ++;
 			}
 			return false;								 
 		}

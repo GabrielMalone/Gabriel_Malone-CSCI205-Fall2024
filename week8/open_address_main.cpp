@@ -423,7 +423,7 @@ int main(){
     << Colors::RESET << endl; 
 
     cout <<"---------------------------------------------------------------------------------------------------"<< endl;
-    cout << "TEST CLOSED MAP WITH 100k CONTACT OBJECTS. press 1 then enter to begin"                                << endl;
+    cout << "TEST OPEN MAP WITH 100k CONTACT OBJECTS. press 1 then enter to begin (this takes a min to load)"  << endl;
     cout <<"---------------------------------------------------------------------------------------------------"<< endl;
     cin >> wait;
     //--------------------------------------------------------------------------------------------------------  
@@ -431,7 +431,7 @@ int main(){
     //--------------------------------------------------------------------------------------------------------  
     List<Contact> contacts;                                                    // Linked list to hold contacts
     FileOpener::contactLoader("backend/contacts.txt", contacts);     // load the contacts into the linked list
-    ClosedHashTable<Contact> contactMap;                                 // create a blank map of type Contact
+    OpenHashTable<Contact> contactMap;                                 // create a blank map of type Contact
     Node<Contact>* zz = contacts.get_head();                // iterate through the contacts in the linked list
     while (zz != NULL){
         Contact contact = zz->data;                                                   // pull out the contact

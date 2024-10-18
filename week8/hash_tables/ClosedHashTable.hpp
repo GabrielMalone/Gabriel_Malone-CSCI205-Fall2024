@@ -48,7 +48,7 @@ class ClosedHashTable {
 		List<HashNode>* table;								// dynamically allocated array of LinkedLists
 		int size;										   // number of key-value pairs in the hash table
 		int capacity;												 // number of slots in the hash table
-		int resizes;											  // number of times this map has resized
+		int resizes = 0;											  // number of times this map has resized
 		int nc = 0;									// to count number of operations to complete a search											 					
 		//-----------------------------------------------------------------------------------------------
 		// HASH - 
@@ -58,7 +58,7 @@ class ClosedHashTable {
 		int hash(const string& key) {
 			int hash = 0 ;
 			for (int i = 0 ; i < key.length(); i ++){
-				hash += static_cast<int>(key[i]) * ((i+1*13) * (i+1*61)) % capacity;			
+				hash += static_cast<int>(key[i]) * ((i+1*1223) * (i+1*61)) % capacity;			
 			}
 			return hash % capacity;
 		}
@@ -73,7 +73,7 @@ class ClosedHashTable {
 		// RESIZE? - helper function to determine if we should resize
 		//-----------------------------------------------------------------------------------------------
 		bool should_resize() {
-			double load_size = .9;
+			double load_size = .5;
 			if (loadFactor() > load_size) return true;
 			return false;
 		}
@@ -146,7 +146,7 @@ class ClosedHashTable {
 		// GET - get value associated with key
 		//-----------------------------------------------------------------------------------------------	
 		V& get(string& key){
-			nc = 1;
+			// nc = 1;
 			List<HashNode>& current_bucket = this->table[hash(key)];			  // get bucket at hk
 			Node<HashNode>* n = current_bucket.get_head();			   // get that bucket's head node
 			while (n != NULL){			 // traverse the current linked list until matching key found
@@ -154,7 +154,7 @@ class ClosedHashTable {
 					return n->data.value;						      // return the value of that key
 				}
 				n = n->next;
-				nc ++;
+				// nc ++;
 			}
 			throw out_of_range("Key Error, Key Does Not Exist");					   // if no key found
 		}	
@@ -250,7 +250,7 @@ class ClosedHashTable {
 		}
 		//-----------------------------------------------------------------------------------------------
 		double avg_depth(){								  // find average number of collisions per bucket
-			return (double)size / (double)count_full(); // number of items in map divided by buckets used 
+			return static_cast<double>(this->size)/static_cast<double>(count_full()); // number of items in map divided by buckets used 
 		}
 		//-----------------------------------------------------------------------------------------------
 		// IS PRIME ? - helper function to determine if a number is prime
