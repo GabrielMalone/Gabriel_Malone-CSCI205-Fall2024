@@ -3,3 +3,5 @@ It's a pain to go back and set up both quad and linear since all the functions n
 type of probing is being used, so im leaving in the quadratic probing since it's the most effective. 
 
 The pdfs address the differences in linear and quadratic probing results. 
+
+I compliked all my cpp files with: g++ -std=c++17 -Wall -pedantic
