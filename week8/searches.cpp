@@ -17,47 +17,58 @@ void linear_search(int, A_List<int>&);
 void graph();
 void benchmark(int);
 void fillMaps(A_List<int>&,ClosedHashTable<int>&, OpenHashTable<int>&);
+void setUpTest(int);
 
 //-----------------------------------------------------------------------------------------------------------
 // TEST VARIABLES
 //-----------------------------------------------------------------------------------------------------------
 int problem_size;
-int num_experiments = 1000;														  // num experiements to run
+int num_experiments = 10;														  // num experiements to run
 int counts;
 int key = 0;
 //-----------------------------------------------------------------------------------------------------------
-// TEST VARIABLES
+//  MAIN
 //-----------------------------------------------------------------------------------------------------------
-
 
 int main(){
 
-	
-	//--------------------------------------------------------------------------------------------------------
+	setUpTest(num_experiments);
+	benchmark(key);
+	graph();
+
+	return 0;
+}
+
+//-------------------------------------------------------------------------------------------------------------
+// TEST FUNCTIONS
+//-------------------------------------------------------------------------------------------------------------
+void setUpTest(int num_experiments){
+	//---------------------------------------------------------------------------------------------------------
     // OUTPUT FILES
-    //--------------------------------------------------------------------------------------------------------
-	ofstream f1("linear_search.txt");						// record counts of computations into a file
-	ofstream f2("binary_search.txt");						// record counts of computations into a file
-	ofstream f3("closed_hashtable_search.txt");				// record counts of computations into a file
-	ofstream f4("open_hashtable_search.txt");				// record counts of computations into a file
+    //---------------------------------------------------------------------------------------------------------
+	ofstream f1("data/linear_search.txt");						// record counts of computations into a file
+	ofstream f2("data/binary_search.txt");						// record counts of computations into a file
+	ofstream f3("data/closed_hashtable_search.txt");				// record counts of computations into a file
+	ofstream f4("data/open_hashtable_search.txt");				// record counts of computations into a file
 
-	//--------------------------------------------------------------------------------------------------------
+	//---------------------------------------------------------------------------------------------------------
     // SET UP MAPS
-    //--------------------------------------------------------------------------------------------------------
+    //---------------------------------------------------------------------------------------------------------
 	for (int i = 1 ; i < num_experiments ; i ++ ){
+		
 		problem_size = i * 10;
-
-		ClosedHashTable<int>cht(num_experiments);										// maps for testing
-		OpenHashTable<int>oht(num_experiments);											// maps for testing
-		A_List<int>list;																// list for testing	
+		
+		ClosedHashTable<int>cht(num_experiments);											// maps for testing
+		OpenHashTable<int>oht(num_experiments);												// maps for testing
+		A_List<int>list;																	// list for testing	
 		fillMaps(list, cht, oht);	
-																						// fill maps with data
+																					 	 // fill maps with data
 		int front = list[0];
 		int middle = list[list.length()/2];
 		int end = list[list.length()-1];
 		int not_found = -1;
 
-		key = not_found;
+		key = front;
 
 		counts = 0;										
 		linear_search(key, list);	
@@ -73,14 +84,10 @@ int main(){
 		f4 << problem_size << " " << counts << endl;				
 	}
 	
-	benchmark(key);
-	graph();
-
-	return 0;
 }
 
 //-------------------------------------------------------------------------------------------------------------
-// TEST FUNCTIONS
+// FILL MAPS AND LISTS
 //-------------------------------------------------------------------------------------------------------------
 void fillMaps(A_List<int>&list, ClosedHashTable<int>&cht, OpenHashTable<int>&oht){
 	for (int i = 0; i < problem_size; i ++){
@@ -90,14 +97,18 @@ void fillMaps(A_List<int>&list, ClosedHashTable<int>&cht, OpenHashTable<int>&oht
 		list.insert(i, list.length());
 	}
 }
-
+//-------------------------------------------------------------------------------------------------------------
+// LINEAR SEARCH COUNT
+//-------------------------------------------------------------------------------------------------------------
 void linear_search(int key, A_List<int>& list){
 	for(int i = 0; i < list.length(); ++i){					// iterate through array
 		counts++;											// increment counts
 		if(list[i] == key) return;							// if key is found return index
 	}
 }
-
+//-------------------------------------------------------------------------------------------------------------
+// BINARY SEARCH COUNT
+//-------------------------------------------------------------------------------------------------------------
 void binary_search(int key, A_List<int>&list){
 	int low		= 0;										// beginning index of current range
 	int high	= list.length(); 							// ending index of current range
@@ -110,7 +121,9 @@ void binary_search(int key, A_List<int>&list){
 		else low = midpoint + 1;							// if key is greater than midpoint, search right
 	}
 }
-
+//-------------------------------------------------------------------------------------------------------------
+// CLOSED HASH TABLE SEARCH COUNT
+//-------------------------------------------------------------------------------------------------------------
 void closed_hashtable_search(int key, ClosedHashTable<int>&cht){
 	string key_str = to_string(key);
 	try {
@@ -119,7 +132,9 @@ void closed_hashtable_search(int key, ClosedHashTable<int>&cht){
 		counts = cht.search_count();
 	} catch (out_of_range){cout<<"error closed" <<endl;}
 }
-	
+//-------------------------------------------------------------------------------------------------------------
+// OPEN HASH TABLE SEARCH COUNT
+//-------------------------------------------------------------------------------------------------------------
 void open_hashtable_search(int key, OpenHashTable<int>&oht){
 	string key_str = to_string(key);
 	try {
@@ -128,7 +143,9 @@ void open_hashtable_search(int key, OpenHashTable<int>&oht){
 		counts = oht.search_count();
 	} catch (out_of_range){cout<<"error open trying to get: " << key << endl;}
 }
-
+//-------------------------------------------------------------------------------------------------------------
+// OUTPUT GRAPHS
+//-------------------------------------------------------------------------------------------------------------
 void graph() {
 	int status = system("python3 backend/plot.py"); 
 	if (status == -1)
@@ -139,7 +156,9 @@ void graph() {
 		cout << "  all .txt data cleared\n" << endl;
 	}
 }
-
+//-------------------------------------------------------------------------------------------------------------
+// BENCHMARK TESTING
+//-------------------------------------------------------------------------------------------------------------
 void benchmark(int key){
 	ClosedHashTable<int>cht2(num_experiments);										// maps for testing
 	OpenHashTable<int>oht2(num_experiments);										// maps for testing
@@ -174,7 +193,7 @@ void benchmark(int key){
 	end = clock();																			// end clock
 	time = (double)(end - start) / CLOCKS_PER_SEC;										 // compute time
 	cout << "Open Hash search time: " << fixed << time << endl;							   // print time
-	cout << "Open Hash Search Comparisons: " << counts << endl << endl;					  // print counts
+	cout << "Open Hash Search Comparisons: " << counts << endl << endl;					 // print counts
 
 	counts = 0;																			 // reset counts
 

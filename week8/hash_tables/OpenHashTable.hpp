@@ -28,6 +28,7 @@ class OpenHashTable{
 		// BUCKET STRUCTURE - for each position in the map
 		//-----------------------------------------------------------------------------------------------
 		struct HashNode {
+			bool deleted = false;
 			string key;
 			V value;
 			HashNode(){

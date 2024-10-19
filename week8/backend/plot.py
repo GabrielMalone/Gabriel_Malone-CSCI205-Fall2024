@@ -22,7 +22,7 @@ def openTextFile(file_name:str)->None:
     x_data = [] # this list will be a value for the dictionary 'experiments'
     y_data = [] # this list will be a value for the dictionary 'experiments'
     experiments[cleanName(file_name)] = x_data, y_data  
-    with open(file_name) as f:
+    with open("data/" + file_name) as f:
          # get each trial number (x coord) 
          # and its corresponding n-value (y coord)
         for line in f:
@@ -35,7 +35,7 @@ def openTextFile(file_name:str)->None:
                 y_data.append(int(tokens[1]))
 
 # get text files
-text_files = [file for file in os.listdir() if '.txt' in file]
+text_files = [file for file in os.listdir("data") if '.txt' in file]
 
 # load the data from text files above
 for file in text_files:
@@ -54,4 +54,4 @@ plt.show()
 
 # remove text data from folder when done (for multiple runs of program)
 for file in text_files:
-	os.remove(file)
+	os.remove("data/" + file)
