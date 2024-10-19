@@ -187,11 +187,11 @@ class ClosedHashTable {
 			List<HashNode>& current_bucket = this->table[hash(key_in)];			      // get bucket at hk
 			Node<HashNode>* n = current_bucket.get_head();				   // get that bucket's head node
 			while (n != NULL){			     // traverse the current linked list until matching key found
-				nc ++ ;
 				if (n->data.key == key_in){
 					return true;
 				}
 				n = n->next;
+				nc ++ ;
 			}
 			return false;
 		}

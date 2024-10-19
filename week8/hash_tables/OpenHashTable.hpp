@@ -28,7 +28,6 @@ class OpenHashTable{
 		// BUCKET STRUCTURE - for each position in the map
 		//-----------------------------------------------------------------------------------------------
 		struct HashNode {
-			bool deleted = false;
 			string key;
 			V value;
 			HashNode(){
@@ -194,7 +193,10 @@ class OpenHashTable{
 			int i  = 0;
 			int quadratic = 0;
 			int og_hash = cur_index;								
-			while (i < this->capacity){								   
+			while (i < this->capacity){
+				if (this->table[cur_index].key == ""){			   // if no key is present at that index	
+					throw out_of_range("KeyGetError - Key Does Not Exist");			  // if no key found
+				}										   
 				if (this->table[cur_index].key == key_in){			   // if key is present at that index	
 					return this->table[cur_index].value;				// return reference to that value
 				}								
@@ -214,7 +216,10 @@ class OpenHashTable{
 			int quadratic = 0;
 			int og_hash = cur_index;
 			this->nc = 1;
-			while (i < capacity){	
+			while (i < capacity){
+				if (this->table[cur_index].key == ""){			   // if no key is present at that index	
+					return false;
+				}		
 				if (table[cur_index].key == key_in){
 					return true;
 				}				

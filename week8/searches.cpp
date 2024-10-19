@@ -23,7 +23,7 @@ void setUpTest(int);
 // TEST VARIABLES
 //-----------------------------------------------------------------------------------------------------------
 int problem_size;
-int num_experiments = 10;														  // num experiements to run
+int num_experiments = 1000;														  // num experiements to run
 int counts;
 int key = 0;
 //-----------------------------------------------------------------------------------------------------------
@@ -68,11 +68,11 @@ void setUpTest(int num_experiments){
 		int end = list[list.length()-1];
 		int not_found = -1;
 
-		key = front;
+		key = end;
 
 		counts = 0;										
-		linear_search(key, list);	
-		f1 << problem_size << " " << counts << endl;				
+		// linear_search(key, list);	
+		// f1 << problem_size << " " << counts << endl;				
 		counts = 0;										
 		binary_search(key, list);
 		f2 << problem_size << " " << counts << endl;				
@@ -127,8 +127,7 @@ void binary_search(int key, A_List<int>&list){
 void closed_hashtable_search(int key, ClosedHashTable<int>&cht){
 	string key_str = to_string(key);
 	try {
-		cht.contains(key_str); // for not found
-		//cht.get(key_str); // for all other searches
+		cht.contains(key_str); 
 		counts = cht.search_count();
 	} catch (out_of_range){cout<<"error closed" <<endl;}
 }
@@ -138,8 +137,7 @@ void closed_hashtable_search(int key, ClosedHashTable<int>&cht){
 void open_hashtable_search(int key, OpenHashTable<int>&oht){
 	string key_str = to_string(key);
 	try {
-		oht.contains(key_str); // for not found 
-		//oht.get(key_str); // for all other searches
+		oht.contains(key_str); 
 		counts = oht.search_count();
 	} catch (out_of_range){cout<<"error open trying to get: " << key << endl;}
 }

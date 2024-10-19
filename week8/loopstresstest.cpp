@@ -26,41 +26,41 @@ int main(){
     // OPEN MAP LOOP TESTING
     //--------------------------------------------------------------------------------------------------------
 
-    // while (true){
-    //     sizer++;
-    //     string str = "";
-    //     for (int i = 1 ; i < sizer ; i ++ ){      
-    //         str = "";
-    //         str += to_string(i);                
-    //         testmap[str] = i;                          
-    //     }
-    //     counter = 0;
-    //     testmap.print();
-    //     for (int i = 1 ; i < sizer ; i ++ ){      
-    //         str = "";
-    //         str += to_string(i);              
-    //         counter ++ ;
-    //         cout 
-    //             << counter 
-    //             << " - key: "
-    //             << str 
-    //             << " value: "
-    //             << testmap.get(str)
-    //             << endl;
-    //     }
-    //     counter = 0;
-    //     for (int i = 1 ; i < sizer ; i ++ ){    
-    //     str = "";
-    //     str += to_string(i);              
-    //     counter ++ ;
-    //         cout 
-    //             << counter 
-    //             << " - removing key: " 
-    //             << str
-    //             << endl;
-    //         testmap.remove(str);
-    //     }
-    // }
+    while (true){
+        sizer++;
+        string str = "";
+        for (int i = 1 ; i < sizer ; i ++ ){      
+            str = "";
+            str += to_string(i);                
+            testmap[str] = i;                          
+        }
+        counter = 0;
+        testmap.print();
+        for (int i = 1 ; i < sizer ; i ++ ){      
+            str = "";
+            str += to_string(i);              
+            counter ++ ;
+            cout 
+                << counter 
+                << " - key: "
+                << str 
+                << " value: "
+                << testmap.get(str)
+                << endl;
+        }
+        counter = 0;
+        for (int i = 1 ; i < sizer ; i ++ ){    
+        str = "";
+        str += to_string(i);              
+        counter ++ ;
+            cout 
+                << counter 
+                << " - removing key: " 
+                << str
+                << endl;
+            testmap.remove(str);
+        }
+    }
 
     //--------------------------------------------------------------------------------------------------------
     // CLOSED MAP LOOP TESTING
