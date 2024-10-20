@@ -8,8 +8,8 @@
 //-----------------------------------------------------------------------------------
 struct sortData{
     //-----------------------------------------------------
-    std::string sort_method = "";         // record type of sort
-    std::string order_type = "";// ascending, descending, random
+    std::string sort_method = "";    // record type of sort
+    std::string order_type = ""; // ascend, descend, random
     int array_size = 0;     // size of array for experiment
     int swaps = 0;    // how many swaps to order this array
     int test_num = 0;            // which test run was this
