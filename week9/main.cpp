@@ -8,29 +8,13 @@
 #include <random>
 #include "backend/ClosedHashTable.hpp"
 #include <fstream>	                                      // ofstream and file output
+#include "backend/sort_data.hpp"
+#include "sorting_methods/combSort.hpp"
 //-----------------------------------------------------------------------------------
 
 using namespace std;
 
-//-----------------------------------------------------------------------------------
-// Struct to hold swap experiment data
-//-----------------------------------------------------------------------------------
-struct sortData{
-    //-----------------------------------------------------
-    string sort_method = "";         // record type of sort
-    string order_type = "";// ascending, descending, random
-    int array_size = 0;     // size of array for experiment
-    int swaps = 0;    // how many swaps to order this array
-    int test_num = 0;            // which test run was this
-    //-----------------------------------------------------
-    sortData(){};
-    sortData(char type, int arr_size, int num_swaps)
-    {
-        order_type = type;
-        array_size = arr_size;
-        swaps = num_swaps;
-    };
-};
+
 //-----------------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------------
@@ -77,52 +61,6 @@ void runCombTests(int trials, int vect_size, char array_type){
     //--------------------------------------------------------------------------------
     saveSortingData(combSortData, "comb_sort_" + s);                      // save data
     //--------------------------------------------------------------------------------
-}
-
-//------------------------------------------------------------------------------------
-// COMB SORT METHOD (Bubble Sort with gaps)
-//------------------------------------------------------------------------------------
-sortData combSort(vector<int>&list, char type){
-    //--------------------------------------------------------------------------------
-    // method vars
-    //--------------------------------------------------------------------------------
-    int gap = list.size();                                         // initial gap size
-    double shrink = 1.3;                                              // shrink factor
-    bool sorted = false;                                              // search switch
-    int i = 0;
-    int swaps = 0;
-    //--------------------------------------------------------------------------------
-    // Outter loop to gap check and terminate when at 1
-    //--------------------------------------------------------------------------------
-    while (! sorted)                                          // continue until sorted
-    {   
-        if (gap > 1)                  // not done sorting until final pass of gap of 1
-        {
-            sorted = false;
-        }
-        if (gap < 1){                                                   // final pass
-            sorted = true;
-        }
-        //----------------------------------------------------------------------------
-        // Inner loop to do actual position check and swapping
-        //----------------------------------------------------------------------------
-        i = 0;
-        while (i + gap < list.size())  //                   index position + gap width                      
-        {
-            if (list[i] > list[i + gap])                 // if larger element in front
-            {   
-                int tempA = list[i];                                           // swap
-                int tempB = list[i + gap];                           // use temp items
-                list[i] = tempB;
-                list[i + gap] = tempA;
-                sorted = false; 
-                swaps ++ ;                                              // track swaps 
-            }
-            i ++ ;
-        }   
-        gap = floor(gap / shrink);                         // reduce gap for next pass          
-    }
-    return sortData(type, list.size(), swaps); 
 }
 
 //------------------------------------------------------------------------------------
