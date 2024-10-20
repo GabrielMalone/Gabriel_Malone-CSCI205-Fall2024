@@ -38,7 +38,7 @@ class List {
          * No argument constructor
          */
         List(){
-            head = NULL;                                                   // entry point to the linked list
+            head = NULL;                                                  // entry point to the linked list
         };
         
         /**

@@ -6,14 +6,18 @@
 #include <vector>
 #include <iostream>
 #include <random>
-#include "backend/ClosedHashTable.hpp"
 #include <fstream>	                                      // ofstream and file output
 #include "backend/sort_data.hpp"
 #include "sorting_methods/combSort.hpp"
+#include "sorting_methods/shellSort.hpp"
+#include "sorting_methods/bubbleSort.hpp"
+#include "sorting_methods/insertionSort.hpp"
+#include "backend/print_vector.hpp"
+#include "backend/ClosedHashTable.hpp"
+
 //-----------------------------------------------------------------------------------
 
 using namespace std;
-
 
 //-----------------------------------------------------------------------------------
 
@@ -22,46 +26,119 @@ random_device rd;                // random number generator for random val assig
 mt19937 gen(rd());
 uniform_int_distribution<> dist(1,  100); // range from 0 to 100 for the rnadom value
 ClosedHashTable<sortData>combSortData;      // map to store data related to combsorts
-sortData combSort(vector<int>&, char);  // perform combsort and return data from sort
+ClosedHashTable<sortData>shellSortData;    // map to store data related to shellsorts
+ClosedHashTable<sortData>bubbleSortData;  // map to store data related to bubblesorts
+ClosedHashTable<sortData>insertSortData;  // map to store data related to insertsorts
+//-----------------------------------------------------------------------------------
+bool sorted(vector<int>&);                    // method to confirm validity of a sort
 void generate_vector(int, char, vector<int>&);  // create vect of an arrangement type
-void printVector(vector<int>&);                            // show what's in a vector
 void displaySwapData(int);                         // show how many swaps a sort took
 void saveSortingData(ClosedHashTable<sortData>&, string);// save the data from a sort
-void runCombTests(int, int, char);       // run comb tests and save comb sorting data
-
+void runCombTests(vector<int>&, int, int, char);           // run tests and save data
+void runShellTests(vector<int>&, int, int, char);          // run tests and save data
+void runBubbleTests(vector<int>&, int, int, char);         // run tests and save data
+void runInsertTests(vector<int>&, int, int, char);         // run tests and save data
 //------------------------------------------------------------------------------------
 
 //------------------------------------------------------------------------------------
 // MAIN
 //------------------------------------------------------------------------------------
 int main(){
-
-    runCombTests(100, 100, 'r');  // run tests of x size for y trials, on array type z
-
+    int trials = 1;
+    int vec_size = 1000;
+    char array_type = 'r';
+    for (int i = 0 ; i < trials; i ++ ){
+        // generate random list
+        vector<int>list(vec_size);
+        generate_vector(vec_size, array_type, list);            
+        // this way each test is run on the exact same values
+        vector<int>og_list1 = list;                          
+        vector<int>og_list2 = list;                     
+        vector<int>og_list3 = list;                     
+        vector<int>og_list4 = list;                          
+        // for recording data
+        int trial = i + 1;
+        // run tests for x trials of y size, on arr type z
+        runCombTests(og_list1, trial, vec_size, array_type);    
+        runBubbleTests(og_list2, trial, vec_size, array_type);  
+        runInsertTests(og_list3, trial, vec_size, array_type);  
+        runShellTests(og_list4, trial, vec_size, array_type);
+    }
     return 0;
 }
 //------------------------------------------------------------------------------------
 // RUN AND SAVE COMB SORT DATA
 //------------------------------------------------------------------------------------
-void runCombTests(int trials, int vect_size, char array_type){
+void runCombTests(vector<int>& list , int trial, int vect_size, char array_type){
     string s{array_type};                                        // for file name info
-    vector<int>list(vect_size);                                   // initialize vector
     //--------------------------------------------------------------------------------
-    generate_vector(vect_size, array_type, list);              // generate random list
-    printVector(list);                                             // see if it worked
-    //--------------------------------------------------------------------------------
-    for (int i = 0 ; i < trials ; i ++){        // run the sort for a number of trials
-        vector<int>list(vect_size);                               // initialize vector
-        generate_vector(vect_size, array_type, list);          // generate random list
+        cout << endl << Colors::YELLOW <<"Comb Sort: " << Colors::RESET << endl;
+        //print_vector(list);                                      // see if it worked
         sortData sd = combSort(list, array_type);   // get data for each run of a sort
-        combSortData.put(to_string(i + 1), sd); // place that data to track every sort 
-        printVector(list);                                       // see if sort worked
+        combSortData.put(to_string(trial), sd); // place that data to track every sort 
+        //print_vector(list);                                 // visual confirm worked
+        sorted(list);                                           // confirm sort worked
         displaySwapData(sd.swaps);    // can show the output of a sort on the terminal
-    }
     //--------------------------------------------------------------------------------
     saveSortingData(combSortData, "comb_sort_" + s);                      // save data
     //--------------------------------------------------------------------------------
 }
+
+//------------------------------------------------------------------------------------
+// RUN AND SAVE SHELL SORT DATA
+//------------------------------------------------------------------------------------
+void runShellTests(vector<int>& list , int trial, int vect_size, char array_type){
+    string s{array_type};                                        // for file name info
+    vector<int>gaps{4, 2, 1};
+    //--------------------------------------------------------------------------------
+        cout << endl << Colors::YELLOW <<"Shell Sort: " << Colors::RESET << endl;
+        //print_vector(list);                                      // see if it worked
+        sortData sd = shellSort(list, array_type);            // get data for each run 
+        shellSortData.put(to_string(trial), sd);// place that data to track every sort 
+        //print_vector(list);                                    // see if sort worked
+        sorted(list);                                           // confirm sort worked
+        displaySwapData(sd.swaps);    // can show the output of a sort on the terminal
+    //--------------------------------------------------------------------------------
+    saveSortingData(shellSortData, "shell_sort_" + s);                   // save data
+    //--------------------------------------------------------------------------------
+}
+
+//------------------------------------------------------------------------------------
+// RUN AND SAVE BUBBLE SORT DATA
+//------------------------------------------------------------------------------------
+void runBubbleTests(vector<int>& list , int trial, int vect_size, char array_type){
+    string s{array_type};                                        // for file name info
+    //--------------------------------------------------------------------------------
+        cout << endl << Colors::YELLOW <<"Bubble Sort: " << Colors::RESET << endl;
+        //print_vector(list);                                      // see if it worked
+        sortData sd = bubbleSort(list, array_type);           // get data for each run 
+        bubbleSortData.put(to_string(trial), sd);    // place data to track every sort 
+        //print_vector(list);                                    // see if sort worked
+        sorted(list);                                           // confirm sort worked
+        displaySwapData(sd.swaps);    // can show the output of a sort on the terminal
+    //--------------------------------------------------------------------------------
+    saveSortingData(bubbleSortData, "bubble_sort_" + s);                  // save data
+    //--------------------------------------------------------------------------------
+}
+
+//------------------------------------------------------------------------------------
+// RUN AND SAVE INSERTION SORT DATA
+//------------------------------------------------------------------------------------
+void runInsertTests(vector<int>& list , int trial, int vect_size, char array_type){
+    string s{array_type};                                        // for file name info
+    //--------------------------------------------------------------------------------
+        cout << endl << Colors::YELLOW <<"Insertion Sort: " << Colors::RESET << endl;
+        //print_vector(list);                                      // see if it worked
+        sortData sd = insertionSort(list, array_type);        // get data for each run 
+        insertSortData.put(to_string(trial), sd);    // place data to track every sort 
+        //print_vector(list);                                    // see if sort worked
+        sorted(list);                                           // confirm sort worked
+        displaySwapData(sd.swaps);    // can show the output of a sort on the terminal
+    //--------------------------------------------------------------------------------
+    saveSortingData(insertSortData, "Insertion_sort_" + s);               // save data
+    //--------------------------------------------------------------------------------
+}
+
 
 //------------------------------------------------------------------------------------
 //  generates a random vector of size "size" with type "type"
@@ -91,17 +168,6 @@ void generate_vector(int size, char type, vector<int>& temp){
 }
 
 //----------------------------------------------------------------------------
-// SHOW WHATS IN THE VECTOR
-//----------------------------------------------------------------------------
-void printVector(vector<int>& list){
-    cout << "[ ";
-    for (int i : list){
-        cout << i << ", ";
-    }
-    cout << " ]" << endl;
-}
-
-//----------------------------------------------------------------------------
 // SHOW SWAP COUNT
 //----------------------------------------------------------------------------
 void displaySwapData(int swaps){
@@ -127,5 +193,29 @@ void saveSortingData(ClosedHashTable<sortData>& SortDataMap, string sortMethod){
         f << sd.swaps;
         f << endl;
     }
+}
 
+//----------------------------------------------------------------------------
+// CONFIRM VALIDITY OF SORT
+//----------------------------------------------------------------------------
+bool sorted(vector<int>& vector){
+    for (int i = 1 ; i < vector.size(); i ++){
+        int prev_item = vector[i-1];
+        int cur_item = vector[i];
+        if (prev_item > cur_item){
+            cout <<  Colors::RED 
+                 << prev_item
+                 << " > "
+                 << cur_item
+                 << " sort failed" 
+                 << Colors::RESET 
+                 << endl;
+            return false;
+        }
+    }
+    cout <<  Colors::GREEN 
+         << "sort successful" 
+         << Colors::RESET 
+         << endl;
+    return true;
 }

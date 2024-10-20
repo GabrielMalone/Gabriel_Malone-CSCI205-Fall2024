@@ -6,8 +6,8 @@
 
 #include <iostream>
 #include <string>
-#include "../backend/List.hpp"	
-#include "../backend/colors.hpp"
+#include "List.hpp"	
+#include "colors.hpp"
 
 using namespace std;
 //--------------------------------------------------------------------------------------------------------
