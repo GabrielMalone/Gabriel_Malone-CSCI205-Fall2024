@@ -44,10 +44,11 @@ void graph();
 // MAIN
 //------------------------------------------------------------------------------------
 int main(){
-    int trials = 1000;
-    int vec_size = 1000;
-    char array_type = 'r';
+    int trials = 50;
+    int vec_size = 10000;
+    char array_type = 'a';
     for (int i = 0 ; i < trials; i ++ ){
+        //vec_size = (vec_size + i) + (vec_size*.10);  // to create increasing arrays
         // generate random list
         vector<int>list(vec_size);
         generate_vector(vec_size, array_type, list);            
