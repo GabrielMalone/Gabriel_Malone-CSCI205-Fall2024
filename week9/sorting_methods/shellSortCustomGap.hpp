@@ -8,12 +8,15 @@
 
 sortData shellSortCustomGaps(std::vector<int>& vector, std::vector<int>& gaps, char type){
     int swaps = 0;
+    int comparisons = 0;
 	for (int i = 0 ; i < gaps.size(); i ++ ){
         int gap = gaps[i];
         for (int start = 0; start < gap; start++) {
-            swaps += gapInsertionSort(vector, start, gap);
+            sortData s = gapInsertionSort(vector, start, gap);
+			swaps += s.swaps;
+			comparisons += s.comparisons;
         }
     }
-    return sortData(type, vector.size(), swaps);
+    return sortData(type, vector.size(), swaps, comparisons);
 }
 #endif

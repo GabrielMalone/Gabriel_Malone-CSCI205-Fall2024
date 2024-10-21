@@ -1,20 +1,18 @@
-#ifndef BUBBLESORT
-#define BUBBLESORT
+#ifndef REVERSEBUBBLESORT
+#define REVERSEBUBBLESORT
 
 #include "../backend/sort_data.hpp"
 #include "../backend/swap.hpp"
 
 #include <vector>
 
-sortData bubbleSort(std::vector<int>& avector, char type){
+sortData reverseBubbleSort(std::vector<int>& avector, char type){
     bool sorted = false;
     int swaps = 0;
-    int comparisons = 0;
     for (int pass = avector.size()-1; pass > 0; pass -= 1){
         sorted = true;
 		for (int i = 0; i < pass; i++){
-            comparisons ++ ;
-			if (avector[i] > avector[i+1]){
+			if (avector[i] < avector[i+1]){
                 swap(avector, i, i+1);
                 swaps ++ ;
                 sorted = false;
@@ -24,7 +22,6 @@ sortData bubbleSort(std::vector<int>& avector, char type){
             break;
         }
     }
-    return sortData(type, avector.size(), swaps, comparisons);
+    return sortData(type, avector.size(), swaps, 0);
 }
 #endif
-

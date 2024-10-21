@@ -1,8 +1,8 @@
 //------------------------------------------------------------------------------------
 // GABRIEL MALONE / CSCI205 / WEEK 9 / ITERATIVE SORTING
 //------------------------------------------------------------------------------------
+
 #include <iostream>
-#include "stdlib.h"
 #include "backend/sort_data.hpp"
 #include "backend/saveSearchData.hpp"
 #include "sorting_methods/combSort.hpp"
@@ -13,6 +13,7 @@
 #include "sorting_methods/helper_methods/hibbard_sequence.hpp"
 #include "sorting_methods/helper_methods/validate_sort.hpp"
 #include "sorting_methods/helper_methods/generate_vectors.hpp"
+#include "sorting_methods/helper_methods/sedgwick_sequence.hpp"
 
 //-----------------------------------------------------------------------------------
 
@@ -27,7 +28,7 @@ ClosedHashTable<sortData>bubbleSortData;  // map to store data related to bubble
 ClosedHashTable<sortData>insertSortData;  // map to store data related to insertsorts
 ClosedHashTable<sortData>shellCustomSortData;  // map to store data related to custom
 //-----------------------------------------------------------------------------------
-bool printArrays = true;                                     // turn print on or off
+bool printArrays = false;                                     // turn print on or off
 bool sorted(vector<int>&);                    // method to confirm validity of a sort
 void saveSortingData(ClosedHashTable<sortData>&, string);// save the data from a sort
 void runCombTests(vector<int>&, int, int, char);           // run tests and save data
@@ -42,7 +43,7 @@ void runInsertTests(vector<int>&, int, int, char);         // run tests and save
 //------------------------------------------------------------------------------------
 int main(){
     int trials = 1;
-    int vec_size = 200;
+    int vec_size = 2000;
     char array_type = 'r';
     for (int i = 0 ; i < trials; i ++ ){
         // generate random list
@@ -79,6 +80,7 @@ void runCombTests(vector<int>& list , int trial, int vect_size, char array_type)
         if (printArrays){print_vector(list);}                      // see if it worked 
         sorted(list);                                           // confirm sort worked
         sd.displaySwapData();         // can show the output of a sort on the terminal
+        sd.displayCompareData();
     //--------------------------------------------------------------------------------
     saveSortingData(combSortData, "comb_sort_" + s);                      // save data
     //--------------------------------------------------------------------------------
@@ -97,6 +99,7 @@ void runShellBasicTests(vector<int>& list,int trial,int vect_size,char array_typ
         if (printArrays){print_vector(list);}                      // see if it worked  
         sorted(list);                                           // confirm sort worked
         sd.displaySwapData();         // can show the output of a sort on the terminal
+        sd.displayCompareData();
     //--------------------------------------------------------------------------------
     saveSortingData(shellSortData, "shell_sort_" + s);                   // save data
     //--------------------------------------------------------------------------------
@@ -107,7 +110,8 @@ void runShellBasicTests(vector<int>& list,int trial,int vect_size,char array_typ
 //------------------------------------------------------------------------------------
 void runShellCustomTests(vector<int>& list,int trial,int vect_size,char array_type){
     string s{array_type};                                        // for file name info
-    vector<int>gaps = hibbard(vect_size);
+    //vector<int>gaps = hibbard(vect_size);
+    vector<int>gaps = sedgwick(vect_size);
     //--------------------------------------------------------------------------------
         cout << endl << Colors::YELLOW << "Shell Sort Custom Gap: " << Colors::RESET 
              << endl;
@@ -117,6 +121,7 @@ void runShellCustomTests(vector<int>& list,int trial,int vect_size,char array_ty
         if (printArrays){print_vector(list);}                      // see if it worked  
         sorted(list);                                           // confirm sort worked
         sd.displaySwapData();         // can show the output of a sort on the terminal
+        sd.displayCompareData();
     //--------------------------------------------------------------------------------
     saveSortingData(shellCustomSortData, "shell_sort_Custom_Gap_" + s);   // save data
     //--------------------------------------------------------------------------------
@@ -135,6 +140,7 @@ void runBubbleTests(vector<int>& list , int trial, int vect_size, char array_typ
         if (printArrays){print_vector(list);}                      // see if it worked 
         sorted(list);                                           // confirm sort worked
         sd.displaySwapData();         // can show the output of a sort on the terminal
+        sd.displayCompareData();
     //--------------------------------------------------------------------------------
     saveSortingData(bubbleSortData, "bubble_sort_" + s);                  // save data
     //--------------------------------------------------------------------------------
@@ -153,6 +159,7 @@ void runInsertTests(vector<int>& list , int trial, int vect_size, char array_typ
         if (printArrays){print_vector(list);}                      // see if it worked 
         sorted(list);                                           // confirm sort worked
         sd.displaySwapData();         // can show the output of a sort on the terminal
+        sd.displayCompareData();
     //--------------------------------------------------------------------------------
     saveSortingData(insertSortData, "Insertion_sort_" + s);               // save data
     //--------------------------------------------------------------------------------

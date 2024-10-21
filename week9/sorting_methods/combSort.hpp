@@ -16,6 +16,7 @@ sortData combSort(std::vector<int>&list, char type){
     bool sorted = false;                                              // search switch
     int i = 0;
     int swaps = 0;
+    int comparisons = 0;
     //--------------------------------------------------------------------------------
     // Outter loop to gap check and terminate when at 1
     //--------------------------------------------------------------------------------
@@ -32,7 +33,8 @@ sortData combSort(std::vector<int>&list, char type){
         //----------------------------------------------------------------------------
         i = 0;
         while ((i + (gap)) < list.size())  //               index position + gap width                      
-        {
+        {   
+            comparisons ++ ;
             if (list[i] > list[i + gap])                 // if larger element in front
             {   
                 int tempA = list[i];                                           // swap
@@ -44,9 +46,9 @@ sortData combSort(std::vector<int>&list, char type){
             }
             i ++ ;
         }   
-        gap = floor(gap / shrink);                         // reduce gap for next pass      
+        gap = gap / shrink;                         // reduce gap for next pass      
     }
-    return sortData(type, list.size(), swaps); 
+    return sortData(type, list.size(), swaps, comparisons); 
 }
 
 #endif

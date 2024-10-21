@@ -6,6 +6,7 @@
 
 sortData insertionSort(std::vector<int>& vector, char type){
     int swaps = 0;
+	int comparisons = 0;
 	for (int index = 1; index < vector.size(); index ++) {
 		int current = vector[index];					// remember current item
 		int pos = index;								// need current position to move towards front
@@ -13,10 +14,12 @@ sortData insertionSort(std::vector<int>& vector, char type){
 			vector[pos] = vector[pos - 1];				// shift by 1 spot
 			pos--; 										// keep moving towards front of vector
 			swaps ++ ;
+			comparisons ++ ; 							
 		}
 		vector[pos] = current;							// place current item in opened spot
+		comparisons ++ ; 	
 	}
-    return sortData(type, vector.size(), swaps);
+    return sortData(type, vector.size(), swaps, comparisons);
 }
 
 #endif 

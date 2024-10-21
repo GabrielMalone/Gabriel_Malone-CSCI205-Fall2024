@@ -19,6 +19,8 @@ void saveSortingData(ClosedHashTable<sortData>& SortDataMap, string sortMethod){
         f << sd.array_size;
         f << " ";
         f << sd.swaps;
+        f << " ";
+        f << sd.comparisons;
         f << endl;
     }
 }
