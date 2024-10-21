@@ -6,16 +6,16 @@
 
 sortData insertionSort(std::vector<int>& vector, char type){
     int swaps = 0;
-    for (int i = 1 ; i < vector.size() ; i ++){     // iterate through vector starting at index 1
-        int temp_value = vector[i];                 // get value at that index
-		int j = i - 1; 								// index for previous item
-		while (j >= 0 && vector[j] > temp_value){   // while spaces remain to the left and the current item is larger than the temp item, continue loop
-			vector[j + 1] = vector[j];  			// shift element to the right 
-			j -- ; 								    // shift index to left to keep checking items to the left
-			swaps ++ ;								// track swaps
-		}	
-		vector[j + 1] = temp_value;					// place temp value in its new (or original) sport
-    }
+	for (int index = 1; index < vector.size(); index ++) {
+		int current = vector[index];					// remember current item
+		int pos = index;								// need current position to move towards front
+		while (pos > 0 && vector[pos - 1] > current) {	// while not at front and current item is less than previous
+			vector[pos] = vector[pos - 1];				// shift by 1 spot
+			pos--; 										// keep moving towards front of vector
+			swaps ++ ;
+		}
+		vector[pos] = current;							// place current item in opened spot
+	}
     return sortData(type, vector.size(), swaps);
 }
 

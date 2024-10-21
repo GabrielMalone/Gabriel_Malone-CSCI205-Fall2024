@@ -2,6 +2,7 @@
 #define BUBBLESORT
 
 #include "../backend/sort_data.hpp"
+
 #include <vector>
 
 sortData bubbleSort(std::vector<int>& vector, char type){
