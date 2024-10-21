@@ -45,7 +45,7 @@ void runInsertTests(vector<int>&, int, int, char);         // run tests and save
 //------------------------------------------------------------------------------------
 int main(){
     int trials = 1;
-    int vec_size = 1000;
+    int vec_size = 200;
     char array_type = 'r';
     for (int i = 0 ; i < trials; i ++ ){
         // generate random list
