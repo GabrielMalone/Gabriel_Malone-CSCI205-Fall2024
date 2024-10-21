@@ -2,6 +2,7 @@
 #define SORTDATA
 
 #include <string>
+#include <iostream>
 
 //---------------------------------------------------------
 // Struct to hold swap experiment data
@@ -21,6 +22,15 @@ struct sortData{
         array_size = arr_size;
         swaps = num_swaps;
     };
+    //----------------------------------------------------------------------------
+    // SHOW SWAP COUNT
+    //----------------------------------------------------------------------------
+    void displaySwapData(){
+        std::cout << "sorting took "
+            << swaps
+            << " swaps"
+            << std::endl;
+    }   
 };
 //---------------------------------------------------------
 

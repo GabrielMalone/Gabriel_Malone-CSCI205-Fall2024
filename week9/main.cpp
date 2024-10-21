@@ -3,19 +3,16 @@
 //------------------------------------------------------------------------------------
 #include <iostream>
 #include "stdlib.h"
-#include <vector>
-#include <iostream>
-#include <random>
-#include <fstream>	                                      // ofstream and file output
 #include "backend/sort_data.hpp"
+#include "backend/saveSearchData.hpp"
 #include "sorting_methods/combSort.hpp"
 #include "sorting_methods/shellSortBasic.hpp"
 #include "sorting_methods/shellSortCustomGap.hpp"
 #include "sorting_methods/bubbleSort.hpp"
 #include "sorting_methods/insertionSort.hpp"
-#include "backend/print_vector.hpp"
-#include "backend/ClosedHashTable.hpp"
 #include "sorting_methods/helper_methods/hibbard_sequence.hpp"
+#include "sorting_methods/helper_methods/validate_sort.hpp"
+#include "sorting_methods/helper_methods/generate_vectors.hpp"
 
 //-----------------------------------------------------------------------------------
 
@@ -24,9 +21,6 @@ using namespace std;
 //-----------------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------------
-random_device rd;                // random number generator for random val assignment
-mt19937 gen(rd());
-uniform_int_distribution<> dist(1,  100); // range from 0 to 100 for the rnadom value
 ClosedHashTable<sortData>combSortData;      // map to store data related to combsorts
 ClosedHashTable<sortData>shellSortData;    // map to store data related to shellsorts
 ClosedHashTable<sortData>bubbleSortData;  // map to store data related to bubblesorts
@@ -35,8 +29,6 @@ ClosedHashTable<sortData>shellCustomSortData;  // map to store data related to c
 //-----------------------------------------------------------------------------------
 bool printArrays = true;                                     // turn print on or off
 bool sorted(vector<int>&);                    // method to confirm validity of a sort
-void generate_vector(int, char, vector<int>&);  // create vect of an arrangement type
-void displaySwapData(int);                         // show how many swaps a sort took
 void saveSortingData(ClosedHashTable<sortData>&, string);// save the data from a sort
 void runCombTests(vector<int>&, int, int, char);           // run tests and save data
 void runShellBasicTests(vector<int>&, int, int, char);     // run tests and save data
@@ -86,7 +78,7 @@ void runCombTests(vector<int>& list , int trial, int vect_size, char array_type)
         combSortData.put(to_string(trial), sd); // place that data to track every sort 
         if (printArrays){print_vector(list);}                      // see if it worked 
         sorted(list);                                           // confirm sort worked
-        displaySwapData(sd.swaps);    // can show the output of a sort on the terminal
+        sd.displaySwapData();         // can show the output of a sort on the terminal
     //--------------------------------------------------------------------------------
     saveSortingData(combSortData, "comb_sort_" + s);                      // save data
     //--------------------------------------------------------------------------------
@@ -104,7 +96,7 @@ void runShellBasicTests(vector<int>& list,int trial,int vect_size,char array_typ
         shellSortData.put(to_string(trial), sd);// place that data to track every sort 
         if (printArrays){print_vector(list);}                      // see if it worked  
         sorted(list);                                           // confirm sort worked
-        displaySwapData(sd.swaps);    // can show the output of a sort on the terminal
+        sd.displaySwapData();         // can show the output of a sort on the terminal
     //--------------------------------------------------------------------------------
     saveSortingData(shellSortData, "shell_sort_" + s);                   // save data
     //--------------------------------------------------------------------------------
@@ -124,7 +116,7 @@ void runShellCustomTests(vector<int>& list,int trial,int vect_size,char array_ty
         shellCustomSortData.put(to_string(trial), sd);    // place data to track sorts 
         if (printArrays){print_vector(list);}                      // see if it worked  
         sorted(list);                                           // confirm sort worked
-        displaySwapData(sd.swaps);    // can show the output of a sort on the terminal
+        sd.displaySwapData();         // can show the output of a sort on the terminal
     //--------------------------------------------------------------------------------
     saveSortingData(shellCustomSortData, "shell_sort_Custom_Gap_" + s);   // save data
     //--------------------------------------------------------------------------------
@@ -142,7 +134,7 @@ void runBubbleTests(vector<int>& list , int trial, int vect_size, char array_typ
         bubbleSortData.put(to_string(trial), sd);    // place data to track every sort 
         if (printArrays){print_vector(list);}                      // see if it worked 
         sorted(list);                                           // confirm sort worked
-        displaySwapData(sd.swaps);    // can show the output of a sort on the terminal
+        sd.displaySwapData();         // can show the output of a sort on the terminal
     //--------------------------------------------------------------------------------
     saveSortingData(bubbleSortData, "bubble_sort_" + s);                  // save data
     //--------------------------------------------------------------------------------
@@ -160,89 +152,9 @@ void runInsertTests(vector<int>& list , int trial, int vect_size, char array_typ
         insertSortData.put(to_string(trial), sd);    // place data to track every sort 
         if (printArrays){print_vector(list);}                      // see if it worked 
         sorted(list);                                           // confirm sort worked
-        displaySwapData(sd.swaps);    // can show the output of a sort on the terminal
+        sd.displaySwapData();         // can show the output of a sort on the terminal
     //--------------------------------------------------------------------------------
     saveSortingData(insertSortData, "Insertion_sort_" + s);               // save data
     //--------------------------------------------------------------------------------
 }
 
-
-//------------------------------------------------------------------------------------
-//  generates a random vector of size "size" with type "type"
-//  type = 'a' for ascending, 'd' for descending, 'r' for random, 'p' for partially 
-//------------------------------------------------------------------------------------
-void generate_vector(int size, char type, vector<int>& temp){
-	switch (type){
-		case 'a': // ascending
-			for(int i = 0; i < size; i++)
-				temp[i] = i + 1;
-			break;
-		case 'd': // descending
-			for(int i = 0; i < size; i++)
-				temp[i] = size - i;
-			break;
-		case 'r': // random
-			for(int i = 0; i < size; i++)
-				temp[i] = dist(gen);
-			break;
-		case 'p': // partially sorted
-			for(int i = 0; i < size; i++)
-				temp[i] = i + 1;
-			// swap every 5th item
-			for (size_t i = 4; i < temp.size(); i += 5) 
-				swap(temp[i], temp[i - 4]);
-	}
-}
-
-//----------------------------------------------------------------------------
-// SHOW SWAP COUNT
-//----------------------------------------------------------------------------
-void displaySwapData(int swaps){
-    cout << "sorting took "
-         << swaps
-         << " swaps"
-         << endl;
-}
-
-//----------------------------------------------------------------------------
-// ITERATE THROUGH MAP AND PLACE DATA INTO TEXT FILE
-//----------------------------------------------------------------------------
-void saveSortingData(ClosedHashTable<sortData>& SortDataMap, string sortMethod){
-    ofstream f ("data/" + sortMethod + ".txt");	
-    for (int i = 0 ; i < SortDataMap.m_size() ; i ++ ){
-        sortData sd = SortDataMap.get(to_string(i+1));
-        f << i + 1;
-        f << " ";
-        f << sd.order_type;
-        f << " ";
-        f << sd.array_size;
-        f << " ";
-        f << sd.swaps;
-        f << endl;
-    }
-}
-
-//----------------------------------------------------------------------------
-// CONFIRM VALIDITY OF SORT
-//----------------------------------------------------------------------------
-bool sorted(vector<int>& vector){
-    for (int i = 1 ; i < vector.size(); i ++){
-        int prev_item = vector[i-1];
-        int cur_item = vector[i];
-        if (prev_item > cur_item){
-            cout <<  Colors::RED 
-                 << prev_item
-                 << " > "
-                 << cur_item
-                 << " sort failed" 
-                 << Colors::RESET 
-                 << endl;
-            return false;
-        }
-    }
-    cout <<  Colors::GREEN 
-         << "sort successful" 
-         << Colors::RESET 
-         << endl;
-    return true;
-}

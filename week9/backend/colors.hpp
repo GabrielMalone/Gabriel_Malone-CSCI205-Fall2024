@@ -5,9 +5,8 @@
 
 using namespace std;
 
-
 namespace Colors {
-    string RESET = "\033[0m";                          				                // ANSI escape code variables
+    string RESET = "\033[0m";   // ANSI escape code variables
     string BLACK = "\033[30m";
     string RED = "\033[31m";
     string GREEN = "\033[32m";
