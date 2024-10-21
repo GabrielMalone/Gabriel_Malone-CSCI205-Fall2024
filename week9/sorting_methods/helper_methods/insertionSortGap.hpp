@@ -7,8 +7,8 @@
 // same logic as the insertion but allows larger jumps
 // ---------------------------------------------------------------------------------------------------------------------------
 sortData gapInsertionSort(std::vector<int>& avector, int start, int gap) {
-	int swaps = 0;
-	int comparisons = 0;
+	unsigned long long array_accesses = 0;
+	unsigned long long comparisons = 0;
 	for (unsigned int i = start + gap; i < avector.size(); i += gap) {
 		comparisons ++ ; 
 		int current	= avector[i];					            // remember current item
@@ -16,11 +16,11 @@ sortData gapInsertionSort(std::vector<int>& avector, int start, int gap) {
 		while (pos >= gap && avector[pos - gap] > current) {    // while not at front and current item is less than previous
 			avector[pos] = avector[pos - gap];			        // shift by "gap" spots
 			pos -= gap;							                // decrease position by "gap"
-			swaps ++ ;
+			array_accesses ++ ;
 		}
 		avector[pos] = current;							        // place current item in opened spot
 	}
-	return sortData('x', avector.size(), swaps, comparisons);
+	return sortData('x', 0, array_accesses, comparisons);
 }
 
 #endif

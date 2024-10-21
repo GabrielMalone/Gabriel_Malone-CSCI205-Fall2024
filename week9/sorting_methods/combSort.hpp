@@ -15,8 +15,8 @@ sortData combSort(std::vector<int>&list, char type){
     double shrink = 1.3;                                              // shrink factor
     bool sorted = false;                                              // search switch
     int i = 0;
-    int swaps = 0;
-    int comparisons = 0;
+    unsigned long long array_accesses = 0;
+    unsigned long long comparisons = 0;
     //--------------------------------------------------------------------------------
     // Outter loop to gap check and terminate when at 1
     //--------------------------------------------------------------------------------
@@ -41,14 +41,14 @@ sortData combSort(std::vector<int>&list, char type){
                 int tempB = list[i + gap];                           // use temp items
                 list[i] = tempB;
                 list[i + gap] = tempA;
-                swaps ++ ;                                              // track swaps 
+                array_accesses += 2 ;                                   // track swaps 
                 sorted = false;
             }
             i ++ ;
         }   
         gap = gap / shrink;                         // reduce gap for next pass      
     }
-    return sortData(type, list.size(), swaps, comparisons); 
+    return sortData(type, list.size(), array_accesses, comparisons); 
 }
 
 #endif

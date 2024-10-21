@@ -14,6 +14,7 @@
 #include "sorting_methods/helper_methods/validate_sort.hpp"
 #include "sorting_methods/helper_methods/generate_vectors.hpp"
 #include "sorting_methods/helper_methods/sedgwick_sequence.hpp"
+#include "sorting_methods/helper_methods/knuth_sequence.hpp"
 
 //-----------------------------------------------------------------------------------
 
@@ -36,14 +37,15 @@ void runShellBasicTests(vector<int>&, int, int, char);     // run tests and save
 void runShellCustomTests(vector<int>&, int, int, char);    // run tests and save data
 void runBubbleTests(vector<int>&, int, int, char);         // run tests and save data
 void runInsertTests(vector<int>&, int, int, char);         // run tests and save data
+void graph();
 //------------------------------------------------------------------------------------
 
 //------------------------------------------------------------------------------------
 // MAIN
 //------------------------------------------------------------------------------------
 int main(){
-    int trials = 1;
-    int vec_size = 2000;
+    int trials = 1000;
+    int vec_size = 1000;
     char array_type = 'r';
     for (int i = 0 ; i < trials; i ++ ){
         // generate random list
@@ -64,6 +66,7 @@ int main(){
         runShellBasicTests(og_list4, trial, vec_size, array_type);
         runShellCustomTests(og_list5, trial, vec_size, array_type);
     }
+     graph();
     return 0;
 }
 //------------------------------------------------------------------------------------
@@ -92,7 +95,8 @@ void runCombTests(vector<int>& list , int trial, int vect_size, char array_type)
 void runShellBasicTests(vector<int>& list,int trial,int vect_size,char array_type){
     string s{array_type};                                        // for file name info
     //--------------------------------------------------------------------------------
-        cout << endl << Colors::YELLOW <<"Shell Sort: " << Colors::RESET << endl;
+        cout << endl << Colors::YELLOW <<"Shell Sort Default: " << Colors::RESET 
+             << endl;
         if (printArrays){print_vector(list);}                      // see if it worked                                   
         sortData sd = shellSortBasic(list, array_type);       // get data for each run 
         shellSortData.put(to_string(trial), sd);// place that data to track every sort 
@@ -110,8 +114,9 @@ void runShellBasicTests(vector<int>& list,int trial,int vect_size,char array_typ
 //------------------------------------------------------------------------------------
 void runShellCustomTests(vector<int>& list,int trial,int vect_size,char array_type){
     string s{array_type};                                        // for file name info
-    //vector<int>gaps = hibbard(vect_size);
-    vector<int>gaps = sedgwick(vect_size);
+    vector<int>gaps = hibbard(vect_size);
+    //vector<int>gaps = sedgwick(vect_size);
+    //vector<int>gaps = knuth(vect_size);
     //--------------------------------------------------------------------------------
         cout << endl << Colors::YELLOW << "Shell Sort Custom Gap: " << Colors::RESET 
              << endl;
@@ -165,3 +170,16 @@ void runInsertTests(vector<int>& list , int trial, int vect_size, char array_typ
     //--------------------------------------------------------------------------------
 }
 
+//------------------------------------------------------------------------------------
+// OUTPUT GRAPHS
+//------------------------------------------------------------------------------------
+void graph() {
+	int status = system("python3 backend/plot.py"); 
+	if (status == -1)
+	{
+		cerr << "\npython script failed :[\n" << endl;
+	} else {
+		cout << "\n  graphs created successfully!\n" << endl;
+		cout << "  all .txt data cleared\n" << endl;
+	}
+}

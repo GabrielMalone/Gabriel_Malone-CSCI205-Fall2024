@@ -19,9 +19,11 @@ def cleanName(file_name:str)->str:
     return clean_name
 
 def openTextFile(file_name:str)->None:
-    x_data = [] # this list will be a value for the dictionary 'experiments'
-    y_data = [] # this list will be a value for the dictionary 'experiments'
-    experiments[cleanName(file_name)] = x_data, y_data  
+    trial = [] # trial number
+    array_type = []
+    array_size = [] #
+    complexity = [] #  
+    experiments[cleanName(file_name)] = trial, array_type, array_size, complexity
     with open("data/" + file_name) as f:
          # get each trial number (x coord) 
          # and its corresponding n-value (y coord)
@@ -31,8 +33,11 @@ def openTextFile(file_name:str)->None:
                 tokens = line.split(" ")
                 # add data to their corresponding lists
                 # convert to int otherwise a big mess in matplot
-                x_data.append(int(tokens[0]))
-                y_data.append(int(tokens[1]))
+                trial.append(int(tokens[0]))
+                array_type.append(tokens[1])
+                array_size.append(int(tokens[2]))
+                complexity.append(int(tokens[3]))
+       
 
 # get text files
 text_files = [file for file in os.listdir("data") if '.txt' in file]
@@ -41,15 +46,19 @@ text_files = [file for file in os.listdir("data") if '.txt' in file]
 for file in text_files:
     openTextFile(file)
 
+size = 10
 # plot the data via matplotlib
 for experiment in experiments:
     # get x data from dictionary key (experiment) values index 0, y data from dictionary values index 1
-    plt.plot(experiments[experiment][0],experiments[experiment][1], scalex=True, scaley=True, linewidth=1.0, aa=True)
-plt.title("Comparison of Computations Required")
+    #plt.plot(experiments[experiment][2],experiments[experiment][3],scalex=True, scaley=True, aa=True, alpha=.5)
+    plt.scatter(experiments[experiment][0],experiments[experiment][3], aa=True, alpha=.5, s=5)
+plt.title("Comparison of Computations Required to Sort an Array")
 plt.legend(experiments)
-plt.xlabel("Size of Array")
-plt.ylabel("Searches Required to Find Item")
-plt.grid(True)
+#plt.xlabel("Array Size")
+plt.xlabel("Number of Trials with Array Size 1000")
+plt.ylabel("array accesses")
+#plt.ylabel("comparisons required to sort array")
+plt.grid(False)
 plt.show()
 
 # remove text data from folder when done (for multiple runs of program)
