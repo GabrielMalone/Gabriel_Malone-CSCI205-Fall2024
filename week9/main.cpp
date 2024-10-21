@@ -3,6 +3,7 @@
 //------------------------------------------------------------------------------------
 
 #include <iostream>
+#include "backend/show_graphs.hpp"
 #include "backend/sort_data.hpp"
 #include "backend/saveSearchData.hpp"
 #include "sorting_methods/combSort.hpp"
@@ -37,7 +38,6 @@ void runShellBasicTests(vector<int>&, int, int, char);     // run tests and save
 void runShellCustomTests(vector<int>&, int, int, char);    // run tests and save data
 void runBubbleTests(vector<int>&, int, int, char);         // run tests and save data
 void runInsertTests(vector<int>&, int, int, char);         // run tests and save data
-void graph();
 //------------------------------------------------------------------------------------
 
 //------------------------------------------------------------------------------------
@@ -171,16 +171,3 @@ void runInsertTests(vector<int>& list , int trial, int vect_size, char array_typ
     //--------------------------------------------------------------------------------
 }
 
-//------------------------------------------------------------------------------------
-// OUTPUT GRAPHS
-//------------------------------------------------------------------------------------
-void graph() {
-	int status = system("python3 backend/plot.py"); 
-	if (status == -1)
-	{
-		cerr << "\npython script failed :[\n" << endl;
-	} else {
-		cout << "\n  graphs created successfully!\n" << endl;
-		cout << "  all .txt data cleared\n" << endl;
-	}
-}
