@@ -6,6 +6,7 @@
 #include "../backend/sort_data.hpp"
 #include "helper_methods/radix_counting_helper.hpp"
 
+
 sortData radixSort(std::vector<int>& vector, char type){
 
     //---------------------------------------------------------------------------
@@ -22,7 +23,7 @@ sortData radixSort(std::vector<int>& vector, char type){
     //---------------------------------------------------------------------------
     // count sort for each digit
     for (int div = 1 ; range/div > 0 ; div*=10){
-       array_acccess += countingSort_helper(vector, div);
+        array_acccess += countingSort_helper(vector, div);
     }
     return sortData(type, vector.size(), array_acccess, 0);
 }
