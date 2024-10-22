@@ -50,12 +50,12 @@ size = 10
 # plot the data via matplotlib
 for experiment in experiments:
     # get x data from dictionary key (experiment) values index 0, y data from dictionary values index 1
-    #plt.plot(experiments[experiment][2],experiments[experiment][3],scalex=True, scaley=True, aa=True, alpha=.5)
-    plt.scatter(experiments[experiment][0],experiments[experiment][3], aa=True, alpha=.25, s=10)
+    plt.plot(experiments[experiment][2],experiments[experiment][3],scalex=True, scaley=True, aa=True, alpha=.5)
+    #plt.scatter(experiments[experiment][0],experiments[experiment][3], aa=True, alpha=.25, s=10)
 plt.title("Comparison of Computations Required to Sort an Array")
 plt.legend(experiments)
 #plt.xlabel("Array Size")
-plt.xlabel("Number of Trials with Array Size 10,000")
+plt.xlabel("Array Size")
 plt.ylabel("array accesses")
 #plt.ylabel("comparisons required to sort array")
 plt.grid(False)

@@ -2,7 +2,7 @@
 #define VECPRINT
 
 #include <vector>
-#include  <iostream>
+#include <iostream>
 
 void print_vector(std::vector<int>& vec){
 	for (unsigned int i = 0; i < vec.size(); i++)
