@@ -32,9 +32,11 @@ bool print = true;                                            // turn print on o
 // MAIN
 //-----------------------------------------------------------------------------------
 int main(){
+    //-------------------------------------------------------------------------------
     int trials = 50;
     int vec_size = 10;
     char type = 'r';
+    //--------------------------------------------------------------------------------
     for (int i = 0 ; i < trials; i ++ ){
         vec_size = (vec_size + i) + (vec_size*.10);     // to create increasing arrays
         vector<int>list(vec_size);                             // generate random list
@@ -45,15 +47,18 @@ int main(){
         vector<int>og4 = list;   
         vector<int>og5 = list;  
         vector<int>og6 = list;                           
-        int t = i + 1;                              // trial number for recording data
-        runCombTests(og1,        t, vec_size, type, print, combSortData);    
-        runBubbleTests(og2,      t, vec_size, type, print, bubbleSortData);  
-        runInsertTests(og3,      t, vec_size, type, print, insertSortData);  
-        runShellBasicTests(og4,  t, vec_size, type, print, shellSortData);
+        int t = i + 1;                                // trial number for recording data
+        //------------------------------------------------------------------------------
+        runCombTests(       og1, t, vec_size, type, print, combSortData);    
+        runBubbleTests(     og2, t, vec_size, type, print, bubbleSortData);  
+        runInsertTests(     og3, t, vec_size, type, print, insertSortData);  
+        runShellBasicTests( og4, t, vec_size, type, print, shellSortData);
         runShellCustomTests(og5, t, vec_size, type, print, shellCustomSortData);
         runCountCustomTests(og6, t, vec_size, type, print, countSortData);
+        //-------------------------------------------------------------------------------
     }
-    graph();              
+    graph();   
+    //-----------------------------------------------------------------------------------           
     return 0;
 }
 
