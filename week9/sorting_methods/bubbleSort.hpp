@@ -6,7 +6,7 @@
 
 #include <vector>
 
-sortData bubbleSort(std::vector<int>& avector, char type){
+sortData bubbleSort(std::vector<int>& avector, char type, bool print){
     //---------------------------------------------------------------------------------
     bool sorted = false;
     unsigned long long array_accesses = 0;
@@ -16,7 +16,8 @@ sortData bubbleSort(std::vector<int>& avector, char type){
         sorted = true;
 		for (int i = 0; i < pass; i++){
             comparisons ++ ;
-            printTowers(avector, 10);
+            if (print)
+                printTowers(avector);
 			if (avector[i] > avector[i+1]){
                 swap(avector, i, i+1);
                 array_accesses += 2;
@@ -32,4 +33,3 @@ sortData bubbleSort(std::vector<int>& avector, char type){
     //---------------------------------------------------------------------------------
 }
 #endif
-

@@ -17,9 +17,9 @@ void runBubbleTests(vector<int>& list , int trial, int vect_size, char array_typ
                     bool printArrays, ClosedHashTable<sortData>&bubbleSortData){
     string s{array_type};                                        // for file name info
     //--------------------------------------------------------------------------------
-        cout << endl << Colors::YELLOW <<"Bubble Sort: " << Colors::RESET << endl;
+        cout << endl << Colors::YELLOW << "Bubble Sort: " << Colors::RESET << endl;
         if (printArrays){print_vector(list);}                      // see if it worked 
-        sortData sd = bubbleSort(list, array_type);           // get data for each run 
+        sortData sd = bubbleSort(list, array_type, printArrays);  // data for each run 
         bubbleSortData.put(to_string(trial), sd);    // place data to track every sort 
         if (printArrays){print_vector(list);}                      // see if it worked 
         sorted(list);                                           // confirm sort worked

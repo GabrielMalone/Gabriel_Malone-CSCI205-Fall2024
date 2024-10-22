@@ -4,7 +4,7 @@
 #include <vector>
 
 
-int countingSort_helper(std::vector<int>& vector, int div){
+int countingSort_helper(std::vector<int>& vector, int div, bool print){
     //---------------------------------------------------------------------------------
     int range = 10;                                             // decimal system so 10
     int array_acccess = 0;
@@ -30,7 +30,8 @@ int countingSort_helper(std::vector<int>& vector, int div){
     }
     //----------------------------------                        // decrement that count by 1 to get the final index position for this integer
     for (int m = 0 ; m < vector.size(); m ++ ){                 // set the original vector with the sorted values
-        printTowers(vector, 50);
+        if (print)
+            printTowers(vector);
         vector[m] = output[m];
         array_acccess ++ ;
     }

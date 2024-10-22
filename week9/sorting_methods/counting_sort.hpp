@@ -4,7 +4,9 @@
 #include <vector>
 #include "../backend/sort_data.hpp"
 
-sortData countingsort(std::vector<int>& vector, char type){
+sortData countingsort(std::vector<int>& vector, char type, bool print){
+    if (print)
+		printTowers(vector);
     //---------------------------------------------------------------------------------
     int range = 0;                                  // get the range
     int array_acccess = 0;
@@ -37,9 +39,13 @@ sortData countingsort(std::vector<int>& vector, char type){
     //---------------------------------------------------------------------------------                                               // decrement that count by 1 to get the final index position for this integer
     for (int m = 0 ; m < vector.size(); m ++ ){     // set the original vector with the sorted values
         vector[m] = output[m];
+          if (print)
+            printTowers(vector);
         array_acccess ++ ;
     }
     //---------------------------------------------------------------------------------
+    if (print)
+        printTowers(vector);
     return sortData(type, vector.size(), array_acccess, 0); 
 }
 #endif 

@@ -6,7 +6,7 @@
 // modified insertion sort helper to work with gaps for the shell sort
 // same logic as the insertion but allows larger jumps
 // ---------------------------------------------------------------------------------------------------------------------------
-sortData gapInsertionSort(std::vector<int>& avector, int start, int gap) {
+sortData gapInsertionSort(std::vector<int>& avector, int start, int gap, bool print) {
 	//---------------------------------------------------------------------------
 	unsigned long long array_accesses = 0;
 	unsigned long long comparisons = 0;
@@ -17,6 +17,8 @@ sortData gapInsertionSort(std::vector<int>& avector, int start, int gap) {
 		int pos	= i;							                // need current position to move towards front
 		//---------------------------------------------------------------------------
 		while (pos >= gap && avector[pos - gap] > current) {    // while not at front and current item is less than previous
+			if (print)
+				printTowers(avector);
 			avector[pos] = avector[pos - gap];			        // shift by "gap" spots
 			pos -= gap;							                // decrease position by "gap"
 			array_accesses ++ ;

@@ -19,7 +19,7 @@ void runInsertTests(std::vector<int>& list , int trial, int vect_size, char arra
     //--------------------------------------------------------------------------------
         cout << endl << Colors::YELLOW <<"Insertion Sort: " << Colors::RESET << endl;
         if (printArrays){print_vector(list);}                      // see if it worked 
-        sortData sd = insertionSort(list, array_type);        // get data for each run 
+        sortData sd = insertionSort(list, array_type, printArrays);        // get data
         insertSortData.put(to_string(trial), sd);    // place data to track every sort 
         if (printArrays){print_vector(list);}                      // see if it worked 
         sorted(list);                                           // confirm sort worked

@@ -23,7 +23,7 @@ void runCountCustomTests(vector<int>& list,int trial,int vect_size,char array_ty
         cout << endl << Colors::YELLOW << "Counting Sort: " << Colors::RESET 
              << endl;
         if (printArrays){print_vector(list);}                      // see if it worked                                   
-        sortData sd = countingsort(list, array_type);                      // get data 
+        sortData sd = countingsort(list, array_type, printArrays);         // get data 
         countSortData.put(to_string(trial), sd);          // place data to track sorts 
         if (printArrays){print_vector(list);}                      // see if it worked  
         sorted(list);                                           // confirm sort worked

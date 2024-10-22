@@ -10,17 +10,18 @@ string CURSOR_TOP_LEFT = "\033[H";
 
 using namespace std;
 
-void printTowers(vector<int>& list, int speed){  
+void printTowers(vector<int>& list){ 
+    int speed = 50;
     cout << CLEAR_SCREEN << CURSOR_TOP_LEFT;                              
     int max_height = 0;
-    for (int i = 0 ; i < list.size() ; i  ++ ){          // get current max (for max height of graph print)
+    for (int i = 0 ; i < list.size(); i  ++ ){          // get current max (for max height of graph print)
         if (list[i] > max_height){
             max_height = list[i];
         }
     }
     int height = max_height;                             // this will decrement, print from top to bottom
-    for (size_t j = 0 ; j < list.size() ; j ++){         // iterate for duration of size of array
-        for (int k = 0 ; k < list.size(); k ++ ){        // iterate through vector and check each value
+    for (size_t j = 0 ; j < list.size(); j ++){          // iterate for duration of size of array
+        for (size_t k = 0 ; k < list.size(); k ++ ){     // iterate through vector and check each value
             if (list[k] >= height){
                 cout << "#";                             // print column
             } else {

@@ -1,5 +1,5 @@
-#ifndef SHELL_CUSTOM_TEST
-#define SHELL_CUSTOM_TEST
+#ifndef SHELL_SED_TEST
+#define SHELL_SED_TEST
 
 #include <vector>
 #include "../backend/colors.hpp"
@@ -16,25 +16,25 @@
 //------------------------------------------------------------------------------------
 // RUN AND SAVE SHELL SORT CUSTOM GAP DATA
 //------------------------------------------------------------------------------------
-void runShellCustomTests(vector<int>& list,int trial,int vect_size,char array_type, 
+void runShellSedgwickTests(vector<int>& list,int trial,int vect_size,char array_type, 
                          bool printArrays, 
                          ClosedHashTable<sortData>&shellCustomSortData){
     string s{array_type};                                        // for file name info
-    vector<int>gaps = hibbard(vect_size);
-    //vector<int>gaps = sedgwick(vect_size);
+    //vector<int>gaps = hibbard(vect_size);
+    vector<int>gaps = sedgwick(vect_size);
     //vector<int>gaps = knuth(vect_size);
     //--------------------------------------------------------------------------------
         cout << endl << Colors::YELLOW << "Shell Sort Custom Gap: " << Colors::RESET 
              << endl;
         if (printArrays){print_vector(list);}                      // see if it worked                                   
-        sortData sd = shellSortCustomGaps(list,gaps,array_type);           // get data 
+        sortData sd = shellSortCustomGaps(list,gaps,array_type, printArrays);//   data 
         shellCustomSortData.put(to_string(trial), sd);    // place data to track sorts 
         if (printArrays){print_vector(list);}                      // see if it worked  
         sorted(list);                                           // confirm sort worked
         sd.displaySwapData();         // can show the output of a sort on the terminal
         sd.displayCompareData();
     //--------------------------------------------------------------------------------
-    saveSortingData(shellCustomSortData, "shell_sort_Custom_Gap_" + s);   // save data
+    saveSortingData(shellCustomSortData, "shell_sort_sedgwick_Gap_" + s);   // save data
     //--------------------------------------------------------------------------------
 }
 #endif 

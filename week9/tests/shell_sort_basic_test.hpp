@@ -20,14 +20,14 @@ void runShellBasicTests(vector<int>& list,int trial,int vect_size,char array_typ
         cout << endl << Colors::YELLOW <<"Shell Sort Default: " << Colors::RESET 
              << endl;
         if (printArrays){print_vector(list);}                      // see if it worked                                   
-        sortData sd = shellSortBasic(list, array_type);       // get data for each run 
+        sortData sd = shellSortBasic(list, array_type, printArrays);      // get data
         shellSortData.put(to_string(trial), sd);// place that data to track every sort 
         if (printArrays){print_vector(list);}                      // see if it worked  
         sorted(list);                                           // confirm sort worked
         sd.displaySwapData();         // can show the output of a sort on the terminal
         sd.displayCompareData();
     //--------------------------------------------------------------------------------
-    saveSortingData(shellSortData, "shell_sort_" + s);                   // save data
+    saveSortingData(shellSortData, "shell_sort_basic_" + s);      // save data
     //--------------------------------------------------------------------------------
 }
 

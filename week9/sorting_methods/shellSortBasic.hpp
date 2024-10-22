@@ -6,18 +6,22 @@
 #include "../backend/sort_data.hpp"
 
 
-sortData shellSortBasic(std::vector<int>& vector, char type){
+sortData shellSortBasic(std::vector<int>& vector, char type, bool print){
 	unsigned long long comparisons = 0;
     unsigned long long array_accesses = 0;
 	int gap = vector.size() / 2; // first gap will be (size / 2)
+	if (print)
+        	printTowers(vector);
 	while (gap > 0) {
 		for (int start = 0; start < gap; start++) {
-			sortData s = gapInsertionSort(vector, start, gap);
+			sortData s = gapInsertionSort(vector, start, gap, print);
 			array_accesses += s.array_accesses;
 			comparisons += s.comparisons;
         }
 		gap /= 2; // subsequent gaps (size/4), (size/8) . . . etc
 	}
+	if (print)
+        printTowers(vector);
     return sortData(type, vector.size(), array_accesses, comparisons);
 }
 

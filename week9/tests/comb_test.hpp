@@ -20,7 +20,7 @@ void runCombTests(vector<int>& list , int trial, int vect_size, char array_type,
         if (printArrays){print_vector(list);}                      // see if it worked 
         cout << endl << Colors::YELLOW <<"Comb Sort: " << Colors::RESET << endl;
         if (printArrays){print_vector(list);}                      // see if it worked 
-        sortData sd = combSort(list, array_type);   // get data for each run of a sort
+        sortData sd = combSort(list, array_type, printArrays);             // get data
         combSortData.put(to_string(trial), sd); // place that data to track every sort 
         if (printArrays){print_vector(list);}                      // see if it worked 
         sorted(list);                                           // confirm sort worked
