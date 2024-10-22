@@ -48,7 +48,9 @@ sortData combSort(std::vector<int>&list, char type){
         }   
         gap = gap / shrink;                         // reduce gap for next pass      
     }
+    //---------------------------------------------------------------------------------
     return sortData(type, list.size(), array_accesses, comparisons); 
+    //---------------------------------------------------------------------------------
 }
 
 #endif

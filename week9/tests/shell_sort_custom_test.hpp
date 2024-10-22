@@ -16,7 +16,9 @@
 //------------------------------------------------------------------------------------
 // RUN AND SAVE SHELL SORT CUSTOM GAP DATA
 //------------------------------------------------------------------------------------
-void runShellCustomTests(vector<int>& list,int trial,int vect_size,char array_type, bool printArrays, ClosedHashTable<sortData>&shellCustomSortData){
+void runShellCustomTests(vector<int>& list,int trial,int vect_size,char array_type, 
+                         bool printArrays, 
+                         ClosedHashTable<sortData>&shellCustomSortData){
     string s{array_type};                                        // for file name info
     vector<int>gaps = hibbard(vect_size);
     //vector<int>gaps = sedgwick(vect_size);

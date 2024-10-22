@@ -13,7 +13,8 @@
 //------------------------------------------------------------------------------------
 // RUN AND SAVE SHELL SORT BASIC DATA
 //------------------------------------------------------------------------------------
-void runShellBasicTests(vector<int>& list,int trial,int vect_size,char array_type, bool printArrays, ClosedHashTable<sortData>&shellSortData){
+void runShellBasicTests(vector<int>& list,int trial,int vect_size,char array_type, 
+                        bool printArrays, ClosedHashTable<sortData>&shellSortData){
     string s{array_type};                                        // for file name info
     //--------------------------------------------------------------------------------
         cout << endl << Colors::YELLOW <<"Shell Sort Default: " << Colors::RESET 

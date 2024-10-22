@@ -5,7 +5,7 @@
 #include "../backend/colors.hpp"
 #include "../backend/sort_data.hpp"
 #include "../backend/print_vector.hpp"
-#include "../sorting_methods/countingsort.hpp"
+#include "../sorting_methods/counting_sort.hpp"
 #include "../backend/ClosedHashTable.hpp"
 #include "../sorting_methods/helper_methods/validate_sort.hpp"
 #include "../backend/saveSearchData.hpp"
@@ -16,7 +16,8 @@
 //------------------------------------------------------------------------------------
 // RUN AND SAVE SHELL SORT CUSTOM GAP DATA
 //------------------------------------------------------------------------------------
-void runCountCustomTests(vector<int>& list,int trial,int vect_size,char array_type, bool printArrays, ClosedHashTable<sortData>&countSortData){
+void runCountCustomTests(vector<int>& list,int trial,int vect_size,char array_type,
+                        bool printArrays, ClosedHashTable<sortData>&countSortData){
     string s{array_type};                                        // for file name info
     //--------------------------------------------------------------------------------
         cout << endl << Colors::YELLOW << "Counting Sort: " << Colors::RESET 

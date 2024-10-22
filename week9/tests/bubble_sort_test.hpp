@@ -13,7 +13,8 @@
 //------------------------------------------------------------------------------------
 // RUN AND SAVE BUBBLE SORT DATA
 //------------------------------------------------------------------------------------
-void runBubbleTests(vector<int>& list , int trial, int vect_size, char array_type, bool printArrays, ClosedHashTable<sortData>&bubbleSortData){
+void runBubbleTests(vector<int>& list , int trial, int vect_size, char array_type, 
+                    bool printArrays, ClosedHashTable<sortData>&bubbleSortData){
     string s{array_type};                                        // for file name info
     //--------------------------------------------------------------------------------
         cout << endl << Colors::YELLOW <<"Bubble Sort: " << Colors::RESET << endl;

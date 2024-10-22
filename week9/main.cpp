@@ -11,6 +11,7 @@
 #include "tests/shell_sort_basic_test.hpp"
 #include "tests/shell_sort_custom_test.hpp"
 #include "tests/count_sort_test.hpp"
+#include "tests/radix_sort_test.hpp"
 //-----------------------------------------------------------------------------------
 
 using namespace std;
@@ -24,6 +25,7 @@ ClosedHashTable<sortData>bubbleSortData;
 ClosedHashTable<sortData>insertSortData;  
 ClosedHashTable<sortData>shellCustomSortData;
 ClosedHashTable<sortData>countSortData; 
+ClosedHashTable<sortData>radixSortData; 
 //-----------------------------------------------------------------------------------
 bool print = true;                                            // turn print on or off
 //-----------------------------------------------------------------------------------
@@ -33,32 +35,34 @@ bool print = true;                                            // turn print on o
 //-----------------------------------------------------------------------------------
 int main(){
     //-------------------------------------------------------------------------------
-    int trials = 50;
+    int trials = 10;
     int vec_size = 10;
     char type = 'r';
-    //--------------------------------------------------------------------------------
+    //-------------------------------------------------------------------------------
     for (int i = 0 ; i < trials; i ++ ){
-        vec_size = (vec_size + i) + (vec_size*.10);     // to create increasing arrays
-        vector<int>list(vec_size);                             // generate random list
+        vec_size = (vec_size + i) + (vec_size*.10);    // to create increasing arrays
+        vector<int>list(vec_size);                            // generate random list
         generate_vector(vec_size, type, list);            
-        vector<int>og1 = list;           // this way each test is runs the same values                   
+        vector<int>og1 = list;          // this way each test is runs the same values                   
         vector<int>og2 = list;                     
         vector<int>og3 = list;                     
         vector<int>og4 = list;   
         vector<int>og5 = list;  
-        vector<int>og6 = list;                           
-        int t = i + 1;                                // trial number for recording data
-        //------------------------------------------------------------------------------
+        vector<int>og6 = list;   
+        vector<int>og7 = list;                            
+        int t = i + 1;                              // trial number for recording data
+        //----------------------------------------------------------------------------
         runCombTests(       og1, t, vec_size, type, print, combSortData);    
         runBubbleTests(     og2, t, vec_size, type, print, bubbleSortData);  
         runInsertTests(     og3, t, vec_size, type, print, insertSortData);  
         runShellBasicTests( og4, t, vec_size, type, print, shellSortData);
         runShellCustomTests(og5, t, vec_size, type, print, shellCustomSortData);
         runCountCustomTests(og6, t, vec_size, type, print, countSortData);
-        //-------------------------------------------------------------------------------
+        runRadixBasicTests( og7, t, vec_size, type, print, radixSortData);
     }
+    //---------------------------------------------------------------------------------
     graph();   
-    //-----------------------------------------------------------------------------------           
+    //---------------------------------------------------------------------------------         
     return 0;
 }
 

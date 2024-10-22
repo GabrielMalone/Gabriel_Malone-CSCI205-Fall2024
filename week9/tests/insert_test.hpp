@@ -13,7 +13,8 @@
 //------------------------------------------------------------------------------------
 // RUN AND SAVE INSERTION SORT DATA
 //------------------------------------------------------------------------------------
-void runInsertTests(std::vector<int>& list , int trial, int vect_size, char array_type, bool printArrays, ClosedHashTable<sortData>&insertSortData){
+void runInsertTests(std::vector<int>& list , int trial, int vect_size, char array_type, 
+                    bool printArrays, ClosedHashTable<sortData>&insertSortData){
     string s{array_type};                                        // for file name info
     //--------------------------------------------------------------------------------
         cout << endl << Colors::YELLOW <<"Insertion Sort: " << Colors::RESET << endl;
