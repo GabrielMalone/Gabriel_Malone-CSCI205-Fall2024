@@ -13,7 +13,7 @@ int countingSort_helper(std::vector<int>& vector, int div, bool print){
     std::vector<int>output((int)vector.size());                 // count each element and place the count in the count array
     std::vector<int>count(range, 0);                            // set values to zero
     //---------------------------------------------------------------------------------
-    for (int k = 0 ; k < vector.size() ; k ++ ){                // if a number present at vector index, place that count
+    for (int k = 0 ; k < (int)vector.size() ; k ++ ){                // if a number present at vector index, place that count
         count[(vector[k]/div)%10] ++; 
         array_acccess ++ ;                                      // in the corresponding count index (e.g. '1' in vector will 
     }                                                           // be placed at the 1 index of count)
@@ -29,7 +29,7 @@ int countingSort_helper(std::vector<int>& vector, int div, bool print){
         array_acccess ++ ;
     }
     //----------------------------------                        // decrement that count by 1 to get the final index position for this integer
-    for (int m = 0 ; m < vector.size(); m ++ ){                 // set the original vector with the sorted values
+    for (int m = 0 ; m < (int)vector.size(); m ++ ){                 // set the original vector with the sorted values
         if (print)
             printTowers(vector);
         vector[m] = output[m];

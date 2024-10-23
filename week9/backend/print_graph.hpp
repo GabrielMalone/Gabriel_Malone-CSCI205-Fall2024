@@ -14,7 +14,7 @@ void printTowers(vector<int>& list){
     int speed = 50;
     cout << CLEAR_SCREEN << CURSOR_TOP_LEFT;                              
     int max_height = 0;
-    for (int i = 0 ; i < list.size(); i  ++ ){          // get current max (for max height of graph print)
+    for (size_t i = 0 ; i < list.size(); i  ++ ){          // get current max (for max height of graph print)
         if (list[i] > max_height){
             max_height = list[i];
         }

@@ -11,7 +11,7 @@ sortData gapInsertionSort(std::vector<int>& avector, int start, int gap, bool pr
 	unsigned long long array_accesses = 0;
 	unsigned long long comparisons = 0;
 	//---------------------------------------------------------------------------
-	for (unsigned int i = start + gap; i < avector.size(); i += gap) {
+	for (size_t i = start + gap; i < avector.size(); i += gap) {
 		comparisons ++ ; 
 		int current	= avector[i];					            // remember current item
 		int pos	= i;							                // need current position to move towards front

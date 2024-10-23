@@ -29,10 +29,10 @@ std::vector<int> sedgwick (int size){
         h ++ ;
     }
     //---------------------------------------------------------------------------
-    for (int i = 0 ; i < s1.size() ; i ++){
+    for (size_t i = 0 ; i < s1.size() ; i ++){
         s3.insert(s3.begin(), s1[i]);
     }
-    for (int j = 0 ; j < s2.size() ; j ++){
+    for (size_t j = 0 ; j < s2.size() ; j ++){
         s3.insert(s3.begin(), (s2[j]));
     }
     //---------------------------------------------------------------------------

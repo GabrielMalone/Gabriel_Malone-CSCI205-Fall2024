@@ -9,7 +9,7 @@
 //----------------------------------------------------------------------------
 bool sorted(std::vector<int>& vector){
     //------------------------------------------------------------------------
-    for (int i = 1 ; i < vector.size(); i ++){
+    for (size_t i = 1 ; i < vector.size(); i ++){
         int prev_item = vector[i-1];
         int cur_item = vector[i];
         if (prev_item > cur_item){

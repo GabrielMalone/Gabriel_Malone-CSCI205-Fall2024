@@ -15,7 +15,7 @@ sortData radixSort(std::vector<int>& vector, char type, bool print){
     if (print)
         printTowers(vector);
     //if (! sorted (vector)){             // if sorted to start, don't do anything
-        for (int i = 0 ; i < vector.size() ; i ++){
+        for (size_t i = 0 ; i < vector.size() ; i ++){
             if (vector[i] > range){
                 range = vector[i];
                 array_acccess ++ ;

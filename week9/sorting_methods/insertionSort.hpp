@@ -7,7 +7,7 @@
 sortData insertionSort(std::vector<int>& vector, char type, bool print){
     unsigned long long swaps = 0;
 	unsigned long long comparisons = 0;
-	for (int index = 1; index < vector.size(); index ++) {
+	for (size_t index = 1; index < vector.size(); index ++) {
 		if (print)
 			printTowers(vector);
 		int current = vector[index];					// remember current item
