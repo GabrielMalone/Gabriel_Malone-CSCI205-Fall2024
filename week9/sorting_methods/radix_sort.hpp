@@ -11,8 +11,6 @@ sortData radixSort(std::vector<int>& vector, char type, bool print){
     int array_acccess = 0;                                        // for graphing
     int range = 0;                                               // get the range
     //---------------------------------------------------------------------------
-    if (print)
-        printTowers(vector);
     //if (! sorted (vector)){             // if sorted to start, don't do anything
         for (size_t i = 0 ; i < vector.size() ; i ++){
             if (vector[i] > range){
@@ -26,8 +24,6 @@ sortData radixSort(std::vector<int>& vector, char type, bool print){
             array_acccess += countingSort_helper(vector, div, print);
         }
     //}
-    if (print)                                                // graphical output
-        printTowers(vector);
     return sortData(type, vector.size(), array_acccess, 0);
 }
 

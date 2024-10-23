@@ -1,11 +1,17 @@
 #ifndef VECTORGENERATOR
 #define VECTORGENERATOR
+
 #include <random>
+#include "../../backend/List.hpp"
 
 using namespace std;
+
+List<int> used;
 random_device rd;                // random number generator for random val assignment
 mt19937 gen(rd());
 uniform_int_distribution<> dist(1,  100); // range from 0 to 100 for the rnadom value
+int step = 0;
+int val = 0;
 //------------------------------------------------------------------------------------
 //  generates a random vector of size "size" with type "type"
 //  type = 'a' for ascending, 'd' for descending, 'r' for random, 'p' for partially 
@@ -21,8 +27,15 @@ void generate_vector(int size, char type, std::vector<int>& temp){
 				temp[i] = size - i;
 			break;
 		case 'r': // random
-			for(int i = 0; i < size; i++)
-				temp[i] = dist(gen);
+			step = 0;	
+			while(step < 100){				// while not 100 #s found yet
+				val = dist(gen);			// get random number
+				if (used.find(val) == -1){	// if number hasn't been used yet
+					temp[step] = val;		// place in array
+					used.insert(val);		// save that value for checking
+					step ++ ;				// keep track of how many numbers found
+				}
+			}
 			break;
 		case 'p': // partially sorted
 			for(int i = 0; i < size; i++)

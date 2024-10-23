@@ -27,8 +27,6 @@ sortData combSort(std::vector<int>&list, char type, bool print){
         if (gap < 1){                                                    // final pass
             sorted = true;
             gap = 1;
-             if (print)                                            // graphical output
-                printTowers(list);
         }
         //----------------------------------------------------------------------------
         // Inner loop to do actual position check and swapping
@@ -40,7 +38,7 @@ sortData combSort(std::vector<int>&list, char type, bool print){
             if (list[i] > list[i + gap])                 // if larger element in front
             {   
                 if (print)                                         // graphical output
-                    printTowers(list);
+                    printTowers(list, list[i]);
                 int tempA = list[i];                                           // swap
                 int tempB = list[i + gap];                           // use temp items
                 list[i] = tempB;
@@ -52,9 +50,9 @@ sortData combSort(std::vector<int>&list, char type, bool print){
         }   
         gap = gap / shrink;                                // reduce gap for next pass      
     }
+    if (print)                                         // graphical output
+            printTowers(list, list[100]);
     //---------------------------------------------------------------------------------
-    if (print)
-		printTowers(list);
     return sortData(type, list.size(), array_accesses, comparisons); 
     //---------------------------------------------------------------------------------
 }

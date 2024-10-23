@@ -17,8 +17,6 @@ sortData shellSortCustomGaps(std::vector<int>& vector, std::vector<int>& gaps, c
 			comparisons += s.comparisons;
         }
     }
-    if (print)
-		printTowers(vector);
     return sortData(type, vector.size(), array_accesses, comparisons);
 }
 #endif

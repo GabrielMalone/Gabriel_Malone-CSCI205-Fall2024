@@ -16,12 +16,12 @@ sortData bubbleSort(std::vector<int>& avector, char type, bool print){
         sorted = true;
 		for (size_t i = 0; i < pass; i++){
             comparisons ++ ;
-            if (print)
-                printTowers(avector);
 			if (avector[i] > avector[i+1]){
                 swap(avector, i, i+1);
                 array_accesses += 2;
                 sorted = false;
+                if (print)
+                    printTowers(avector, avector[i+1]);
             }		
         }
         if (sorted){

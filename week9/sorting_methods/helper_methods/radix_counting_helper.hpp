@@ -31,7 +31,7 @@ int countingSort_helper(std::vector<int>& vector, int div, bool print){
     //----------------------------------                        // decrement that count by 1 to get the final index position for this integer
     for (int m = 0 ; m < (int)vector.size(); m ++ ){            // set the original vector with the sorted values
         if (print)
-            printTowers(vector);
+            printTowers(vector, vector[m]);
         vector[m] = output[m];
         array_acccess ++ ;
     }
