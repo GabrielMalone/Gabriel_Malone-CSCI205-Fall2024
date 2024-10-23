@@ -17,7 +17,7 @@ using namespace std;
 ClosedHashTable<string> colorMap;                 // to set the color for each number
 string CLEAR_SCREEN  = "\033[2J";                             // for animation effect                                              
 string CURSOR_TOP_LEFT = "\033[H";                            // for animation effect 
- int speed = 5;       // print speed, smaller = faster but can cause screen to glitch
+ int speed = 20;      // print speed, smaller = faster but can cause screen to glitch
 //-----------------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------------
@@ -50,7 +50,7 @@ void makeColorShades(){
 //-----------------------------------------------------------------------------------
 void printTowers(vector<int>& list, int being_moved){ 
     makeColorShades();                                       // get the colors set up
-    cout << CLEAR_SCREEN << CURSOR_TOP_LEFT;                              
+    cout << CLEAR_SCREEN << CURSOR_TOP_LEFT << flush;                              
     int max_height = 0;
     for (size_t i = 0 ; i < list.size(); i  ++ ){                  // get current max 
         if (list[i] > max_height){                 // (for max height of graph print)
@@ -61,16 +61,17 @@ void printTowers(vector<int>& list, int being_moved){
     for (size_t j = 0 ; j < list.size(); j ++){               // iterate size of array
         for (size_t k = 0 ; k < list.size(); k ++ ){         // iterate through vector 
             if (list[k] == being_moved && being_moved >= height){ // bar being moved ?
-                cout << Colors::YELLOW << "#" << Colors::RESET;        // highlight it
+                cout << Colors::GREEN << "#" << Colors::RESET;        // highlight it
             }
             else if (list[k] >= height){       // tall enough to print yet? (top down)
-                cout <<  colorMap.get(to_string(k)) + "#" + Colors::RESET; //set color
+                //cout <<  colorMap.get(to_string(k)) + " " + Colors::RESET;  // color
+                 cout << "#"; //set color
             }
             else {                                       
                 cout << " ";                        // if can't print yet, print blank
             }                                            
         }
-        cout << endl;                                                // start next row
+        cout << endl << flush;                                       // start next row
         height -- ;                                                       // move down
     }
     this_thread::sleep_for(chrono::milliseconds(speed));   // speed of display of algo
