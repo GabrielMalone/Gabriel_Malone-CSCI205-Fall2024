@@ -6,11 +6,10 @@
 #include "../backend/sort_data.hpp"
 #include "helper_methods/radix_counting_helper.hpp"
 
-
 sortData radixSort(std::vector<int>& vector, char type, bool print){
     //---------------------------------------------------------------------------
-    int array_acccess = 0;                        // for graphing
-    int range = 0;                                // get the range
+    int array_acccess = 0;                                        // for graphing
+    int range = 0;                                               // get the range
     //---------------------------------------------------------------------------
     if (print)
         printTowers(vector);
@@ -27,7 +26,7 @@ sortData radixSort(std::vector<int>& vector, char type, bool print){
             array_acccess += countingSort_helper(vector, div, print);
         }
     //}
-    if (print)                                             // graphical output
+    if (print)                                                // graphical output
         printTowers(vector);
     return sortData(type, vector.size(), array_acccess, 0);
 }

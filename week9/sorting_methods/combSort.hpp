@@ -11,7 +11,7 @@ sortData combSort(std::vector<int>&list, char type, bool print){
     //--------------------------------------------------------------------------------
     // method vars
     //--------------------------------------------------------------------------------
-    size_t gap = list.size()-1;                                       // initial gap size
+    size_t gap = list.size()-1;                                    // initial gap size
     double shrink = 1.3;                                              // shrink factor
     bool sorted = false;                                              // search switch
     int i = 0;
@@ -22,12 +22,12 @@ sortData combSort(std::vector<int>&list, char type, bool print){
     //--------------------------------------------------------------------------------
     while (! sorted)                                          // continue until sorted
     {   
-        if (gap > 1)                 // not done sorting until final pass of gap of 1
+        if (gap > 1)                  // not done sorting until final pass of gap of 1
             sorted = false;
-        if (gap < 1){                                                   // final pass
+        if (gap < 1){                                                    // final pass
             sorted = true;
             gap = 1;
-             if (print)                                             // graphical output
+             if (print)                                            // graphical output
                 printTowers(list);
         }
         //----------------------------------------------------------------------------
@@ -39,7 +39,7 @@ sortData combSort(std::vector<int>&list, char type, bool print){
             comparisons ++ ;
             if (list[i] > list[i + gap])                 // if larger element in front
             {   
-                if (print)                                             // graphical output
+                if (print)                                         // graphical output
                     printTowers(list);
                 int tempA = list[i];                                           // swap
                 int tempB = list[i + gap];                           // use temp items
@@ -50,7 +50,7 @@ sortData combSort(std::vector<int>&list, char type, bool print){
             }
             i ++ ;
         }   
-        gap = gap / shrink;                         // reduce gap for next pass      
+        gap = gap / shrink;                                // reduce gap for next pass      
     }
     //---------------------------------------------------------------------------------
     if (print)
