@@ -51,7 +51,7 @@ sortData combSort(std::vector<int>&list, char type, bool print){
         gap = gap / shrink;                                // reduce gap for next pass      
     }
     if (print)                                         // graphical output
-            printTowers(list, list[100]);
+        printTowers(list, list[100]);
     //---------------------------------------------------------------------------------
     return sortData(type, list.size(), array_accesses, comparisons); 
     //---------------------------------------------------------------------------------

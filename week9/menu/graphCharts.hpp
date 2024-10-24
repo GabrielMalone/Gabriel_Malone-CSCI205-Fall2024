@@ -34,7 +34,7 @@ void graph_data(char type, vector<int>& algo_selections){
         for (int i = 0 ; i < 50; i ++ ){
                 vec_size = (vec_size + i) + (vec_size*.10);// to create increasing arrays
                 vector<int>list(vec_size);                        // generate random list
-                generate_vector(vec_size, type, list);   
+                generate_vector(vec_size, type, list, vec_size);   
                 vector<int>og1 = list;      // this way each test is runs the same values                   
                 vector<int>og2 = list;                     
                 vector<int>og3 = list;                     

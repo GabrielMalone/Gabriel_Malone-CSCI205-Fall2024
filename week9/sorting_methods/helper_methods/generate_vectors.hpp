@@ -6,17 +6,17 @@
 
 using namespace std;
 
-List<int> used;
-random_device rd;                // random number generator for random val assignment
-mt19937 gen(rd());
-uniform_int_distribution<> dist(1,  100); // range from 0 to 100 for the rnadom value
-int step = 0;
-int val = 0;
 //------------------------------------------------------------------------------------
 //  generates a random vector of size "size" with type "type"
 //  type = 'a' for ascending, 'd' for descending, 'r' for random, 'p' for partially 
 //------------------------------------------------------------------------------------
-void generate_vector(int size, char type, std::vector<int>& temp){
+void generate_vector(int size, char type, std::vector<int>& temp, int vec_size){
+    random_device rd;                // random number generator for random val assignment
+    mt19937 gen(rd());
+    uniform_int_distribution<> dist(1,  size); // range from 0 to 100 for the rnadom value
+	List<int> used;
+    int val = 0;
+    int step = 0;
 	switch (type){
 		case 'a': // ascending
 			for(int i = 0; i < size; i++)
@@ -27,8 +27,9 @@ void generate_vector(int size, char type, std::vector<int>& temp){
 				temp[i] = size - i;
 			break;
 		case 'r': // random
+            val = 0;
 			step = 0;	
-			while(step < 100){				// while not 100 #s found yet
+			while(step < vec_size){			// while not 100 #s found yet
 				val = dist(gen);			// get random number
 				if (used.find(val) == -1){	// if number hasn't been used yet
 					temp[step] = val;		// place in array

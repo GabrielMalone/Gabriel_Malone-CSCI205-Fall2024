@@ -14,12 +14,12 @@ sortData gapInsertionSort(std::vector<int>& avector, int start, int gap, bool pr
 	for (size_t i = start + gap; i < avector.size(); i += gap) {
 		comparisons ++ ; 
 		int current	= avector[i];					            // remember current item
-		int pos	= i;							                // need current position to move towards front
+		int pos	= i;
 		//---------------------------------------------------------------------------
 		while (pos >= gap && avector[pos - gap] > current) {    // while not at front and current item is less than previous
+			avector[pos] = avector[pos - gap];			        // shift by "gap" spots
 			if (print)
 				printTowers(avector, avector[pos]);
-			avector[pos] = avector[pos - gap];			        // shift by "gap" spots
 			pos -= gap;							                // decrease position by "gap"
 			array_accesses ++ ;
 		}
@@ -28,6 +28,8 @@ sortData gapInsertionSort(std::vector<int>& avector, int start, int gap, bool pr
 		//---------------------------------------------------------------------------
 	}
 	//---------------------------------------------------------------------------
+	if (print)
+		printTowers(avector, 100);
 	return sortData('x', 0, array_accesses, comparisons);
 }
 

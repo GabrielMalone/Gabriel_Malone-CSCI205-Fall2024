@@ -34,7 +34,7 @@ void graphical_sorting_data(char type, int selection){
     
     int vec_size = 100;       
     vector<int>list(vec_size);                             // generate random list
-    generate_vector(vec_size, type, list);              
+    generate_vector(vec_size, type, list, 100);              
     //----------------------------------------------------------------------------
     switch (selection)
     {
