@@ -17,7 +17,7 @@ void runShellBasicTests(vector<int>& list,int trial,int vect_size,char array_typ
                         bool printArrays, ClosedHashTable<sortData>&shellSortData){
     string s{array_type};                                        // for file name info
     //--------------------------------------------------------------------------------
-        cout << endl << Colors::YELLOW <<"Shell Sort Default: " << Colors::RESET 
+        cout << endl << Colors::YELLOW <<"Shell Sort Default Gap: " << Colors::RESET 
              << endl;
         if (printArrays){print_vector(list);}                      // see if it worked                                   
         sortData sd = shellSortBasic(list, array_type, printArrays);      // get data

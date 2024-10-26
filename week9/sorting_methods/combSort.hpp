@@ -11,7 +11,7 @@ sortData combSort(std::vector<int>&list, char type, bool print){
     //--------------------------------------------------------------------------------
     // method vars
     //--------------------------------------------------------------------------------
-    size_t gap = list.size()-1;                                    // initial gap size
+    size_t gap = list.size()- 1;                                   // initial gap size
     double shrink = 1.3;                                              // shrink factor
     bool sorted = false;                                              // search switch
     int i = 0;
@@ -46,7 +46,7 @@ sortData combSort(std::vector<int>&list, char type, bool print){
                 int tempB = list[i + gap];                           // use temp items
                 list[i] = tempB;
                 list[i + gap] = tempA;
-                array_accesses += 2 ;                                   // track swaps 
+                array_accesses +=2 ;                                   // track swaps 
                 sorted = false;
             }
             i ++ ;

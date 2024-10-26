@@ -24,7 +24,7 @@ void runShellKnuthTests(vector<int>& list,int trial,int vect_size,char array_typ
     //vector<int>gaps = sedgwick(vect_size);
     vector<int>gaps = knuth(vect_size);
     //--------------------------------------------------------------------------------
-        cout << endl << Colors::YELLOW << "Shell Sort Custom Gap: " << Colors::RESET 
+        cout << endl << Colors::YELLOW << "Shell Sort Knuth Gap: " << Colors::RESET 
              << endl;
         if (printArrays){print_vector(list);}                      // see if it worked                                   
         sortData sd = shellSortCustomGaps(list,gaps,array_type, printArrays);//   data 
