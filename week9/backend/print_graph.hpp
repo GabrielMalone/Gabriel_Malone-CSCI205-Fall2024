@@ -11,22 +11,21 @@
 #include <chrono>
 #include <thread>
 #include <string>
+#include <vector>
 //-----------------------------------------------------------------------------------
 using namespace std;
 //-----------------------------------------------------------------------------------
 ClosedHashTable<string> colorMap;                 // to set the color for each number
 string CLEAR_SCREEN  = "\033[2J";                             // for animation effect                                              
 string CURSOR_TOP_LEFT = "\033[H";                            // for animation effect 
- int speed = 20;      // print speed, smaller = faster but can cause screen to glitch
+ int speed = 200;      // print speed, smaller = faster but can cause screen to glitch
 //-----------------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------------
 // 256 Colors arranged by hue, removed some of the reds and grays
 //-----------------------------------------------------------------------------------
 void makeColorShades(){
-    int sortedAnsiCodes[] = {
-        230, 190, 148, 106, 191, 64, 154, 149, 192, 112, 70, 118, 107, 150, 155, 
-        193, 76, 82, 113, 156, 119, 22, 2, 28, 34, 40, 65, 10, 46, 71, 108, 77, 
+    vector<int> sortedAnsiCodes = {
         114, 83, 151, 120, 157, 194, 84, 78, 121, 47, 41, 72, 115, 85, 158, 48, 35, 
         42, 79, 122, 49, 29, 86, 36, 43, 50, 23, 6, 30, 37, 44, 66, 14, 51, 73, 
         109, 80, 116, 87, 152, 123, 159, 195, 45, 38, 31, 81, 24, 39, 74, 117, 32, 
@@ -40,7 +39,7 @@ void makeColorShades(){
     //------------------------------------------------------------------------------
     // Fill the map with colors and their number key
     //------------------------------------------------------------------------------
-    for (int i = 0; i < 255; ++i) {
+    for (size_t i = 0 ; i < sortedAnsiCodes.size() ; ++i) {
         string shade = "\033[48;5;" + to_string(sortedAnsiCodes[i])+ "m";
         colorMap.put(to_string(i), shade);
     }
@@ -64,8 +63,8 @@ void printTowers(vector<int>& list, int being_moved){
                 cout << Colors::GREEN << "#" << Colors::RESET;        // highlight it
             }
             else if (list[k] >= height){       // tall enough to print yet? (top down)
-                //cout <<  colorMap.get(to_string(k)) + " " + Colors::RESET;  // color
-                 cout << "#"; //set color
+                // cout <<  colorMap.get(to_string(k)) + "#" + Colors::RESET;  // color
+                cout << "#"; //set color
             }
             else {                                       
                 cout << " ";                        // if can't print yet, print blank

@@ -10,7 +10,7 @@ using namespace std;
 //  generates a random vector of size "size" with type "type"
 //  type = 'a' for ascending, 'd' for descending, 'r' for random, 'p' for partially 
 //------------------------------------------------------------------------------------
-void generate_vector(int size, char type, std::vector<int>& temp, int vec_size){
+void generate_vector(int size, char type, std::vector<int>& temp, int range){
     random_device rd;                // random number generator for random val assignment
     mt19937 gen(rd());
     uniform_int_distribution<> dist(1,  size); // range from 0 to 100 for the rnadom value
@@ -29,7 +29,7 @@ void generate_vector(int size, char type, std::vector<int>& temp, int vec_size){
 		case 'r': // random
             val = 0;
 			step = 0;	
-			while(step < vec_size){			// while not 100 #s found yet
+			while(step < range){			// while not 100 #s found yet
 				val = dist(gen);			// get random number
 				if (used.find(val) == -1){	// if number hasn't been used yet
 					temp[step] = val;		// place in array

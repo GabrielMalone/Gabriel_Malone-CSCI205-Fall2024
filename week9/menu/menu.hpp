@@ -50,7 +50,7 @@ void printMenu(int& algo_selection, int& array_type_selection, int& experiment_s
 
     //-------------------------------------------------------------------------------
     cout << "+--------------------------------------------------------------+" << endl;
-    cout << "                     ARRAY SET UP OPTIONS                     " << endl;
+    cout << "                     ARRAY SET UP OPTIONS                       " << endl;
     cout << "+--------------------------------------------------------------+" << endl;
     i = 1;
 	for (string fileName : arrayTypes)
@@ -63,7 +63,7 @@ void printMenu(int& algo_selection, int& array_type_selection, int& experiment_s
 
     //-------------------------------------------------------------------------------
     cout << "+--------------------------------------------------------------+" << endl;
-    cout << "                    ARRAY SET UP OPTIONS                      " << endl;
+    cout << "                    ARRAY SET UP OPTIONS                        " << endl;
     cout << "+--------------------------------------------------------------+" << endl;
     i = 1;
 	for (string fileName : experiment_type)
@@ -77,7 +77,7 @@ void printMenu(int& algo_selection, int& array_type_selection, int& experiment_s
     //---------------------------------------------------------------------------
     i = 1;
     cout << "+--------------------------------------------------------------+" << endl;
-    cout << "                 ITERATIVE SORTING ALGORITHMS                 " << endl;
+    cout << "                 ITERATIVE SORTING ALGORITHMS                   " << endl;
     cout << "+--------------------------------------------------------------+" << endl;
 	for (string fileName : fileNames)
 	{

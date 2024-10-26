@@ -10,18 +10,7 @@
 #include "colors.hpp"
 
 using namespace std;
-//--------------------------------------------------------------------------------------------------------
-// CLOSED HASHMAP CLASS
-//--------------------------------------------------------------------------------------------------------
-	// Each element in the hash table is a list of HashNodes (linked list)
-	// Each HashNode contains a key-value pair
-	// The key is a string, and the value is of type V
-	// The key is also stored along with the value in the HashNode. Why?
-		// ^ for constant time look up speed. the key be unique unique and can 
-		// mathematically identify the location of the key/value pair quickly.
-	// Why do we not need to track nodes as deleted? 
-		// the relative position of a key/value pair is not relevant to how it is located in the array. 
-//--------------------------------------------------------------------------------------------------------
+
 template<typename V>
 class ClosedHashTable {
 	private:
@@ -282,6 +271,5 @@ class ClosedHashTable {
 			V& operator = (V& val) {											
 			return val;
 		}
-
 };		
 #endif

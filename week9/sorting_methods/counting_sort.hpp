@@ -30,7 +30,7 @@ sortData countingsort(std::vector<int>& vector, char type, bool print){
         array_acccess ++ ;
     }                 
     //---------------------------------------------------------------------------------
-    for (size_t g = 0 ; g < vector.size(); g ++ ){// take the integer present at the current index of the original array
+    for (size_t g = 0 ; g < vector.size(); g ++ ){  // take the integer present at the current index of the original array
         output[--count[vector[g]]] = vector[g];     // get the integer (the count of that number) from the count vector
         array_acccess ++ ;
     }                                               // decrement that count by 1 to get the final index position for this integer

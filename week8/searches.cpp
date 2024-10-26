@@ -8,7 +8,6 @@
 #include "backend/List.hpp"
 #include "backend/ArrayList.hpp"
 
-
 using namespace std;
 void closed_hashtable_search(int, ClosedHashTable<int>&);
 void open_hashtable_search(int, OpenHashTable<int>&);

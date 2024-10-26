@@ -37,8 +37,11 @@ sortData combSort(std::vector<int>&list, char type, bool print){
             comparisons ++ ;
             if (list[i] > list[i + gap])                 // if larger element in front
             {   
-                if (print)                                         // graphical output
-                    printTowers(list, list[i]);
+                if (print){
+                    printTowers(list, list[i]);                    // graphical output
+                    printTowers(list, list[i+gap]);
+                }                                         
+                    
                 int tempA = list[i];                                           // swap
                 int tempB = list[i + gap];                           // use temp items
                 list[i] = tempB;
@@ -50,7 +53,7 @@ sortData combSort(std::vector<int>&list, char type, bool print){
         }   
         gap = gap / shrink;                                // reduce gap for next pass      
     }
-    if (print)                                         // graphical output
+    if (print)                                                     // graphical output
         printTowers(list, list[100]);
     //---------------------------------------------------------------------------------
     return sortData(type, list.size(), array_accesses, comparisons); 

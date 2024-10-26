@@ -18,8 +18,6 @@
 
 bool print = true;
 
-
-
 void graphical_sorting_data(char type, int selection){
 
     ClosedHashTable<sortData>combSortData;        // map to store data related to sorting
@@ -32,9 +30,10 @@ void graphical_sorting_data(char type, int selection){
     ClosedHashTable<sortData>countSortData; 
     ClosedHashTable<sortData>radixSortData; 
     
-    int vec_size = 100;       
+    int vec_size = 100;
+    int range = 100;       
     vector<int>list(vec_size);                             // generate random list
-    generate_vector(vec_size, type, list, 100);              
+    generate_vector(vec_size, type, list, range);              
     //----------------------------------------------------------------------------
     switch (selection)
     {
