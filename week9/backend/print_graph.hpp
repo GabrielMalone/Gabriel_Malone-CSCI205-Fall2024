@@ -18,7 +18,7 @@ using namespace std;
 ClosedHashTable<string> colorMap;                 // to set the color for each number
 string CLEAR_SCREEN  = "\033[2J";                             // for animation effect                                              
 string CURSOR_TOP_LEFT = "\033[H";                            // for animation effect 
- int speed = 200;      // print speed, smaller = faster but can cause screen to glitch
+ int speed = 20;      // print speed, smaller = faster but can cause screen to glitch
 //-----------------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------------
@@ -63,7 +63,7 @@ void printTowers(vector<int>& list, int being_moved){
                 cout << Colors::GREEN << "#" << Colors::RESET;        // highlight it
             }
             else if (list[k] >= height){       // tall enough to print yet? (top down)
-                // cout <<  colorMap.get(to_string(k)) + "#" + Colors::RESET;  // color
+                // cout <<  colorMap.get(to_string(k)) + "#" + Colors::RESET; // color
                 cout << "#"; //set color
             }
             else {                                       
