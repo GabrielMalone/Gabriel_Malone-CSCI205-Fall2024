@@ -9,6 +9,7 @@
 #include "../tests/insert_test.hpp"
 #include "../tests/quicksort_median_test.hpp"
 #include "../tests/quicksort_lazy_test.hpp"
+#include "../tests/quicksort_insertion_test.hpp"
 
 bool print = true;
 
@@ -16,6 +17,7 @@ void graphical_sorting_data(char type, int selection){
      //---------------------------------------------------------------------------------------------
     ClosedHashTable<sortData>quickSortLazyData;   // map to store data related to sorting
     ClosedHashTable<sortData>quickSortMedianData; // map to store data related to sorting
+    ClosedHashTable<sortData>quickSortInsertionData; // map to store data related to sorting
     ClosedHashTable<sortData>insertSortData;  
      //---------------------------------------------------------------------------------------------
     int vec_size = 100;
@@ -25,11 +27,11 @@ void graphical_sorting_data(char type, int selection){
     //----------------------------------------------------------------------------------------------
     switch (selection)
     {
-    case 1: runQuickSortLazyTests(  list, 1, vec_size, type, print, quickSortLazyData);  
+    case 1: runQuickSortLazyTests(      list, 1, vec_size, type, print, quickSortLazyData);  
         break; 
-    case 2: runQuickSortMedianTests(list, 1, vec_size, type, print, quickSortMedianData); 
+    case 2: runQuickSortMedianTests(    list, 1, vec_size, type, print, quickSortMedianData); 
         break;
-    case 3: //runShellBasicTests(     list, 1, vec_size, type, print, shellSortData); 
+    case 3: runQuickSortInsertionTests( list, 1, vec_size, type, print, quickSortInsertionData); 
         break;
     case 4: //runShellHibbardTests(   list, 1, vec_size, type, print, shellSortDataHibbard);
         break;

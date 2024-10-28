@@ -16,7 +16,8 @@ vector<string> fileNames =
         "QUICK SORT MEDIAN",
         "QUICK SORT INSERTION",
         "QUICK SORT TUKEY'",
-        "QUICK SORT DUAL PIVOT"
+        "QUICK SORT DUAL PIVOT",
+        "MERGE SORT"
     };
 //-----------------------------------------------------------------------------------
                                     // vector of the sorting vectory set up options
@@ -73,7 +74,7 @@ void printMenu(int& algo_selection, int& array_type_selection, int& experiment_s
     //---------------------------------------------------------------------------
     i = 1;
     cout << "+--------------------------------------------------------------+" << endl;
-    cout << "                 ITERATIVE SORTING ALGORITHMS                   " << endl;
+    cout << "                 RECURSIVE SORTING ALGORITHMS                   " << endl;
     cout << "+--------------------------------------------------------------+" << endl;
 	for (string fileName : fileNames)
 	{

@@ -18,7 +18,7 @@ using namespace std;
 ClosedHashTable<string> colorMap;                 // to set the color for each number
 string CLEAR_SCREEN  = "\033[2J";                             // for animation effect                                              
 string CURSOR_TOP_LEFT = "\033[H";                            // for animation effect 
- int speed = 50;      // print speed, smaller = faster but can cause screen to glitch
+ int speed = 5;      // print speed, smaller = faster but can cause screen to glitch
 //-----------------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------------

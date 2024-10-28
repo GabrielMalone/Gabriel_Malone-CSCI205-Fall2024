@@ -9,12 +9,14 @@
 #include "../tests/insert_test.hpp"
 #include "../tests/quicksort_lazy_test.hpp"
 #include "../tests/quicksort_median_test.hpp"
+#include "../tests/quicksort_insertion_test.hpp"
 
 
 void graph_data(char type, vector<int>& algo_selections){
     //---------------------------------------------------------------------------------------------
     ClosedHashTable<sortData>quickSortLazyData;   // map to store data related to sorting
     ClosedHashTable<sortData>quickSortMedianData; // map to store data related to sorting
+    ClosedHashTable<sortData>quickSortInsertionData; // map to store data related to sorting
     ClosedHashTable<sortData>insertSortData;  
      //---------------------------------------------------------------------------------------------
     for (int selection : algo_selections){
@@ -24,17 +26,18 @@ void graph_data(char type, vector<int>& algo_selections){
                 vector<int>list(vec_size);                        // generate random list
                 generate_vector(vec_size, type, list, vec_size);   
                 vector<int>og1 = list;      // this way each test is runs the same values                   
-                vector<int>og2 = list;                        
+                vector<int>og2 = list;  
+                vector<int>og3 = list;                      
                         
                 int t = i + 1;                         // trial number for recording data
     //---------------------------------------------------------------------------------------------
             switch (selection)
             {
-            case 1: runQuickSortLazyTests(  og1, t, vec_size, type, false, quickSortLazyData);  
+            case 1: runQuickSortLazyTests(     og1, t, vec_size, type, false, quickSortLazyData);  
                 break; 
-            case 2: runQuickSortMedianTests(og2, t, vec_size, type, false, quickSortMedianData); 
+            case 2: runQuickSortMedianTests(   og2, t, vec_size, type, false, quickSortMedianData); 
                 break;
-            case 3: //runShellBasicTests(     og3, t, vec_size, type, false, shellSortData); 
+            case 3: runQuickSortInsertionTests(og3, t, vec_size, type, false, quickSortInsertionData); 
                 break;
             case 4: //runShellHibbardTests(   og4, t, vec_size, type, false, shellSortDataHibbard);
                 break;
