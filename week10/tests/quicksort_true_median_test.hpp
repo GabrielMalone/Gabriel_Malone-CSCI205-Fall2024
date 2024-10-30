@@ -29,8 +29,9 @@ void runQuickSortTrueMedianTests(std::vector<int>& list , int trial, int vect_si
     sorted(list, true);                                         // confirm sort worked
     sData.displaySwapData();          // can show the output of a sort on the terminal
     sData.displayCompareData();
+    sData.displayDepthData();
     //--------------------------------------------------------------------------------
-    saveSortingData(insertSortData, "Quick_Sort_True_Median_" + s);            // save data
+    saveSortingData(insertSortData, "Quick_Sort_True_Median_" + s);       // save data
     //--------------------------------------------------------------------------------
 }
 

@@ -39,7 +39,13 @@ struct sortData{
             << comparisons
             << " comparisons"
             << std::endl;
-    }     
+    } 
+    void displayDepthData(){
+        std::cout << "sorting placed "
+            << call_stack_depth
+            << " methods on the call stack"
+            << std::endl;
+    }       
 };
 //---------------------------------------------------------
 

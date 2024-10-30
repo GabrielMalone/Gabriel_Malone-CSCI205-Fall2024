@@ -9,7 +9,7 @@
 
 using namespace std;
 // no swapping median finder
-int MO3t (vector<int>& v, int a,  int c){
+int MO3t (vector<int>& v, int a,  int c, sortData& s){
 	int b = v[(a+c)/2];
 	if ((a <= b) && (b <= c)) return b;
 	if ((a <= c) && (c <= b)) return c;
@@ -19,14 +19,14 @@ int MO3t (vector<int>& v, int a,  int c){
 	return b;
 }
 
-int tukeys(vector<int>& v, int first, int last){
+int tukeys(vector<int>& v, int first, int last, sortData& s){
 	if (last > 3){								
 		int m1Last = (last / 3);
 		int m2Last = (last * 2 / 3);
 
-		int a =  MO3t(v, first, m1Last);   		// median of 3 on first 1/3 of vector
-		int b =  MO3t(v, m1Last+1, m2Last);		// median of 3 on middle 1/3 of vector
-		int c =  MO3t(v, m2Last+1, last);       // median of 3 on last 1/3 of vector
+		int a =  MO3t(v, first, m1Last, s);   		// median of 3 on first 1/3 of vector
+		int b =  MO3t(v, m1Last+1, m2Last, s);		// median of 3 on middle 1/3 of vector
+		int c =  MO3t(v, m2Last+1, last, s);       // median of 3 on last 1/3 of vector
 
 		int median = 0;
 

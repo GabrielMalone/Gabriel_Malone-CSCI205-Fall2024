@@ -21,15 +21,15 @@ int partition(vector<int>& avector, int low, int high,
     // MEDIAN OF 3 INDEX
     //---------------------------------------------------------------------------------------------------
     if (median) {                                          // if median mode enabled, replace pivot value
-	    pivotValue = MO3(avector, low, high);
+	    pivotValue = MO3(avector, low, high, sData);
     }
     //---------------------------------------------------------------------------------------------------
     // TUKEY'S MEDIAN OF 9
     //---------------------------------------------------------------------------------------------------
     else if (tukey) {
-	    int pivotIndex = tukeys(avector, low, high);
-	    swap(avector[pivotIndex], avector[high]); // Place pivot at the end
-        pivotValue = avector[high];
+	    int pivotIndex = tukeys(avector, low, high, sData);
+        swap(avector[pivotIndex], avector[high]);   
+        pivotValue = avector[high];                          
     }
     //---------------------------------------------------------------------------------------------------
     // TRUE MEDIAN

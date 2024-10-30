@@ -30,6 +30,7 @@ void runQuickSortInsertionTests(std::vector<int>& list , int trial, int vect_siz
     sorted(list, true);                                         // confirm sort worked
     sData.displaySwapData();          // can show the output of a sort on the terminal
     sData.displayCompareData();
+    sData.displayDepthData();
     //--------------------------------------------------------------------------------
     saveSortingData(insertSortData, "Quick_Sort_Insertion_" + s);         // save data
     //--------------------------------------------------------------------------------

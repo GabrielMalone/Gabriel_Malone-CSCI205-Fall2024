@@ -23,7 +23,8 @@ def openTextFile(file_name:str)->None:
     array_type = []
     array_size = [] #
     complexity = [] #  
-    experiments[cleanName(file_name)] = trial, array_type, array_size, complexity
+    depth = []
+    experiments[cleanName(file_name)] = trial, array_type, array_size, complexity, depth
     with open("data/" + file_name) as f:
          # get each trial number (x coord) 
          # and its corresponding n-value (y coord)
@@ -37,6 +38,7 @@ def openTextFile(file_name:str)->None:
                 array_type.append(tokens[1])
                 array_size.append(int(tokens[2]))
                 complexity.append(int(tokens[3]))
+                depth.append(int(tokens[4]))
        
 
 # get text files
@@ -56,7 +58,7 @@ plt.title("Comparison of Computations Required to Sort an Array")
 plt.legend(experiments)
 #plt.xlabel("Array Size")
 plt.xlabel("Array Size")
-plt.ylabel("array accesses")
+plt.ylabel("Array Accesses")
 #plt.ylabel("comparisons required to sort array")
 plt.grid(False)
 plt.show()

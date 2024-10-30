@@ -12,6 +12,8 @@
 #include "../tests/quicksort_insertion_test.hpp"
 #include "../tests/quickort_tukeys_test.hpp"
 #include "../tests/quicksort_true_median_test.hpp"
+#include "../tests/quicksort_dual_pivot_test.hpp"
+#include "../tests/mergeSortTests.hpp"
 
 
 void graph_data(char type, vector<int>& algo_selections){
@@ -21,11 +23,12 @@ void graph_data(char type, vector<int>& algo_selections){
     ClosedHashTable<sortData>quickSortInsertionData;            // map to store data related to sorting
     ClosedHashTable<sortData>quickSortNtherData;                // map to store data related to sorting
     ClosedHashTable<sortData>quickSortTrueMedianData;           // map to store data related to sorting
-    ClosedHashTable<sortData>insertSortData;  
+    ClosedHashTable<sortData>quickSortDualPivotData;            // map to store data related to sorting
+    ClosedHashTable<sortData>mergeSortData;                     // map to store data related to sorting
      //---------------------------------------------------------------------------------------------
     for (int selection : algo_selections){
         int vec_size = 10;
-        for (int i = 0 ; i < 100; i ++ ){
+        for (int i = 0 ; i < 75; i ++ ){
                 vec_size = (vec_size + i) + (vec_size*.10);// to create increasing arrays
                 vector<int>list(vec_size);                        // generate random list
                 generate_vector(vec_size, type, list, vec_size);   
@@ -33,7 +36,9 @@ void graph_data(char type, vector<int>& algo_selections){
                 vector<int>og2 = list;  
                 vector<int>og3 = list;
                 vector<int>og4 = list;       
-                vector<int>og5 = list;                 
+                vector<int>og5 = list;
+                vector<int>og6 = list; 
+                vector<int>og7 = list;                  
                         
                 int t = i + 1;                         // trial number for recording data
     //---------------------------------------------------------------------------------------------
@@ -47,15 +52,9 @@ void graph_data(char type, vector<int>& algo_selections){
                 break;
             case 4: runQuickSortTukeysTests(    og4, t, vec_size, type, false, quickSortNtherData);
                 break;
-            case 5: runQuickSortTrueMedianTests(     og5, t, vec_size, type, false, quickSortTrueMedianData);
+            case 5: runQuickSortDualPivotTests( og6, t, vec_size, type, false, quickSortDualPivotData);
                 break;
-            case 6: //runShellSedgwickTests(  og6, t, vec_size, type, false, shellSortDataSedgwick);
-                break;
-            case 7: //runCombTests(           og7, t, vec_size, type, false, combSortData);  
-                break;
-            case 8: //runCountCustomTests(    og8, t, vec_size, type, false, countSortData);
-                break;
-            case 9: //runRadixBasicTests(     og9, t, vec_size, type, false, radixSortData);
+            case 6: runMergeSortTests(          og7, t, vec_size, type, false, mergeSortData);  
                 break;
             }
         }

@@ -8,15 +8,16 @@
 using namespace std;
        
 //-------------------------------------------------------------------------------------------------------
-// QUICK SORT MEDIAN  
+// QUICK SORT INSERTION  
 //-------------------------------------------------------------------------------------------------------
 void quicksort_insertion(vector<int> &avector, int first, int last , bool print, sortData& sData, bool median){
+    sData.call_stack_depth ++ ;
     //---------------------------------------------------------------------------------------------------
 	int splitpoint = 0;	                                                    // partition splitpoint index
     //---------------------------------------------------------------------------------------------------
     // INSERTION SORT WHEN VECTOR REACHES SMALL SIZE
     //---------------------------------------------------------------------------------------------------  
-    if (last - first <= 4){
+    if (last - first <= 15){
         insertionSort(avector, first, last+1, print, sData);  
         return;      
     }                                    

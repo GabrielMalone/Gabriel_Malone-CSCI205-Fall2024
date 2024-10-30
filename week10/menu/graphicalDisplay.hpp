@@ -11,6 +11,8 @@
 #include "../tests/quicksort_lazy_test.hpp"
 #include "../tests/quicksort_insertion_test.hpp"
 #include "../tests/quickort_tukeys_test.hpp"
+#include "../tests/quicksort_dual_pivot_test.hpp"
+#include "../tests/mergeSortTests.hpp"
 
 bool print = true;
 
@@ -21,7 +23,8 @@ void graphical_sorting_data(char type, int selection){
     ClosedHashTable<sortData>quickSortInsertionData;            // map to store data related to sorting
     ClosedHashTable<sortData>quickSortNtherData;                // map to store data related to sorting
     ClosedHashTable<sortData>quickSortTrueMedianData;           // map to store data related to sorting
-    ClosedHashTable<sortData>insertSortData;  
+    ClosedHashTable<sortData>quickSortDualPivotData;            // map to store data related to sorting
+    ClosedHashTable<sortData>mergeSortData;                     // map to store data related to sorting
      //---------------------------------------------------------------------------------------------
     int vec_size = 50;
     int range = 50;
@@ -30,23 +33,17 @@ void graphical_sorting_data(char type, int selection){
     //----------------------------------------------------------------------------------------------
     switch (selection)
     {
-    case 1: runQuickSortLazyTests(      list, 1, vec_size, type, print, quickSortLazyData);  
+    case 1: runQuickSortLazyTests(       list, 1, vec_size, type, print, quickSortLazyData);  
         break; 
-    case 2: runQuickSortMedianTests(    list, 1, vec_size, type, print, quickSortMedianData); 
+    case 2: runQuickSortMedianTests(     list, 1, vec_size, type, print, quickSortMedianData); 
         break;
-    case 3: runQuickSortInsertionTests( list, 1, vec_size, type, print, quickSortInsertionData); 
+    case 3: runQuickSortInsertionTests(  list, 1, vec_size, type, print, quickSortInsertionData); 
         break;
     case 4: runQuickSortTukeysTests(     list, 1, vec_size, type, print, quickSortNtherData);
         break;
-    case 5: runQuickSortTrueMedianTests(     list, 1, vec_size, type, print, quickSortTrueMedianData);
+    case 5: runQuickSortDualPivotTests(  list, 1, vec_size, type, print, quickSortDualPivotData);
         break;
-    case 6: //runShellSedgwickTests(  list, 1, vec_size, type, print, shellSortDataSedgwick);
-        break;
-    case 7: //runCombTests(           list, 1, vec_size, type, print, combSortData);  
-        break;
-    case 8: //runCountCustomTests(    list, 1, vec_size, type, print, countSortData);
-        break;
-    case 9: //runRadixBasicTests(     list, 1, vec_size, type, print, radixSortData);
+    case 6: runMergeSortTests(           list, 1, vec_size, type, print, mergeSortData);  
         break;
     }
     //---------------------------------------------------------------------------------------------

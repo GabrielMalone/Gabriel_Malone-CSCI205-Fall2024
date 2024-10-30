@@ -7,15 +7,23 @@
 
 using namespace std;
 
-int MO3(vector<int>& v, int left, int right){
+int MO3(vector<int>& v, int left, int right, sortData& s){
 
- int center = (left + right) / 2;		// find center
+ 	int center = (left + right) / 2;		// find center
 	swap(v[left], v[center]);			// get ready to sort the three
-	if( v[left] > v[right] )			// look at left and right
-		swap(v[left], v[right]);		// swap if necessary
-	if(v[center] > v[right] )			// look at center and right
+	s.array_accesses +=2 ;
+	s.comparisons ++ ;
+	if( v[left] > v[right] ){			
+		swap(v[left], v[right]);	
+		s.array_accesses +=2 ;
+	}
+	s.comparisons ++ ;
+	if(v[center] > v[right] ){			// look at center and right
+		s.array_accesses +=2 ;
 		swap(v[center], v[right]);		// swap if necessary
+	}
 	swap(v[center], v[right]);			// put pivot on right
+	s.array_accesses +=2 ;
 	return v[right];					// return pivot value
 
 }

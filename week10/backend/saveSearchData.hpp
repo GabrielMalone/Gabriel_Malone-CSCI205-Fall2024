@@ -17,8 +17,10 @@ void saveSortingData(ClosedHashTable<sortData>& SortDataMap, string sortMethod){
         f << sd.order_type;                                 // array order type
         f << " ";
         f << sd.array_size;                                       // array size
-        f << " ";    // can add depth next and update python file to accomodate
+        f << " ";    
         f << sd.array_accesses + sd.comparisons;  // combine all the operations
+        f << " ";
+        f << sd.call_stack_depth;                         // recursion recorder
         f << endl;
     }
 }

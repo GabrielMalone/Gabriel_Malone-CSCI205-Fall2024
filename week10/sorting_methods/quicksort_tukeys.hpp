@@ -12,6 +12,7 @@ using namespace std;
 // QUICK SORT TUKEYs 
 //-------------------------------------------------------------------------------------------------------
 void quicksort_tukeys(vector<int> &avector, int first, int last , bool print, sortData& sData){
+    sData.call_stack_depth ++ ;
 	int splitpoint = 0;	                                                 // partition splitpoint index
     //----------------------------------------------------------------------------------------------------
     if (first < last) {		                            // if there is more than one element in the vector

@@ -30,6 +30,7 @@ void runQuickSortMedianTests(std::vector<int>& list , int trial, int vect_size,
     sorted(list, true);                                         // confirm sort worked
     sData.displaySwapData();          // can show the output of a sort on the terminal
     sData.displayCompareData();
+    sData.displayDepthData();
     //--------------------------------------------------------------------------------
     saveSortingData(insertSortData, "Quick_Sort_Median_" + s);            // save data
     //--------------------------------------------------------------------------------
