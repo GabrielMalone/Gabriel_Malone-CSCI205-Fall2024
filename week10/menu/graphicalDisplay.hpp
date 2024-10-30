@@ -10,19 +10,22 @@
 #include "../tests/quicksort_median_test.hpp"
 #include "../tests/quicksort_lazy_test.hpp"
 #include "../tests/quicksort_insertion_test.hpp"
+#include "../tests/quickort_tukeys_test.hpp"
 
 bool print = true;
 
 void graphical_sorting_data(char type, int selection){
      //---------------------------------------------------------------------------------------------
-    ClosedHashTable<sortData>quickSortLazyData;   // map to store data related to sorting
-    ClosedHashTable<sortData>quickSortMedianData; // map to store data related to sorting
-    ClosedHashTable<sortData>quickSortInsertionData; // map to store data related to sorting
+    ClosedHashTable<sortData>quickSortLazyData;                 // map to store data related to sorting
+    ClosedHashTable<sortData>quickSortMedianData;               // map to store data related to sorting
+    ClosedHashTable<sortData>quickSortInsertionData;            // map to store data related to sorting
+    ClosedHashTable<sortData>quickSortNtherData;                // map to store data related to sorting
+    ClosedHashTable<sortData>quickSortTrueMedianData;           // map to store data related to sorting
     ClosedHashTable<sortData>insertSortData;  
      //---------------------------------------------------------------------------------------------
-    int vec_size = 100;
-    int range = 100;       
-    vector<int>list(vec_size);                             // generate random list
+    int vec_size = 50;
+    int range = 50;
+    vector<int>list(vec_size);                                  // generate random list
     generate_vector(vec_size, type, list, range);              
     //----------------------------------------------------------------------------------------------
     switch (selection)
@@ -33,9 +36,9 @@ void graphical_sorting_data(char type, int selection){
         break;
     case 3: runQuickSortInsertionTests( list, 1, vec_size, type, print, quickSortInsertionData); 
         break;
-    case 4: //runShellHibbardTests(   list, 1, vec_size, type, print, shellSortDataHibbard);
+    case 4: runQuickSortTukeysTests(     list, 1, vec_size, type, print, quickSortNtherData);
         break;
-    case 5: //runShellKnuthTests(     list, 1, vec_size, type, print, shellSortDataKnuth);
+    case 5: runQuickSortTrueMedianTests(     list, 1, vec_size, type, print, quickSortTrueMedianData);
         break;
     case 6: //runShellSedgwickTests(  list, 1, vec_size, type, print, shellSortDataSedgwick);
         break;

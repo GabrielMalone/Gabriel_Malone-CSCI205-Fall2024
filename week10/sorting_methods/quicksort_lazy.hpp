@@ -11,9 +11,9 @@ using namespace std;
 void quicksort_lazy(vector<int> &avector, int first, int last , bool print, sortData& sData, bool median){
 	int splitpoint = 0;	                                                     // partition splitpoint index
     //----------------------------------------------------------------------------------------------------
-	if (first<last && ! sorted(avector, false)) {	    // if there is more than one element in the vector
+	if (first<last) {	                                // if there is more than one element in the vector
         sData.comparisons ++ ;
-		splitpoint = partition(avector, first, last, print, sData, median);        // partition the vector
+		splitpoint = partition(avector, first, last, print, sData, median, false, false);     // partition
 		quicksort_lazy(avector, first, splitpoint - 1, print, sData, median);		         // lower half
 		quicksort_lazy(avector, splitpoint + 1, last, print, sData, median);		         // upper half
     //----------------------------------------------------------------------------------------------------

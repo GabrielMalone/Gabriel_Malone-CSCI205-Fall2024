@@ -1,5 +1,5 @@
-#ifndef VECTORGENERATOR
-#define VECTORGENERATOR
+#ifndef VECTORGEN
+#define VECTORGEN
 
 #include <random>
 #include "../../backend/List.hpp"
@@ -31,11 +31,11 @@ void generate_vector(int size, char type, std::vector<int>& temp, int range){
 			step = 0;	
 			while(step < range){			// while not 100 #s found yet
 				val = dist(gen);			// get random number
-				if (used.find(val) == -1){	// if number hasn't been used yet
+				//if (used.find(val) == -1){	// if number hasn't been used yet
 					temp[step] = val;		// place in array
 					used.insert(val);		// save that value for checking
 					step ++ ;				// keep track of how many numbers found
-				}
+				//}
 			}
 			break;
 		case 'p': // partially sorted

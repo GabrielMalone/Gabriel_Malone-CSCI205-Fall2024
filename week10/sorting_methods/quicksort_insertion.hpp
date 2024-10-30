@@ -16,14 +16,14 @@ void quicksort_insertion(vector<int> &avector, int first, int last , bool print,
     //---------------------------------------------------------------------------------------------------
     // INSERTION SORT WHEN VECTOR REACHES SMALL SIZE
     //---------------------------------------------------------------------------------------------------  
-     if (last - first <= 15){
+    if (last - first <= 4){
         insertionSort(avector, first, last+1, print, sData);  
         return;      
     }                                    
     //---------------------------------------------------------------------------------------------------
     if (first<last) {
         sData.comparisons ++ ;						   // if there is more than one element in the vector
-        splitpoint = partition(avector, first, last, print, sData, median);           // partition vector
+        splitpoint = partition(avector, first, last, print, sData, median, false, false);           
         quicksort_insertion(avector, first, splitpoint - 1, print, sData, median);		    // lower half
         quicksort_insertion(avector, splitpoint + 1, last, print, sData, median);		    // upper half 
     }

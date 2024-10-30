@@ -15,6 +15,7 @@ struct sortData{
     unsigned long long array_accesses = 0; // array accssed
     unsigned long long comparisons = 0; // comparisons made
     int test_num = 0;            // which test run was this
+    int call_stack_depth = 0;                // track depth
     //-----------------------------------------------------
     sortData(){};
     sortData(char type,int arr_size,int array_acc,int comp)

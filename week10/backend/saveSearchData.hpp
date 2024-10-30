@@ -12,12 +12,12 @@ void saveSortingData(ClosedHashTable<sortData>& SortDataMap, string sortMethod){
     ofstream f ("data/" + sortMethod + ".txt");	
     for (int i = 0 ; i < SortDataMap.m_size() ; i ++ ){
         sortData sd = SortDataMap.get(to_string(i+1));
-        f << i + 1;
+        f << i + 1;                                             // trial number
         f << " ";
-        f << sd.order_type;
+        f << sd.order_type;                                 // array order type
         f << " ";
-        f << sd.array_size;
-        f << " ";
+        f << sd.array_size;                                       // array size
+        f << " ";    // can add depth next and update python file to accomodate
         f << sd.array_accesses + sd.comparisons;  // combine all the operations
         f << endl;
     }

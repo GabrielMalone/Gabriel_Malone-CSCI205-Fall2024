@@ -16,6 +16,7 @@ vector<string> fileNames =
         "QUICK SORT MEDIAN",
         "QUICK SORT INSERTION",
         "QUICK SORT TUKEY'",
+        "QUICK SORT TRUE MEDIAN",
         "QUICK SORT DUAL PIVOT",
         "MERGE SORT"
     };
