@@ -16,8 +16,9 @@ struct sortData{
     unsigned long long comparisons = 0; // comparisons made
     int test_num = 0;            // which test run was this
     int call_stack_depth = 0;                // track depth
+    int median_of_three_index = 0;
     //-----------------------------------------------------
-    sortData(){};
+    sortData(){};      // constructors not really necessary 
     sortData(char type,int arr_size,int array_acc,int comp)
     {
         order_type = type;

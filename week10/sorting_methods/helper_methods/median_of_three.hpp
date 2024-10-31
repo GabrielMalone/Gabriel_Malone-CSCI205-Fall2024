@@ -9,7 +9,7 @@ using namespace std;
 
 int MO3(vector<int>& v, int left, int right, sortData& s){
 
- 	int center = (left + right) / 2;		// find center
+ 	int center = (left + right) / 2;	// find center
 	swap(v[left], v[center]);			// get ready to sort the three
 	s.array_accesses +=2 ;
 	s.comparisons ++ ;
