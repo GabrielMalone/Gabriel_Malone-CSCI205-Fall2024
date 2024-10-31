@@ -4,7 +4,6 @@
 #include "../../backend/sort_data.hpp"
 #include "../../backend/print_graph.hpp"
 #include "median_of_three.hpp"
-#include "actual_median.hpp"
 #include "tukey.hpp"
 #include <random>
 #include "../../backend/swap.hpp"
@@ -30,14 +29,6 @@ int partition(vector<int>& avector, int low, int high,
 	    int pivotIndex = tukeys(avector, low, high, sData);
         swap(avector[pivotIndex], avector[high]);   
         pivotValue = avector[high];                          
-    }
-    //---------------------------------------------------------------------------------------------------
-    // TRUE MEDIAN
-    //---------------------------------------------------------------------------------------------------
-    else if (true_median){
-        int pivotindex = realMedian(avector, low, high);
-        swap(avector[pivotindex], avector[high]);    // always place the pivot value at back for the algo
-        pivotValue = avector[high];
     //---------------------------------------------------------------------------------------------------
     } else {
     //---------------------------------------------------------------------------------------------------

@@ -5,7 +5,7 @@
 #include "../backend/sort_data.hpp"
 
 void insertionSort(std::vector<int>& vector, int start, int end, bool print, sortData& s){
-	for (size_t index = start; index < end; index ++) {
+	for (int index = start; index < end; index ++) {
 		int current = vector[index];					// remember current item
 		int pos = index;								// need current position to move towards front
 		while (pos > 0 && vector[pos - 1] > current) {	// while not at front and current item is less than previous

@@ -11,7 +11,6 @@
 #include "../tests/quicksort_median_test.hpp"
 #include "../tests/quicksort_insertion_test.hpp"
 #include "../tests/quickort_tukeys_test.hpp"
-#include "../tests/quicksort_true_median_test.hpp"
 #include "../tests/quicksort_dual_pivot_test.hpp"
 #include "../tests/mergeSortTests.hpp"
 
