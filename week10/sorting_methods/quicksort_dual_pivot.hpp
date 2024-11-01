@@ -12,11 +12,12 @@ using namespace std;
 // QUICK SORT DUAL PIVOT 
 //-------------------------------------------------------------------------------------------------------
 void quicksort_dual_pivot(vector<int> &avector, int first, int last , bool print, sortData& sData){
-    if (first >= last){
-        return;
-    }
-    sData.call_stack_depth ++ ;
-    //---------------------------------------------------------------------------------------------------         
+    //  if (last - first <= 15){
+    //     insertionSort(avector, first, last+1, print, sData);  
+    //     return;      
+    // }   
+    //---------------------------------------------------------------------------------------------------  
+    if (first<last) {       
     //---------------------------------------------------------------------------------------------------
     pivots p = dual_partition(avector, first, last, print, sData);           
     int pivotL = p.pivotL;
@@ -24,11 +25,12 @@ void quicksort_dual_pivot(vector<int> &avector, int first, int last , bool print
     quicksort_dual_pivot(avector, first, pivotL - 1, print, sData);		        // lower third
     quicksort_dual_pivot(avector, pivotL + 1, pivotR - 1, print, sData);        // middle third
     quicksort_dual_pivot(avector, pivotR + 1, last, print, sData);		        // upper third
-    
+    sData.call_stack_depth ++ ;     
+    }
     //----------------------------------------------------------------------------------------------------
-	// else if (print){                                            
-    //      printTowers(avector,100);// graphical output
-    // }
+	if (print){                                       
+         printTowers(avector,100);// graphical output
+    }
     //----------------------------------------------------------------------------------------------------
 }
 

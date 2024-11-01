@@ -27,7 +27,7 @@ void graph_data(char type, vector<int>& algo_selections){
      //---------------------------------------------------------------------------------------------
     for (int selection : algo_selections){
         int vec_size = 10;
-        for (int i = 0 ; i < 75; i ++ ){
+        for (int i = 0 ; i < 50; i ++ ){
                 vec_size = (vec_size + i) + (vec_size*.10);// to create increasing arrays
                 vector<int>list(vec_size);                        // generate random list
                 generate_vector(vec_size, type, list, vec_size);   

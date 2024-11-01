@@ -9,7 +9,6 @@ using namespace std;
 // QUICK SORT LAZY                    
 //-------------------------------------------------------------------------------------------------------
 void quicksort_lazy(vector<int> &avector, int first, int last , bool print, sortData& sData, bool median){
-    sData.call_stack_depth ++ ;
 	int splitpoint = 0;	                                                     // partition splitpoint index
     //----------------------------------------------------------------------------------------------------
 	if (first<last) {	                                // if there is more than one element in the vector
@@ -17,8 +16,10 @@ void quicksort_lazy(vector<int> &avector, int first, int last , bool print, sort
 		splitpoint = partition(avector, first, last, print, sData, median, false, false);     // partition
 		quicksort_lazy(avector, first, splitpoint - 1, print, sData, median);		         // lower half
 		quicksort_lazy(avector, splitpoint + 1, last, print, sData, median);		         // upper half
+        sData.call_stack_depth ++ ;
     //----------------------------------------------------------------------------------------------------
 	} else {
+        sData.call_stack_depth ++ ;
         if (print){                                                                    // graphical output
             printTowers(avector,100);
         }

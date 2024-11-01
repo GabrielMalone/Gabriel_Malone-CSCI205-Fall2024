@@ -58,7 +58,7 @@ for experiment in experiments:
 plt.title("Comparison of Computations Required to Sort an Array")
 plt.legend(experiments)
 plt.xlabel("Array Size")
-plt.ylabel("Stack Depth + Comparisons + Array Accesses")
+plt.ylabel("Stack Depth")
 plt.grid(False)
 plt.show()
 

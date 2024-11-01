@@ -11,7 +11,6 @@ using namespace std;
 // QUICK SORT INSERTION  
 //-------------------------------------------------------------------------------------------------------
 void quicksort_insertion(vector<int> &avector, int first, int last , bool print, sortData& sData, bool median){
-    sData.call_stack_depth ++ ;
     //---------------------------------------------------------------------------------------------------
 	int splitpoint = 0;	                                                    // partition splitpoint index
     //---------------------------------------------------------------------------------------------------
@@ -27,9 +26,10 @@ void quicksort_insertion(vector<int> &avector, int first, int last , bool print,
         splitpoint = partition(avector, first, last, print, sData, median, false, false);           
         quicksort_insertion(avector, first, splitpoint - 1, print, sData, median);		    // lower half
         quicksort_insertion(avector, splitpoint + 1, last, print, sData, median);		    // upper half 
+        sData.call_stack_depth ++ ;  
     }
     //----------------------------------------------------------------------------------------------------
-	else if (print){                                            
+	else if (print){                                          
          printTowers(avector,100);// graphical output
     }
     //----------------------------------------------------------------------------------------------------

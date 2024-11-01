@@ -13,7 +13,10 @@ using namespace std;
 // MERGE SORT
 //-------------------------------------------------------------------------------------------------------
 vector<int> mergeSort(vector<int>& avector, sortData& s, bool print) {
-    s.call_stack_depth ++ ;
+	// if ( avector.size() <= 15){
+    //     insertionSort(avector, 0, avector.size(), print, s);  
+    //     return avector;      
+    // } 
 	int size = avector.size();				// get vector size
 	if (size>1) {
 							// base case, range of 1 is sorted
@@ -26,6 +29,7 @@ vector<int> mergeSort(vector<int>& avector, sortData& s, bool print) {
 		righthalf = mergeSort(righthalf,s,print);	// recursive call to mergeSort the right half
 		// merge sorted sub vectors back into original vector
 		merge(avector, lefthalf, righthalf,s, print);
+		s.call_stack_depth ++ ;
 	}
 	return avector;
 }
