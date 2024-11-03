@@ -22,7 +22,7 @@ void saveSortingData(ClosedHashTable<sortData>& SortDataMap, string sortMethod){
         f << " ";
         f << sd.comparisons;
         f << " ";
-        f << sd.call_stack_depth;                          // recursion recorder
+        f << sd.max_depth;                                  // recursion recorder
         f << endl;
     }
 }

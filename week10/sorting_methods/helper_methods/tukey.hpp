@@ -38,7 +38,8 @@ int tukeys(vector<int>& v, int first, int last, sortData& s){
 		if ((b <= a) && (a <= c)) median = a;
 		if ((b <= c) && (c <= a)) median = c;
 		if ((c <= a) && (a <= b)) median = a;
-		median = b;
+		else
+			median = b;
 
 		s.comparisons +=5;
 

@@ -16,7 +16,7 @@ struct sortData{
     unsigned long long comparisons = 0; // comparisons made
     int test_num = 0;            // which test run was this
     int call_stack_depth = 0;                // track depth
-    int median_of_three_index = 0;
+    int max_depth = 0;
     //-----------------------------------------------------
     sortData(){};      // constructors not really necessary 
     sortData(char type,int arr_size,int array_acc,int comp)
@@ -43,7 +43,7 @@ struct sortData{
     } 
     void displayDepthData(){
         std::cout << "sorting placed "
-            << call_stack_depth
+            << max_depth
             << " methods on the call stack"
             << std::endl;
     }       
