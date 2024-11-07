@@ -4,7 +4,8 @@
 #include "backend/ClosedHashTable.hpp"
 #include "backend/print_graph.hpp"
 #include "backend/histo_info.hpp"
-#include"backend/char_code.hpp"
+#include "backend/char_code.hpp"
+#include "backend/ArrayList.hpp"
 #include "min_heap.hpp"
 #include "binary_tree.hpp"
 #include <string>
@@ -24,12 +25,12 @@ class huffman {
         List<histo_info> h_info_list;                    // list to hold the plot info
                         // this list info will hold all the unique chars in the string
                                                          // along with their frequency
-        vector<BinaryTree<histo_info> > min_heap_vec;   // vector to hold binary trees    
+        vector<BinaryTree<histo_info> > min_heap_vec;   // vector to hold binary trees   
         MinHeap<BinaryTree<histo_info> > mh;              // for creating huffman tree
         BinaryTree<histo_info> bt;                                // tree for encoding
         vector<char_code> cds;                       // array for chars and their code
-        List<char>uniques;
-        int max_freq = 0;
+        List<char>uniques;                      // list of unique chars for being lazy
+        int max_freq = 0;                                       
         
     public:
     //--------------------------------------------------------------------------------
@@ -109,6 +110,7 @@ class huffman {
                 min_heap_vec.emplace_back(b);              // create a vector of these binary trees
             }
             mh = (min_heap_vec);  // intialize the minPriority Heap with the vector created above ^
+            cout << endl;
             mh.print_tree();                                                     // confirm working
         }
         //------------------------------------------------------------------------------------------
@@ -116,7 +118,7 @@ class huffman {
         //------------------------------------------------------------------------------------------
         void build_tree(){
            
-            initialize_priority_heap();
+            initialize_priority_heap(); 
             for (size_t i = 0 ; i < ht.m_size()-1 ; i ++){ // iterating for duration of unique chars
                 BinaryTree<histo_info> new_t;                         // create a new tree each loop
                 new_t.get_key().frequency = 0;                                         // initialize
@@ -140,18 +142,31 @@ class huffman {
         }
         //------------------------------------------------------------------------------------------
         // CREATE HUFFMAN CODE
-        //----------------------------------------------------------------------------
-        string compress(){
+        //------------------------------------------------------------------------------------------
+        string build_huffman_code(){
+
             cout << endl;
+            string code = "";                        // pass this in via reference to build the code
+            mh.heap[1].inorder(cds, code, ht.m_size()-1);  // create code via recursion through tree
             cout << endl;
-            string code = "";
-            mh.heap[1].inorder(cds, code, ht.m_size()-1); 
-            cout << endl;
-            cout << endl;
-            for (int i = 0 ; i < cds.size() ; i ++ ){
+
+            for (int i = 0 ; i < cds.size() ; i ++ ){// checking to see if the char and code created
                 cout << cds[i] << endl;
             }
-            mh.heap[1].printTree(); // testing
+            cout << endl;
+            mh.heap[1].printTree();                        // confirmation of correct tree formation
+            cout << endl;
+
+            A_List<char_code> final (26);        // array list of 27 indexes for the code placements
+
+            for (int g = 0 ; g < cds.size(); g ++ ){    // place character and code in correct index
+                char_code cc = cds[g];
+                int index = cc.letter - 'A';                 // set char A = to index 0, B to 1, etc.
+                final.insert(cc, index);                        
+            }
+            for (int i = 0 ; i  < 26 ; i ++ ){                                // confirm this worked
+                cout << final[i] << endl;
+            }
             return code;
         }
 };

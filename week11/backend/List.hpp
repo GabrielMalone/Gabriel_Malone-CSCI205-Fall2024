@@ -40,7 +40,7 @@ class List {
         List(){
             head = NULL;                                                  // entry point to the linked list
         };
-        
+    
         /**
          *  Accepts a templated array as a paramaeter. 
          *  Adds items to list according to their order in the array.
@@ -48,7 +48,7 @@ class List {
         List(T* array, size_t size){
             head = new Node<T>();
             for (size_t i = 0 ; i < size ; i ++){
-                insert(array[i], i);
+                insert();
             }
             og_head = head;
         };

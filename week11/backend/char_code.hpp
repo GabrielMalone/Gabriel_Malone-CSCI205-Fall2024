@@ -15,6 +15,10 @@ struct char_code {
         this->letter = l;
         this->code = c;
     }
+    char_code(){
+        this->letter = '*';
+        this->code = " ";
+    }
 
     bool operator<(const char_code& other){
         return this->letter < other.letter;
@@ -22,6 +26,9 @@ struct char_code {
     bool operator>(const char_code& other){
         return this->letter > other.letter;
     }
+    // char& operator=(const char_code& other){
+    //     return this->letter;
+    // }
 };
 
  ostream& operator << (ostream &stream, const char_code& char_code)  {
