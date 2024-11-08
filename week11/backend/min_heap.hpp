@@ -4,7 +4,7 @@
 
 #include <iostream>
 #include <vector>
-#include "huffman.hpp"
+#include "../huffman.hpp"
 
 template <typename T>
 class MinHeap {

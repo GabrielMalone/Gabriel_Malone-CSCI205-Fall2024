@@ -28,7 +28,7 @@ string textLoader(const string& fileName) {
 					cur_char += c;
 					file_text += cur_char;
 				}
-			}	
+			}
 		}
 	}
 	frF.close();														// close

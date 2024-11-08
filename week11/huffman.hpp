@@ -9,8 +9,8 @@
 #include "backend/histo_info.hpp"
 #include "backend/char_code.hpp"
 #include "backend/ArrayList.hpp"
-#include "min_heap.hpp"
-#include "binary_tree.hpp"
+#include "backend/min_heap.hpp"
+#include "backend/binary_tree.hpp"
 #include <string>
 #include <vector>
 #include <algorithm>
@@ -110,7 +110,7 @@ class huffman {
         // INITIALIZE HEAP
         //------------------------------------------------------------------------------------------
         void initialize_priority_heap(){
-            for (size_t i = 0 ; i < h_info_list.length(); i ++ ){      // iterate the unique chars info
+            for (size_t i = 0 ; i < h_info_list.length(); i ++ ){   // iterate the unique chars info
                 histo_info h = h_info_list[i];                                 
                 BinaryTree<histo_info> b = {h};                // place this data into a Binary Tree
                 min_heap_vec.emplace_back(b);               // create a vector of these binary trees
@@ -177,7 +177,7 @@ class huffman {
             cout  << "Huffman Codes for Each Char" << endl;
 			cout  << "---------------------------" << endl;
             cout << endl;
-            for (unsigned long i = 0 ; i < cds.size() ; i ++ ){// checking to see if the char and code created
+            for (unsigned long i = 0 ; i < cds.size() ; i ++ ){   // to see if the char code created
                 cout << cds[i] << endl;
             }
             cout << endl;
@@ -190,7 +190,7 @@ class huffman {
             cout << endl;
             cout  << "Final Heapified Tree" << endl;
 			cout  << "--------------------" << endl;
-            bt.printTree();                         // confirmation of correct tree formation
+            bt.printTree();                                 // confirmation of correct tree formation
         }
         //-------------------------------------------------------------------------------------------
         // CREATE THE KEY 
@@ -198,7 +198,7 @@ class huffman {
         A_List<char_code> create_huffman_key(){
             A_List<char_code> final (28);         // array list of 27 indexes for the code placements
 
-            for (unsigned long g = 0 ; g < cds.size(); g ++ ){     // place character and code in correct index
+            for (unsigned long g = 0 ; g < cds.size(); g ++ ){     // character code in correct index
                 char_code cc = cds[g];
                 int index = cc.letter - 'A';                 // set char A = to index 0, B to 1, etc.
                 if (cc.letter == ' ')         // set these special chars so they aren't out of bounds
@@ -222,7 +222,7 @@ class huffman {
         // CREATE THE KEY via map
         //-------------------------------------------------------------------------------------------
         void create_huffman_key_map(){
-            for (unsigned long g = 0 ; g < cds.size(); g ++ ){     // place character and code in correct index
+            for (unsigned long g = 0 ; g < cds.size(); g ++ ){   // place character and code in index
                 char_code cc = cds[g];
                 string current_char = "";
                 current_char += cc.letter;
@@ -236,7 +236,7 @@ class huffman {
          void build_huffman_code_map(){
             string code = create_code();        // string passed as reference to be built recursively              
             print_codes();// string will placed into a vector at its various build stages //  confirm
-            print_final_tree();                   // confirm the final tree is properly constructed
+            print_final_tree();                     // confirm the final tree is properly constructed
             create_huffman_key_map();    // create a list that holds the char and key at proper index
         }
 

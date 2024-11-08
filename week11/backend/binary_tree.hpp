@@ -3,7 +3,7 @@
 
 #include <iostream>
 #include <cstdlib>
-#include "backend/char_code.hpp"
+#include "char_code.hpp"
 #include <string>
 
 template <typename T>
@@ -125,7 +125,6 @@ class BinaryTree {
 				this->rightChild->inflate(decoded_str, huff_code, steps);
 			}												
 		}
-
 		void printTree(){
 			printTree(this);
 		}
