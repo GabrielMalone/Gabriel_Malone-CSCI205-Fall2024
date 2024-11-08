@@ -5,6 +5,7 @@
 
 #include <iostream>
 #include <string>
+#include "../huffman.hpp"
 
 using namespace std;
 //--------------------------------------------------------------------------------------------------------

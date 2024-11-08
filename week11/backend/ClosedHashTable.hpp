@@ -135,10 +135,11 @@ class ClosedHashTable {
 					this->table[hash(key)].insert(HashNode(key,v));			   	   //place data at bucket
 				}
 				else {
-					List<HashNode>& current_bucket = this->table[hash(key)];
-					Node<HashNode>* n = current_bucket.get_head();
-					
-					n->data.value ++ ;						// this will only work for my historgram ints
+					// List<HashNode>& current_bucket = this->table[hash(key)];
+					// Node<HashNode>* n = current_bucket.get_head();
+
+					//n->data.value ++ ;					// this will only work for my historgram ints
+		
 				}
 			}
 		//-----------------------------------------------------------------------------------------------

@@ -290,18 +290,18 @@ template <class T> class A_List{
 		 *  print list contents
 		 */
 		void print(){
-			cout << "[";
+			cout << "Huffman Key" << endl;
+			cout << "-----------" << endl;
 			for (size_t i = 0 ; i < capacity ; i ++ ){
 				if (i == size - 1){
 					if (array[i].code != ""){
-						cout << array[i];
+						cout << array[i] << endl;
 					}
 				}
 				else if (i < capacity){
-					cout << array[i] << ",";
+					cout << array[i] << endl;
 				}
 			}
-			cout << "]";
 			cout << endl;
 		}
 

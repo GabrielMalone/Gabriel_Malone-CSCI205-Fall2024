@@ -19,6 +19,9 @@ struct histo_info {
     bool operator>=(const histo_info& other){
         return this->frequency >= other.frequency;
     }
+    bool operator==(const histo_info& other){
+        return this->letter = other.letter;
+    }
     
 };
 

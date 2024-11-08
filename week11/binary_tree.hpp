@@ -16,18 +16,18 @@ class BinaryTree {
 		
 		// just for illustration purposes
 		void printTree(BinaryTree<T>* root, int level = 0, const std::string& prefix = "", int spacing = 4) {
-			if (root) {																	// if root is not null
+ 			if (root) {																	// if root is not null
 				if (level == 0) {														// if root is the root node
 					std::cout << "Root: " << root->key << std::endl;					// print root node
 				} else {																// node is not the root node
 					std::string branch = (level % 2 == 1) ? "└─" : "├─";				// determine branch
-					std::string spaces(spacing * level - 2, ' ');						// determine spacing
+					std::string spaces(spacing * level + 2, ' ');						// determine spacing
 					std::cout << spaces << branch << prefix << root->key << std::endl;	// print node
 				}
 
 				if (root->leftChild || root->rightChild) {									// if node has children
-					printTree(root->leftChild, level + 1, "L: ", spacing);					// print left child
-					printTree(root->rightChild, level + 1, "R: ", spacing);					// print right child
+					printTree(root->leftChild, level + 2, "L: ", spacing);					// print left child
+					printTree(root->rightChild, level + 2, "R: ", spacing);					// print right child
 				}
 			}
 		}
@@ -45,12 +45,12 @@ class BinaryTree {
 			this->rightChild = NULL;								// set right child to null
 		}
 
-		// ~BinaryTree(){											// destructor
+		// ~BinaryTree(){												// destructor
 		// 	if (this->leftChild != NULL)							// if left child is not null
 		// 		delete this->leftChild;								// delete left child
 		// 	if (this->rightChild != NULL)							// if right child is not null
 		// 		delete this->rightChild;							// delete right child
-		// }
+		//}
 
 		void insertLeft(BinaryTree<T> newNode){									// insert left child
 			if (this->leftChild == NULL)							// if left child is null
@@ -73,11 +73,25 @@ class BinaryTree {
 		}
 
 		BinaryTree<T> *getRightChild(){								// get right child
-			return this->rightChild;								// return right child
+			try
+			{
+				return this->rightChild;								// return right child
+			}
+			catch(const std::exception& e)
+			{
+				return NULL;
+			}
 		}
 
 		BinaryTree<T> *getLeftChild(){								// get left child
-			return this->leftChild;									// return left child
+			try
+			{
+				return this->leftChild;								// return right child
+			}
+			catch(const std::exception& e)
+			{
+				return NULL;
+			}								// return left child
 		}
 
 		void setRootVal(T obj){										// set root's payload
@@ -108,7 +122,7 @@ class BinaryTree {
 
 		void inorder(vector<char_code>& cds, string& code, int max){// inorder traversal
 			if (this->key.frequency == max){
-				code = "";
+				//code = "";	
 			}
 			if (this->leftChild != NULL){
 				code += "0" ;										// going left, add 0 to code
@@ -123,6 +137,24 @@ class BinaryTree {
 				this->rightChild->inorder(cds, code, max);			// inorder right child
 				code = code.substr(0, code.length()-1);				// going up, remove end of current code string
 			}													
+		}
+
+		void inflate(string& decoded_str, string& huff_code, int steps){// inorder traversal
+			string current_direction = huff_code.substr(0,1);
+			if (current_direction == "0" && this->leftChild!=NULL){
+				huff_code= huff_code.substr(1,huff_code.length());
+				this->leftChild->inflate(decoded_str, huff_code, steps);
+			}
+			if (key.letter != '*'){
+				string c = "";
+				c += key.letter;		
+				decoded_str += c;
+			}	
+			if (current_direction == "1" && this->rightChild!=NULL){
+				steps ++ ;
+				huff_code= huff_code.substr(1,huff_code.length());
+				this->rightChild->inflate(decoded_str, huff_code, steps);
+			}												
 		}
 
 		// void postorder(vector<char_code>& cds, string& code){		// postorder traversal
@@ -158,6 +190,7 @@ class BinaryTree {
 		bool operator<=(const BinaryTree<T>& other){
 			return this->key <= other.key;
 		}
+
 		T& get_key(){
 			return this->key;
 		}  
@@ -170,4 +203,3 @@ ostream& operator << (ostream& stream, BinaryTree<T>& tree)  {
 }
 
 #endif
-

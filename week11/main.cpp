@@ -1,23 +1,16 @@
 #include "huffman.hpp"
-#include "backend/random_string.hpp"
-#include <chrono>
-#include <thread>
+#include "backend/FileOpener.hpp"
 
 using namespace std;
 
-
 int main(){
+    
     huffman h;
-    //while (true){
-        // cout << "\033[2J";                        // for animation effect                                              
-        // cout << "\033[H";                        // for animation effect 
-        int string_len = 25;
-        string rand = get_random_string(string_len);
-        h.histogram("GOOBERT");
-        h.print_histogram();
-        h.build_tree();
-        // this_thread::sleep_for(chrono::milliseconds(100));   // speed of display of algo
-        h.build_huffman_code();
-    // }
+    string text = textLoader("text_to_encode.txt");
+    //string text = "goobert";
+    string compressed_t = h.compress(text); // can enter whatever text you want here
+    string decompressed_t = h.inflate(compressed_t);
+    cout << decompressed_t << endl;
+
     return 0;
 }
