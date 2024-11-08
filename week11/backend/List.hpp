@@ -394,7 +394,7 @@ class List {
         }
         //-------------------------------------------------------------------------------------------------   
         T& operator[](int index) {
-            if (index > this->link_size){
+            if ((size_t)index > this->link_size){
                 throw std::out_of_range("Index out of range");
             }
             int count = 0;

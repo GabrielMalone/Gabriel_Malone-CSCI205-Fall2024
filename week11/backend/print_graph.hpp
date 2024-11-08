@@ -13,6 +13,7 @@
 #include <string>
 #include "List.hpp"
 #include "histo_info.hpp"
+#include <vector>
 //-----------------------------------------------------------------------------------
 using namespace std;
 //-----------------------------------------------------------------------------------
@@ -59,7 +60,7 @@ void printTowers(List<histo_info>& list){
         }
     }
     int height = max_height;
-    for (size_t j = 0 ; j < max_height; j ++){               // iterate size of array
+    for (int j = 0 ; j < max_height; j ++){               // iterate size of array
         for (size_t k = 0 ; k < list.length(); k ++ ){      // iterate through vector 
             char cur_char = list[k].letter;
             if (list[k].frequency >= height){  // tall enough to print yet? (top down)

@@ -45,14 +45,18 @@ class BinaryTree {
 			this->rightChild = NULL;								// set right child to null
 		}
 
-		// ~BinaryTree(){												// destructor
-		// 	if (this->leftChild != NULL)							// if left child is not null
+		// ~BinaryTree(){											// destructor
+		// 	if (this->leftChild != NULL){							// if left child is not null
 		// 		delete this->leftChild;								// delete left child
-		// 	if (this->rightChild != NULL)							// if right child is not null
+		// 		this->leftChild = nullptr;
+		// 	}
+		// 	if (this->rightChild != NULL){							// if right child is not null
 		// 		delete this->rightChild;							// delete right child
-		//}
+		// 		this->rightChild = nullptr;
+		// 	}
+		// }
 
-		void insertLeft(BinaryTree<T> newNode){									// insert left child
+		void insertLeft(BinaryTree<T>& newNode){						// insert left child
 			if (this->leftChild == NULL)							// if left child is null
 				this->leftChild = new BinaryTree<T>(newNode);		// create new node
 			else {													// left child is not null
@@ -62,7 +66,7 @@ class BinaryTree {
 			}
 		}
 
-		void insertRight(BinaryTree<T> newNode){								// insert right child
+		void insertRight(BinaryTree<T>& newNode){					// insert right child
 			if (this->rightChild == NULL)							// if right child is null
 				this->rightChild = new BinaryTree<T>(newNode);		// create new node
 			else {													// right child is not null
@@ -73,25 +77,11 @@ class BinaryTree {
 		}
 
 		BinaryTree<T> *getRightChild(){								// get right child
-			try
-			{
-				return this->rightChild;								// return right child
-			}
-			catch(const std::exception& e)
-			{
-				return NULL;
-			}
+			return this->rightChild;								// return right child
 		}
 
 		BinaryTree<T> *getLeftChild(){								// get left child
-			try
-			{
-				return this->leftChild;								// return right child
-			}
-			catch(const std::exception& e)
-			{
-				return NULL;
-			}								// return left child
+			return this->leftChild;															
 		}
 
 		void setRootVal(T obj){										// set root's payload
@@ -102,28 +92,7 @@ class BinaryTree {
 			return this->key;										// return root's payload
 		}
 
-		// void preorder(vector<char_code>& cds, string& code){		// preorder traversal
-		// 	std::cout << this->key << " ";							// print root
-		// 	if (key.letter != '.'){
-		// 		cds.emplace_back(char_code{key.letter, code});
-		// 	}
-		// 	if (this->leftChild != NULL){
-		// 		code += "0" ;										// if left child is not null
-		// 		this->leftChild->preorder(cds, code);				// preorder left child		
-		// 		code = code.substr(0, code.length() - 1);
-					
-		// 	}
-		// 	if (this->rightChild != NULL){	
-		// 		code += "1" ;										// if right child is not null
-		// 		this->rightChild->preorder(cds, code);				// preorder right child	
-		// 		code = code.substr(0, code.length() - 1);
-		// 	}
-		// }
-
 		void inorder(vector<char_code>& cds, string& code, int max){// inorder traversal
-			if (this->key.frequency == max){
-				//code = "";	
-			}
 			if (this->leftChild != NULL){
 				code += "0" ;										// going left, add 0 to code
 				this->leftChild->inorder(cds, code, max);			// inorder left child
@@ -156,24 +125,6 @@ class BinaryTree {
 				this->rightChild->inflate(decoded_str, huff_code, steps);
 			}												
 		}
-
-		// void postorder(vector<char_code>& cds, string& code){		// postorder traversal
-		// 	if (this->leftChild != NULL){	
-		// 		code += "0" ;								// if left child is not null
-		// 		this->leftChild->postorder(cds, code);
-		// 		code = code.substr(0, code.length() - 1);
-				
-		// 	}														// postorder left child
-		// 	if (this->rightChild != NULL){		
-		// 		code += "1" ;					// if right child is not null
-		// 		this->rightChild->postorder(cds, code);
-		// 		code = code.substr(0, code.length() - 1);	
-		// 	}														// postorder right child
-		// 	if (key.letter != '.'){
-		// 		cds.emplace_back(char_code{key.letter, code});
-		// 	}	
-		// 	//std::cout << this->key << " ";							// print root
-		// }
 
 		void printTree(){
 			printTree(this);

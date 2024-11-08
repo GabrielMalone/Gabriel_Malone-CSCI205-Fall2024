@@ -20,7 +20,7 @@ struct histo_info {
         return this->frequency >= other.frequency;
     }
     bool operator==(const histo_info& other){
-        return this->letter = other.letter;
+        return (this->letter = other.letter);
     }
     
 };

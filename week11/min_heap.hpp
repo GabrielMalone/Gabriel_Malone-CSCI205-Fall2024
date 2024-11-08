@@ -37,10 +37,10 @@ class MinHeap {
 			int smallest     = index;								// set smallest to index
 
 			// find the smallest child
-			if (leftChild < heap.size() && heap[leftChild] < heap[smallest])	// if left child is less than smallest
+			if ((unsigned long)leftChild < heap.size() && heap[leftChild] < heap[smallest])	// if left child is less than smallest
 				smallest = leftChild;											// set smallest to left child
 
-			if (rightChild < heap.size() && heap[rightChild] < heap[smallest])	// if right child is less than smallest
+			if ((unsigned long)rightChild < heap.size() && heap[rightChild] < heap[smallest])	// if right child is less than smallest
 				smallest = rightChild;											// set smallest to right child
 
 			if (smallest != index) {								// if smallest is at index
@@ -129,7 +129,7 @@ class MinHeap {
 				int padding = maxLevelSize / levelSize;					// padding between nodes
 				for (int i = 0; i < levelSize; i++) {					// for each node
 					for (int j = 0; j < padding; j++) std::cout << "  ";// print padding
-					int index = (1 << level) + i;						// get index of node
+					unsigned long index = (1 << level) + i;						// get index of node
 					if (index < heap.size()) std::cout << heap[index];	// print node
 					else std::cout << " ";								// print space
 					if (i < levelSize - 1)								// print padding between nodes on same level

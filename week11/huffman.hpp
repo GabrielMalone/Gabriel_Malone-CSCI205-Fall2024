@@ -80,7 +80,7 @@ class huffman {
             //--------------------------------------------------------------------------------------
             //create a list of the uniques and their frequencies
             //--------------------------------------------------------------------------------------
-            for (int i  = 0 ; i  < uniques.length(); i ++){
+            for (size_t i  = 0 ; i  < uniques.length(); i ++){
                 char d = uniques[i];
                 string a = "";                                             // convert char to string   
                 a += d;                                                    // convert char to string
@@ -97,7 +97,7 @@ class huffman {
         void print_histogram(){    
             cout << endl;                   
             printTowers(h_info_list);
-            for (int w = 0; w < h_info_list.length(); w ++){
+            for (size_t w = 0; w < h_info_list.length(); w ++){
                 char e = h_info_list[w].letter;
                 string g = "";                                             // convert char to string   
                 g += e;                                                    // convert char to string
@@ -110,7 +110,7 @@ class huffman {
         // INITIALIZE HEAP
         //------------------------------------------------------------------------------------------
         void initialize_priority_heap(){
-            for (int i = 0 ; i < h_info_list.length(); i ++ ){      // iterate the unique chars info
+            for (size_t i = 0 ; i < h_info_list.length(); i ++ ){      // iterate the unique chars info
                 histo_info h = h_info_list[i];                                 
                 BinaryTree<histo_info> b = {h};                // place this data into a Binary Tree
                 min_heap_vec.emplace_back(b);               // create a vector of these binary trees
@@ -127,15 +127,16 @@ class huffman {
         void build_tree(){
            
             initialize_priority_heap(); 
-            for (size_t i = 0 ; i < (ht.m_size()-1) ; i ++){       // iterating for num unique chars
-                BinaryTree<histo_info> new_t;                         // create a new tree each loop
-                new_t.get_key().frequency = 0;                                         // initialize
-                new_t.get_key().letter = '*';                          // set to something not avail
+            for (int i = 0 ; i < (ht.m_size()-1) ; i ++){          // iterating for num unique chars
+                BinaryTree<histo_info> *new_t = new BinaryTree<histo_info>();   // create a new tree 
+                new_t->get_key().frequency = 0;                                        // initialize
+                new_t->get_key().letter = '*';                         // set to something not avail
                 try                                                      // try in case no nodes lef
                 {                                                          // try until out of trees
-                    BinaryTree<histo_info> left = mh.extract_min();               // pull out a tree
-                    new_t.insertLeft(left);                           // make left child of new node
-                    new_t.get_key().frequency += left.get_key().frequency;                   // freq
+                    BinaryTree<histo_info>* left = new BinaryTree<histo_info>(mh.extract_min()); //
+                    new_t->insertLeft(*left);                         // make left child of new node
+                    new_t->get_key().frequency += left->get_key().frequency;                 // freq
+                    delete left;
                 }
                 catch(const std::exception& e)
                 {
@@ -144,16 +145,19 @@ class huffman {
                 }
                    try                                                   // try in case no nodes lef
                 {                                                          // try until out of trees
-                    BinaryTree<histo_info> right = mh.extract_min();              // pull out a tree
-                    new_t.insertRight(right);                        // make right child of new node
-                    new_t.get_key().frequency += right.get_key().frequency;                  // freq
+                    BinaryTree<histo_info>* right = new BinaryTree<histo_info>(mh.extract_min());  
+                    new_t->insertRight(*right);                      // make right child of new node
+                    new_t->get_key().frequency += right->get_key().frequency;                // freq
+                    delete right;
                 }
                 catch(const std::exception& e)
                 {
                     std::cerr << e.what() << '\n';
                     return;
                 }
-                mh.insert(new_t);                   // insert this new binary tree into the miniheap
+
+                mh.insert(*new_t);                   // insert this new binary tree into the miniheap
+                delete new_t;
             }
             bt = mh.heap[1];          // save the final binary tree at class level for other methods
         }
@@ -173,7 +177,7 @@ class huffman {
             cout  << "Huffman Codes for Each Char" << endl;
 			cout  << "---------------------------" << endl;
             cout << endl;
-            for (int i = 0 ; i < cds.size() ; i ++ ){// checking to see if the char and code created
+            for (unsigned long i = 0 ; i < cds.size() ; i ++ ){// checking to see if the char and code created
                 cout << cds[i] << endl;
             }
             cout << endl;
@@ -194,7 +198,7 @@ class huffman {
         A_List<char_code> create_huffman_key(){
             A_List<char_code> final (28);         // array list of 27 indexes for the code placements
 
-            for (int g = 0 ; g < cds.size(); g ++ ){     // place character and code in correct index
+            for (unsigned long g = 0 ; g < cds.size(); g ++ ){     // place character and code in correct index
                 char_code cc = cds[g];
                 int index = cc.letter - 'A';                 // set char A = to index 0, B to 1, etc.
                 if (cc.letter == ' ')         // set these special chars so they aren't out of bounds
@@ -218,7 +222,7 @@ class huffman {
         // CREATE THE KEY via map
         //-------------------------------------------------------------------------------------------
         void create_huffman_key_map(){
-            for (int g = 0 ; g < cds.size(); g ++ ){     // place character and code in correct index
+            for (unsigned long g = 0 ; g < cds.size(); g ++ ){     // place character and code in correct index
                 char_code cc = cds[g];
                 string current_char = "";
                 current_char += cc.letter;
