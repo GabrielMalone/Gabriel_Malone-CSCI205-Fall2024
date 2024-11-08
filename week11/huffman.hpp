@@ -156,7 +156,7 @@ class huffman {
                     return;
                 }
 
-                mh.insert(*new_t);                   // insert this new binary tree into the miniheap
+                mh.insert(*new_t);                  // insert this new binary tree into the miniheap
                 delete new_t;
             }
             bt = mh.heap[1];          // save the final binary tree at class level for other methods
@@ -166,7 +166,7 @@ class huffman {
         //------------------------------------------------------------------------------------------
         string create_code(){
             string code = "";                        // pass this in via reference to build the code
-            bt.inorder(cds, code, ht.m_size()-1);  // create code via recursion through tree
+            bt.inorder(cds, code, ht.m_size()-1);          // create code via recursion through tree
             return code;
         }
         //------------------------------------------------------------------------------------------
