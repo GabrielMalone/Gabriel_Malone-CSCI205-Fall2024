@@ -278,8 +278,9 @@ class huffman {
         //-------------------------------------------------------------------------------------------
         string inflate (string& huff_code){              // pass in the code built during compression
             cout << huff_code << endl;                                    // for visualization output
-            while (huff_code.length() > 0) //code will reduce in size for each step of the code taken
-                bt.inflate(this->decoded_str, huff_code);  // recursively follow path of current code
+            int index = 0;
+            while (index < huff_code.length()) //code will reduce in size for each step of the code taken
+                bt.inflate(this->decoded_str, huff_code, index);  // recursively follow path of current code
             cout << endl <<  "INFLATED" << endl << endl;       // decoded string will build each loop 
             return this->decoded_str;                                  
         }

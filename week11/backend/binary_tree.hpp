@@ -114,18 +114,19 @@ class BinaryTree {
 		//---------------------------------------------------------------------------------------------
 		// DE-COMPRESSION ALGO 
 		//---------------------------------------------------------------------------------------------
-		void inflate(string& decoded_str, string& huff_code){	
-			string current_direction = huff_code.substr(0,1);  // get first char to give next direction
-			if (current_direction == "0" && this->leftChild!=NULL){    // if 0 and not at leaf, go left
-				huff_code= huff_code.substr(1,huff_code.length());  // trim code of the step just taken
-				this->leftChild->inflate(decoded_str, huff_code); 	 		 // continue on the journey
-			}
+		void inflate(string& decoded_str, string& huff_code, int& index){
 			if (key.letter != '*'){												   // if at a leaf node
 				decoded_str += char_to_str(key.letter);   // add the char at leaf to the decoded string
-			}	
-			if (current_direction == "1" && this->rightChild!=NULL){  // if 1 and not at leaf, go right
-				huff_code= huff_code.substr(1,huff_code.length());  // trim code of the step just taken
-				this->rightChild->inflate(decoded_str, huff_code);			 // continue on the journey
+				return;
+			}								// get char at index (first char to start) to get direction
+			char current_direction = huff_code[index];  
+			if (current_direction == '0' && this->leftChild!=NULL){    // if 0 and not at leaf, go left
+				huff_code[++ index]; // switched to indexing form string manipulation to increase speed
+				this->leftChild->inflate(decoded_str, huff_code, index); 	 // continue on the journey
+			}
+			if (current_direction == '1' && this->rightChild!=NULL){  // if 1 and not at leaf, go right
+				huff_code[++ index]; // switched to indexing form string manipulation to increase speed
+				this->rightChild->inflate(decoded_str, huff_code, index);	 // continue on the journey
 			}												
 		}
 		void printTree(){
