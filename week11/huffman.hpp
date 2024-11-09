@@ -97,7 +97,7 @@ class huffman {
             cout << endl;                   
             printTowers(h_info_list);
             for (size_t w = 0; w < h_info_list.length(); w ++){                                   
-                int val2 = ht.get(char_to_str(h_info_list[w].letter)); //convert char2string for key                                 // get the value at that key
+                int val2 = ht.get(char_to_str(h_info_list[w].letter)); //convert char2string for key                                
                 cout << " " << char_to_str(h_info_list[w].letter) << " = " << val2 << " ";           
             }
             cout << endl << " " ;
@@ -277,10 +277,9 @@ class huffman {
         // INFLATE A STRING INTO HUFFMAN CODE RECURSIVELY
         //-------------------------------------------------------------------------------------------
         string inflate (string& huff_code){              // pass in the code built during compression
-            string og_huff = huff_code;                             // make a copy for the while loop
             cout << huff_code << endl;                                    // for visualization output
             while (huff_code.length() > 1) //code will reduce in size for each step of the code taken
-                bt.inflate(this->decoded_str, huff_code);      // follow the path of the current code
+                bt.inflate(this->decoded_str, huff_code);  // recursively follow path of current code
             cout << endl <<  "INFLATED" << endl << endl;       // decoded string will build each loop 
             return this->decoded_str;                                  
         }
