@@ -34,8 +34,7 @@ class huffman {
         BinaryTree<histo_info> bt;                                             // tree for encoding
         vector<char_code> cds;                                    // array for chars and their code
         List<char>uniques;                                   // list of unique chars for being lazy
-        int max_freq = 0;                         
-        int steps = 0;                                            // int to track decoding progress              
+        int max_freq = 0;                                     
         string my_compresssed_str = "";                 // hold at class level for easy portability
         
     public:
@@ -97,12 +96,9 @@ class huffman {
         void print_histogram(){    
             cout << endl;                   
             printTowers(h_info_list);
-            for (size_t w = 0; w < h_info_list.length(); w ++){
-                char e = h_info_list[w].letter;
-                string g = "";                                             // convert char to string   
-                g += e;                                                    // convert char to string
-                int val2 = ht.get(g);                                   // get the value at that key
-                cout << " " << g << " = " << val2 << " ";           
+            for (size_t w = 0; w < h_info_list.length(); w ++){                                   
+                int val2 = ht.get(char_to_str(h_info_list[w].letter)); //convert char2string for key                                 // get the value at that key
+                cout << " " << char_to_str(h_info_list[w].letter) << " = " << val2 << " ";           
             }
             cout << endl << " " ;
         }
@@ -127,6 +123,7 @@ class huffman {
         void build_tree(){
            
             initialize_priority_heap(); 
+
             for (int i = 0 ; i < (ht.m_size()-1) ; i ++){          // iterating for num unique chars
                 BinaryTree<histo_info> *new_t = new BinaryTree<histo_info>();   // create a new tree 
                 new_t->get_key().frequency = 0;                                        // initialize
@@ -162,12 +159,12 @@ class huffman {
             bt = mh.heap[1];          // save the final binary tree at class level for other methods
         }
         //------------------------------------------------------------------------------------------
-        // BUILD CODE
+        // BUILD CODE via recursive method in the binary class 'inorder'
         //------------------------------------------------------------------------------------------
         string create_code(){
             string code = "";                        // pass this in via reference to build the code
-            bt.inorder(cds, code, ht.m_size()-1);          // create code via recursion through tree
-            return code;
+            bt.inorder(cds, code);             // also pass in vector to store the code as it builds
+            return code;                        
         }
         //------------------------------------------------------------------------------------------
         // PRINT THE CODES STORED IN THE VECTOR OF STRUC 'CHAR_CODE"
@@ -193,7 +190,7 @@ class huffman {
             bt.printTree();                                 // confirmation of correct tree formation
         }
         //-------------------------------------------------------------------------------------------
-        // CREATE THE KEY 
+        // CREATE THE KEY - didn't end up using this
         //-------------------------------------------------------------------------------------------
         A_List<char_code> create_huffman_key(){
             A_List<char_code> final (28);         // array list of 27 indexes for the code placements
@@ -210,7 +207,7 @@ class huffman {
             return final;
         }
         //-------------------------------------------------------------------------------------------
-        // CREATE HUFFMAN CODE
+        // CREATE HUFFMAN CODE - didn't end up using this
         //-------------------------------------------------------------------------------------------
          A_List<char_code> build_huffman_code(){
             string code = create_code();        // string passed as reference to be built recursively              
@@ -251,9 +248,7 @@ class huffman {
             build_tree();                                       // build the binary tree via miniheap
             build_huffman_code_map();                        // build huffman code based on this tree
             for (char c : og_string){
-                string current_char = "";
-                current_char += c;
-                string next_letter = decoder.get(current_char);
+                string next_letter = decoder.get(char_to_str(c));
                 compressed_string += next_letter;
             }
             cout << "ORIGINAL" << endl << endl 
@@ -265,34 +260,30 @@ class huffman {
         // MORE READABLE VESION WITH SPACES BETWEEN EACH CHAR
         //-------------------------------------------------------------------------------------------
         void print_compressed_string(const string& og_string){
-            this->s_to_encode = og_string;            // set the passed in sting to the class' string
+            this->s_to_encode = og_string;           // set the passed in string to the class' string
             histogram(this->s_to_encode);                                         // create histogram
             print_histogram();                                                     // print histogram
             build_tree();                                       // build the binary tree via miniheap
             build_huffman_code_map();                        // build huffman code based on this tree
             cout << endl;
             for (char c : og_string){
-                string current_char = "";
-                current_char += c;
-                string next_letter = decoder.get(current_char);
+                string next_letter = decoder.get(char_to_str(c));
                 cout << next_letter;
                 cout << " ";
             }
             cout << endl;
         }
         //-------------------------------------------------------------------------------------------
-        // INFLATE A STRING INTO HUFFMAN CODE RECURSIVELY  -- SECOND ATTEMPT
-        // reworked the logic used to make the code in the first place
+        // INFLATE A STRING INTO HUFFMAN CODE RECURSIVELY
         //-------------------------------------------------------------------------------------------
-        string inflate (string& huff_code){
-            string og_huff = huff_code;
-            cout << huff_code << endl;
-            while (huff_code.length() > 1)
-                bt.inflate(this->decoded_str, huff_code, this->steps);
-            cout << endl <<  "INFLATED" << endl << endl;
-            return this->decoded_str;
+        string inflate (string& huff_code){              // pass in the code built during compression
+            string og_huff = huff_code;                             // make a copy for the while loop
+            cout << huff_code << endl;                                    // for visualization output
+            while (huff_code.length() > 1) //code will reduce in size for each step of the code taken
+                bt.inflate(this->decoded_str, huff_code);      // follow the path of the current code
+            cout << endl <<  "INFLATED" << endl << endl;       // decoded string will build each loop 
+            return this->decoded_str;                                  
         }
-
 };
 
 #endif 

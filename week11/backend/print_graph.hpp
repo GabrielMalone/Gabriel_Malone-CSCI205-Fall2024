@@ -17,10 +17,10 @@
 //-----------------------------------------------------------------------------------
 using namespace std;
 //-----------------------------------------------------------------------------------
-unordered_map<int, string> colorMap;                 // to set the color for each number
+unordered_map<int, string> colorMap;              // to set the color for each number
 string CLEAR_SCREEN  = "\033[2J";                             // for animation effect                                              
 string CURSOR_TOP_LEFT = "\033[H";                            // for animation effect 
- int speed = 5;      // print speed, smaller = faster but can cause screen to glitch
+ int speed = 5;       // print speed, smaller = faster but can cause screen to glitch
 //-----------------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------------
@@ -60,11 +60,12 @@ void printTowers(List<histo_info>& list){
         }
     }
     int height = max_height;
-    for (int j = 0 ; j < max_height; j ++){               // iterate size of array
+    for (int j = 0 ; j < max_height; j ++){                  // iterate size of array
         for (size_t k = 0 ; k < list.length(); k ++ ){      // iterate through vector 
             char cur_char = list[k].letter;
-            if (list[k].frequency >= height){  // tall enough to print yet? (top down)
-                cout <<  " " << colorMap[k] + Colors::BLACK + cur_char + "     " +  Colors::RESET ;
+            if (list[k].frequency >= height){ // tall enough to print yet? (top down)
+                cout <<  " " << colorMap[k] + Colors::BLACK + cur_char + "     " 
+                +  Colors::RESET ;
             }
             else {                                       
                 cout << "       ";                // if can't print yet, print blank

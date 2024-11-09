@@ -4,7 +4,7 @@
 #include <iostream>
 #include <cstdlib>
 #include "char_code.hpp"
-#include <string>
+#include "char_to_str.hpp"
 
 template <typename T>
 class BinaryTree {
@@ -39,12 +39,14 @@ class BinaryTree {
 			this->rightChild = NULL;								// set right child to null
 		}
 
-		BinaryTree(T rootObj){										// constructor
+		BinaryTree(T& rootObj){										// constructor
 			this->key = rootObj;									// set root's payload
 			this->leftChild = NULL;									// set left child to null
 			this->rightChild = NULL;								// set right child to null
 		}
-
+		//---------------------------------------------------------------------------------------------
+		// Can't figure out the double delete
+		//---------------------------------------------------------------------------------------------
 		// ~BinaryTree(){											// destructor
 		// 	if (this->leftChild != NULL){							// if left child is not null
 		// 		delete this->leftChild;								// delete left child
@@ -56,7 +58,7 @@ class BinaryTree {
 		// 	}
 		// }
 
-		void insertLeft(BinaryTree<T>& newNode){						// insert left child
+		void insertLeft(BinaryTree<T>& newNode){					// insert left child
 			if (this->leftChild == NULL)							// if left child is null
 				this->leftChild = new BinaryTree<T>(newNode);		// create new node
 			else {													// left child is not null
@@ -91,38 +93,39 @@ class BinaryTree {
 		T getRootVal(){												// get root's payload
 			return this->key;										// return root's payload
 		}
-
-		void inorder(vector<char_code>& cds, string& code, int max){// inorder traversal
-			if (this->leftChild != NULL){
-				code += "0" ;										// going left, add 0 to code
-				this->leftChild->inorder(cds, code, max);			// inorder left child
-				code = code.substr(0, code.length()-1);				// going up, remove end of current code string
+		//---------------------------------------------------------------------------------------------
+		// COMPRESSION ALGO - based on the in-order tree traversal provided
+		//---------------------------------------------------------------------------------------------
+		void inorder(vector<char_code>& cds, string& code){						   // inorder traversal
+			if (this->leftChild != NULL){				
+				code += "0" ;											   // going left, add 0 to code
+				this->leftChild->inorder(cds, code);							  // inorder left child
+				code = code.substr(0, code.length()-1);	 // going up, remove end of current code string
 			}
-			if (key.letter != '*'){		
+			if (key.letter != '*'){				 // if at a leaf node , place the path data into vector
 				cds.emplace_back(char_code{key.letter, code});
 			}
 			if (this->rightChild != NULL){
-				code += "1" ;										// going right, add 1 to code
-				this->rightChild->inorder(cds, code, max);			// inorder right child
-				code = code.substr(0, code.length()-1);				// going up, remove end of current code string
+				code += "1" ;											  // going right, add 1 to code
+				this->rightChild->inorder(cds, code);							 // inorder right child
+				code = code.substr(0, code.length()-1);	 // going up, remove end of current code string
 			}													
 		}
-
-		void inflate(string& decoded_str, string& huff_code, int steps){// inorder traversal
-			string current_direction = huff_code.substr(0,1);
-			if (current_direction == "0" && this->leftChild!=NULL){
-				huff_code= huff_code.substr(1,huff_code.length());
-				this->leftChild->inflate(decoded_str, huff_code, steps);
+		//---------------------------------------------------------------------------------------------
+		// DE-COMPRESSION ALGO 
+		//---------------------------------------------------------------------------------------------
+		void inflate(string& decoded_str, string& huff_code){	
+			string current_direction = huff_code.substr(0,1);  // get first char to give next direction
+			if (current_direction == "0" && this->leftChild!=NULL){    // if 0 and not at leaf, go left
+				huff_code= huff_code.substr(1,huff_code.length());  // trim code of the step just taken
+				this->leftChild->inflate(decoded_str, huff_code); 	 		 // continue on the journey
 			}
-			if (key.letter != '*'){
-				string c = "";
-				c += key.letter;		
-				decoded_str += c;
+			if (key.letter != '*'){												   // if at a leaf node
+				decoded_str += char_to_str(key.letter);   // add the char at leaf to the decoded string
 			}	
-			if (current_direction == "1" && this->rightChild!=NULL){
-				steps ++ ;
-				huff_code= huff_code.substr(1,huff_code.length());
-				this->rightChild->inflate(decoded_str, huff_code, steps);
+			if (current_direction == "1" && this->rightChild!=NULL){  // if 1 and not at leaf, go right
+				huff_code= huff_code.substr(1,huff_code.length());  // trim code of the step just taken
+				this->rightChild->inflate(decoded_str, huff_code);			 // continue on the journey
 			}												
 		}
 		void printTree(){
