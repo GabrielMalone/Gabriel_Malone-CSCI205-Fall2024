@@ -14,6 +14,7 @@
 #include "List.hpp"
 #include "histo_info.hpp"
 #include <vector>
+#include <iomanip>
 //-----------------------------------------------------------------------------------
 using namespace std;
 //-----------------------------------------------------------------------------------
@@ -49,7 +50,7 @@ void makeColorShades(){
 //-----------------------------------------------------------------------------------
 // 'Bar Graph' representation of an array printing logic 
 //-----------------------------------------------------------------------------------
-void printTowers(List<histo_info>& list){ 
+void printTowers(List<histo_info>& list, int max_width){ 
     string CLEAR_SCREEN  = "\033[2J";                         // for animation effect                                              
     string CURSOR_TOP_LEFT = "\033[H";                        // for animation effect 
     makeColorShades();                                       // get the colors set up                           
@@ -64,11 +65,11 @@ void printTowers(List<histo_info>& list){
         for (size_t k = 0 ; k < list.length(); k ++ ){      // iterate through vector 
             char cur_char = list[k].letter;
             if (list[k].frequency >= height){ // tall enough to print yet? (top down)
-                cout <<  " " << colorMap[k] + Colors::BLACK + cur_char + "     " 
-                +  Colors::RESET ;
+                cout <<  " " << colorMap[k] + Colors::BLACK + cur_char  << setw(max_width) << " " 
+                <<  Colors::RESET ;
             }
             else {                                       
-                cout << "       ";                // if can't print yet, print blank
+                cout << setw(max_width+2) << " ";                // if can't print yet, print blank
             }                                            
         }
         cout << endl;

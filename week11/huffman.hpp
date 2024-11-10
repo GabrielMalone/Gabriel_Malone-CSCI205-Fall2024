@@ -14,6 +14,7 @@
 #include <string>
 #include <vector>
 #include <algorithm>
+#include <iomanip>
 
 
 using namespace std;
@@ -94,11 +95,19 @@ class huffman {
         // PRINT HISTOGRAM - print the unique characters and their frequency
         //------------------------------------------------------------------------------------------
         void print_histogram(){    
-            cout << endl;                   
-            printTowers(h_info_list);
-            for (size_t w = 0; w < h_info_list.length(); w ++){                                   
+            cout << endl; 
+            int max_width = 0;                                              // set width of each bar
+            string max_freq_str = "";
+            max_freq_str = to_string(max_freq);  // width determinded by the length of longest digit
+            max_width = 5 + max_freq_str.length(); // constant relates to spaces used no matter what         
+            printTowers(h_info_list, max_width);                                    // print the bar 
+            for (size_t w = 0; w < h_info_list.length(); w ++){                // print the bar info                               
                 int val2 = ht.get(char_to_str(h_info_list[w].letter)); //convert char2string for key                                
-                cout << " " << char_to_str(h_info_list[w].letter) << " = " << val2 << " ";           
+                cout << " " 
+                     << char_to_str(h_info_list[w].letter) 
+                     << " = " 
+                     << setw(max_freq_str.length()+2) 
+                     << val2;           
             }
             cout << endl << " " ;
         }
