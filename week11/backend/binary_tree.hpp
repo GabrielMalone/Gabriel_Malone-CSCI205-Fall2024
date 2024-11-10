@@ -65,6 +65,7 @@ class BinaryTree {
 				BinaryTree<T> *t = new BinaryTree<T>(newNode);		// create new node
 				t->leftChild = this->leftChild;						// set new node's left child to current left child
 				this->leftChild = t;								// set current left child to new node
+
 			}
 		}
 
@@ -77,6 +78,7 @@ class BinaryTree {
 				this->rightChild = t;								// set current right child to new node
 			}
 		}
+
 
 		BinaryTree<T> *getRightChild(){								// get right child
 			return this->rightChild;								// return right child
@@ -93,6 +95,15 @@ class BinaryTree {
 		T getRootVal(){												// get root's payload
 			return this->key;										// return root's payload
 		}
+
+		void postorder_delete(){									// postorder traversal
+			if (this->leftChild != NULL)							// if left child is not null
+				this->leftChild->postorder_delete();				// postorder left child
+			if (this->rightChild != NULL)							// if right child is not null
+				this->rightChild->postorder_delete();				// postorder right child
+			delete this;											// delete root
+		}
+
 		//---------------------------------------------------------------------------------------------
 		// COMPRESSION ALGO - based on the in-order tree traversal provided
 		//---------------------------------------------------------------------------------------------

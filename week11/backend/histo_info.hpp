@@ -4,8 +4,8 @@
 using namespace std;
 
 struct histo_info {
-    char letter;
-    int frequency;
+    char letter = '*';
+    int frequency = 0;
 
     bool operator<(const histo_info& other){
         return this->frequency < other.frequency;

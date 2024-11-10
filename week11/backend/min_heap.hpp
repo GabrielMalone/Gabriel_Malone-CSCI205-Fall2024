@@ -84,7 +84,7 @@ class MinHeap {
 		// sift_down is O(log n)
 		T extract_min() {											// remove min element
 			if (empty()) throw std::runtime_error("Heap is empty");	// throw exception if heap is empty
-			BinaryTree<histo_info> min	= heap[1];										// get min element
+			BinaryTree<histo_info> min	= heap[1];					// get min element
 			heap[1] = heap.back();									// set root to last element
 			heap.pop_back();										// remove last element
 			sift_down(1);											// move new root down the tree to maintain min heap property

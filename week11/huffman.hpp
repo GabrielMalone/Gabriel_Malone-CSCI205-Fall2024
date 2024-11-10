@@ -134,36 +134,14 @@ class huffman {
             initialize_priority_heap(); 
 
             for (int i = 0 ; i < (ht.m_size()-1) ; i ++){          // iterating for num unique chars
-                BinaryTree<histo_info> *new_t = new BinaryTree<histo_info>();   // create a new tree 
-                new_t->get_key().frequency = 0;                                        // initialize
-                new_t->get_key().letter = '*';                         // set to something not avail
-                try                                                      // try in case no nodes lef
-                {                                                          // try until out of trees
-                    BinaryTree<histo_info>* left = new BinaryTree<histo_info>(mh.extract_min()); //
-                    new_t->insertLeft(*left);                         // make left child of new node
-                    new_t->get_key().frequency += left->get_key().frequency;                 // freq
-                    delete left;
-                }
-                catch(const std::exception& e)
-                {
-                    std::cerr << e.what() << '\n';
-                    return;
-                }
-                   try                                                   // try in case no nodes lef
-                {                                                          // try until out of trees
-                    BinaryTree<histo_info>* right = new BinaryTree<histo_info>(mh.extract_min());  
-                    new_t->insertRight(*right);                      // make right child of new node
-                    new_t->get_key().frequency += right->get_key().frequency;                // freq
-                    delete right;
-                }
-                catch(const std::exception& e)
-                {
-                    std::cerr << e.what() << '\n';
-                    return;
-                }
-
-                mh.insert(*new_t);                  // insert this new binary tree into the miniheap
-                delete new_t;
+                BinaryTree<histo_info>new_t;                                    // create a new tree 
+                BinaryTree<histo_info>left = mh.extract_min();                     // extract a tree
+                new_t.insertLeft(left);                               // make left child of new node  
+                new_t.get_key().frequency += left.get_key().frequency;                       // freq
+                BinaryTree<histo_info>right = mh.extract_min();                    // extract a tree
+                new_t.insertRight(right);                            // make right child of new node
+                new_t.get_key().frequency += right.get_key().frequency;                      // freq
+                mh.insert(new_t);                   // insert this new binary tree into the miniheap
             }
             bt = mh.heap[1];          // save the final binary tree at class level for other methods
         }
@@ -290,7 +268,8 @@ class huffman {
             unsigned long index = 0;
             while (index < huff_code.length())        // index will move along the length of the code
                 bt.inflate(this->decoded_str, huff_code, index);   // recursively follow path of code
-            cout << endl <<  "INFLATED" << endl << endl;       // decoded string will build each loop 
+            cout << endl <<  "INFLATED" << endl << endl;       // decoded string will build each loop
+            //bt.postorder_delete(); 
             return this->decoded_str;                                  
         }
 };
