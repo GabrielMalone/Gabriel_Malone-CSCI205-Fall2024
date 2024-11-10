@@ -74,7 +74,7 @@ class MinHeap {
 		}
 
 		// Insert an element into the max heap
-		void insert(T value) {
+		void insert(T& value) {
 			heap.push_back(value);									// add element to end of heap
 			sift_up(heap.size() - 1);								// move element up the tree to maintain min heap property
 		}
