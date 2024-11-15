@@ -1,7 +1,6 @@
 #ifndef RANDOM_SEARCH
 #define RANDOM_SEARCH
 
-
 #include <random>
 #include <cmath>
 #include <iostream>
@@ -10,7 +9,7 @@
 #include "../bst.hpp"
 #include "../backend/saveSearchData.hpp"
 #include "../backend/ClosedHashTable.hpp"
-#include "../backend/graph.hpp"
+#include "../backend/graph_insertion_tests.hpp"
 
 ClosedHashTable<searchData>random_test_map;
 
@@ -21,7 +20,7 @@ using namespace std;
 // when the tree initialized with randomized data
 //--------------------------------------------------------------------------------------------------------------
 template<typename T>
-void bst_insert_random_array_test(BinarySearchTree<T>& bst, vector<T>& v, char type, bool print){
+void bst_insert_test(BinarySearchTree<T>& bst, vector<T>& v, char type, bool print){
     random_device rd;                                       // random number generator for random val assignment
     mt19937 gen(rd());
     uniform_int_distribution<> dist(0, bst.tree_nodes() * 2);       // set up to  get val not present in the BST
@@ -29,8 +28,7 @@ void bst_insert_random_array_test(BinarySearchTree<T>& bst, vector<T>& v, char t
     bst.get_data().order_type = type;                                            // order type set to 'r' random
     vector<T> results_vector;                                            // initialize vector of size of the BST
     int i = 0;                                                                           // counter for the loop
-    int nodes = bst.tree_nodes();       // loop for duration of tree size (this number could be anything though)
-    while (i < 100){                    // run test to see how many operations it takes to insert a random value
+    while (i < 1000){                   // run test to see how many operations it takes to insert a random value
         bst.get_data().inserts = 0;                                                      // reset count each run
         int rand_val = dist(gen);                                                  // get random value to insert
         bst.insert(rand_val);                                                  // insert the unique random value

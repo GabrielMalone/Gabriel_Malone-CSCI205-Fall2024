@@ -36,6 +36,7 @@
 #include <stack>
 #include "bst_helpers.hpp/bst_data.hpp"
 #include "bst_helpers.hpp/initialize_vec.hpp"
+#include <cmath>
 
 // TreeNode class
 template <typename T>
@@ -52,14 +53,17 @@ template <typename T>
 class BinarySearchTree {
 	private:
 		TreeNode<T>* root;									// pointer to root node
-		int nodeCount;										// number of nodes in the tree
+		int nodeCount = 0;									// number of nodes in the tree
 		searchData sd;										// track data related to BST methods
+		int max_height = 0 ; 								// track the height of this tree		
 		// helper function with arguments to insert a node recursively
 		// O(log n) where n is the number of nodes in the tree
 		TreeNode<T>* insert(TreeNode<T>* node, T key) {
+
 			sd.inserts ++ ;
 			if (node == nullptr){							// if node is null, create new node
 				nodeCount++;								// increment node count
+				
 				return new TreeNode<T>(key);				// return new node
 			}
 			if (key < node->data)							// if key is less than node's data
@@ -113,31 +117,54 @@ class BinarySearchTree {
 
 		// helper function to traverse the tree in order
 		// O(n) where n is the number of nodes in the tree
-		void inOrderTraversal(TreeNode<T>* node) {
+		void inOrderTraversal(TreeNode<T>* node, vector<T>& v) {
 			if (node != nullptr) {					// if node is not null
-				inOrderTraversal(node->left);		// traverse left subtree
-				std::cout << node->data << " ";		// print node's data
-				inOrderTraversal(node->right);		// traverse right subtree
+				inOrderTraversal(node->left, v);		// traverse left subtree
+				//std::cout << node->data << " ";		// print node's data
+				v.emplace_back(node->data);			// place data into vector
+				inOrderTraversal(node->right, v);		// traverse right subtree
 			}
 		}
-
 		// helper function to traverse the tree in pre-order
 		// O(n) where n is the number of nodes in the tree
-		void preOrderTraversal(TreeNode<T>* node) {
+		void preOrderTraversal(TreeNode<T>* node, bool& valid) {
 			if (node != nullptr) {					// if node is not null
-				std::cout << node->data << " ";		// print node's data
-				preOrderTraversal(node->left);		// traverse left subtree
-				preOrderTraversal(node->right);		// traverse right subtree
+				// checking if tree is valid
+				if (node->left == nullptr && node->right == nullptr){
+					return; // if no children, nothing to check
+				}
+				else if (node->left != nullptr && node->right == nullptr){ // if just a left child
+					if (node->left->data > this->root->data){ // if left greater than root
+						valid = false; 
+						return;
+					};
+				}
+				else if (node->right != nullptr && node->left == nullptr){ // if just a right child
+					if (node->right->data < this->root->data){ // if left greater than root or right smaller than root, invalid
+						valid = false;
+						return;
+					};
+				} else { // if both children present
+					if (node->left->data > this->root->data || node->right->data <  this->root->data)
+					valid = false;
+					return;
+				}
+				preOrderTraversal(node->left, valid);		// traverse left subtree
+				preOrderTraversal(node->right, valid);		// traverse right subtree
 			}
 		}
 
 		// helper function to traverse the tree in post-order
 		// O(n) where n is the number of nodes in the tree
-		void postOrderTraversal(TreeNode<T>* node) {
-			if (node != nullptr) {					// if node is not null
-				postOrderTraversal(node->left);		// traverse left subtree
-				postOrderTraversal(node->right);	// traverse right subtree
-				std::cout << node->data << " ";		// print node's data
+		void postOrderTraversal(TreeNode<T>* node, int& height, int& max_height) {
+			if (node != nullptr) {										// if node is not null
+				height ++ ;												// height goes up
+				postOrderTraversal(node->left, height, max_height);		// traverse left subtree
+				postOrderTraversal(node->right, height, max_height);	// traverse right subtree
+				height -- ;												// going back up , height goes down
+				if (height > max_height){
+					max_height = height;
+				}
 			}
 		}
 
@@ -199,21 +226,19 @@ class BinarySearchTree {
 		}
 
 		// public in-order traversal, no arguments
-		void in_order() {
-			inOrderTraversal(root);							// call private recursive helper
+		void in_order(vector<T>& v) {
+			inOrderTraversal(root, v);							// call private recursive helper
 			std::cout << std::endl;							// new line
 		}
 
 		// public pre-order traversal, no arguments
-		void pre_order() {
-			preOrderTraversal(root);						// call private recursive helper
-			std::cout << std::endl;
+		void pre_order(bool& valid) {
+			preOrderTraversal(root, valid);						// call private recursive helper
 		}
 
 		// public post-order traversal, no arguments
-		void post_order() {
-			postOrderTraversal(root);						// call private recursive helper
-			std::cout << std::endl;
+		void post_order(int& height, int& max_height) {
+			postOrderTraversal(root, height,  max_height);						// call private recursive helper
 		}
 		
 		// public print with no arguments
@@ -247,4 +272,46 @@ class BinarySearchTree {
    			}
 			return v;
 		};
+
+		vector<T> flatten(){
+			vector<T>v;				// instantiate a new vector
+			in_order(v);			// place data in order from this tree into vector
+			return v;				// return this vector
+		}
+
+		T closest_val(T val){							// find the closest value 
+			int difference = 999999;						
+			int closest_val = -1;	
+			vector<T> v = flatten();					// flatten the tree and place into a vector
+			for (int i = 0 ; i < v.size() ; i ++ ){
+				int diff = abs(v[i] - val);					// find the difference between val and current int in vector
+				if (diff < difference){					// if new low, set it as the closest val
+					difference = diff;					// set new lowest difference 
+					closest_val = v[i];					// set closest val
+				}
+				if (difference == 0 ){					// if difference == 0, same value present in tree
+					return val;
+					break;
+				}
+			}
+			return closest_val;
+		}
+
+		bool is_valid(){
+			bool valid = true;
+			pre_order(valid);
+			if (valid){
+				cout << "Tree is valid" << endl;
+			} else {
+				cout << "Tree is invalid" << endl;
+			}
+			return valid;
+		}
+
+		int get_height(){
+			int max_height = 0;								// int to track height
+			int height = 0;									// int to track height both passed in by reference
+			post_order(height, max_height);					// recerse through in post_oder (leaf action)
+			return max_height;	
+		}
 };

@@ -7,7 +7,7 @@
 // OUTPUT GRAPHS
 //------------------------------------------------------------------------------------
 void graph() {
-	int status = system("python3 backend/plot.py"); 
+	int status = system("python3 backend/plot_insertion_tests.py"); 
 	if (status == -1)
 	{
 		std::cerr << "\npython script failed :[\n" << std::endl;

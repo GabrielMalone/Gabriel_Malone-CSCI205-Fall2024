@@ -13,7 +13,7 @@ using namespace std;
 void generate_vector(int size, char type, std::vector<int>& temp, int range){
     random_device rd;                // random number generator for random val assignment
     mt19937 gen(rd());
-    uniform_int_distribution<> dist(1,  range); // range from 0 to 100 for the rnadom value
+    uniform_int_distribution<> dist(0,  range); // range from 0 to 100 for the rnadom value
 	List<int> used;
     int val = 0;
     int step = 0;
@@ -31,12 +31,12 @@ void generate_vector(int size, char type, std::vector<int>& temp, int range){
 			step = 0;	
 			while(step < size){			    // while not 100 #s found yet
 				val = dist(gen);			// get random number
-				if (used.find(val) == -1){  // if number hasn't been used yet
+				// if (used.find(val) == -1){  // if number hasn't been used yet
 					temp[step] = val;		// place in array
 					used.insert(val);		// save that value for checking
 					step ++ ;				// keep track of how many numbers found
 				}
-			}
+			// }
 			break;
 		case 'p': // partially sorted
 			for(int i = 0; i < size; i++)
