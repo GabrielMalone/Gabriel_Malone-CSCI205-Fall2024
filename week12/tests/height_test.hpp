@@ -31,7 +31,7 @@ void height_testing(){
     int i = 0 ; 
     while (i < 100){                                                                           // num experiments to run
 
-        int tree_size = 500;                                                          // tree size for each experiment  
+        int tree_size = 1000;                                                           // tree size for each experiment
         //--------------------------------------------------------------------------------------------------------------
         // CONTROL - IDEAL TREE HEIGHT FOR COMPARISON  - LOG 2 N
         //--------------------------------------------------------------------------------------------------------------
