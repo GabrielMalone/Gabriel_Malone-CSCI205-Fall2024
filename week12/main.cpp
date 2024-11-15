@@ -11,18 +11,46 @@ using namespace std;
 
 BinarySearchTree<int> bst;                                             // non-self balancing binary search tree
 
-
 int main(){
     //----------------------------------------------------------------------------------------------------------
-    // SET UP ARRAY TYPE TO BE USED TO BUILD BINARY SEARCH TREE
+    // SET UP ARRAY TYPE TO BE USED TO BUILD BINARY SEARCH TREE - perfectly balanced approach
     //----------------------------------------------------------------------------------------------------------
-    char type = 'r';                                                                            // type of array 
+    char type = 'a';                                                                            // type of array 
     bool print = false;                                                                 // confirmation printing
-    int vec_size = 10;   // size of vec/size of final binary tree - tree smaller - repeat vals not inlc in tree
+    int vec_size = 1000;  // size of vec/size of final binary tree - tree smaller - repeat vals not inlc in tree
     //----------------------------------------------------------------------------------------------------------
-    // CREATE THE VECTOR AND THE BINARY SEARCH TREE 
+    // CREATE THE VECTOR AND THE BINARY SEARCH TREE - perfectly balanced approach
     //----------------------------------------------------------------------------------------------------------
-    vector<int> v = bst.initialize(vec_size, type, print);
+    vector<int>v(vec_size);
+    generate_vector(vec_size, type, v, vec_size);
+    divide_conquer(v, bst);                         // switched to this after I made it for a more balanced tree
+    //----------------------------------------------------------------------------------------------------------
+    
+    // //-------------------------------------------------------------------------------------------------------
+    // // SET UP ARRAY TYPE TO BE USED TO BUILD BINARY SEARCH TREE - average case approach 
+    // //-------------------------------------------------------------------------------------------------------
+    // char type = 'r';                                                                         // type of array 
+    // bool print = false;                                                              // confirmation printing
+    // int vec_size = 10; // size of vec/size of final binary tree - tree smaller - repeat vals not inlc in tree
+    // //-------------------------------------------------------------------------------------------------------
+    // // CREATE THE VECTOR AND THE BINARY SEARCH TREE 
+    // //-------------------------------------------------------------------------------------------------------
+    // vector<int> v = bst.initialize(vec_size, type, print);
+    // //-------------------------------------------------------------------------------------------------------
+
+    // //-------------------------------------------------------------------------------------------------------
+    // // SET UP ARRAY TYPE TO BE USED TO BUILD BINARY SEARCH TREE - worst case approach 
+    // //-------------------------------------------------------------------------------------------------------
+    // char type = 'a';                                                                         // type of array 
+    // bool print = false;                                                              // confirmation printing
+    // int vec_size = 10; // size of vec/size of final binary tree - tree smaller - repeat vals not inlc in tree
+    // //-------------------------------------------------------------------------------------------------------
+    // // CREATE THE VECTOR AND THE BINARY SEARCH TREE 
+    // //-------------------------------------------------------------------------------------------------------
+    // vector<int> v = bst.initialize(vec_size, type, print);
+    // //-------------------------------------------------------------------------------------------------------
+
+
     //----------------------------------------------------------------------------------------------------------
     // RUN ISERT TEST WITH THIS BINARY SEARCH TREE
     //----------------------------------------------------------------------------------------------------------
@@ -37,7 +65,7 @@ int main(){
     // take the values in a tree and place them, in order, into a vector
     //----------------------------------------------------------------------------------------------------------
     vector<int>d = bst.flatten();
-    print_vec(d);
+    print_vec(d);                                                                      // confrim flatten worked
     //----------------------------------------------------------------------------------------------------------
     // FIND CLOSEST VALUE
     //----------------------------------------------------------------------------------------------------------
@@ -67,7 +95,7 @@ int main(){
     //----------------------------------------------------------------------------------------------------------
     // FIND KTH SMALLEST VALUE
     //----------------------------------------------------------------------------------------------------------
-    int kth_val = bst.tree_nodes()/2;
+    int kth_val = bst.tree_nodes()/2;                            // just get a value that will always be present
     int kth_smallest_val = bst.kth_smallest(kth_val);
     cout << "The " << kth_val << "th smallest value in the tree is: " << kth_smallest_val << endl;
     print_vec(d);

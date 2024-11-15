@@ -1,3 +1,6 @@
+#ifndef BINARY_SEARCH_TREE
+#define BINARY_SEARCH_TREE
+
 
 #include <iostream>
 #include <vector>
@@ -289,17 +292,17 @@ class BinarySearchTree {
 			return this->sd;
 		}
 		//----------------------------------------------------------------------------------------------------------
-		int tree_nodes(){
+		int tree_nodes(){													  // how many nodes does this tree have?
 			return this->nodeCount;
 		}
 		//----------------------------------------------------------------------------------------------------------
 		// Create the BST via vector data
 		//----------------------------------------------------------------------------------------------------------
 		vector<int> initialize(int size, char type, bool print){
-			vector<int>v(size);					
-			intialize_vector(v, v.size(), type, print);
-			for (int i = 0 ; i < v.size() ; i ++ ){
-        		this->insert(v[i]);
+			vector<int>v(size);																		 // get a vector
+			intialize_vector(v, v.size(), type, print);	// initialize the vector with either random or assorted ints
+			for (int i = 0 ; i < v.size() ; i ++ ){	             // insert the values from the vector into this tree
+        		this->insert(v[i]);		 // lazy insertion approach, could use better method like divide and conquer
    			}
 			return v;
 		};
@@ -334,7 +337,7 @@ class BinarySearchTree {
 		//----------------------------------------------------------------------------------------------------------
 		bool is_valid(){
 			bool valid = true;
-			pre_order(valid);
+			pre_order(valid);  // this method stops at a root node, and compares value of children to that root node
 			if (valid){
 				cout << "Tree is valid" << endl;
 			} else {
@@ -356,13 +359,15 @@ class BinarySearchTree {
 		// this just calls the above method (get height) but on the left and right children of this root node
 		//----------------------------------------------------------------------------------------------------------
 		int balance_factor(){
-			int l_height = 0;		
-			int r_height = 0;
-			int left_max_h = 0;
-			int right_max_h = 0;
-			post_order_left(l_height, left_max_h);
-			post_order_right(r_height, right_max_h);
-			return left_max_h - right_max_h;
+			int l_height = 0;								 // current height of left subtree - passed as reference
+			int r_height = 0;								// current height of right subtree - passed as reference
+			int left_max_h = 0;							   // current left subtree max height - passed as areference
+			int right_max_h = 0;						  // current right subtree max height - passed as areference
+			post_order_left(l_height, left_max_h);		  					  // call max height on the left subtree
+			post_order_right(r_height, right_max_h);						 // call max height on the right subtree
+			return left_max_h - right_max_h;												// return the difference
 		}
 		//----------------------------------------------------------------------------------------------------------
 };
+
+#endif
