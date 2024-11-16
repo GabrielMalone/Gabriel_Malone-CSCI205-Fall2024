@@ -14,45 +14,16 @@ AVL_BinarySearchTree<int> avl_bst;                                              
 //BinarySearchTree<int> avl_bst;                                       
 
 int main(){
-    // //----------------------------------------------------------------------------------------------------------
-    // // SET UP TO BE USED TO BUILD BINARY SEARCH TREE - perfectly balanced approach with non self balancing trees
-    // //----------------------------------------------------------------------------------------------------------
-    // char type = 'a';                                                                            // type of array 
-    // bool print = false;                                                                 // confirmation printing
-    // int vec_size = 1000;  // size of vec/size of final binary tree - tree smaller - repeat vals not inlc in tree
-    // //----------------------------------------------------------------------------------------------------------
-    // // CREATE THE VECTOR AND THE BINARY SEARCH TREE - perfectly balanced approach
-    // //----------------------------------------------------------------------------------------------------------
-    // vector<int>v(vec_size);
-    // generate_vector(vec_size, type, v, vec_size);
-    // divide_conquer(v, bst);                         // switched to this after I made it for a more balanced tree
-    // //----------------------------------------------------------------------------------------------------------
-
-    //-------------------------------------------------------------------------------------------------------
-    // SET UP ARRAY TYPE TO BE USED TO BUILD BINARY SEARCH TREE - average case approach 
-    //-------------------------------------------------------------------------------------------------------
-    char type = 'a';                                                                         // type of array 
-    bool print = false;                                                              // confirmation printing
-    int vec_size = 10000;            // size of vec/size of final binary tree  - repeat vals not inlc in tree
-    //-------------------------------------------------------------------------------------------------------
+    //----------------------------------------------------------------------------------------------------------
+    // SET UP ARRAY TYPE TO BE USED TO BUILD BINARY SEARCH TREE - worst case 'ascending' data
+    //----------------------------------------------------------------------------------------------------------
+    char type = 'a';                                                                            // type of array 
+    bool print = false;                                                                 // confirmation printing
+    int vec_size = 10000;               // size of vec/size of final binary tree  - repeat vals not inlc in tree
+    //----------------------------------------------------------------------------------------------------------
     // CREATE THE VECTOR AND THE BINARY SEARCH TREE 
-    //-------------------------------------------------------------------------------------------------------
+    //----------------------------------------------------------------------------------------------------------
     vector<int> v = avl_bst.initialize(vec_size, type, print);
-    //-------------------------------------------------------------------------------------------------------
-
-    // //-------------------------------------------------------------------------------------------------------
-    // // SET UP ARRAY TYPE TO BE USED TO BUILD BINARY SEARCH TREE - worst case approach 
-    // //-------------------------------------------------------------------------------------------------------
-    // char type = 'a';                                                                         // type of array 
-    // bool print = false;                                                              // confirmation printing
-    // int vec_size = 10; // size of vec/size of final binary tree - tree smaller - repeat vals not inlc in tree
-    // //-------------------------------------------------------------------------------------------------------
-    // // CREATE THE VECTOR AND THE BINARY SEARCH TREE 
-    // //-------------------------------------------------------------------------------------------------------
-    // vector<int> v = bst.initialize(vec_size, type, print);
-    // //-------------------------------------------------------------------------------------------------------
-
-
     //----------------------------------------------------------------------------------------------------------
     // RUN ISERT TEST WITH THIS BINARY SEARCH TREE
     //----------------------------------------------------------------------------------------------------------
