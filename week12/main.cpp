@@ -5,38 +5,39 @@
 #include "backend/print_vector.hpp"
 #include "tests/insertion_test.hpp"
 #include "tests/height_test.hpp"
+#include "avl_t.hpp"
 #include <cassert>
 
 using namespace std;
 
-BinarySearchTree<int> bst;                                             // non-self balancing binary search tree
+AVL_BinarySearchTree<int> bst;                                             // non-self balancing binary search tree
 
 int main(){
-    //----------------------------------------------------------------------------------------------------------
-    // SET UP ARRAY TYPE TO BE USED TO BUILD BINARY SEARCH TREE - perfectly balanced approach
-    //----------------------------------------------------------------------------------------------------------
-    char type = 'a';                                                                            // type of array 
-    bool print = false;                                                                 // confirmation printing
-    int vec_size = 1000;  // size of vec/size of final binary tree - tree smaller - repeat vals not inlc in tree
-    //----------------------------------------------------------------------------------------------------------
-    // CREATE THE VECTOR AND THE BINARY SEARCH TREE - perfectly balanced approach
-    //----------------------------------------------------------------------------------------------------------
-    vector<int>v(vec_size);
-    generate_vector(vec_size, type, v, vec_size);
-    divide_conquer(v, bst);                         // switched to this after I made it for a more balanced tree
-    //----------------------------------------------------------------------------------------------------------
-    
-    // //-------------------------------------------------------------------------------------------------------
-    // // SET UP ARRAY TYPE TO BE USED TO BUILD BINARY SEARCH TREE - average case approach 
-    // //-------------------------------------------------------------------------------------------------------
-    // char type = 'r';                                                                         // type of array 
-    // bool print = false;                                                              // confirmation printing
-    // int vec_size = 10; // size of vec/size of final binary tree - tree smaller - repeat vals not inlc in tree
-    // //-------------------------------------------------------------------------------------------------------
-    // // CREATE THE VECTOR AND THE BINARY SEARCH TREE 
-    // //-------------------------------------------------------------------------------------------------------
-    // vector<int> v = bst.initialize(vec_size, type, print);
-    // //-------------------------------------------------------------------------------------------------------
+    // //----------------------------------------------------------------------------------------------------------
+    // // SET UP ARRAY TYPE TO BE USED TO BUILD BINARY SEARCH TREE - perfectly balanced approach
+    // //----------------------------------------------------------------------------------------------------------
+    // char type = 'a';                                                                            // type of array 
+    // bool print = false;                                                                 // confirmation printing
+    // int vec_size = 1000;  // size of vec/size of final binary tree - tree smaller - repeat vals not inlc in tree
+    // //----------------------------------------------------------------------------------------------------------
+    // // CREATE THE VECTOR AND THE BINARY SEARCH TREE - perfectly balanced approach
+    // //----------------------------------------------------------------------------------------------------------
+    // vector<int>v(vec_size);
+    // generate_vector(vec_size, type, v, vec_size);
+    // divide_conquer(v, bst);                         // switched to this after I made it for a more balanced tree
+    // //----------------------------------------------------------------------------------------------------------
+
+    //-------------------------------------------------------------------------------------------------------
+    // SET UP ARRAY TYPE TO BE USED TO BUILD BINARY SEARCH TREE - average case approach 
+    //-------------------------------------------------------------------------------------------------------
+    char type = 'a';                                                                         // type of array 
+    bool print = false;                                                              // confirmation printing
+    int vec_size = 500; // size of vec/size of final binary tree - tree smaller - repeat vals not inlc in tree
+    //-------------------------------------------------------------------------------------------------------
+    // CREATE THE VECTOR AND THE BINARY SEARCH TREE 
+    //-------------------------------------------------------------------------------------------------------
+    vector<int> v = bst.initialize(vec_size, type, print);
+    //-------------------------------------------------------------------------------------------------------
 
     // //-------------------------------------------------------------------------------------------------------
     // // SET UP ARRAY TYPE TO BE USED TO BUILD BINARY SEARCH TREE - worst case approach 
@@ -89,10 +90,6 @@ int main(){
     //----------------------------------------------------------------------------------------------------------
     cout << "Height of this tree is: " << bst.get_height() << endl;
     //----------------------------------------------------------------------------------------------------------
-    // HEIGHT TESTING
-    //----------------------------------------------------------------------------------------------------------
-    height_testing();
-    //----------------------------------------------------------------------------------------------------------
     // FIND KTH SMALLEST VALUE
     //----------------------------------------------------------------------------------------------------------
     int kth_val = bst.tree_nodes()/2;                            // just get a value that will always be present
@@ -103,8 +100,14 @@ int main(){
     //----------------------------------------------------------------------------------------------------------
     // FIND THE BALANCE FACTOR
     //----------------------------------------------------------------------------------------------------------
-    cout << "The Balance Factor of this tree is: " << bst.balance_factor() << endl;
+    //bst.set_Balance();
     bst.print();
+    cout << "The Balance Factor of this tree is: " << bst.balance_factor() << endl;
+    //----------------------------------------------------------------------------------------------------------
+    // HEIGHT TESTING - test various insertion methods from a sorted array to see their effectiveness
+    //----------------------------------------------------------------------------------------------------------
+    //height_testing();
+   
     return 0;
 
 }
