@@ -86,14 +86,14 @@ class AVL_BinarySearchTree {
 		//---------------------------------------------------------------------------------------------------------
 		// INSERT - private
 		//---------------------------------------------------------------------------------------------------------
-		A_TreeNode<T>* insert(A_TreeNode<T>* node, T key) {
+		A_TreeNode<T>* _insert(A_TreeNode<T>* node, T key) {
 			sd.inserts ++ ;
 			if (node == nullptr) return new A_TreeNode(key); 				 // if reached a leaf return a new node
 			if (key < node->data) {										   	  // if less than subtree root, go left
-				node->left = insert(node->left, key);					   // recursively call this until at a leaf
+				node->left = _insert(node->left, key);					   // recursively call this until at a leaf
 				node->left->parent = node;  //set the parent pointer of the newly inserted node in the left subtree
 			} else if (key > node->data) {								  // if greater than subtree root, go right
-				node->right = insert(node->right, key);					   // recursively call this until at a leaf
+				node->right = _insert(node->right, key);					   // recursively call this until at a leaf
 				node->right->parent = node; //set the parent pointer of the newly inserted node in the left subtree
 			} else {
 				return node; 														 // No duplicate values allowed
@@ -102,33 +102,31 @@ class AVL_BinarySearchTree {
 			return balance(node);								    // balance the node if it has become unbalanced
 		}
 		//---------------------------------------------------------------------------------------------------------
-		// DELETE - private
+		// helper function to find the inorder successor of a node
+		// O(log n) where n is the number of nodes in the tree
+		// added the balance logic at end
 		//---------------------------------------------------------------------------------------------------------
-		A_TreeNode<T>*  deleteNode(A_TreeNode<T>*  root, T key) {     // start at the root node to  search for item
-			if (root == nullptr) return root;	 							 // if root is empty, nothing to delete
-			if (key < root->data) {									   // if data is less than root's data, go left
-				root->left = deleteNode(root->left, key); // update left node if deletion occurs (or stay the same)
-			} else if (key > root->data) { 						   // if data is greater than root's data, go right
-				root->right = deleteNode(root->right, key);     // update right node if deletion (or stay the same)			
-			} else {	                             // otherwise neither greater than nor less than, thus equal...
-				if (root->left == nullptr || root->right == nullptr) {    // if node to delete has a child, save it
-					A_TreeNode<T>* temp = root->left ? root->left : root->right;   // temp = L or R if either exist 
-					if (temp == nullptr) { 						  // if temp ends up null, means it had no children
-						temp = root;			 				 // saving root info so can be safely deleted later
-						root = nullptr;								             // set root to nullptr then delete 
-					} else {
-						*root = *temp;							            // otherwise the child becomes the root
-					}
-					delete temp;							 	  // deletion of original root finally happens here
-				} else {									   // otherwise the node to be deleted has two children
-					A_TreeNode<T>* temp = min(root->right); 	  // replace the node's date to be deleted with the
-					root->data = temp->data; 								   // smallest val in the right subtree
-					root->right = deleteNode(root->right, temp->data); 		  // Then delete that smallest val node
-				}
+		A_TreeNode<T>* _remove(A_TreeNode<T>* node, T key) {						  // args: start, key to remove
+			if (node == nullptr)		return node;							       // key was not found in tree
+			if (key < node->data)		node->left  = _remove(node->left, key);  // key < than node's data, go left
+			else if (key > node->data)	node->right = _remove(node->right, key);// key > than node's data, go right
+			else {																	   // found the node, remove it
+				if (node->left == nullptr) {								   // node has one child (right child))
+					A_TreeNode<T>* temp = node->right;										   // store right child
+					delete node;																	 // delete node
+					return temp;															  // return right child
+				} else if (node->right == nullptr) {							 // node has one child (left child)
+					A_TreeNode<T>* temp = node->left;											// store left child
+					delete node;																	 // delete node
+					return temp;															   // return left child
+				}													// node has two children, get inorder successor
+				A_TreeNode<T>* temp	= min(node->right);								   // smallest in right subtree
+				node->data			= temp->data;	   // copy inorder successor's content to this node (to delete)
+				node->right			= _remove(node->right, temp->data);					// delete inorder successor
 			}
-			if (root == nullptr) return root; 					    // if root has become nullptr (was a leaf node)
-			root->balance_factor = node_balance_factor(root);		   // calculate balance factor of ccurrent root
-			return balance(root);								   // perform any rotations that might be necessary
+			if (node == nullptr) return  node; 					    // if root has become nullptr (was a leaf node)
+			node->balance_factor = node_balance_factor(node);		   // calculate balance factor of ccurrent root
+			return balance(node);								   // perform any rotations that might be necessary
 		}
 		//---------------------------------------------------------------------------------------------------------
 		// helper function to find the MIN value in a subtree
@@ -266,6 +264,7 @@ class AVL_BinarySearchTree {
 																                 // going back up , height goes down
 			}
 		}
+	public:
 		//----------------------------------------------------------------------------------------------------------
 		// PRINT THIS TREE
 		//----------------------------------------------------------------------------------------------------------
@@ -311,13 +310,13 @@ class AVL_BinarySearchTree {
 		// INSERT
 		//----------------------------------------------------------------------------------------------------------
 		void insert(T key) {
-			root = insert(root, key);
+			root = _insert(root, key);
 		}
 		//----------------------------------------------------------------------------------------------------------
 		// REMOVE
 		//----------------------------------------------------------------------------------------------------------
 		void remove(T key) {
-			root = deleteNode(root, key);									// call private recursive helper remove
+			root = _remove(root, key);									// call private recursive helper remove
 		}
 		//----------------------------------------------------------------------------------------------------------
 		// SEARCH

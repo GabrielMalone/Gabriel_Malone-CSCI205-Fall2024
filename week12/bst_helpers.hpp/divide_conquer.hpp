@@ -20,7 +20,7 @@ void divide_conquer(vector<int>& v, BinarySearchTree<int>& bst){              //
     divide_conquer(v_right, bst);                                                           // recursive call right side
 }
 
-void divide_conquer(vector<int>& v, AVL_BinarySearchTree<int>& bst){              // recursive solution to the balanced tree
+void divide_conquer(vector<int>& v, AVL_BinarySearchTree<int>& bst){          // recursive solution to the balanced tree
     if (v.size() < 1){                                                                                      // base case
         return;
     }
