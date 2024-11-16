@@ -93,7 +93,7 @@ class AVL_BinarySearchTree {
 				node->left = _insert(node->left, key);					   // recursively call this until at a leaf
 				node->left->parent = node;  //set the parent pointer of the newly inserted node in the left subtree
 			} else if (key > node->data) {								  // if greater than subtree root, go right
-				node->right = _insert(node->right, key);					   // recursively call this until at a leaf
+				node->right = _insert(node->right, key);				   // recursively call this until at a leaf
 				node->right->parent = node; //set the parent pointer of the newly inserted node in the left subtree
 			} else {
 				return node; 														 // No duplicate values allowed
