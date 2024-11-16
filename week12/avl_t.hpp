@@ -259,7 +259,7 @@ class AVL_BinarySearchTree {
             if (height > max_height){
 					max_height = height;
 			}
-			if (node != nullptr) {															  // if node is not null																	   // height goes up
+			if (node != nullptr) {															  // if node is not null
 				postOrderTraversal(node->left, height, max_height);							// traverse left subtree
                 height -- ;		
 				postOrderTraversal(node->right, height, max_height);					   // traverse right subtree
