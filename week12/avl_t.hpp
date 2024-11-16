@@ -36,7 +36,7 @@ class AVL_BinarySearchTree {
 		int max_height = 0 ; 													   // track the height of this tree	
 	//-------------------------------------------------------------------------------------------------------------
 		//---------------------------------------------------------------------------------------------------------
-		// ROTATE RIGHT
+		// ROTATE RIGHT - https://www.youtube.com/watch?v=otiDcwZbCo4 // runestone's implementation did not work
 		//---------------------------------------------------------------------------------------------------------
 		A_TreeNode<T>* rotateRight(A_TreeNode<T>* rotRoot) {
 			A_TreeNode<T>* newRoot = rotRoot->left;
@@ -76,21 +76,17 @@ class AVL_BinarySearchTree {
 		//---------------------------------------------------------------------------------------------------------
 		A_TreeNode<T>*  balance(A_TreeNode<T>*  node) {
 			if (node->balance_factor > 1 && node->left->balance_factor >= 0) {
-				// Left Left Case
-				return rotateRight(node);
+				return rotateRight(node);														  // Left Left Case
 			}
 			if (node->balance_factor > 1 && node->left->balance_factor < 0) {
-				// Left Right Case
 				node->left = rotateLeft(node->left);
-				return rotateRight(node);
+				return rotateRight(node);													     // Left Right Case
 			}
 			if (node->balance_factor < -1 && node->right->balance_factor <= 0) {
-				// Right Right Case
-				return rotateLeft(node);
+				return rotateLeft(node);													    // Right Right Case
 			}
 			if (node->balance_factor < -1 && node->right->balance_factor > 0) {
-				// Right Left Case
-				node->right = rotateRight(node->right);
+				node->right = rotateRight(node->right);											 // Right Left Case
 				return rotateLeft(node);
 			}
 			return node;
@@ -108,15 +104,13 @@ class AVL_BinarySearchTree {
 				node->right = insert(node->right, key);
 				node->right->parent = node;
 			} else {
-				return node; // No duplicate values allowed
+				return node; 														 // No duplicate values allowed
 			}
-			// Update balance factor of this ancestor node
-			node->balance_factor = node_balance_factor(node);
-			// Balance the node if it has become unbalanced
-			return balance(node);
+			node->balance_factor = node_balance_factor(node);		 // Update balance factor of this ancestor node
+			return balance(node);									// Balance the node if it has become unbalanced
 		}
 		//---------------------------------------------------------------------------------------------------------
-		// DELETE
+		// DELETE - https://www.youtube.com/watch?v=3UivJWAFaI4
 		//---------------------------------------------------------------------------------------------------------
 		A_TreeNode<T>*  deleteNode(A_TreeNode<T>*  root, T key) {
 			if (root == nullptr) return root;
@@ -125,9 +119,8 @@ class AVL_BinarySearchTree {
 			} else if (key > root->data) {
 				root->right = deleteNode(root->right, key);
 			} else {
-				// Node with the key found
 				if (root->left == nullptr || root->right == nullptr) {
-					A_TreeNode<T>* temp = root->left ? root->left : root->right;
+					A_TreeNode<T>* temp = root->left ? root->left : root->right;		  // Node with the key found
 					if (temp == nullptr) {
 						temp = root;
 						root = nullptr;

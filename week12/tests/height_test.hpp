@@ -10,6 +10,7 @@
 #include "../backend/graph_height_tests.hpp"
 #include "../backend/avg_height.hpp"
 #include "../bst_helpers.hpp/divide_conquer.hpp"
+#include "../avl_t.hpp"
 
 using namespace std;
 
@@ -23,6 +24,8 @@ ClosedHashTable<Height_Data> results_ordered_ordered;
 ClosedHashTable<Height_Data> results_ordered_MIDDLE;
 ClosedHashTable<Height_Data> results_ordered_LR_optimized;
 ClosedHashTable<Height_Data> results_ordered_Divide_Conquer;
+ClosedHashTable<Height_Data> results_ordered_AVL;
+ClosedHashTable<Height_Data> results_ordered_AVL_DandQ;
 ClosedHashTable<Height_Data> ideal_results;                            // for comparing to the ideal tree height (log2N)
 //----------------------------------------------------------------------------------------------------------------------
 void height_testing(){
@@ -51,7 +54,7 @@ void height_testing(){
         generate_vector(size, type, a, range);  
         while (a.size() > 0){     
             uniform_int_distribution<> dist(0,  a.size()-1);         // range from 0 to vector size for the rnadom value
-            int rand_index = dist(gen);                                                    // get the valid random index                                                                    // create the tree
+            int rand_index = dist(gen);                                                    // get the valid random index                                            
             bst_a.insert(a[rand_index]);
             a.erase(a.begin() + rand_index);                                          // remove that val from the vector
         }
@@ -74,7 +77,7 @@ void height_testing(){
         generate_vector(size, type, b, range);
         while (b.size() > 0){     
             uniform_int_distribution<> dist(0,  b.size()-1);         // range from 0 to vector size for the rnadom value
-            int rand_index = dist(gen);                                                    // get the valid random index                                                                    // create the tree
+            int rand_index = dist(gen);                                                    // get the valid random index                                                         
             bst_b.insert(b[rand_index]);
             b.erase(b.begin() + rand_index);                                          // remove that val from the vector
         }
@@ -212,6 +215,46 @@ void height_testing(){
         h_data_g.trial_method = "ordered_Divide_Conquer";
         results_ordered_Divide_Conquer.put(to_string((i+1)), h_data_g);              // then place the struct in the map
         //--------------------------------------------------------------------------------------------------------------
+        // TEST 8 - SELF BALANCING AVL TREE |  O(logN)
+        //          This perofrms at ideal or nearly ideal levels because the ideal middle/parent node is selecting each
+        //          time and so there is a greater liklihood of each subtree being perfectly balanced
+        //--------------------------------------------------------------------------------------------------------------
+        Height_Data h_data_h;
+        AVL_BinarySearchTree<int>bst_h;   
+        size = tree_size;
+        type = 'a';
+        range = size;
+        vector<int>h(size);
+        generate_vector(size, type, h, range);
+        while (h.size() > 0){       
+            int left = h[0];
+            bst_h.insert(left);
+            h.erase(h.begin() + 0);                                                   // remove that val from the vector                                 
+        }
+        //--------------------------------------------------------------------------------------------------------------
+        h_data_h.tree_height = bst_h.get_height();                                   // save the data from the above run
+        h_data_h.trial_num = i + 1;                                                    // place the data into the struct
+        h_data_h.trial_method = "ordered_AVL";
+        results_ordered_AVL.put(to_string((i+1)), h_data_h);              // then place the struct in the map
+        //--------------------------------------------------------------------------------------------------------------
+        // TEST 9 - SELF BALANCING AVL TREE with DIVIDE AN CONQUER |  O(logN)
+        //          This perofrms at ideal or nearly ideal levels because the ideal middle/parent node is selecting each
+        //          time and so there is a greater liklihood of each subtree being perfectly balanced
+        //--------------------------------------------------------------------------------------------------------------
+        Height_Data h_data_j;
+        AVL_BinarySearchTree<int>bst_j;   
+        size = tree_size;
+        type = 'a';
+        range = size;
+        vector<int>j(size);
+        generate_vector(size, type, j, range);
+        divide_conquer(j, bst_j);
+        //--------------------------------------------------------------------------------------------------------------
+        h_data_j.tree_height = bst_j.get_height();                                   // save the data from the above run
+        h_data_j.trial_num = i + 1;                                                    // place the data into the struct
+        h_data_j.trial_method = "ordered_AVL_DandQ";
+        results_ordered_AVL_DandQ.put(to_string((i+1)), h_data_j);              // then place the struct in the map
+        //--------------------------------------------------------------------------------------------------------------
         i ++ ;                                                                                // move to next test round
     }
     
@@ -223,6 +266,8 @@ void height_testing(){
     saveHeightData(results_ordered_random, "ordered_random");
     saveHeightData(results_ordered_LR_optimized, "ordered_LR_optimized");
     saveHeightData(results_ordered_Divide_Conquer, "ordered_Divide_Conquer");
+    saveHeightData(results_ordered_AVL, "ordered_AVL");
+    saveHeightData(results_ordered_AVL_DandQ, "ordered_AVL_DandQ");
     saveHeightData(ideal_results, "IDEAL HEIGHT");
 
     cout << "avg ordered_BME height: " << avg_height(results_ordered_BME) << endl;
@@ -232,6 +277,8 @@ void height_testing(){
     cout << "avg ordered_random height: " << avg_height(results_ordered_random) << endl;
     cout << "avg LR_optimized height: " << avg_height(results_ordered_LR_optimized) << endl;
     cout << "avg Divide_Conquer height: " << avg_height(results_ordered_Divide_Conquer) << endl;
+    cout << "avg ordered_AVL: " << avg_height(results_ordered_AVL) << endl;
+    cout << "avg ordered_AVL_DandQ: " << avg_height(results_ordered_AVL_DandQ) << endl;
 
     cout << "ideal height: " << avg_height(ideal_results) << endl;
 
