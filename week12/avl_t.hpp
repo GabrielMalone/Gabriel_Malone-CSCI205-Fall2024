@@ -26,7 +26,7 @@ class A_TreeNode {
 //-----------------------------------------------------------------------------------------------------------------	
 template <typename T>
 class AVL_BinarySearchTree {
-	public:
+	private:
 	//-------------------------------------------------------------------------------------------------------------
 	// Class vars
 	//-------------------------------------------------------------------------------------------------------------
@@ -84,61 +84,60 @@ class AVL_BinarySearchTree {
 			return node;
 		}
 		//---------------------------------------------------------------------------------------------------------
-		// INSERT
+		// INSERT - private
 		//---------------------------------------------------------------------------------------------------------
 		A_TreeNode<T>* insert(A_TreeNode<T>* node, T key) {
 			sd.inserts ++ ;
-			if (node == nullptr) return new A_TreeNode(key); 				// if reached a leaf return a new node
-			if (key < node->data) {											 // if less than subtree root, go left
-				node->left = insert(node->left, key);					  // recursively call this until at a leaf
-				node->left->parent = node; //set the parent pointer of the newly inserted node in the left subtree
-			} else if (key > node->data) {								 // if greater than subtree root, go right
-				node->right = insert(node->right, key);					  // recursively call this until at a leaf
-				node->right->parent = node;//set the parent pointer of the newly inserted node in the left subtree
+			if (node == nullptr) return new A_TreeNode(key); 				 // if reached a leaf return a new node
+			if (key < node->data) {										   	  // if less than subtree root, go left
+				node->left = insert(node->left, key);					   // recursively call this until at a leaf
+				node->left->parent = node;  //set the parent pointer of the newly inserted node in the left subtree
+			} else if (key > node->data) {								  // if greater than subtree root, go right
+				node->right = insert(node->right, key);					   // recursively call this until at a leaf
+				node->right->parent = node; //set the parent pointer of the newly inserted node in the left subtree
 			} else {
-				return node; 														// No duplicate values allowed
+				return node; 														 // No duplicate values allowed
 			}
-			node->balance_factor = node_balance_factor(node);  // calc BF of cur node - if balanced post insertion
-			return balance(node);								   // balance the node if it has become unbalanced
+			node->balance_factor = node_balance_factor(node);   // calc BF of cur node - if balanced post insertion
+			return balance(node);								    // balance the node if it has become unbalanced
 		}
 		//---------------------------------------------------------------------------------------------------------
-		// DELETE - essentially the same as insert
+		// DELETE - private
 		//---------------------------------------------------------------------------------------------------------
-		A_TreeNode<T>*  deleteNode(A_TreeNode<T>*  root, T key) {
-			if (root == nullptr) return root;
-			if (key < root->data) {
-				root->left = deleteNode(root->left, key);
-			} else if (key > root->data) {
-				root->right = deleteNode(root->right, key);
-			} else {
-				if (root->left == nullptr || root->right == nullptr) {
-					A_TreeNode<T>* temp = root->left ? root->left : root->right;		  // Node with the key found
-					if (temp == nullptr) {
-						temp = root;
-						root = nullptr;
+		A_TreeNode<T>*  deleteNode(A_TreeNode<T>*  root, T key) {     // start at the root node to  search for item
+			if (root == nullptr) return root;	 							 // if root is empty, nothing to delete
+			if (key < root->data) {									   // if data is less than root's data, go left
+				root->left = deleteNode(root->left, key); // update left node if deletion occurs (or stay the same)
+			} else if (key > root->data) { 						   // if data is greater than root's data, go right
+				root->right = deleteNode(root->right, key);     // update right node if deletion (or stay the same)			
+			} else {	                             // otherwise neither greater than nor less than, thus equal...
+				if (root->left == nullptr || root->right == nullptr) {    // if node to delete has a child, save it
+					A_TreeNode<T>* temp = root->left ? root->left : root->right;   // temp = L or R if either exist 
+					if (temp == nullptr) { 						  // if temp ends up null, means it had no children
+						temp = root;			 				 // saving root info so can be safely deleted later
+						root = nullptr;								             // set root to nullptr then delete 
 					} else {
-						*root = *temp;
+						*root = *temp;							            // otherwise the child becomes the root
 					}
-					delete temp;
-				} else {
-					A_TreeNode<T>* temp = min(root->right);
-					root->data = temp->data;
-					root->right = deleteNode(root->right, temp->data);
+					delete temp;							 	  // deletion of original root finally happens here
+				} else {									   // otherwise the node to be deleted has two children
+					A_TreeNode<T>* temp = min(root->right); 	  // replace the node's date to be deleted with the
+					root->data = temp->data; 								   // smallest val in the right subtree
+					root->right = deleteNode(root->right, temp->data); 		  // Then delete that smallest val node
 				}
 			}
-			if (root == nullptr) return root;
-			// Update balance factor and balance the node
-			root->balance_factor = node_balance_factor(root);
-			return balance(root);
+			if (root == nullptr) return root; 					    // if root has become nullptr (was a leaf node)
+			root->balance_factor = node_balance_factor(root);		   // calculate balance factor of ccurrent root
+			return balance(root);								   // perform any rotations that might be necessary
 		}
 		//---------------------------------------------------------------------------------------------------------
 		// helper function to find the MIN value in a subtree
 		// O(log n) where n is the number of nodes in the tree
 		//---------------------------------------------------------------------------------------------------------
 		A_TreeNode<T>* min(A_TreeNode<T>* node) {
-			while (node->left != nullptr)											// while node has a left child
-				node = node->left;																		// go left
-			return node;																			// return node
+			while (node->left != nullptr)											 // while node has a left child
+				node = node->left;																	   	 // go left
+			return node;																			 // return node
 		}
 		//---------------------------------------------------------------------------------------------------------
 		// helper function to find the MAX value in a subtree
@@ -168,7 +167,7 @@ class AVL_BinarySearchTree {
 		//----------------------------------------------------------------------------------------------------------
 		void in_order(vector<T>& v) {
 			inOrderTraversal(root, v);												// call private recursive helper
-			std::cout << std::endl;																		 // new line
+
 		}
 		//----------------------------------------------------------------------------------------------------------
 		// IN ORDER TRAVERSAL TO COUNT THIS TREE 
@@ -264,7 +263,7 @@ class AVL_BinarySearchTree {
                 height -- ;		
 				postOrderTraversal(node->right, height, max_height);					   // traverse right subtree
                 height -- ;		
-																                // going back up , height goes down
+																                 // going back up , height goes down
 			}
 		}
 		//----------------------------------------------------------------------------------------------------------
@@ -294,7 +293,6 @@ class AVL_BinarySearchTree {
 	//--------------------------------------------------------------------------------------------------------------
 	// CONSTRUCTOR / DESTRUCTOR
 	//--------------------------------------------------------------------------------------------------------------
-
 		AVL_BinarySearchTree() : root(nullptr) {}											   // no-arg constructor
 		~AVL_BinarySearchTree() {
 			if (root != nullptr) {
@@ -499,8 +497,8 @@ class AVL_BinarySearchTree {
 		// O(n) where n is the number of nodes in the tree
 		//----------------------------------------------------------------------------------------------------------
         int tree_nodes(){
-			int count = 0; 
-			in_order_count(count);
+			int count = 0; 																// pass this in by reference
+			in_order_count(count);														  // count the tree in order
             return count;
         }
 };
