@@ -38,7 +38,7 @@ void height_testing(){
         // CONTROL - IDEAL TREE HEIGHT FOR COMPARISON  - LOG 2 N
         //--------------------------------------------------------------------------------------------------------------
         Height_Data ideal;
-        ideal.tree_height = log2(tree_size);
+        ideal.tree_height = log2(tree_size) * 1.44;
         ideal.trial_num = i + 1;
         ideal.trial_method = "ideal";
         ideal_results.put(to_string(i+1), ideal);
@@ -188,7 +188,7 @@ void height_testing(){
             if (rand_index + 1 < f.size()){
                 int m_2 = f[rand_index+1];
                 bst_f.insert(m_2);
-                f.erase(f.begin() + rand_index+1);               
+                f.erase(f.begin() + rand_index+1);                              
             }
         }
         //--------------------------------------------------------------------------------------------------------------
@@ -259,9 +259,9 @@ void height_testing(){
     }
     
     //------------------------------------------------------------------------------------------------------------------
-    saveHeightData(results_ordered_BME, "ordered_BME");
-    saveHeightData(results_ordered_ordered, "ordered_ordered");  
-    saveHeightData(results_ordered_MIDDLE, "ordered_MIDDLE");  
+    // saveHeightData(results_ordered_BME, "ordered_BME");
+    // saveHeightData(results_ordered_ordered, "ordered_ordered");  
+    // saveHeightData(results_ordered_MIDDLE, "ordered_MIDDLE");  
     saveHeightData(results_random_random, "random_random");
     saveHeightData(results_ordered_random, "ordered_random");
     saveHeightData(results_ordered_LR_optimized, "ordered_LR_optimized");
@@ -270,9 +270,9 @@ void height_testing(){
     saveHeightData(results_ordered_AVL_DandQ, "ordered_AVL_DandQ");
     saveHeightData(ideal_results, "IDEAL HEIGHT");
 
-    cout << "avg ordered_BME height: " << avg_height(results_ordered_BME) << endl;
-    cout << "avg ordered_ordered height: " << avg_height(results_ordered_ordered) << endl;
-    cout << "avg ordered_MIDDLE height: " << avg_height(results_ordered_MIDDLE) << endl;
+    // cout << "avg ordered_BME height: "  << avg_height(results_ordered_BME) << endl;
+    // cout << "avg ordered_ordered height: " << avg_height(results_ordered_ordered) << endl;
+    // cout << "avg ordered_MIDDLE height: " << avg_height(results_ordered_MIDDLE) << endl;
     cout << "avg random_random height: " << avg_height(results_random_random) << endl;
     cout << "avg ordered_random height: " << avg_height(results_ordered_random) << endl;
     cout << "avg LR_optimized height: " << avg_height(results_ordered_LR_optimized) << endl;

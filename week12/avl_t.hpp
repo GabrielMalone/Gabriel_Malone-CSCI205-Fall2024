@@ -31,63 +31,55 @@ class AVL_BinarySearchTree {
 	// Class vars
 	//-------------------------------------------------------------------------------------------------------------
 		A_TreeNode<T>* root;																// pointer to root node
-		int nodeCount = 0;															 // number of nodes in the tree
 		searchData sd;														   // track data related to BST methods
 		int max_height = 0 ; 													   // track the height of this tree	
-	//-------------------------------------------------------------------------------------------------------------
 		//---------------------------------------------------------------------------------------------------------
-		// ROTATE RIGHT - https://www.youtube.com/watch?v=otiDcwZbCo4 // runestone's implementation did not work
+		// ROTATE RIGHT -https://www.youtube.com/watch?v=JPI-DPizQYk// runestone's implementation did not work
 		//---------------------------------------------------------------------------------------------------------
-		A_TreeNode<T>* rotateRight(A_TreeNode<T>* rotRoot) {
-			A_TreeNode<T>* newRoot = rotRoot->left;
-			A_TreeNode<T>* T2 = newRoot->right;    // T2 = r_child of x before rotation, becomes l_child of rotRoot
-			// Perform rotation
-			newRoot->right = rotRoot;
-			rotRoot->left = T2;
-			// Update parents
-			if (T2) T2->parent = rotRoot;
-			newRoot->parent = rotRoot->parent;
-			rotRoot->parent = newRoot;
-			// Update balance factors
-			rotRoot->balance_factor = node_balance_factor(rotRoot);
-			newRoot->balance_factor = node_balance_factor(newRoot);
-			return newRoot; // New root after rotation
+		A_TreeNode<T>* rotateRight(A_TreeNode<T>* node) {
+			A_TreeNode<T>*  B = node->left;  // B is node that is rotated to the position of 'node' beig passed in
+			A_TreeNode<T>*  Y = B->right;					 // Y is the node that is current the left child of 'B'
+			B->right = node;													// 'node' becomes left child of 'B'
+			node->left = Y;										// left child of B swapped to right child of 'node'											
+			if (Y != nullptr) Y->parent = node; 					   // if Y isn't null, set 'node' to its parent
+			B->parent = node->parent;  // now that B root of subtree, make sure it has parent of former root 'node'
+			node->parent = B;									// 'B' becomes the parent of the former root 'node'
+			node->balance_factor = node_balance_factor(node); 
+			B->balance_factor = node_balance_factor(B);
+			return B; 																	// New root after rotation
 		}
 		//---------------------------------------------------------------------------------------------------------
-		// ROTATE LEFT
+		// ROTATE LEFT - https://www.youtube.com/watch?v=JPI-DPizQYk - mirrors the method above
 		//---------------------------------------------------------------------------------------------------------
-		A_TreeNode<T>* rotateLeft(A_TreeNode<T>* x) {
-			A_TreeNode<T>*  y = x->right;
-			A_TreeNode<T>*  T2 = y->left;
-			// Perform rotation
-			y->left = x;
-			x->right = T2;
-			// Update parents
-			if (T2) T2->parent = x;
-			y->parent = x->parent;
-			x->parent = y;
-			// Update balance factors
-			x->balance_factor = node_balance_factor(x);
-			y->balance_factor = node_balance_factor(y);
-			return y; // New root after rotation
+		A_TreeNode<T>* rotateLeft(A_TreeNode<T>* node) {  // node is the root of the subtree that is out of balance
+			A_TreeNode<T>*  B = node->right;  // B is node that is rotated to the position of 'node' beig passed in
+			A_TreeNode<T>*  Y = B->left;					 // Y is the node that is current the left child of 'B'
+			B->left = node;														// 'node' becomes left child of 'B'
+			node->right = Y;									// left child of B swapped to right child of 'node'											
+			if (Y != nullptr) Y->parent = node; 					   // if Y isn't null, set 'node' to its parent
+			B->parent = node->parent;  // now that B root of subtree, make sure it has parent of former root 'node'
+			node->parent = B;									// 'B' becomes the parent of the former root 'node'
+			node->balance_factor = node_balance_factor(node); 
+			B->balance_factor = node_balance_factor(B);
+			return B; 																	// New root after rotation
 		}
 		//---------------------------------------------------------------------------------------------------------
 		// BALANCE
 		//---------------------------------------------------------------------------------------------------------
-		A_TreeNode<T>*  balance(A_TreeNode<T>*  node) {
-			if (node->balance_factor > 1 && node->left->balance_factor >= 0) {
+		A_TreeNode<T>* balance(A_TreeNode<T>*  node) {
+			if (node->balance_factor > 1 && node->left->balance_factor >= 0) { // if in linked list form going left
 				return rotateRight(node);														  // Left Left Case
 			}
-			if (node->balance_factor > 1 && node->left->balance_factor < 0) {
-				node->left = rotateLeft(node->left);
-				return rotateRight(node);													     // Left Right Case
+			if (node->balance_factor > 1 && node->left->balance_factor < 0) {	    // if in a kinked form going LR
+				node->left = rotateLeft(node->left);							 // rotate the bottom of tree first
+				return rotateRight(node);													     // then rotate top
 			}
-			if (node->balance_factor < -1 && node->right->balance_factor <= 0) {
+			if (node->balance_factor < -1 && node->right->balance_factor <= 0) { // in linked list form going right
 				return rotateLeft(node);													    // Right Right Case
 			}
-			if (node->balance_factor < -1 && node->right->balance_factor > 0) {
-				node->right = rotateRight(node->right);											 // Right Left Case
-				return rotateLeft(node);
+			if (node->balance_factor < -1 && node->right->balance_factor > 0) {		  // if in kinked form going RL
+				node->right = rotateRight(node->right);						// Right Left Case, rotate bottom first
+				return rotateLeft(node);															    // then top
 			}
 			return node;
 		}
@@ -96,21 +88,21 @@ class AVL_BinarySearchTree {
 		//---------------------------------------------------------------------------------------------------------
 		A_TreeNode<T>* insert(A_TreeNode<T>* node, T key) {
 			sd.inserts ++ ;
-			if (node == nullptr) return new A_TreeNode(key);
-			if (key < node->data) {
-				node->left = insert(node->left, key);
-				node->left->parent = node;
-			} else if (key > node->data) {
-				node->right = insert(node->right, key);
-				node->right->parent = node;
+			if (node == nullptr) return new A_TreeNode(key); 				// if reached a leaf return a new node
+			if (key < node->data) {											 // if less than subtree root, go left
+				node->left = insert(node->left, key);					  // recursively call this until at a leaf
+				node->left->parent = node; //set the parent pointer of the newly inserted node in the left subtree
+			} else if (key > node->data) {								 // if greater than subtree root, go right
+				node->right = insert(node->right, key);					  // recursively call this until at a leaf
+				node->right->parent = node;//set the parent pointer of the newly inserted node in the left subtree
 			} else {
-				return node; 														 // No duplicate values allowed
+				return node; 														// No duplicate values allowed
 			}
-			node->balance_factor = node_balance_factor(node);		 // Update balance factor of this ancestor node
-			return balance(node);									// Balance the node if it has become unbalanced
+			node->balance_factor = node_balance_factor(node);  // calc BF of cur node - if balanced post insertion
+			return balance(node);								   // balance the node if it has become unbalanced
 		}
 		//---------------------------------------------------------------------------------------------------------
-		// DELETE - https://www.youtube.com/watch?v=3UivJWAFaI4
+		// DELETE - essentially the same as insert
 		//---------------------------------------------------------------------------------------------------------
 		A_TreeNode<T>*  deleteNode(A_TreeNode<T>*  root, T key) {
 			if (root == nullptr) return root;
@@ -156,32 +148,6 @@ class AVL_BinarySearchTree {
 			while (node->right != nullptr)											// while node has a right child
 				node = node->right;																		// go right
 			return node;
-		}
-		//---------------------------------------------------------------------------------------------------------
-		// helper function to find the inorder successor of a node
-		// O(log n) where n is the number of nodes in the tree
-		//---------------------------------------------------------------------------------------------------------
-		A_TreeNode<T>* remove(A_TreeNode<T>* node, T key) {						      // args: start, key to remove
-			if (node == nullptr)		return node;							       // key was not found in tree
-			if (key < node->data)		node->left  = remove(node->left, key);   // key < than node's data, go left
-			else if (key > node->data)	node->right = remove(node->right, key); // key > than node's data, go right
-			else {																	   // found the node, remove it
-				if (node->left == nullptr) {								   // node has one child (right child))
-					A_TreeNode<T>* temp = node->right;										   // store right child
-					nodeCount -- ;															// decrement node count
-					delete node;																	 // delete node
-					return temp;															  // return right child
-				} else if (node->right == nullptr) {							 // node has one child (left child)
-					A_TreeNode<T>* temp = node->left;											// store left child
-					delete node;																	 // delete node
-					nodeCount -- ;															// decrement node count
-					return temp;															   // return left child
-				}													// node has two children, get inorder successor
-				A_TreeNode<T>* temp	= min(node->right);								   // smallest in right subtree
-				node->data			= temp->data;	   // copy inorder successor's content to this node (to delete)
-				node->right			= remove(node->right, temp->data);					// delete inorder successor
-			}
-			return node;													  // return node (potentially modified)
 		}
 		//----------------------------------------------------------------------------------------------------------
 		// IN ORDER TRAVERSAL TO FLATTEN THIS TREE 
@@ -353,7 +319,7 @@ class AVL_BinarySearchTree {
 		// REMOVE
 		//----------------------------------------------------------------------------------------------------------
 		void remove(T key) {
-			root = remove(root, key);										 // call private recursive helper remove
+			root = deleteNode(root, key);									// call private recursive helper remove
 		}
 		//----------------------------------------------------------------------------------------------------------
 		// SEARCH
@@ -532,7 +498,6 @@ class AVL_BinarySearchTree {
 		// helper function to traverse the tree in order
 		// O(n) where n is the number of nodes in the tree
 		//----------------------------------------------------------------------------------------------------------
-		
         int tree_nodes(){
 			int count = 0; 
 			in_order_count(count);
