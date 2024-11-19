@@ -12,6 +12,7 @@ struct Cell{
 	bool is_node = false;
 	bool is_parent = false;
 	bool is_connector = false;
+	bool is_edges = false;
 };
 
 #endif

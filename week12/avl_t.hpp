@@ -240,7 +240,7 @@ class AVL_BinarySearchTree {
 		// now we can fill in each row of the matrix left to right
 		//----------------------------------------------------------------------------------------------------------
 		void preOrderTraversalMatrix(A_TreeNode<T>* node, vector<vector<Cell<T>> >& matrix, int& height, 
-																		int& nodes_used, int max_width) {
+									                        int& nodes_used, int max_width, int int_w) {
 			auto spacing = double(max_width / pow(2, height));
 			if (node != nullptr) {
 				int node_value = node->data;  								   // Get the value present at this node
@@ -267,7 +267,7 @@ class AVL_BinarySearchTree {
 								int parent_index = 0;       								  // get the parent info
 								int parent_data = t.parent_val;
 								for (int j = 0; j < matrix[0].size(); j++) {
-									if (parent_data == matrix[height - 1][j].node_data.value) {
+									if (parent_data == matrix[height - int_w/2][j].node_data.value) {
 										parent_index = j; 									 // parent location found
 										break;
 									} 	   // should we place this data to the left or the right of this parent index
@@ -276,6 +276,12 @@ class AVL_BinarySearchTree {
 									matrix[height][parent_index - spacing].node_data.value = node_value;
 									matrix[height][parent_index - spacing].is_node = false;
 									matrix[height][parent_index - spacing].used = true;
+									matrix[height][parent_index].is_edges = true;
+									int connector_start = parent_index - spacing + int_w/2;
+									int connector_end = parent_index;
+									for (int c = connector_start ; c < connector_end ; c ++ ){
+										matrix[height][c].is_connector = true;
+									}
 									nodes_used--;
 									break;
 								}
@@ -283,6 +289,12 @@ class AVL_BinarySearchTree {
 									matrix[height][parent_index + spacing].node_data.value = node_value;
 									matrix[height][parent_index + spacing].is_node = false;
 									matrix[height][parent_index + spacing].used = true;
+									matrix[height][parent_index].is_edges = true;
+									int connector_start = parent_index + int_w/2;
+									int connector_end = parent_index + spacing;
+									for (int c = connector_start ; c < connector_end; c ++ ){
+										matrix[height][c].is_connector = true;
+									}
 									nodes_used--;
 									break;
 								}
@@ -291,8 +303,8 @@ class AVL_BinarySearchTree {
 					}
 				}
 				height++; 														  // Going down one level in the tree
-				preOrderTraversalMatrix(node->left, matrix, height, nodes_used, max_width);  // Traverse left subtree
-				preOrderTraversalMatrix(node->right, matrix, height, nodes_used, max_width);// Traverse right subtree
+				preOrderTraversalMatrix(node->left, matrix, height, nodes_used, max_width, int_w);         // go left
+				preOrderTraversalMatrix(node->right, matrix, height, nodes_used, max_width, int_w);       // go right
 				height--;  																  // Coming back up one level
 			}
 		}
@@ -334,7 +346,7 @@ class AVL_BinarySearchTree {
 		void printTree(A_TreeNode<T>* root,int& pos, int level = 0, const std::string& prefix = "", int spacing = 5) {
 			if (root) {																		  // if root is not null
 				if (level == 0) {														 // if root is the root node
-					std::cout << "Root: " << root->data << " (" << root->balance_factor  << ")" <<  std::endl; 
+					//std::cout << "Root: " << root->data << " (" << root->balance_factor  << ")" <<  std::endl;
 					tree_order<T> t;
 					t.level = 0;
 					t.value = root->data;
@@ -345,13 +357,13 @@ class AVL_BinarySearchTree {
 				} else {																// node is not the root node
 					std::string branch = (level % 2 == 1) ? "└─" : "├─";						 // determine branch
 					std::string spaces(spacing * level - 2, ' ');								// determine spacing
-					std::cout 
-                    << spaces 
-                    << branch 
-                    << prefix << root->data << " (" 
-                    << root->balance_factor 
-                    << ")"
-                    << std::endl;
+//					std::cout
+//                    << spaces
+//                    << branch
+//                    << prefix << root->data << " ("
+//                    << root->balance_factor
+//                    << ")"
+//                    << std::endl;
 					tree_order<T> t;
 					if (prefix == "L: "){
 						t.left = true;
@@ -581,26 +593,27 @@ class AVL_BinarySearchTree {
 		//----------------------------------------------------------------------------------------------------------
 		// FILL OUT MATRIX VIA PREORDER TRAVERSAL
 		//----------------------------------------------------------------------------------------------------------
-		void fill_matrix(){
-			int w = 2; 					   				   // could change this for very big trees with numbers > 99
+		void fill_matrix(int w){   // w could change this for very big trees with numbers > 99
 			int height = 0;
 			int nodes_used = tree_nodes();
-			int maxwidth = pow(2, get_height()) * w * w;  		// nodes * space for each node * spaces between node
-			vector<vector<Cell<T>> >cell_matrix = initialize_matrix();
-			preOrderTraversalMatrix(root, cell_matrix, height, nodes_used, maxwidth);
+			int maxwidth = pow(2, get_height()) * w;  		// nodes * space for each node * spaces between node
+			vector<vector<Cell<T>> >cell_matrix = initialize_matrix(w);
+			preOrderTraversalMatrix(root, cell_matrix, height, nodes_used, maxwidth, w);
 			for (int e = 0 ; e < cell_matrix.size(); e ++) {                                         // iterate rows
 				for (int f = 0; f < cell_matrix[0].size(); f++) {                                 // iterate columns
 					Cell<T> cur_cell = cell_matrix[e][f];
 					//----------------------------------------------------------------------------------------------
 					if (cur_cell.used) {
-						 cout << Colors::YELLOW << setw(2) << cur_cell.node_data.value << Colors::RESET;
-					}
+						cout << Colors::YELLOW << setw(w) << setfill(' ') << cur_cell.node_data.value << Colors::RESET;
 					//----------------------------------------------------------------------------------------------
-					else if (cur_cell.is_connector) {
-						cout << Colors::GREEN << "--" << Colors::RESET;
+					} else if (cur_cell.is_connector) {
+						cout << Colors::GREEN << setw(w) << setfill('-') << "-" << Colors::RESET;
+					//----------------------------------------------------------------------------------------------
+					} else if (cur_cell.is_edges){
+						cout << Colors::GREEN << setw(w) << setfill(' ') << "^" << Colors::RESET;
 					//----------------------------------------------------------------------------------------------
 					} else {
-						cout << Colors::WHITE << "  ";
+						cout << Colors::WHITE << setw(w) << setfill(' ') << " ";
 					}
 					//----------------------------------------------------------------------------------------------
 				}
@@ -623,39 +636,21 @@ class AVL_BinarySearchTree {
 		unordered_map<int, tree_order<T> >& get_tree_map(){
 			return TO;
 		}
-		vector<vector<Cell<T>>> initialize_matrix(){
+		vector<vector<Cell<T>>> initialize_matrix(int w){
 			//--------------------------------------------------------------------------------------------------------
 			// method vars
 			//--------------------------------------------------------------------------------------------------------
-			this->print();                                                            // used this to check final tree 
+			this->print();                                                            // used this to check final tree
 			unordered_map<int, tree_order<T>> TO = this->get_tree_map();
 			int total_nodes = this->get_num_nodes();
 			vector<int>space_saver;                                          // tracks if a column is in use by a node
 			int height = this->get_height() + 1;                                                     // height of tree
 			cout << "height of this tree is: " << height - 1 << endl;
 			cout << "number of nodes in this tree is: " << total_nodes << endl;
-			int maxwidth = pow(2, height) * 2 * 2; // potential nodes * space for each node * spaces between each node
+			int maxwidth = pow(2, height) * w;                                // potential nodes * space for each node
 			int spacing = maxwidth / 2;                    // first row spacing requirements // will decrease each row
 			int space_counter = spacing;                                   // this will print the spaces between nodes
-			bool node_left = false;                                       // bool to check if time to print connectors
-			//--------------------------------------------------------------------------------------------------------
-			// make sure map has the right data
-			//--------------------------------------------------------------------------------------------------------
-		//			int key = 0;
-		//			for (int i = 0; i < height ; i ++){
-		//				while (key < total_nodes){
-		//					tree_order node = TO[key];
-		//					cout << Colors::GREEN << "value: " <<  node.value << " level: " << node.level;
-		//					if (node.left){
-		//						cout << " left";
-		//					} else {
-		//						cout << " right";
-		//					}
-		//					cout << endl << Colors::RESET;
-		//					key ++ ;
-		//				}
-		//				cout << endl;
-		//			}
+
 			//--------------------------------------------------------------------------------------------------------
 			// Lets build an actual matrix of cells
 			//--------------------------------------------------------------------------------------------------------
@@ -671,43 +666,21 @@ class AVL_BinarySearchTree {
 				cell_matrix.emplace_back(row);
 			}
 			//--------------------------------------------------------------------------------------------------------
-			// my original attempt to print the tree, ended up using this as a template to fill in certain data points
-			// in the 2d matrix I ended up using. Once I figure out the connectors issue, I can get rid of all of this
-			// I think.
+			// find where all the potential nodes are and mark those positions in the cell matrix
 			//--------------------------------------------------------------------------------------------------------
 			for (int i = 0 ; i < height ; i ++ ){                                                              // rows
 				space_counter = spacing;                                              // reset space_counter every row
-				node_left = false;                                                // reset left node checker every row
 				for (int j = 0 ; j < maxwidth ; j ++ ){                                                     // columns
-					if (space_counter > 0){                                   // if space counter over 0, print spaces
-						if (node_left && i > 0){// if we've gone past a node and not on the first row, print connector
-							cell_matrix[i][j].is_connector = true;
-							//cout << "--" ;                                                              // connector
-						} else {
-							//cout << "  ";                                           // otherwise print blank for now
-						}
-					} else {                                  // has this space been used by a node? if so, dont print
-						if (find(space_saver.begin(), space_saver.end(), j) == space_saver.end()){                // ^
+					if (space_counter < 0){                   // has this space been used by a node? if so, dont print
+						if (find(space_saver.begin(), space_saver.end(), j) == space_saver.end())                 // ^
 							cell_matrix[i][j].is_node = true;
-							if (i == 0) {
-								cell_matrix[i][j].node_data = TO.at(0);
-							}
-							//cout << Colors::GREEN << ";                                                 // if a node
-							if (!node_left) node_left = true;    // if now a left node, will print connectors after it
-							else node_left = false;              // otherwise, if a right node, no connectors after it
-						} else {
-							//cout << Colors::WHITE << "  " << Colors::RESET;                         // if not a node
-						}
-						space_saver.emplace_back(j);               // keep track of which columns are in use by a node
-						space_counter = spacing;       // if printed node, reset space counter, print necessary spaces
 					}
 					space_counter -- ;                                     // decrement space counter as columns print
 				}
-				//cout << endl;                                                          // end print line for the row
-					spacing /=2;   // halve spacing each row since number of nodes can increase by power of 2 each row
+				spacing /=2;       // halve spacing each row since number of nodes can increase by power of 2 each row
 			}
 			return cell_matrix;
-		};
+		}
 };
 
 #endif
