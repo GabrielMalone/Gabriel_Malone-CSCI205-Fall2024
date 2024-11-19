@@ -101,6 +101,24 @@ class AVL_BinarySearchTree {
 			node->balance_factor = node_balance_factor(node);   // calc BF of cur node - if balanced post insertion
 			return balance(node);								    // balance the node if it has become unbalanced
 		}
+		// //---------------------------------------------------------------------------------------------------------
+		// INSERT - private - non AVL insert
+		// //---------------------------------------------------------------------------------------------------------
+		// A_TreeNode<T>* _insert(A_TreeNode<T>* node, T key) {
+		// 	sd.inserts ++ ;
+		// 	if (node == nullptr){												// if node is null, create new node
+		// 		return new A_TreeNode<T>(key);													 // return new node
+		// 	}
+		// 	if (key < node->data){												 // if key is less than node's data
+		// 		node->left = _insert(node->left, key);					// recursively insert key into left subtree
+		// 		node->left->parent = node;  //set the parent pointer of the newly inserted node in the left subtree
+		// 	}
+		// 	else if (key > node->data){										  // if key is greater than node's data
+		// 		node->right = _insert(node->right, key);			   // recursively insert key into right subtree
+		// 		node->right->parent = node; //set the parent pointer of the newly inserted node in the left subtree
+		// 		}
+		// 	return node;																			 // return node
+		// }
 		//---------------------------------------------------------------------------------------------------------
 		// helper function to find the inorder successor of a node
 		// O(log n) where n is the number of nodes in the tree
@@ -619,7 +637,6 @@ class AVL_BinarySearchTree {
 				}
 				cout << endl;                                                                             // end row
 			}
-
 		}
 		//----------------------------------------------------------------------------------------------------------
 		// IN ORDER TRAVERSAL TO COUNT NODES ON THIS TREE 

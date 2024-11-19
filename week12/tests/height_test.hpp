@@ -104,7 +104,7 @@ void height_testing(){
             c.erase(c.begin() + c.size()/2);           
             int left = c[0];
             bst_c.insert(left);
-            c.erase(c.begin() + 0);                                                   // remove that val from the vector
+            c.erase(c.begin() + 0);                                                  // remove that val from the vector
             int right = c[c.size()-1];
             bst_c.insert(right);
             c.erase(c.begin() + c.size()-1);                                        

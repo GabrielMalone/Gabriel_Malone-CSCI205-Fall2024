@@ -15,7 +15,7 @@ struct tree_order {
 	bool has_right_child = false;
 	A_TreeNode<T>* parent;
 	bool operator==(const tree_order& other) const {
-		return value == other.value; // Adjust this logic based on your class's members
+		return value == other.value;
 	}
 };
 

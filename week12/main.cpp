@@ -25,7 +25,8 @@ int main(){
     //----------------------------------------------------------------------------------------------------------
     vector<int> v = bst.initialize(vec_size, type, print);
 	int width = to_string(vec_size).length();                           // currently crashes if tree size > 999
-	bst.fill_matrix(width);
+    if (width == 1) width = 2;                                                 // need spacing to be at least 2
+	bst.fill_matrix(width);                                                                             
 //    //----------------------------------------------------------------------------------------------------------
 //    // RUN ISERT TEST WITH THIS BINARY SEARCH TREE
 //    //----------------------------------------------------------------------------------------------------------
