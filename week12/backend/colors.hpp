@@ -15,8 +15,7 @@ namespace Colors {
     string BLUE = "\033[34m";
     string MAGENTA = BLUE;
     string CYAN = "\033[36m";
-    string WHITE = "\033[37m"; 
-    
+    string WHITE = "\033[37m";    
 }
 
 #endif

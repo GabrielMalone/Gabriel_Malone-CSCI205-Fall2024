@@ -1,7 +1,6 @@
 #ifndef BINARY_SEARCH_TREE
 #define BINARY_SEARCH_TREE
 
-
 #include <iostream>
 #include <vector>
 #include <stack>
@@ -38,7 +37,6 @@ class BinarySearchTree {
 			sd.inserts ++ ;
 			if (node == nullptr){												// if node is null, create new node
 				nodeCount++;																// increment node count
-				
 				return new TreeNode<T>(key);													 // return new node
 			}
 			if (key < node->data)												 // if key is less than node's data
@@ -180,7 +178,6 @@ class BinarySearchTree {
 					std::string spaces(spacing * level - 2, ' ');								// determine spacing
 					std::cout << spaces << branch << prefix << root->data << std::endl;				   // print node
 				}
-
 				if (root->left || root->right) {											 // if node has children
 					printTree(root->left, level + 1, "L: ", spacing);							 // print left child
 					printTree(root->right, level + 1, "R: ", spacing);							// print right child

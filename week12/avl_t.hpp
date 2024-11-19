@@ -2,25 +2,20 @@
 #define AVL_TREE
 
 #include <iostream>
+#include <iomanip>
 #include <vector>
 #include <stack>
 #include "bst_helpers.hpp/bst_data.hpp"
 #include "bst_helpers.hpp/initialize_vec.hpp"
 #include <cmath>
+#include "backend/ClosedHashTable.hpp"
+#include "bst_helpers.hpp/tree_node.hpp"
+#include "bst_helpers.hpp/tree_order.hpp"
+#include "bst_helpers.hpp/cell.hpp"
 
-//-----------------------------------------------------------------------------------------------------------------	
-// TreeNode class
-//-----------------------------------------------------------------------------------------------------------------	
-template <typename T>
-class A_TreeNode {
-	public:
-		T data;					  // node's payload. Custom instances of T should have comparison operators defined
-		A_TreeNode<T>* left;															   // pointer to left child
-		A_TreeNode<T>* right;															  // pointer to right child
-		A_TreeNode<T>* parent;
-		int balance_factor; 
-		A_TreeNode(T val) : data(val), left(nullptr), right(nullptr), balance_factor(0) {}
-};
+
+using namespace std;
+
 //-----------------------------------------------------------------------------------------------------------------	
 // BinarySearchTree class
 //-----------------------------------------------------------------------------------------------------------------	
@@ -31,8 +26,11 @@ class AVL_BinarySearchTree {
 	// Class vars
 	//-------------------------------------------------------------------------------------------------------------
 		A_TreeNode<T>* root;																// pointer to root node
+		int NodeCount = 0;
 		searchData sd;														   // track data related to BST methods
-		int max_height = 0 ; 													   // track the height of this tree	
+		int max_height = 0 ; 													   // track the height of this tree
+		unordered_map<int, tree_order<T>> TO;
+		int pos = 0;
 		//---------------------------------------------------------------------------------------------------------
 		// ROTATE RIGHT -https://www.youtube.com/watch?v=JPI-DPizQYk// runestone's implementation did not work
 		//---------------------------------------------------------------------------------------------------------
@@ -40,11 +38,11 @@ class AVL_BinarySearchTree {
 			A_TreeNode<T>*  B = node->left;  // B is node that is rotated to the position of 'node' beig passed in
 			A_TreeNode<T>*  Y = B->right;					 // Y is the node that is current the left child of 'B'
 			B->right = node;													// 'node' becomes left child of 'B'
-			node->left = Y;										// left child of B swapped to right child of 'node'											
+			node->left = Y;										// left child of B swapped to right child of 'node'
 			if (Y != nullptr) Y->parent = node; 					   // if Y isn't null, set 'node' to its parent
 			B->parent = node->parent;  // now that B root of subtree, make sure it has parent of former root 'node'
 			node->parent = B;									// 'B' becomes the parent of the former root 'node'
-			node->balance_factor = node_balance_factor(node); 
+			node->balance_factor = node_balance_factor(node);
 			B->balance_factor = node_balance_factor(B);
 			return B; 																	// New root after rotation
 		}
@@ -55,11 +53,11 @@ class AVL_BinarySearchTree {
 			A_TreeNode<T>*  B = node->right;  // B is node that is rotated to the position of 'node' beig passed in
 			A_TreeNode<T>*  Y = B->left;					 // Y is the node that is current the left child of 'B'
 			B->left = node;														// 'node' becomes left child of 'B'
-			node->right = Y;									// left child of B swapped to right child of 'node'											
+			node->right = Y;									// left child of B swapped to right child of 'node'
 			if (Y != nullptr) Y->parent = node; 					   // if Y isn't null, set 'node' to its parent
 			B->parent = node->parent;  // now that B root of subtree, make sure it has parent of former root 'node'
 			node->parent = B;									// 'B' becomes the parent of the former root 'node'
-			node->balance_factor = node_balance_factor(node); 
+			node->balance_factor = node_balance_factor(node);
 			B->balance_factor = node_balance_factor(B);
 			return B; 																	// New root after rotation
 		}
@@ -88,7 +86,9 @@ class AVL_BinarySearchTree {
 		//---------------------------------------------------------------------------------------------------------
 		A_TreeNode<T>* _insert(A_TreeNode<T>* node, T key) {
 			sd.inserts ++ ;
-			if (node == nullptr) return new A_TreeNode(key); 				 // if reached a leaf return a new node
+			if (node == nullptr){
+				return new A_TreeNode(key); 				 				 // if reached a leaf return a new node
+			}
 			if (key < node->data) {										   	  // if less than subtree root, go left
 				node->left = _insert(node->left, key);					   // recursively call this until at a leaf
 				node->left->parent = node;  //set the parent pointer of the newly inserted node in the left subtree
@@ -147,7 +147,7 @@ class AVL_BinarySearchTree {
 			return node;
 		}
 		//----------------------------------------------------------------------------------------------------------
-		// IN ORDER TRAVERSAL TO FLATTEN THIS TREE 
+		// IN ORDER TRAVERSAL TO FLATTEN THIS TREE
 		//----------------------------------------------------------------------------------------------------------
 		// in order to preserver sorted arrangement
 		// helper function to traverse the tree in order
@@ -165,10 +165,9 @@ class AVL_BinarySearchTree {
 		//----------------------------------------------------------------------------------------------------------
 		void in_order(vector<T>& v) {
 			inOrderTraversal(root, v);												// call private recursive helper
-
 		}
 		//----------------------------------------------------------------------------------------------------------
-		// IN ORDER TRAVERSAL TO COUNT THIS TREE 
+		// IN ORDER TRAVERSAL TO COUNT THIS TREE
 		//----------------------------------------------------------------------------------------------------------
 		// in order to preserver sorted arrangement
 		// helper function to traverse the tree in order
@@ -189,7 +188,7 @@ class AVL_BinarySearchTree {
 		}
 		//----------------------------------------------------------------------------------------------------------
 		// IN ORDER TRAVERSAL TO FIND KTH SMALLEST INT
-		// in order traversal to follow ints in ascending order 
+		// in order traversal to follow ints in ascending order
 		// O(n) time for this since visiting nodes until potentially every node visited
 		//----------------------------------------------------------------------------------------------------------
 		void inOrderFindKthSmallest(A_TreeNode<T>* node, int& nth_val, int& tracker, int& result) {
@@ -214,7 +213,7 @@ class AVL_BinarySearchTree {
 				}
 				else if (node->left != nullptr && node->right == nullptr){ 					 // if just a left child
 					if (node->left->data > this->root->data){ 							// if left greater than root
-						valid = false; 
+						valid = false;
 						return;
 					};
 				}
@@ -232,6 +231,72 @@ class AVL_BinarySearchTree {
 				preOrderTraversal(node->right, valid);									   // traverse right subtree
 			}
 		}
+		//----------------------------------------------------------------------------------------------------------
+		// PRE ORDER TRAVERSAL TO FILL OUT MATRIX FOR PRINTING TREE
+		//----------------------------------------------------------------------------------------------------------
+		// maybe need to keep track of height?
+		// get all the nodes for his level of the tree
+		// pick out the leftmost remaining node
+		// now we can fill in each row of the matrix left to right
+		//----------------------------------------------------------------------------------------------------------
+		void preOrderTraversalMatrix(A_TreeNode<T>* node, vector<vector<Cell<T>> >& matrix, int& height, 
+																		int& nodes_used, int max_width) {
+			auto spacing = double(max_width / pow(2, height));
+			if (node != nullptr) {
+				int node_value = node->data;  								   // Get the value present at this node
+				tree_order<T> t;
+				for (const auto &pair: TO) {                			  // get the node position data from the map
+					if (pair.second.value == node_value) {	 // iterate through map and find the current node's data
+						t = pair.second;
+						break;
+					}
+				}
+				if (nodes_used > 0) {
+					if (height == 0) {
+						for (int i = 0; i < matrix[0].size(); i++) { 				   // Find the next cell to fill
+							if (matrix[height][i].is_node) {
+								matrix[height][i].node_data.value = node_value;
+								matrix[height][i].is_node = false;
+								matrix[height][i].used = true;
+								break;
+							}
+						}
+					} else {
+						for (int i = 0; i < matrix[0].size(); i++) {  				   // Find the next cell to fill
+							if (matrix[height][i].is_node) { 								  // if we are at a node
+								int parent_index = 0;       								  // get the parent info
+								int parent_data = t.parent_val;
+								for (int j = 0; j < matrix[0].size(); j++) {
+									if (parent_data == matrix[height - 1][j].node_data.value) {
+										parent_index = j; 									 // parent location found
+										break;
+									} 	   // should we place this data to the left or the right of this parent index
+								}
+								if (t.left) {
+									matrix[height][parent_index - spacing].node_data.value = node_value;
+									matrix[height][parent_index - spacing].is_node = false;
+									matrix[height][parent_index - spacing].used = true;
+									nodes_used--;
+									break;
+								}
+								if (t.right) {
+									matrix[height][parent_index + spacing].node_data.value = node_value;
+									matrix[height][parent_index + spacing].is_node = false;
+									matrix[height][parent_index + spacing].used = true;
+									nodes_used--;
+									break;
+								}
+							}
+						}
+					}
+				}
+				height++; 														  // Going down one level in the tree
+				preOrderTraversalMatrix(node->left, matrix, height, nodes_used, max_width);  // Traverse left subtree
+				preOrderTraversalMatrix(node->right, matrix, height, nodes_used, max_width);// Traverse right subtree
+				height--;  																  // Coming back up one level
+			}
+		}
+
         //----------------------------------------------------------------------------------------------------------
 		// PRE ORDER TRAVERSAL TO SET BALANCE OF EACH NODE -- ended up not using this 
 		// pre order since this will stop at a root of a subtree, then can compare children to root
@@ -252,26 +317,31 @@ class AVL_BinarySearchTree {
 		// O(n) time for this since visit every node. 
 		//----------------------------------------------------------------------------------------------------------
 		void postOrderTraversal(A_TreeNode<T>* node, int& height, int& max_height) {
-            height ++ ;	
-            if (height > max_height){
-					max_height = height;
-			}
 			if (node != nullptr) {															  // if node is not null
+				height ++ ;																		   // height goes up
 				postOrderTraversal(node->left, height, max_height);							// traverse left subtree
-                height -- ;		
 				postOrderTraversal(node->right, height, max_height);					   // traverse right subtree
-                height -- ;		
-																                 // going back up , height goes down
+				height -- ;														 // going back up , height goes down
+				if (height > max_height){
+					max_height = height;
+				}
 			}
 		}
 	public:
 		//----------------------------------------------------------------------------------------------------------
 		// PRINT THIS TREE
 		//----------------------------------------------------------------------------------------------------------
-		void printTree(A_TreeNode<T>* root, int level = 0, const std::string& prefix = "", int spacing = 5) {
+		void printTree(A_TreeNode<T>* root,int& pos, int level = 0, const std::string& prefix = "", int spacing = 5) {
 			if (root) {																		  // if root is not null
 				if (level == 0) {														 // if root is the root node
 					std::cout << "Root: " << root->data << " (" << root->balance_factor  << ")" <<  std::endl; 
+					tree_order<T> t;
+					t.level = 0;
+					t.value = root->data;
+					t.left = true;
+					TO.insert(make_pair(pos, t));
+					pos ++ ;
+					NodeCount ++ ;
 				} else {																// node is not the root node
 					std::string branch = (level % 2 == 1) ? "└─" : "├─";						 // determine branch
 					std::string spaces(spacing * level - 2, ' ');								// determine spacing
@@ -282,10 +352,23 @@ class AVL_BinarySearchTree {
                     << root->balance_factor 
                     << ")"
                     << std::endl;
+					tree_order<T> t;
+					if (prefix == "L: "){
+						t.left = true;
+					} else {
+						t.right = true;
+					}
+					t.parent = root->parent;
+					t.parent_val = root->parent->data;
+					t.level = level;
+					t.value = root->data;
+					TO.insert(make_pair(pos, t));
+					pos ++;
+					NodeCount ++ ;
 				}
 				if (root->left || root->right) {											 // if node has children
-					printTree(root->left, level + 1, "L: ", spacing);							 // print left child
-					printTree(root->right, level + 1, "R: ", spacing);							// print right child
+					printTree(root->left, pos,  level + 1, "L: ", spacing);						 // print left child
+					printTree(root->right, pos, level + 1, "R: ", spacing);					    // print right child
 				}
 			}
 		}
@@ -293,6 +376,7 @@ class AVL_BinarySearchTree {
 	// CONSTRUCTOR / DESTRUCTOR
 	//--------------------------------------------------------------------------------------------------------------
 		AVL_BinarySearchTree() : root(nullptr) {}											   // no-arg constructor
+	//--------------------------------------------------------------------------------------------------------------
 		~AVL_BinarySearchTree() {
 			if (root != nullptr) {
 				std::stack<A_TreeNode<T>*> s;
@@ -311,6 +395,9 @@ class AVL_BinarySearchTree {
 		//----------------------------------------------------------------------------------------------------------
 		void insert(T key) {
 			root = _insert(root, key);
+		}
+		int get_num_nodes(){
+			return NodeCount;
 		}
 		//----------------------------------------------------------------------------------------------------------
 		// REMOVE
@@ -384,7 +471,7 @@ class AVL_BinarySearchTree {
 		//----------------------------------------------------------------------------------------------------------
 		// public print with no arguments
 		void print() {
-			printTree(root);														// call private recursive helper
+			printTree(root, pos);													// call private recursive helper
 		}
 		//----------------------------------------------------------------------------------------------------------
 		// public min with no arguments
@@ -459,6 +546,9 @@ class AVL_BinarySearchTree {
 			post_order(height, max_height);							   // recerse through in post_oder (leaf action)
 			return max_height;	
 		}
+		//----------------------------------------------------------------------------------------------------------
+		// FIND THE BALANCE FACTOR OF EACH NODE
+		//----------------------------------------------------------------------------------------------------------
         void set_Balance(){
             preOrderTraversalBalance(root);
         }
@@ -489,6 +579,36 @@ class AVL_BinarySearchTree {
 			return left_max_h - right_max_h;												// return the difference
 		}
 		//----------------------------------------------------------------------------------------------------------
+		// FILL OUT MATRIX VIA PREORDER TRAVERSAL
+		//----------------------------------------------------------------------------------------------------------
+		void fill_matrix(){
+			int w = 2; 					   				   // could change this for very big trees with numbers > 99
+			int height = 0;
+			int nodes_used = tree_nodes();
+			int maxwidth = pow(2, get_height()) * w * w;  		// nodes * space for each node * spaces between node
+			vector<vector<Cell<T>> >cell_matrix = initialize_matrix();
+			preOrderTraversalMatrix(root, cell_matrix, height, nodes_used, maxwidth);
+			for (int e = 0 ; e < cell_matrix.size(); e ++) {                                         // iterate rows
+				for (int f = 0; f < cell_matrix[0].size(); f++) {                                 // iterate columns
+					Cell<T> cur_cell = cell_matrix[e][f];
+					//----------------------------------------------------------------------------------------------
+					if (cur_cell.used) {
+						 cout << Colors::YELLOW << setw(2) << cur_cell.node_data.value << Colors::RESET;
+					}
+					//----------------------------------------------------------------------------------------------
+					else if (cur_cell.is_connector) {
+						cout << Colors::GREEN << "--" << Colors::RESET;
+					//----------------------------------------------------------------------------------------------
+					} else {
+						cout << Colors::WHITE << "  ";
+					}
+					//----------------------------------------------------------------------------------------------
+				}
+				cout << endl;                                                                             // end row
+			}
+
+		}
+		//----------------------------------------------------------------------------------------------------------
 		// IN ORDER TRAVERSAL TO COUNT NODES ON THIS TREE 
 		//----------------------------------------------------------------------------------------------------------
 		// in order to preserver sorted arrangement
@@ -500,6 +620,94 @@ class AVL_BinarySearchTree {
 			in_order_count(count);														  // count the tree in order
             return count;
         }
+		unordered_map<int, tree_order<T> >& get_tree_map(){
+			return TO;
+		}
+		vector<vector<Cell<T>>> initialize_matrix(){
+			//--------------------------------------------------------------------------------------------------------
+			// method vars
+			//--------------------------------------------------------------------------------------------------------
+			this->print();                                                            // used this to check final tree 
+			unordered_map<int, tree_order<T>> TO = this->get_tree_map();
+			int total_nodes = this->get_num_nodes();
+			vector<int>space_saver;                                          // tracks if a column is in use by a node
+			int height = this->get_height() + 1;                                                     // height of tree
+			cout << "height of this tree is: " << height - 1 << endl;
+			cout << "number of nodes in this tree is: " << total_nodes << endl;
+			int maxwidth = pow(2, height) * 2 * 2; // potential nodes * space for each node * spaces between each node
+			int spacing = maxwidth / 2;                    // first row spacing requirements // will decrease each row
+			int space_counter = spacing;                                   // this will print the spaces between nodes
+			bool node_left = false;                                       // bool to check if time to print connectors
+			//--------------------------------------------------------------------------------------------------------
+			// make sure map has the right data
+			//--------------------------------------------------------------------------------------------------------
+		//			int key = 0;
+		//			for (int i = 0; i < height ; i ++){
+		//				while (key < total_nodes){
+		//					tree_order node = TO[key];
+		//					cout << Colors::GREEN << "value: " <<  node.value << " level: " << node.level;
+		//					if (node.left){
+		//						cout << " left";
+		//					} else {
+		//						cout << " right";
+		//					}
+		//					cout << endl << Colors::RESET;
+		//					key ++ ;
+		//				}
+		//				cout << endl;
+		//			}
+			//--------------------------------------------------------------------------------------------------------
+			// Lets build an actual matrix of cells
+			//--------------------------------------------------------------------------------------------------------
+			vector<vector<Cell<T>> >cell_matrix;
+			for (int a = 0 ; a < height; a ++ ){
+				vector<Cell<T>> row;
+				for (int b = 0 ; b < maxwidth + 1; b ++ ){
+					Cell<T> c;
+					c.x_coord = b;
+					c.y_coord = a;                                                   // used these coords in debugging
+					row.emplace_back(c);
+				}
+				cell_matrix.emplace_back(row);
+			}
+			//--------------------------------------------------------------------------------------------------------
+			// my original attempt to print the tree, ended up using this as a template to fill in certain data points
+			// in the 2d matrix I ended up using. Once I figure out the connectors issue, I can get rid of all of this
+			// I think.
+			//--------------------------------------------------------------------------------------------------------
+			for (int i = 0 ; i < height ; i ++ ){                                                              // rows
+				space_counter = spacing;                                              // reset space_counter every row
+				node_left = false;                                                // reset left node checker every row
+				for (int j = 0 ; j < maxwidth ; j ++ ){                                                     // columns
+					if (space_counter > 0){                                   // if space counter over 0, print spaces
+						if (node_left && i > 0){// if we've gone past a node and not on the first row, print connector
+							cell_matrix[i][j].is_connector = true;
+							//cout << "--" ;                                                              // connector
+						} else {
+							//cout << "  ";                                           // otherwise print blank for now
+						}
+					} else {                                  // has this space been used by a node? if so, dont print
+						if (find(space_saver.begin(), space_saver.end(), j) == space_saver.end()){                // ^
+							cell_matrix[i][j].is_node = true;
+							if (i == 0) {
+								cell_matrix[i][j].node_data = TO.at(0);
+							}
+							//cout << Colors::GREEN << ";                                                 // if a node
+							if (!node_left) node_left = true;    // if now a left node, will print connectors after it
+							else node_left = false;              // otherwise, if a right node, no connectors after it
+						} else {
+							//cout << Colors::WHITE << "  " << Colors::RESET;                         // if not a node
+						}
+						space_saver.emplace_back(j);               // keep track of which columns are in use by a node
+						space_counter = spacing;       // if printed node, reset space counter, print necessary spaces
+					}
+					space_counter -- ;                                     // decrement space counter as columns print
+				}
+				//cout << endl;                                                          // end print line for the row
+					spacing /=2;   // halve spacing each row since number of nodes can increase by power of 2 each row
+			}
+			return cell_matrix;
+		};
 };
 
 #endif
