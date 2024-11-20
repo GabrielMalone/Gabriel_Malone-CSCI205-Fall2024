@@ -5,14 +5,16 @@
 #include <iomanip>
 #include <vector>
 #include <stack>
+#include <cmath>
+#include <chrono>
+#include <thread>
+#include <cstdlib>
 #include "bst_helpers.hpp/bst_data.hpp"
 #include "bst_helpers.hpp/initialize_vec.hpp"
-#include <cmath>
 #include "backend/ClosedHashTable.hpp"
 #include "bst_helpers.hpp/tree_node.hpp"
 #include "bst_helpers.hpp/tree_order.hpp"
 #include "bst_helpers.hpp/cell.hpp"
-
 
 using namespace std;
 
@@ -101,24 +103,6 @@ class AVL_BinarySearchTree {
 			node->balance_factor = node_balance_factor(node);   // calc BF of cur node - if balanced post insertion
 			return balance(node);								    // balance the node if it has become unbalanced
 		}
-		// //---------------------------------------------------------------------------------------------------------
-		// INSERT - private - non AVL insert
-		// //---------------------------------------------------------------------------------------------------------
-		// A_TreeNode<T>* _insert(A_TreeNode<T>* node, T key) {
-		// 	sd.inserts ++ ;
-		// 	if (node == nullptr){												// if node is null, create new node
-		// 		return new A_TreeNode<T>(key);													 // return new node
-		// 	}
-		// 	if (key < node->data){												 // if key is less than node's data
-		// 		node->left = _insert(node->left, key);					// recursively insert key into left subtree
-		// 		node->left->parent = node;  //set the parent pointer of the newly inserted node in the left subtree
-		// 	}
-		// 	else if (key > node->data){										  // if key is greater than node's data
-		// 		node->right = _insert(node->right, key);			   // recursively insert key into right subtree
-		// 		node->right->parent = node; //set the parent pointer of the newly inserted node in the left subtree
-		// 		}
-		// 	return node;																			 // return node
-		// }
 		//---------------------------------------------------------------------------------------------------------
 		// helper function to find the inorder successor of a node
 		// O(log n) where n is the number of nodes in the tree
@@ -612,31 +596,42 @@ class AVL_BinarySearchTree {
 		// FILL OUT MATRIX VIA PREORDER TRAVERSAL
 		//----------------------------------------------------------------------------------------------------------
 		void fill_matrix(int w){   // w could change this for very big trees with numbers > 99
+			int sleep_time = 1;
 			int height = 0;
 			int nodes_used = tree_nodes();
 			int maxwidth = pow(2, get_height()) * w;  		// nodes * space for each node * spaces between node
 			vector<vector<Cell<T>> >cell_matrix = initialize_matrix(w);
 			preOrderTraversalMatrix(root, cell_matrix, height, nodes_used, maxwidth, w);
 			for (int e = 0 ; e < cell_matrix.size(); e ++) {                                         // iterate rows
-				for (int f = 0; f < cell_matrix[0].size(); f++) {                                 // iterate columns
+				for (int f = 0; f < cell_matrix[0].size(); f++) {              
+					std::this_thread::sleep_for(std::chrono::milliseconds(sleep_time));           // iterate columns
 					Cell<T> cur_cell = cell_matrix[e][f];
 					//----------------------------------------------------------------------------------------------
-					if (cur_cell.used) {
-						cout << Colors::YELLOW << setw(w) << setfill(' ') << cur_cell.node_data.value << Colors::RESET;
+					if (cur_cell.used) {												   // if a node wiht a value
+						cout << Colors::YELLOW 
+						<< setw(w) << setfill(' ') << cur_cell.node_data.value 
+						<< Colors::RESET;
 					//----------------------------------------------------------------------------------------------
-					} else if (cur_cell.is_connector) {
-						cout << Colors::GREEN << setw(w) << setfill('-') << "-" << Colors::RESET;
+					} else if (cur_cell.is_connector) {								   // if a node with a connector
+						cout << Colors::GREEN 
+						<< setw(w) << setfill('-') << "-" 
+						<< Colors::RESET;
 					//----------------------------------------------------------------------------------------------
-					} else if (cur_cell.is_edges){
-						cout << Colors::GREEN << setw(w) << setfill(' ') << "^" << Colors::RESET;
+					} else if (cur_cell.is_edges){									 // if a node with an edge arrow
+						cout << Colors::GREEN 
+						<< setw(w) << setfill(' ') << "^"
+						<< Colors::RESET;
 					//----------------------------------------------------------------------------------------------
-					} else {
-						cout << Colors::WHITE << setw(w) << setfill(' ') << " ";
+					} else {																	  // if a blank cell
+						cout << Colors::WHITE 
+						<< setw(w) << setfill(' ') << " ";
 					}
 					//----------------------------------------------------------------------------------------------
+					cout << "\a" << flush;
 				}
-				cout << endl;                                                                             // end row
+				cout << endl;                                                            // end row
 			}
+			//std::cout << "\033[2J\033[H";
 		}
 		//----------------------------------------------------------------------------------------------------------
 		// IN ORDER TRAVERSAL TO COUNT NODES ON THIS TREE 

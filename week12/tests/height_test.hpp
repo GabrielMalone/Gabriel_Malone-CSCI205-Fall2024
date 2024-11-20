@@ -86,7 +86,7 @@ void height_testing(){
         h_data_b.trial_num = i + 1;                                                    // place the data into the struct
         h_data_b.trial_method = "ordered_random";
         results_ordered_random.put(to_string((i+1)), h_data_b);                      // then place the struct in the map
-        //----------------------------------q----------------------------------------------------------------------------
+        //----------------------------------q---------------------------------------------------------------------------
         // TEST 3 - ORDERED VECTOR W LEFT, MIDDLE, RIGHT INSERTIONS - results in a tree of height = N/2 | O(N) + O(logN)
         //       Idea here was to take the left side of a vector, insert, take the middle, insert, tke the right, insert
         //       results in a very unbalanced tree.
@@ -104,7 +104,7 @@ void height_testing(){
             c.erase(c.begin() + c.size()/2);           
             int left = c[0];
             bst_c.insert(left);
-            c.erase(c.begin() + 0);                                                  // remove that val from the vector
+            c.erase(c.begin() + 0);                                                   // remove that val from the vector
             int right = c[c.size()-1];
             bst_c.insert(right);
             c.erase(c.begin() + c.size()-1);                                        
@@ -152,7 +152,7 @@ void height_testing(){
             e.erase(e.begin() + e.size()/2);           
             int left = e[(e.size()/2)-1];
             bst_e.insert(left);
-            e.erase(e.begin() + e.size()/2)-1;                                       // remove that val from the vector
+            e.erase(e.begin() + e.size()/2)-1;                                        // remove that val from the vector
             int right = e[(e.size()/2)+1];
             bst_e.insert(right);
             e.erase(e.begin() + e.size()/2)+1;                                        
