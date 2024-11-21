@@ -347,10 +347,10 @@ class AVL_BinarySearchTree {
 									break;
 								} 	      	  // should we place this data to the left or the right of this parent index
 							}
-							if (prefix == "L: ") { // if  node is a left node, set its position in the matrix accordingly
-								matrix[level][parent_index - space].node_data.value = root->data;		 // down and left
-								matrix[level][parent_index - space].used = true;			 	  // mark for the printer
-								matrix[level][parent_index].is_edges = true;			        	  // mark for printer
+							if (prefix == "L: ") {// if  node is a left node, set its position in the matrix accordingly
+								matrix[level][parent_index - space].node_data.value = root->data;		// down and left
+								matrix[level][parent_index - space].used = true;			 	 // mark for the printer
+								matrix[level][parent_index].is_edges = true;			        	 // mark for printer
 								int connector_start = parent_index - space + 1;
 								int connector_end = parent_index;
 								for (int c = connector_start ; c < connector_end ; c ++ ){
@@ -358,11 +358,11 @@ class AVL_BinarySearchTree {
 								}
 								break;
 							}
-							if (prefix == "R: ") {	  // if node is a right node, set its position in  matrix accordingly
-								matrix[level][parent_index + space].node_data.value = root->data;	   	 //down and right
-								matrix[level][parent_index + space].used = true; 			 		  // mark for printer
-								matrix[level][parent_index].is_edges = true;						  // mark for printer
-								int connector_start = parent_index + 1; 		 			  	 // connector fills space
+							if (prefix == "R: ") {	 // if node is a right node, set its position in  matrix accordingly
+								matrix[level][parent_index + space].node_data.value = root->data;	   	//down and right
+								matrix[level][parent_index + space].used = true; 			 		 // mark for printer
+								matrix[level][parent_index].is_edges = true;						 // mark for printer
+								int connector_start = parent_index + 1; 		 			   // connector fills space
 								int connector_end = parent_index + space;
 								for (int c = connector_start ; c < connector_end; c ++ ){
 									matrix[level][c].is_connector = true;
