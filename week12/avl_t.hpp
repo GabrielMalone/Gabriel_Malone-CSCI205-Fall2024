@@ -1,3 +1,6 @@
+//----------------------------------------------------------------------------------------------------------------------
+// GABRIEL MALONE / CS205 / WEEK 12 / BINARY SEARCH TREES
+//----------------------------------------------------------------------------------------------------------------------
 #ifndef AVL_TREE
 #define AVL_TREE
 
@@ -245,6 +248,49 @@ class AVL_BinarySearchTree {
 			_preorderVec(root->right, order);
 		}
 		//--------------------------------------------------------------------------------------------------------------
+		// CREATE A TEMPLATE FOR THE TREE TO PRINT
+		//--------------------------------------------------------------------------------------------------------------
+		// create a matrix of Cells that is the correct height and width to show this tree's data
+		// this will mark where potential nodes are allowed to be printed as well
+		//--------------------------------------------------------------------------------------------------------------
+		vector<vector<Cell<T>>> initialize_matrix(int w){
+			//----------------------------------------------------------------------------------------------------------
+			// method vars
+			//----------------------------------------------------------------------------------------------------------
+			int height = this->get_height() + 1;                                                       // height of tree
+			int maxwidth = pow(2, height) * w;                                  // potential nodes * space for each node
+			int spacing = maxwidth / 2;                      // first row spacing requirements // will decrease each row
+			int space_counter = spacing;                                     // this will print the spaces between nodes
+			//----------------------------------------------------------------------------------------------------------
+			// Lets build an actual matrix of cells
+			//----------------------------------------------------------------------------------------------------------
+			vector<vector<Cell<T>> >cell_matrix;
+			for (int a = 0 ; a < height; a ++ ){
+				vector<Cell<T>> row;
+				for (int b = 0 ; b < maxwidth + 1; b ++ ){
+					Cell<T> c;
+					c.x_coord = b;
+					c.y_coord = a;                                                     // used these coords in debugging
+					row.emplace_back(c);
+				}
+				cell_matrix.emplace_back(row);
+			}
+			//----------------------------------------------------------------------------------------------------------
+			// find where all the potential nodes are and mark those positions in the cell matrix
+			//----------------------------------------------------------------------------------------------------------
+			for (int i = 0 ; i < height ; i ++ ){                                                                // rows
+				space_counter = spacing;                                                // reset space_counter every row
+				for (int j = 0 ; j < maxwidth ; j ++ ){                                                       // columns
+					if (space_counter < 0){                     // has this space been used by a node? if so, dont print
+						cell_matrix[i][j].is_node = true;
+					}
+					space_counter -- ;                                       // decrement space counter as columns print
+				}
+				spacing /=2;         // halve spacing each row since number of nodes can increase by power of 2 each row
+			}
+			return cell_matrix;
+		}
+		//--------------------------------------------------------------------------------------------------------------
 		// PRE ORDER TRAVERSAL TO FILL OUT MATRIX FOR PRINTING TREE
 		//--------------------------------------------------------------------------------------------------------------
 		// maybe need to keep track of height?
@@ -321,7 +367,6 @@ class AVL_BinarySearchTree {
 				height--;  																     // Coming back up one level
 			}
 		}
-
         //--------------------------------------------------------------------------------------------------------------
 		// PRE ORDER TRAVERSAL TO SET BALANCE OF EACH NODE -- ended up not using this 
 		// pre order since this will stop at a root of a subtree, then can compare children to root
@@ -705,49 +750,6 @@ class AVL_BinarySearchTree {
         }
 		unordered_map<int, tree_order<T> >& get_tree_map(){
 			return TO;
-		}
-		//--------------------------------------------------------------------------------------------------------------
-		// CREATE A TEMPLATE FOR THE TREE TO PRINT
-		//--------------------------------------------------------------------------------------------------------------
-		// create a matrix of Cells that is the correct height and width to show this tree's data
-		// this will mark where potential nodes are allowed to be printed as well
-		//--------------------------------------------------------------------------------------------------------------
-		vector<vector<Cell<T>>> initialize_matrix(int w){
-			//----------------------------------------------------------------------------------------------------------
-			// method vars
-			//----------------------------------------------------------------------------------------------------------
-			int height = this->get_height() + 1;                                                       // height of tree
-			int maxwidth = pow(2, height) * w;                                  // potential nodes * space for each node
-			int spacing = maxwidth / 2;                      // first row spacing requirements // will decrease each row
-			int space_counter = spacing;                                     // this will print the spaces between nodes
-			//----------------------------------------------------------------------------------------------------------
-			// Lets build an actual matrix of cells
-			//----------------------------------------------------------------------------------------------------------
-			vector<vector<Cell<T>> >cell_matrix;
-			for (int a = 0 ; a < height; a ++ ){
-				vector<Cell<T>> row;
-				for (int b = 0 ; b < maxwidth + 1; b ++ ){
-					Cell<T> c;
-					c.x_coord = b;
-					c.y_coord = a;                                                     // used these coords in debugging
-					row.emplace_back(c);
-				}
-				cell_matrix.emplace_back(row);
-			}
-			//----------------------------------------------------------------------------------------------------------
-			// find where all the potential nodes are and mark those positions in the cell matrix
-			//----------------------------------------------------------------------------------------------------------
-			for (int i = 0 ; i < height ; i ++ ){                                                                // rows
-				space_counter = spacing;                                                // reset space_counter every row
-				for (int j = 0 ; j < maxwidth ; j ++ ){                                                       // columns
-					if (space_counter < 0){                     // has this space been used by a node? if so, dont print
-						cell_matrix[i][j].is_node = true;
-					}
-					space_counter -- ;                                       // decrement space counter as columns print
-				}
-				spacing /=2;         // halve spacing each row since number of nodes can increase by power of 2 each row
-			}
-			return cell_matrix;
 		}
 };
 
