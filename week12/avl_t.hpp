@@ -742,12 +742,6 @@ class AVL_BinarySearchTree {
 			}
 			return cell_matrix;
 		}
-		A_TreeNode<T>* getRoot(){
-			return root;
-		}
-		void setRoot(A_TreeNode<T>* r){
-			this->root = r;
-		}
 };
 
 #endif
