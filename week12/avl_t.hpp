@@ -313,9 +313,8 @@ class AVL_BinarySearchTree {
 				if (nodes_used > 0) {
 					if (height == 0) {
 						for (int i = 0; i < (int)matrix[0].size(); i++) { 				   // Find the next cell to fill
-							if (matrix[height][i].is_node) {
-								matrix[height][i].node_data.value = node_value;
-								matrix[height][i].is_node = false;
+							if (matrix[height][i].is_node) {	// if at root level only one node, nothing else to check
+								matrix[height][i].node_data.value = node_value; 
 								matrix[height][i].used = true;
 								break;
 							}
@@ -325,17 +324,16 @@ class AVL_BinarySearchTree {
 							if (matrix[height][i].is_node) { 								      // if we are at a node
 								int parent_index = 0;       								      // get the parent info
 								int parent_data = t.parent_val;
-								for (int j = 0; j < (int)matrix[0].size(); j++) {
-									if (parent_data == matrix[height - int_w/2][j].node_data.value) {
+								for (int j = 0; j < (int)matrix[0].size(); j++) {			// find parent in the matrix 
+									if (parent_data == matrix[height - int_w/2][j].node_data.value) {       //intw/2 = 1 
 										parent_index = j; 									    // parent location found
 										break;
 									} 	      // should we place this data to the left or the right of this parent index
 								}
-								if (t.left) {
-									matrix[height][parent_index - spacing].node_data.value = node_value;
-									matrix[height][parent_index - spacing].is_node = false;
-									matrix[height][parent_index - spacing].used = true;
-									matrix[height][parent_index].is_edges = true;
+								if (t.left) {  // if the node is a left node, set its position in the matrix accordingly
+									matrix[height][parent_index - spacing].node_data.value = node_value;// down and left
+									matrix[height][parent_index - spacing].used = true;			 // mark for the printer
+									matrix[height][parent_index].is_edges = true;			         // mark for printer
 									int connector_start = parent_index - spacing + int_w/2;
 									int connector_end = parent_index;
 									for (int c = connector_start ; c < connector_end ; c ++ ){
@@ -344,12 +342,11 @@ class AVL_BinarySearchTree {
 									nodes_used--;
 									break;
 								}
-								if (t.right) {
-									matrix[height][parent_index + spacing].node_data.value = node_value;
-									matrix[height][parent_index + spacing].is_node = false;
-									matrix[height][parent_index + spacing].used = true;
-									matrix[height][parent_index].is_edges = true;
-									int connector_start = parent_index + int_w/2;
+								if (t.right) {// if the node is a right node, set its position in the matrix accordingly
+									matrix[height][parent_index + spacing].node_data.value = node_value;//down and right
+									matrix[height][parent_index + spacing].used = true; 			 // mark for printer
+									matrix[height][parent_index].is_edges = true;					 // mark for printer
+									int connector_start = parent_index + int_w/2; 		 		// connector fills space
 									int connector_end = parent_index + spacing;
 									for (int c = connector_start ; c < connector_end; c ++ ){
 										matrix[height][c].is_connector = true;
@@ -399,13 +396,12 @@ class AVL_BinarySearchTree {
 		}
 	public:
 		//--------------------------------------------------------------------------------------------------------------
-		// PRINT THIS TREE
+		// PRINT THIS TREE - I could probably combine this with my final traversal and matrix fill in
 		//--------------------------------------------------------------------------------------------------------------
 		void printTree(A_TreeNode<T>* root,int& pos, int level = 0, const std::string& prefix = "", int spacing = 5) {
 			if (root) {																		      // if root is not null
 				if (level == 0) {														     // if root is the root node
-					// std::cout << "Root: " << root->data << " (" << root->balance_factor  << ")" <<  std::endl;
-					tree_order<T> t;
+					tree_order<T> t;															// initialize a new node
 					t.level = 0;
 					t.value = root->data;
 					for (const auto &pair: TO) {                			  // get the node position data from the map
@@ -415,37 +411,29 @@ class AVL_BinarySearchTree {
 						}
 					}
 					TO.insert(make_pair(pos, t));
-					pos ++ ;
+					pos ++ ;	 		   // this is just a surrogate type key for the map, dont actually use this data
 					NodeCount ++ ;
 				} else {																    // node is not the root node
 					std::string branch = (level % 2 == 1) ? "└─" : "├─";						     // determine branch
 					std::string spaces(spacing * level - 2, ' ');								    // determine spacing
-				// 	std::cout
-                //    << spaces
-                //    << branch
-                //    << prefix << root->data << " ("
-                //    << root->balance_factor
-                //    << ")"
-                //    << std::endl;
 					for (const auto &pair: TO) {                			  // get the node position data from the map
 						if (pair.second.value == root->data) {	 // iterate through map and find the current node's data
 							TO.erase(pair.first);
 							break;
 						}
 					}
-					tree_order<T> t;
+					tree_order<T> t;															// initialize a new node
 					if (prefix == "L: "){
-						t.left = true;
+						t.left = true;									    // if come from the left node is a left node
 					}
 					if (prefix == "R: "){
-						t.right = true;
+						t.right = true;									  // if come from the right node is a right node
 					}
-					t.parent = root->parent;
-					t.parent_val = root->parent->data;
-					t.level = level;
-					t.value = root->data;
-					TO.insert(make_pair(pos, t));
-					pos ++;
+					t.parent = root->parent;											 // set parent data of this node
+					t.parent_val = root->parent->data;									 // set parent data of this node
+					t.value = root->data;														// set data of this node
+					TO.insert(make_pair(pos, t));											 // store this info in a map
+					pos ++;				   // this is just a surrogate type key for the map, dont actually use this data
 				}
 				if (root->left || root->right) {											     // if node has children
 					printTree(root->left, pos,  level + 1, "L: ", spacing);						     // print left child
