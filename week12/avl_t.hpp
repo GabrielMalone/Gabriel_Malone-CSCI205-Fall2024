@@ -290,80 +290,6 @@ class AVL_BinarySearchTree {
 			}
 			return cell_matrix;
 		}
-		//--------------------------------------------------------------------------------------------------------------
-		// PRE ORDER TRAVERSAL TO FILL OUT MATRIX FOR PRINTING TREE
-		//--------------------------------------------------------------------------------------------------------------
-		// maybe need to keep track of height?
-		// get all the nodes for his level of the tree
-		// pick out the leftmost remaining node
-		// now we can fill in each row of the matrix left to right
-		//--------------------------------------------------------------------------------------------------------------
-		void preOrderTraversalMatrix(A_TreeNode<T>* node, vector<vector<Cell<T>> >& matrix, int& height, 
-									                        int& nodes_used, int max_width, int int_w) {
-			auto spacing = double(max_width / pow(2, height));
-			if (node != nullptr) {
-				int node_value = node->data;  								       // Get the value present at this node
-				tree_order<T> t;
-				for (const auto &pair: TO) {                			      // get the node position data from the map
-					if (pair.second.value == node_value) {	     // iterate through map and find the current node's data
-						t = pair.second;
-						break;
-					}
-				}
-				if (nodes_used > 0) {
-					if (height == 0) {
-						for (int i = 0; i < (int)matrix[0].size(); i++) { 				   // Find the next cell to fill
-							if (matrix[height][i].is_node) {	// if at root level only one node, nothing else to check
-								matrix[height][i].node_data.value = node_value; 
-								matrix[height][i].used = true;
-								break;
-							}
-						}
-					} else {
-						for (int i = 0; i < (int)matrix[0].size(); i++) {  				   // Find the next cell to fill
-							if (matrix[height][i].is_node) { 								      // if we are at a node
-								int parent_index = 0;       								      // get the parent info
-								int parent_data = t.parent_val;
-								for (int j = 0; j < (int)matrix[0].size(); j++) {			// find parent in the matrix 
-									if (parent_data == matrix[height - int_w/2][j].node_data.value) {       //intw/2 = 1 
-										parent_index = j; 									    // parent location found
-										break;
-									} 	      // should we place this data to the left or the right of this parent index
-								}
-								if (t.left) {  // if the node is a left node, set its position in the matrix accordingly
-									matrix[height][parent_index - spacing].node_data.value = node_value;// down and left
-									matrix[height][parent_index - spacing].used = true;			 // mark for the printer
-									matrix[height][parent_index].is_edges = true;			         // mark for printer
-									int connector_start = parent_index - spacing + int_w/2;
-									int connector_end = parent_index;
-									for (int c = connector_start ; c < connector_end ; c ++ ){
-										matrix[height][c].is_connector = true;
-									}
-									nodes_used--;
-									break;
-								}
-								if (t.right) {// if the node is a right node, set its position in the matrix accordingly
-									matrix[height][parent_index + spacing].node_data.value = node_value;//down and right
-									matrix[height][parent_index + spacing].used = true; 			 // mark for printer
-									matrix[height][parent_index].is_edges = true;					 // mark for printer
-									int connector_start = parent_index + int_w/2; 		 		// connector fills space
-									int connector_end = parent_index + spacing;
-									for (int c = connector_start ; c < connector_end; c ++ ){
-										matrix[height][c].is_connector = true;
-									}
-									nodes_used--;
-									break;
-								}
-							}
-						}
-					}
-				}
-				height++; 														     // Going down one level in the tree
-				preOrderTraversalMatrix(node->left, matrix, height, nodes_used, max_width, int_w);            // go left
-				preOrderTraversalMatrix(node->right, matrix, height, nodes_used, max_width, int_w);          // go right
-				height--;  																     // Coming back up one level
-			}
-		}
         //--------------------------------------------------------------------------------------------------------------
 		// PRE ORDER TRAVERSAL TO SET BALANCE OF EACH NODE -- ended up not using this 
 		// pre order since this will stop at a root of a subtree, then can compare children to root
@@ -398,46 +324,57 @@ class AVL_BinarySearchTree {
 		//--------------------------------------------------------------------------------------------------------------
 		// PRINT THIS TREE - I could probably combine this with my final traversal and matrix fill in
 		//--------------------------------------------------------------------------------------------------------------
-		void printTree(A_TreeNode<T>* root,int& pos, int level = 0, const std::string& prefix = "", int spacing = 5) {
+		void fillTreeMatrix(A_TreeNode<T>* root,int& pos, vector<vector<Cell<T>> >& matrix, int max_width ,int level = 0, 
+																					   const std::string& prefix = "") {
+			auto space = double(max_width / pow(2, level));
 			if (root) {																		      // if root is not null
 				if (level == 0) {														     // if root is the root node
-					tree_order<T> t;															// initialize a new node
-					t.level = 0;
-					t.value = root->data;
-					for (const auto &pair: TO) {                			  // get the node position data from the map
-						if (pair.second.value == root->data) {	 // iterate through map and find the current node's data
-							TO.erase(pair.first);
+					for (int i = 0; i < (int)matrix[0].size(); i++) { 				   	   // Find the next cell to fill
+						if (matrix[level][i].is_node) {	        // if at root level only one node, nothing else to check
+							matrix[level][i].node_data.value = root->data;
+							matrix[level][i].used = true;
 							break;
 						}
 					}
-					TO.insert(make_pair(pos, t));
-					pos ++ ;	 		   // this is just a surrogate type key for the map, dont actually use this data
-					NodeCount ++ ;
 				} else {																    // node is not the root node
-					std::string branch = (level % 2 == 1) ? "└─" : "├─";						     // determine branch
-					std::string spaces(spacing * level - 2, ' ');								    // determine spacing
-					for (const auto &pair: TO) {                			  // get the node position data from the map
-						if (pair.second.value == root->data) {	 // iterate through map and find the current node's data
-							TO.erase(pair.first);
-							break;
+					for (int i = 0; i < (int)matrix[0].size(); i++) {  				   	   // Find the next cell to fill
+						if (matrix[level][i].is_node) { 								          // if we are at a node
+							int parent_index = 0;       								          // get the parent info
+							int parent_data = root->parent->data;
+							for (int j = 0; j < (int)matrix[0].size(); j++) {				// find parent in the matrix 
+								if (parent_data == matrix[level - 1][j].node_data.value) {       			//intw/2 = 1 
+									parent_index = j; 									   	    // parent location found
+									break;
+								} 	      	  // should we place this data to the left or the right of this parent index
+							}
+							if (prefix == "L: ") { // if  node is a left node, set its position in the matrix accordingly
+								matrix[level][parent_index - space].node_data.value = root->data;		 // down and left
+								matrix[level][parent_index - space].used = true;			 	  // mark for the printer
+								matrix[level][parent_index].is_edges = true;			        	  // mark for printer
+								int connector_start = parent_index - space + 1;
+								int connector_end = parent_index;
+								for (int c = connector_start ; c < connector_end ; c ++ ){
+									matrix[level][c].is_connector = true;
+								}
+								break;
+							}
+							if (prefix == "R: ") {	  // if node is a right node, set its position in  matrix accordingly
+								matrix[level][parent_index + space].node_data.value = root->data;	   	 //down and right
+								matrix[level][parent_index + space].used = true; 			 		  // mark for printer
+								matrix[level][parent_index].is_edges = true;						  // mark for printer
+								int connector_start = parent_index + 1; 		 			  	 // connector fills space
+								int connector_end = parent_index + space;
+								for (int c = connector_start ; c < connector_end; c ++ ){
+									matrix[level][c].is_connector = true;
+								}
+								break;
+							}
 						}
 					}
-					tree_order<T> t;															// initialize a new node
-					if (prefix == "L: "){
-						t.left = true;									    // if come from the left node is a left node
-					}
-					if (prefix == "R: "){
-						t.right = true;									  // if come from the right node is a right node
-					}
-					t.parent = root->parent;											 // set parent data of this node
-					t.parent_val = root->parent->data;									 // set parent data of this node
-					t.value = root->data;														// set data of this node
-					TO.insert(make_pair(pos, t));											 // store this info in a map
-					pos ++;				   // this is just a surrogate type key for the map, dont actually use this data
 				}
 				if (root->left || root->right) {											     // if node has children
-					printTree(root->left, pos,  level + 1, "L: ", spacing);						     // print left child
-					printTree(root->right, pos, level + 1, "R: ", spacing);					        // print right child
+						fillTreeMatrix(root->left, pos, matrix, max_width, level + 1, "L: ");		 // print left child
+						fillTreeMatrix(root->right, pos, matrix, max_width, level + 1, "R: ");		// print right child
 				}
 			}
 		}
@@ -571,8 +508,11 @@ class AVL_BinarySearchTree {
 		}
 		//--------------------------------------------------------------------------------------------------------------
 		// public print with no arguments
-		void print() {
-			printTree(root, pos);													    // call private recursive helper
+		vector<vector<Cell<T>> > fill_matrix() {
+			int maxwidth = pow(2, get_height()) * 2; 		// 2 is the max width of the ints that will be in the matrix
+			vector<vector<Cell<T>>> matrix = initialize_matrix(2);		
+			fillTreeMatrix(root, pos, matrix, maxwidth);			 					// call private recursive helper
+			return matrix;												   			   
 		}
 		//--------------------------------------------------------------------------------------------------------------
 		// public min with no arguments
@@ -682,16 +622,9 @@ class AVL_BinarySearchTree {
 		//--------------------------------------------------------------------------------------------------------------
 		// FILL OUT MATRIX VIA PREORDER TRAVERSAL AND PRINT THE MATRIX
 		//--------------------------------------------------------------------------------------------------------------
-		void printTreeMatrix(int w){                         // w could change this for very big trees with numbers > 99
+		void print(int w = 2){                        	    // w could change this for very big trees with numbers > 99
 			int sleep_time = 1;
-			this->print();								// this will traverse tree and fill TO map with the correct data
-			int height = 0;                                                          	// used this to check final tree
-			int nodes_used = tree_nodes();								  // used to track progress of printing the tree
-			int maxwidth = pow(2, get_height()) * w;  		        // nodes * space for each node * spaces between node
-			//----------------------------------------------------------------------------------------------------------
-			vector<vector<Cell<T>> >cell_matrix = initialize_matrix(w);						   // get the blank template
-			//----------------------------------------------------------------------------------------------------------
-			preOrderTraversalMatrix(root, cell_matrix, height, nodes_used, maxwidth, w); // this will fill in the matrix
+			vector<vector<Cell<T>>> cell_matrix = this->fill_matrix(); // this will traverse tree and fill map with data
 			//----------------------------------------------------------------------------------------------------------
 			for (int e = 0 ; e < (int)cell_matrix.size(); e ++) {                    // iterate rows to print the matrix
 				for (int f = 0; f < (int)cell_matrix[0].size(); f++) {            // iterate columns to print the matrix
@@ -722,7 +655,6 @@ class AVL_BinarySearchTree {
 				}
 				cout << endl;                                                                                 // end row
 			}
-			//std::cout << "\033[2J\033[H";
 		}
 		//--------------------------------------------------------------------------------------------------------------
 		// IN ORDER TRAVERSAL TO COUNT NODES ON THIS TREE 
