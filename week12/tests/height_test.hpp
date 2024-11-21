@@ -185,7 +185,7 @@ void height_testing(){
                 bst_f.insert(m_1);
                 f.erase(f.begin() + rand_index-1);
             }
-            if (rand_index + 1 < f.size()){
+            if (rand_index + 1 < (int)f.size()){
                 int m_2 = f[rand_index+1];
                 bst_f.insert(m_2);
                 f.erase(f.begin() + rand_index+1);                              

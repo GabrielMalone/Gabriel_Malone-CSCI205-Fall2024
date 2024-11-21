@@ -97,7 +97,7 @@ void bst_insert_test(AVL_BinarySearchTree<T>& bst, vector<T>& v, char type, bool
     //----------------------------------------------------------------------------------------------------------
     double total = 0;                                                                  // double to hold the sum
     double avg = 0;
-    for (int j = 0 ; j < results_vector.size(); j ++  ){
+    for (int j = 0 ; j < (int)results_vector.size(); j ++  ){
         total += results_vector[j];                                                    // sum up all the results
     }
     avg = total / (double)results_vector.size();                                         // calulate the average

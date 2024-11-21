@@ -47,9 +47,12 @@ int main(){
     //------------------------------------------------------------------------------------------------------------------
     // take the values in a tree and place them, in order, into a vector
     //------------------------------------------------------------------------------------------------------------------
-    cout << "This tree flattened: ";
+    cout << "This tree flattened into ascending order: ";
     vector<int>d = bst.flatten();
     print_vec(d);                                                                              // confrim flatten worked
+    cout << "This tree flattened into its original order: ";
+    vector<int>z = bst.preOrderVector();
+    print_vec(z);                                                                              // confrim flatten worked
     //------------------------------------------------------------------------------------------------------------------
     // FIND CLOSEST VALUE
     //------------------------------------------------------------------------------------------------------------------
@@ -78,7 +81,7 @@ int main(){
     //------------------------------------------------------------------------------------------------------------------
     int kth_val = bst.tree_nodes()/2;                                    // just get a value that will always be present
     int kth_smallest_val = bst.kth_smallest(kth_val);
-    cout << "The " << kth_val << "th smallest value in the tree is: " << kth_smallest_val << endl;
+    cout << "\nThe " << kth_val << "th smallest value in the tree is: " << kth_smallest_val << endl;
     assert(kth_smallest_val == d[kth_val-1]);                         // can confirm by checking index of flattened tree
     //------------------------------------------------------------------------------------------------------------------
     // HEIGHT TESTING - test various insertion methods from a sorted array to see their effectiveness
@@ -91,9 +94,9 @@ int main(){
     int value = 0;
     while (value != -1) {
         char selection = ' ';
-        cout << "\n(A)dd or (R)emove value: ";
+        cout << "\n(a)dd or (r)emove value: ";
         cin >> selection;
-        if (selection == 'A'){
+        if (selection == 'a'){
             cout << "\nSelect value to add to the tree ";
             cin >> value;
             bst.insert(value);                  // original tree will continue to receive the actual inserts and removes
@@ -102,7 +105,7 @@ int main(){
             bstA.copyTree(testa);                                                        // flatten the data in preorder
             bstA.fill_matrix(width);              // insert vanilla from that preorder vector to copy old tree as it was
         }
-         if (selection == 'R'){
+         if (selection == 'r'){
             cout << "\nSelect value to remove from the tree ";
             cin >> value;
             bst.remove(value);
@@ -113,5 +116,4 @@ int main(){
         }
     }
     return 0;
-
 }

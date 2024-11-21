@@ -9,6 +9,7 @@
 #include <chrono>
 #include <thread>
 #include <cstdlib>
+#include <unordered_map>
 #include "bst_helpers.hpp/bst_data.hpp"
 #include "bst_helpers.hpp/initialize_vec.hpp"
 #include "backend/ClosedHashTable.hpp"
@@ -31,7 +32,7 @@ class AVL_BinarySearchTree {
 		int NodeCount = tree_nodes();
 		searchData sd;														        // track data related to BST methods
 		int max_height = 0 ; 													        // track the height of this tree
-		unordered_map<int, tree_order<T>> TO;
+		unordered_map<int, tree_order<T> > TO;
 		int pos = 0;
 		//--------------------------------------------------------------------------------------------------------------
 		// ROTATE RIGHT -https://www.youtube.com/watch?v=JPI-DPizQYk// runestone's implementation did not work
@@ -265,7 +266,7 @@ class AVL_BinarySearchTree {
 				}
 				if (nodes_used > 0) {
 					if (height == 0) {
-						for (int i = 0; i < matrix[0].size(); i++) { 				       // Find the next cell to fill
+						for (int i = 0; i < (int)matrix[0].size(); i++) { 				   // Find the next cell to fill
 							if (matrix[height][i].is_node) {
 								matrix[height][i].node_data.value = node_value;
 								matrix[height][i].is_node = false;
@@ -274,11 +275,11 @@ class AVL_BinarySearchTree {
 							}
 						}
 					} else {
-						for (int i = 0; i < matrix[0].size(); i++) {  				       // Find the next cell to fill
+						for (int i = 0; i < (int)matrix[0].size(); i++) {  				   // Find the next cell to fill
 							if (matrix[height][i].is_node) { 								      // if we are at a node
 								int parent_index = 0;       								      // get the parent info
 								int parent_data = t.parent_val;
-								for (int j = 0; j < matrix[0].size(); j++) {
+								for (int j = 0; j < (int)matrix[0].size(); j++) {
 									if (parent_data == matrix[height - int_w/2][j].node_data.value) {
 										parent_index = j; 									    // parent location found
 										break;
@@ -498,7 +499,7 @@ class AVL_BinarySearchTree {
 		// Method to copy from a preOrder vector so that we can copy one bst to another. insert is vanilla. PRINT STUFF
 		//--------------------------------------------------------------------------------------------------------------
 		void copyTree(vector<int>& copy){
-			for (int i = 0 ; i < copy.size() ; i ++ ){
+			for (int i = 0 ; i < (int)copy.size() ; i ++ ){
 				root = _insertCopy(root, copy[i]);
 			}
 		}
@@ -561,7 +562,7 @@ class AVL_BinarySearchTree {
 		vector<int> initialize(int size, char type, bool print){
 			vector<int>v(size);																		     // get a vector
 			intialize_vector(v, v.size(), type, print);	    // initialize the vector with either random or assorted ints
-			for (int i = 0 ; i < v.size() ; i ++ ){	                 // insert the values from the vector into this tree
+			for (int i = 0 ; i < (int)v.size() ; i ++ ){	         // insert the values from the vector into this tree
         		this->insert(v[i]);		     // lazy insertion approach, could use better method like divide and conquer
    			}
 			return v;
@@ -579,7 +580,7 @@ class AVL_BinarySearchTree {
 			int difference = 999999;						
 			int closest_val = -1;	
 			vector<T> v = flatten();									     // flatten the tree and place into a vector
-			for (int i = 0 ; i < v.size() ; i ++ ){
+			for (int i = 0 ; i < (int)v.size() ; i ++ ){
 				int diff = abs(v[i] - val);				    // find the difference between val and current int in vector
 				if (diff < difference){										    // if new low, set it as the closest val
 					difference = diff;												    	// set new lowest difference
@@ -650,15 +651,16 @@ class AVL_BinarySearchTree {
 		//--------------------------------------------------------------------------------------------------------------
 		void fill_matrix(int w){                             // w could change this for very big trees with numbers > 99
 			int sleep_time = 1;
+			this->print();								// this will traverse tree and fill TO map with the correct data
 			int height = 0;                                                          	// used this to check final tree
-			int nodes_used = tree_nodes();
+			int nodes_used = tree_nodes();								  // used to track progress of printing the tree
 			int maxwidth = pow(2, get_height()) * w;  		        // nodes * space for each node * spaces between node
 			vector<vector<Cell<T>> >cell_matrix = initialize_matrix(w);
-			preOrderTraversalMatrix(root, cell_matrix, height, nodes_used, maxwidth, w);
-			for (int e = 0 ; e < cell_matrix.size(); e ++) {                                             // iterate rows
-				for (int f = 0; f < cell_matrix[0].size(); f++) {              
-					std::this_thread::sleep_for(std::chrono::milliseconds(sleep_time));               // iterate columns
-					Cell<T> cur_cell = cell_matrix[e][f];
+			preOrderTraversalMatrix(root, cell_matrix, height, nodes_used, maxwidth, w); // this will fill in the matrix
+			for (int e = 0 ; e < (int)cell_matrix.size(); e ++) {                    // iterate rows to print the matrix
+				for (int f = 0; f < (int)cell_matrix[0].size(); f++) {            // iterate columns to print the matrix
+					std::this_thread::sleep_for(std::chrono::milliseconds(sleep_time));   			   // for aesthetics     
+					Cell<T> cur_cell = cell_matrix[e][f];									 // look at the current cell
 					//--------------------------------------------------------------------------------------------------
 					if (cur_cell.used) {												       // if a node wiht a value
 						cout << Colors::YELLOW 
@@ -701,13 +703,16 @@ class AVL_BinarySearchTree {
 		unordered_map<int, tree_order<T> >& get_tree_map(){
 			return TO;
 		}
+		//--------------------------------------------------------------------------------------------------------------
+		// CREATE A TEMPLATE FOR THE TREE TO PRINT
+		//--------------------------------------------------------------------------------------------------------------
+		// create a matrix of Cells that is the correct height and width to show this tree's data
+		// this will mark where potential nodes are allowed to be printed as well
+		//--------------------------------------------------------------------------------------------------------------
 		vector<vector<Cell<T>>> initialize_matrix(int w){
 			//----------------------------------------------------------------------------------------------------------
 			// method vars
 			//----------------------------------------------------------------------------------------------------------
-			TO.clear();
-			this->print();                                                              // used this to check final tree
-			vector<int>space_saver;                                            // tracks if a column is in use by a node
 			int height = this->get_height() + 1;                                                       // height of tree
 			int maxwidth = pow(2, height) * w;                                  // potential nodes * space for each node
 			int spacing = maxwidth / 2;                      // first row spacing requirements // will decrease each row
@@ -733,8 +738,7 @@ class AVL_BinarySearchTree {
 				space_counter = spacing;                                                // reset space_counter every row
 				for (int j = 0 ; j < maxwidth ; j ++ ){                                                       // columns
 					if (space_counter < 0){                     // has this space been used by a node? if so, dont print
-						if (find(space_saver.begin(), space_saver.end(), j) == space_saver.end())                   // ^
-							cell_matrix[i][j].is_node = true;
+						cell_matrix[i][j].is_node = true;
 					}
 					space_counter -- ;                                       // decrement space counter as columns print
 				}
