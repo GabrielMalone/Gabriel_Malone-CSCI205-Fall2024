@@ -28,7 +28,7 @@ class AVL_BinarySearchTree {
 	// Class vars
 	//------------------------------------------------------------------------------------------------------------------
 		A_TreeNode<T>* root;																     // pointer to root node
-		int NodeCount = 0;
+		int NodeCount = tree_nodes();
 		searchData sd;														        // track data related to BST methods
 		int max_height = 0 ; 													        // track the height of this tree
 		unordered_map<int, tree_order<T>> TO;
@@ -89,7 +89,7 @@ class AVL_BinarySearchTree {
 		A_TreeNode<T>* _insert(A_TreeNode<T>* node, T key) {
 			sd.inserts ++ ;
 			if (node == nullptr){
-				return new A_TreeNode(key); 				 				      // if reached a leaf return a new node
+				return new A_TreeNode<T>(key); 				 				      // if reached a leaf return a new node
 			}
 			if (key < node->data) {										   	       // if less than subtree root, go left
 				node->left = _insert(node->left, key);					        // recursively call this until at a leaf
@@ -109,7 +109,9 @@ class AVL_BinarySearchTree {
 		// added the balance logic at end
 		//--------------------------------------------------------------------------------------------------------------
 		A_TreeNode<T>* _remove(A_TreeNode<T>* node, T key) {						       // args: start, key to remove
-			if (node == nullptr)		return node;							            // key was not found in tree
+			if (node == nullptr){
+				return node;																	// key not found in tree
+			}		
 			if (key < node->data)		node->left  = _remove(node->left, key);       // key < than node's data, go left
 			else if (key > node->data)	node->right = _remove(node->right, key);     // key > than node's data, go right
 			else {																	        // found the node, remove it
@@ -126,7 +128,9 @@ class AVL_BinarySearchTree {
 				node->data			= temp->data;	        // copy inorder successor's content to this node (to delete)
 				node->right			= _remove(node->right, temp->data);					     // delete inorder successor
 			}
-			if (node == nullptr) return  node; 					         // if root has become nullptr (was a leaf node)
+			if (node == nullptr) {
+				return node;								 			 // if root has become nullptr (was a leaf node)
+			}					      
 			node->balance_factor = node_balance_factor(node);		        // calculate balance factor of ccurrent root
 			return balance(node);								        // perform any rotations that might be necessary
 		}
@@ -232,6 +236,12 @@ class AVL_BinarySearchTree {
 				preOrderTraversal(node->left, valid);										    // traverse left subtree
 				preOrderTraversal(node->right, valid);									       // traverse right subtree
 			}
+		}
+		void _preorderVec(A_TreeNode<T>* root, vector<int>& order) {
+			if (!root) return;
+			order.push_back(root->data);
+			_preorderVec(root->left, order);
+			_preorderVec(root->right, order);
 		}
 		//--------------------------------------------------------------------------------------------------------------
 		// PRE ORDER TRAVERSAL TO FILL OUT MATRIX FOR PRINTING TREE
@@ -348,28 +358,40 @@ class AVL_BinarySearchTree {
 		void printTree(A_TreeNode<T>* root,int& pos, int level = 0, const std::string& prefix = "", int spacing = 5) {
 			if (root) {																		      // if root is not null
 				if (level == 0) {														     // if root is the root node
-					//std::cout << "Root: " << root->data << " (" << root->balance_factor  << ")" <<  std::endl;
+					// std::cout << "Root: " << root->data << " (" << root->balance_factor  << ")" <<  std::endl;
 					tree_order<T> t;
 					t.level = 0;
 					t.value = root->data;
-					t.left = true;
+					for (const auto &pair: TO) {                			  // get the node position data from the map
+						if (pair.second.value == root->data) {	 // iterate through map and find the current node's data
+							TO.erase(pair.first);
+							break;
+						}
+					}
 					TO.insert(make_pair(pos, t));
 					pos ++ ;
 					NodeCount ++ ;
 				} else {																    // node is not the root node
 					std::string branch = (level % 2 == 1) ? "└─" : "├─";						     // determine branch
 					std::string spaces(spacing * level - 2, ' ');								    // determine spacing
-//					std::cout
-//                    << spaces
-//                    << branch
-//                    << prefix << root->data << " ("
-//                    << root->balance_factor
-//                    << ")"
-//                    << std::endl;
+				// 	std::cout
+                //    << spaces
+                //    << branch
+                //    << prefix << root->data << " ("
+                //    << root->balance_factor
+                //    << ")"
+                //    << std::endl;
+					for (const auto &pair: TO) {                			  // get the node position data from the map
+						if (pair.second.value == root->data) {	 // iterate through map and find the current node's data
+							TO.erase(pair.first);
+							break;
+						}
+					}
 					tree_order<T> t;
 					if (prefix == "L: "){
 						t.left = true;
-					} else {
+					}
+					if (prefix == "R: "){
 						t.right = true;
 					}
 					t.parent = root->parent;
@@ -378,7 +400,6 @@ class AVL_BinarySearchTree {
 					t.value = root->data;
 					TO.insert(make_pair(pos, t));
 					pos ++;
-					NodeCount ++ ;
 				}
 				if (root->left || root->right) {											     // if node has children
 					printTree(root->left, pos,  level + 1, "L: ", spacing);						     // print left child
@@ -409,9 +430,6 @@ class AVL_BinarySearchTree {
 		//--------------------------------------------------------------------------------------------------------------
 		void insert(T key) {
 			root = _insert(root, key);
-		}
-		int get_num_nodes(){
-			return NodeCount;
 		}
 		//--------------------------------------------------------------------------------------------------------------
 		// REMOVE
@@ -444,10 +462,45 @@ class AVL_BinarySearchTree {
 			return result;
 		}
 		//--------------------------------------------------------------------------------------------------------------
-		// public pre-order traversal, no arguments
+		// public pre-order traversal, no arguments - to check validity of tree
 		//--------------------------------------------------------------------------------------------------------------
 		void pre_order(bool& valid) {
 			preOrderTraversal(root, valid);											    // call private recursive helper
+		}
+		//--------------------------------------------------------------------------------------------------------------
+		// public pre-order traversal, to get a vector of this tree, needed for copying this tree
+		//--------------------------------------------------------------------------------------------------------------
+		vector<int> preOrderVector(){
+			vector<int>pov;
+			_preorderVec(root, pov);
+			return pov;
+		}
+		//--------------------------------------------------------------------------------------------------------------
+		// Method to copy from a preOrder vector so that we can copy one bst to another. insert is vanilla. PRINT STUFF
+		//--------------------------------------------------------------------------------------------------------------
+		A_TreeNode<T>* _insertCopy(A_TreeNode<T>* node, T key) {
+			sd.inserts ++ ;
+			if (node == nullptr){
+				return new A_TreeNode<T>(key); 				 				      // if reached a leaf return a new node
+			}
+			if (key < node->data) {										   	       // if less than subtree root, go left
+				node->left = _insertCopy(node->left, key);					    // recursively call this until at a leaf
+				node->left->parent = node;       //set the parent pointer of the newly inserted node in the left subtree
+			} else if (key > node->data) {								       // if greater than subtree root, go right
+				node->right = _insertCopy(node->right, key);				    // recursively call this until at a leaf
+				node->right->parent = node;      //set the parent pointer of the newly inserted node in the left subtree
+			} else {
+				return node; 														      // No duplicate values allowed
+			}
+			return node;
+		}
+		//--------------------------------------------------------------------------------------------------------------
+		// Method to copy from a preOrder vector so that we can copy one bst to another. insert is vanilla. PRINT STUFF
+		//--------------------------------------------------------------------------------------------------------------
+		void copyTree(vector<int>& copy){
+			for (int i = 0 ; i < copy.size() ; i ++ ){
+				root = _insertCopy(root, copy[i]);
+			}
 		}
 		//--------------------------------------------------------------------------------------------------------------
 		// FIND HEIGHT
@@ -597,7 +650,7 @@ class AVL_BinarySearchTree {
 		//--------------------------------------------------------------------------------------------------------------
 		void fill_matrix(int w){                             // w could change this for very big trees with numbers > 99
 			int sleep_time = 1;
-			int height = 0;
+			int height = 0;                                                          	// used this to check final tree
 			int nodes_used = tree_nodes();
 			int maxwidth = pow(2, get_height()) * w;  		        // nodes * space for each node * spaces between node
 			vector<vector<Cell<T>> >cell_matrix = initialize_matrix(w);
@@ -652,17 +705,13 @@ class AVL_BinarySearchTree {
 			//----------------------------------------------------------------------------------------------------------
 			// method vars
 			//----------------------------------------------------------------------------------------------------------
+			TO.clear();
 			this->print();                                                              // used this to check final tree
-			unordered_map<int, tree_order<T>> TO = this->get_tree_map();
-			int total_nodes = this->get_num_nodes();
 			vector<int>space_saver;                                            // tracks if a column is in use by a node
 			int height = this->get_height() + 1;                                                       // height of tree
-			cout << "height of this tree is: " << height - 1 << endl;
-			cout << "number of nodes in this tree is: " << total_nodes << endl;
 			int maxwidth = pow(2, height) * w;                                  // potential nodes * space for each node
 			int spacing = maxwidth / 2;                      // first row spacing requirements // will decrease each row
 			int space_counter = spacing;                                     // this will print the spaces between nodes
-
 			//----------------------------------------------------------------------------------------------------------
 			// Lets build an actual matrix of cells
 			//----------------------------------------------------------------------------------------------------------
@@ -692,6 +741,12 @@ class AVL_BinarySearchTree {
 				spacing /=2;         // halve spacing each row since number of nodes can increase by power of 2 each row
 			}
 			return cell_matrix;
+		}
+		A_TreeNode<T>* getRoot(){
+			return root;
+		}
+		void setRoot(A_TreeNode<T>* r){
+			this->root = r;
 		}
 };
 
