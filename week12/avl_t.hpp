@@ -647,9 +647,9 @@ class AVL_BinarySearchTree {
 			return left_max_h - right_max_h;												    // return the difference
 		}
 		//--------------------------------------------------------------------------------------------------------------
-		// FILL OUT MATRIX VIA PREORDER TRAVERSAL
+		// FILL OUT MATRIX VIA PREORDER TRAVERSAL AND PRINT THE MATRIX
 		//--------------------------------------------------------------------------------------------------------------
-		void fill_matrix(int w){                             // w could change this for very big trees with numbers > 99
+		void printTreeMatrix(int w){                         // w could change this for very big trees with numbers > 99
 			int sleep_time = 1;
 			this->print();								// this will traverse tree and fill TO map with the correct data
 			int height = 0;                                                          	// used this to check final tree

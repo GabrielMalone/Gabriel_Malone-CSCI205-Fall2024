@@ -33,7 +33,7 @@ int main(){
     vector<int> v = bst.initialize(vec_size, type, print);
 	int width = to_string(vec_size).length();                                    // currently crashes if tree size > 999
     if (width == 1) width = 2;                                                          // need spacing to be at least 2
-	bst.fill_matrix(width);
+	bst.printTreeMatrix(width);
     //------------------------------------------------------------------------------------------------------------------
     // RUN ISERT TEST WITH THIS BINARY SEARCH TREE
     //------------------------------------------------------------------------------------------------------------------
@@ -103,7 +103,7 @@ int main(){
             vector<int> testa = bst.preOrderVector();                                // get preorder vector to copy tree
             AVL_BinarySearchTree<int>bstA;      // need make new tree to print/some lingering variable messing things up
             bstA.copyTree(testa);                                                        // flatten the data in preorder
-            bstA.fill_matrix(width);              // insert vanilla from that preorder vector to copy old tree as it was
+            bstA.printTreeMatrix(width);          // insert vanilla from that preorder vector to copy old tree as it was
         }
          if (selection == 'r'){
             cout << "\nSelect value to remove from the tree ";
@@ -112,7 +112,7 @@ int main(){
 			vector<int> testb = bst.preOrderVector();
             AVL_BinarySearchTree<int>bstB;
             bstB.copyTree(testb);
-			bstB.fill_matrix(width);
+			bstB.printTreeMatrix(width);
         }
     }
     return 0;
