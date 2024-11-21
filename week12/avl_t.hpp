@@ -11,8 +11,6 @@
 #include <cmath>
 #include <chrono>
 #include <thread>
-#include <cstdlib>
-#include <unordered_map>
 #include "bst_helpers.hpp/bst_data.hpp"
 #include "bst_helpers.hpp/initialize_vec.hpp"
 #include "backend/ClosedHashTable.hpp"
@@ -35,7 +33,6 @@ class AVL_BinarySearchTree {
 		int NodeCount = tree_nodes();
 		searchData sd;														        // track data related to BST methods
 		int max_height = 0 ; 													        // track the height of this tree
-		unordered_map<int, tree_order<T> > TO;
 		int pos = 0;
 		//--------------------------------------------------------------------------------------------------------------
 		// ROTATE RIGHT -https://www.youtube.com/watch?v=JPI-DPizQYk// runestone's implementation did not work
@@ -241,6 +238,9 @@ class AVL_BinarySearchTree {
 				preOrderTraversal(node->right, valid);									       // traverse right subtree
 			}
 		}
+		//--------------------------------------------------------------------------------------------------------------
+		// flatten this bst in its current order
+		//--------------------------------------------------------------------------------------------------------------
 		void _preorderVec(A_TreeNode<T>* root, vector<int>& order) {
 			if (!root) return;
 			order.push_back(root->data);
@@ -322,7 +322,7 @@ class AVL_BinarySearchTree {
 		}
 	public:
 		//--------------------------------------------------------------------------------------------------------------
-		// PRINT THIS TREE - I could probably combine this with my final traversal and matrix fill in
+		// PRINT THIS TREE via pre order traversal and filling matrix
 		//--------------------------------------------------------------------------------------------------------------
 		void fillTreeMatrix(A_TreeNode<T>* root,int& pos, vector<vector<Cell<T>> >& matrix, int max_width ,int level = 0, 
 																					   const std::string& prefix = "") {
@@ -506,8 +506,9 @@ class AVL_BinarySearchTree {
 		void post_order_right(int& height, int& max_height) {
 			postOrderTraversal(this->root->right, height,  max_height);				    // call private recursive helper
 		}
+        //--------------------------------------------------------------------------------------------------------------
+		// FILL MATRIX WITH BST DATA
 		//--------------------------------------------------------------------------------------------------------------
-		// public print with no arguments
 		vector<vector<Cell<T>> > fill_matrix() {
 			int maxwidth = pow(2, get_height()) * 2; 		// 2 is the max width of the ints that will be in the matrix
 			vector<vector<Cell<T>>> matrix = initialize_matrix(2);		
@@ -668,9 +669,6 @@ class AVL_BinarySearchTree {
 			in_order_count(count);														      // count the tree in order
             return count;
         }
-		unordered_map<int, tree_order<T> >& get_tree_map(){
-			return TO;
-		}
 };
 
 #endif
