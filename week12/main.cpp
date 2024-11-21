@@ -24,8 +24,8 @@ int main(){
     std::cout << "\033[2J\033[1;1H";                                            
     cout << "BINARY SEARCH TREE-O-MAKER 9000" << endl;
     cout << "--------------------------------" << endl;
-    cout << "Size of vector of random ints from which to create binary search tree: \n";
-    cout << "(either enable side scrolling or reduce font size for sizes over 30) ";
+    cout << "Size of vector of random ints from which to create binary search tre: \n";
+    cout << "(either enable side scrolling or reduce font size for sizes over 30) : ";
     cin >> vec_size;
     //------------------------------------------------------------------------------------------------------------------
     // CREATE THE VECTOR AND THE BINARY SEARCH TREE 

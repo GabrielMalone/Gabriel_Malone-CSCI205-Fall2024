@@ -655,8 +655,11 @@ class AVL_BinarySearchTree {
 			int height = 0;                                                          	// used this to check final tree
 			int nodes_used = tree_nodes();								  // used to track progress of printing the tree
 			int maxwidth = pow(2, get_height()) * w;  		        // nodes * space for each node * spaces between node
-			vector<vector<Cell<T>> >cell_matrix = initialize_matrix(w);
+			//----------------------------------------------------------------------------------------------------------
+			vector<vector<Cell<T>> >cell_matrix = initialize_matrix(w);						   // get the blank template
+			//----------------------------------------------------------------------------------------------------------
 			preOrderTraversalMatrix(root, cell_matrix, height, nodes_used, maxwidth, w); // this will fill in the matrix
+			//----------------------------------------------------------------------------------------------------------
 			for (int e = 0 ; e < (int)cell_matrix.size(); e ++) {                    // iterate rows to print the matrix
 				for (int f = 0; f < (int)cell_matrix[0].size(); f++) {            // iterate columns to print the matrix
 					std::this_thread::sleep_for(std::chrono::milliseconds(sleep_time));   			   // for aesthetics     
