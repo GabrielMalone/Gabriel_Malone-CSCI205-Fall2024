@@ -66,7 +66,7 @@ int main(){
     // node's value; essentially, the tree maintains a sorted order where the left side is always smaller and
     // the right side is always larger than the root node
     //------------------------------------------------------------------------------------------------------------------
-    // bst.is_valid();                                                                    
+    bst.is_valid();                                                                    
     //------------------------------------------------------------------------------------------------------------------
     // GET MAX TREE HEIGHT // will use this method to compare height balance
     //------------------------------------------------------------------------------------------------------------------
