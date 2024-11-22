@@ -38,7 +38,7 @@ void height_testing(){
         // CONTROL - IDEAL TREE HEIGHT FOR COMPARISON  - LOG 2 N
         //--------------------------------------------------------------------------------------------------------------
         Height_Data ideal;
-        ideal.tree_height = log2(tree_size) * 1.44;
+        ideal.tree_height = log2(tree_size);
         ideal.trial_num = i + 1;
         ideal.trial_method = "ideal";
         ideal_results.put(to_string(i+1), ideal);

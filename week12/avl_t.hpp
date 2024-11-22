@@ -30,10 +30,8 @@ class AVL_BinarySearchTree {
 	// Class vars
 	//------------------------------------------------------------------------------------------------------------------
 		A_TreeNode<T>* root;																     // pointer to root node
-		int NodeCount = tree_nodes();
 		searchData sd;														        // track data related to BST methods
 		int max_height = 0 ; 													        // track the height of this tree
-		int pos = 0;
 		//--------------------------------------------------------------------------------------------------------------
 		// ROTATE RIGHT -https://www.youtube.com/watch?v=JPI-DPizQYk// runestone's implementation did not work
 		//--------------------------------------------------------------------------------------------------------------
@@ -324,8 +322,8 @@ class AVL_BinarySearchTree {
 		//--------------------------------------------------------------------------------------------------------------
 		// PRINT THIS TREE via pre order traversal and filling matrix
 		//--------------------------------------------------------------------------------------------------------------
-		void fillTreeMatrix(A_TreeNode<T>* root,int& pos, vector<vector<Cell<T>> >& matrix, int max_width ,int level = 0, 
-																					   const std::string& prefix = "") {
+		void fillTreeMatrix(A_TreeNode<T>* root, vector<vector<Cell<T>> >& matrix, int max_width ,int level = 0, 
+																					const std::string& prefix = "") {
 			auto space = double(max_width / pow(2, level));
 			if (root) {																		      // if root is not null
 				if (level == 0) {														     // if root is the root node
@@ -373,8 +371,8 @@ class AVL_BinarySearchTree {
 					}
 				}
 				if (root->left || root->right) {											     // if node has children
-						fillTreeMatrix(root->left, pos, matrix, max_width, level + 1, "L: ");		 // print left child
-						fillTreeMatrix(root->right, pos, matrix, max_width, level + 1, "R: ");		// print right child
+						fillTreeMatrix(root->left, matrix, max_width, level + 1, "L: ");		 	 // print left child
+						fillTreeMatrix(root->right, matrix, max_width, level + 1, "R: ");			// print right child
 				}
 			}
 		}
@@ -512,7 +510,7 @@ class AVL_BinarySearchTree {
 		vector<vector<Cell<T>> > fill_matrix() {
 			int maxwidth = pow(2, get_height()) * 2; 		// 2 is the max width of the ints that will be in the matrix
 			vector<vector<Cell<T>>> matrix = initialize_matrix(2);		
-			fillTreeMatrix(root, pos, matrix, maxwidth);			 					// call private recursive helper
+			fillTreeMatrix(root, matrix, maxwidth);			 							// call private recursive helper
 			return matrix;												   			   
 		}
 		//--------------------------------------------------------------------------------------------------------------
@@ -623,7 +621,7 @@ class AVL_BinarySearchTree {
 		//--------------------------------------------------------------------------------------------------------------
 		// FILL OUT MATRIX VIA PREORDER TRAVERSAL AND PRINT THE MATRIX
 		//--------------------------------------------------------------------------------------------------------------
-		void print(int w = 2){                        	    // w could change this for very big trees with numbers > 99
+		void print(int w = 2){                        	     // w could change this for very big trees with numbers > 99
 			int sleep_time = 1;
 			vector<vector<Cell<T>>> cell_matrix = this->fill_matrix(); // this will traverse tree and fill map with data
 			//----------------------------------------------------------------------------------------------------------
@@ -633,23 +631,16 @@ class AVL_BinarySearchTree {
 					Cell<T> cur_cell = cell_matrix[e][f];									 // look at the current cell
 					//--------------------------------------------------------------------------------------------------
 					if (cur_cell.used) {												       // if a node wiht a value
-						cout << Colors::YELLOW 
-						<< setw(w) << setfill(' ') << cur_cell.node_data.value 
-						<< Colors::RESET;
+						cout << Colors::YELLOW << setw(w) << setfill(' ') << cur_cell.node_data.value << Colors::GREEN; 
 					//--------------------------------------------------------------------------------------------------
 					} else if (cur_cell.is_connector) {								       // if a node with a connector
-						cout << Colors::GREEN 
-						<< setw(w) << setfill('-') << "-" 
-						<< Colors::RESET;
+						cout << setw(w) << setfill('-') << "-";
 					//--------------------------------------------------------------------------------------------------
 					} else if (cur_cell.is_edges){									     // if a node with an edge arrow
-						cout << Colors::GREEN 
-						<< setw(w) << setfill(' ') << "^"
-						<< Colors::RESET;
+						cout << Colors::GREEN << setw(w) << setfill(' ') << "^" << Colors::RESET;
 					//--------------------------------------------------------------------------------------------------
 					} else {																	      // if a blank cell
-						cout << Colors::WHITE 
-						<< setw(w) << setfill(' ') << " ";
+						cout << Colors::WHITE << setw(w) << setfill(' ') << " ";
 					}
 					//--------------------------------------------------------------------------------------------------
 					cout << "\a" << flush;

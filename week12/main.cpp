@@ -14,26 +14,22 @@ using namespace std;
 //BinarySearchTree<int> bst;                                       
 
 int main(){
+    // BinarySearchTree<int> bst;                                                      // switch to run comparison tests
     AVL_BinarySearchTree<int> bst;                                                     // switch to run comparison tests
     //------------------------------------------------------------------------------------------------------------------
     // SET UP ARRAY TYPE TO BE USED TO BUILD BINARY SEARCH TREE - worst case 'ascending' data
     //------------------------------------------------------------------------------------------------------------------
-    char type = 'r';                                                                                    // type of array
-    bool print = false;    
-    int vec_size = 0;                           // size of vec/size of final binary tree  - repeat vals not inlc in tree
-    std::cout << "\033[2J\033[1;1H";                                            
-    cout << "BINARY SEARCH TREE-O-MAKER 9000" << endl;
-    cout << "--------------------------------" << endl;
-    cout << "Size of vector of random ints from which to create binary search tre: \n";
-    cout << "(either enable side scrolling or reduce font size for sizes over 30) : ";
-    cin >> vec_size;
+    char type = 'r';                                         // type of array, 'a' for worst case , 'r' for average case
+    bool print = false;                                                  // never used this, left over from previous lab
+    int vec_size = 1000;                        // size of vec/size of final binary tree  - repeat vals not inlc in tree
     //------------------------------------------------------------------------------------------------------------------
     // CREATE THE VECTOR AND THE BINARY SEARCH TREE 
     //------------------------------------------------------------------------------------------------------------------
-    vector<int> v = bst.initialize(vec_size, type, print);
-	int width = to_string(vec_size).length();                                    // currently crashes if tree size > 999
-    if (width == 1) width = 2;                                                          // need spacing to be at least 2
-	bst.print();
+    vector<int> v = bst.initialize(vec_size, type, print);                // comment out to switch to divide and conquer
+    // vector<int> v(vec_size);                                              // uncomment this to use divide and conquer 
+    // generate_vector(vec_size, type, v, vec_size);                         // uncomment this to use divide and conquer 
+    // divide_conquer(v, bst);                                               // uncomment this to use divide and conquer 
+	// bst.print();
     //------------------------------------------------------------------------------------------------------------------
     // RUN ISERT TEST WITH THIS BINARY SEARCH TREE
     //------------------------------------------------------------------------------------------------------------------
@@ -41,7 +37,7 @@ int main(){
     // along with the average of how many operations it is taking to insert an item
     // along with the ideal number of operations it should take to insert an item (log2N)
     //------------------------------------------------------------------------------------------------------------------
-    // bst_insert_test(bst, v, type, print);
+    bst_insert_test(bst, v, type, print);                                        //  UNCOMMENT TO RUN INSERTION TESTS
     //------------------------------------------------------------------------------------------------------------------
     // FLATTEN AND CONFIRM FLAT
     //------------------------------------------------------------------------------------------------------------------
@@ -50,9 +46,9 @@ int main(){
     cout << "This tree flattened into ascending order: ";
     vector<int>d = bst.flatten();
     print_vec(d);                                                                              // confrim flatten worked
-    cout << "This tree flattened into its original order: ";
-    vector<int>z = bst.preOrderVector();
-    print_vec(z);                                                                              // confrim flatten worked
+    // cout << "This tree flattened into its original order: ";                   // only have this set up for AVL trees 
+    // vector<int>z = bst.preOrderVector();                                       // only have this set up for AVL trees 
+    // print_vec(z);                                                                           // confrim flatten worked
     //------------------------------------------------------------------------------------------------------------------
     // FIND CLOSEST VALUE
     //------------------------------------------------------------------------------------------------------------------
@@ -70,7 +66,7 @@ int main(){
     // node's value; essentially, the tree maintains a sorted order where the left side is always smaller and
     // the right side is always larger than the root node
     //------------------------------------------------------------------------------------------------------------------
-    bst.is_valid();                                                             // a job for preorder traversal, I think
+    // bst.is_valid();                                                                    
     //------------------------------------------------------------------------------------------------------------------
     // GET MAX TREE HEIGHT // will use this method to compare height balance
     //------------------------------------------------------------------------------------------------------------------
@@ -86,30 +82,39 @@ int main(){
     //------------------------------------------------------------------------------------------------------------------
     // HEIGHT TESTING - test various insertion methods from a sorted array to see their effectiveness
     //------------------------------------------------------------------------------------------------------------------
-    // height_testing();
+    height_testing();                                                             //    UNCOMMENT TO RUN HEIGHT TESTS
     //------------------------------------------------------------------------------------------------------------------
     // GRAPHICAL TREE MANIPULATION
     //------------------------------------------------------------------------------------------------------------------
     cout << "The Balance Factor of this tree is: " << bst.balance_factor() << endl;
+    // std::cout << "\033[2J\033[1;1H";                                            
+    cout << "BINARY SEARCH TREE-O-MAKER 9000" << endl;
+    cout << "--------------------------------" << endl;
+    cout << "Size of vector of random ints from which to create binary search tre: \n";
+    cout << "(either enable side scrolling or reduce font size for sizes over 30) : ";
+    cin >> vec_size;
+    AVL_BinarySearchTree<int> bst2;                                                    // switch to run comparison tests
+    bst2.initialize(vec_size, type, print);                               // comment out to switch to divide and conquer
+    bst2.print();
     int value = 0;
-    while (value != -1) {
-        char selection = ' ';
+    char selection = ' ';
+    while (selection != 'q') {                                                                              // q to quit
         cout << "\n(a)dd or (r)emove value: ";
         cin >> selection;
-        if (selection == 'a'){
+        if (selection == 'a'){                                                                              // a to add
             cout << "\nSelect value to add to the tree ";
             cin >> value;
-            bst.insert(value);                  // original tree will continue to receive the actual inserts and removes
-            vector<int> testa = bst.preOrderVector();                                // get preorder vector to copy tree
+            bst2.insert(value);                 // original tree will continue to receive the actual inserts and removes
+            vector<int> testa = bst2.preOrderVector();                               // get preorder vector to copy tree
             AVL_BinarySearchTree<int>bstA;      // need make new tree to print/some lingering variable messing things up
             bstA.copyTree(testa);                                                        // flatten the data in preorder
             bstA.print();                         // insert vanilla from that preorder vector to copy old tree as it was
         }
-         if (selection == 'r'){
+         if (selection == 'r'){                                                                           // r to remove
             cout << "\nSelect value to remove from the tree ";
             cin >> value;
-            bst.remove(value);
-			vector<int> testb = bst.preOrderVector();
+            bst2.remove(value);
+			vector<int> testb = bst2.preOrderVector();
             AVL_BinarySearchTree<int>bstB;
             bstB.copyTree(testb);
 			bstB.print();
