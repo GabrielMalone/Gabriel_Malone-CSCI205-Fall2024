@@ -48,7 +48,37 @@ Graph<int> create_graph(int range, char type){
 		g.addEdge(14, 15, 2); 
 		g.addEdge(15, 15, 4); 
 		g.addEdge(15, 16, 7); 
-
+		g.addEdge(1, 15, 4);  
+		g.addEdge(15, 1, 4);  
+		g.addEdge(15, 2, 4);  
+		g.addEdge(14, 2, 6);  
+		g.addEdge(14, 3, 6);  
+		g.addEdge(13, 3, 7);  
+		g.addEdge(13, 4, 7);  
+		g.addEdge(12, 4, 8);  
+		g.addEdge(12, 5, 8);  
+		g.addEdge(11, 5, 5);  
+		g.addEdge(11, 6, 5);  
+		g.addEdge(10, 6, 7);  
+		g.addEdge(10, 7, 7);  
+		g.addEdge(9, 7, 9);  
+		g.addEdge(9, 8, 9);  
+		g.addEdge(8, 8, 6);  
+		g.addEdge(8, 9, 6);  
+		g.addEdge(7, 9, 3);  
+		g.addEdge(7, 10, 3);  
+		g.addEdge(6, 10, 2);  
+		g.addEdge(6, 11, 2);  
+		g.addEdge(5, 11, 6);  
+		g.addEdge(5, 12, 6);  
+		g.addEdge(4, 12, 5);  
+		g.addEdge(4, 13, 5);  
+		g.addEdge(3, 13, 7);  
+		g.addEdge(3, 14, 7);  
+		g.addEdge(2, 14, 9);  
+		g.addEdge(2, 15, 9);  
+		g.addEdge(1, 15, 4);  
+		g.addEdge(1, 16, 4);  
 	}
 	if (type == 's'){ 				// strongly connected graph
 		g.addEdge(1, 2, 5);
@@ -65,21 +95,6 @@ Graph<int> create_graph(int range, char type){
 		g.addEdge(10, 5, 1);  
 		g.addEdge(4, 9, 1);   
 		g.addEdge(7, 3, 1); 
-	}
-	if (type == 'w'){ 				// weakly connected graph
-		g.addEdge(1, 2, 5);
-		g.addEdge(1, 5, 2);
-		g.addEdge(5, 6, 4);
-		g.addEdge(5, 8, 7);
-		g.addEdge(1, 9, 3);
-		g.addEdge(2, 3, 8);
-		g.addEdge(9, 10, 1);
-		g.addEdge(3, 4, 1);
-		g.addEdge(5, 7, 9);
-		g.addEdge(6, 1, 1);   
-		g.addEdge(8, 2, 1);  
-		g.addEdge(10, 5, 1);  
-		g.addEdge(4, 9, 1);   
 	}
 	if (type == 'r'){		// randomly generated graph
 		random_device rd;           

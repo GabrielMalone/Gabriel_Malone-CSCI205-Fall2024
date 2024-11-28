@@ -7,12 +7,12 @@
 
 template <class T>
 class Vertex {
-	private:
+	public:
 		int id;									// vertex key
 		std::map<int, int> connectedTo;			// list of neighbors ids and edge weights
 		T payload;								// add payload here
-		int xCoord;
-		int yCoord;
+		int xCoord = -1;
+		int yCoord = -1;
 		int distanceFromSource = 0;
 		bool valid_path = false;
 		bool visited = false;

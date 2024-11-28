@@ -44,7 +44,7 @@ int main(){
     } else {
         cout << "graph not strongly connected" << endl;
     }
-    graph_size = 10;        // create graph of size with randamized connections
+    graph_size = 15;        // create graph of size with randamized connections
     Graph<int> g3 = create_graph(graph_size, 'c');        // r for random graph
     if (g3.stronglyConnected()){
         cout << "graph strongly connected " << endl;

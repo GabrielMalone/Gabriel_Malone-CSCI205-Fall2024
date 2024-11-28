@@ -3,6 +3,8 @@
 
 #include <string>
 #include <sstream>
+#include <chrono>
+#include <thread>
 
 namespace Colors {
 
@@ -46,8 +48,8 @@ namespace Colors {
     const std::string empty = BG_BLACK + "   " + RESET;
     const std::string node = BG_BRIGHT_YELLOW + BLACK + " ■ " + RESET;	
     const std::string v_node = BG_GREEN + BLACK + " ● " + RESET;
-    const std::string source = BG_MAGENTA + BLACK + " ■ " + RESET;
-    const std::string end = BG_BRIGHT_BLUE + BLACK + " ■ " + RESET;
+    const std::string source = BG_MAGENTA + BLACK + " ● " + RESET;
+    const std::string end = BG_BRIGHT_BLUE + BLACK + " ● " + RESET;
 
     // 256 Colors (Foreground)
     inline std::string fg256(int code) {

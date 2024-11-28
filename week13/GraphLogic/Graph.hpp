@@ -7,8 +7,6 @@
 #include <vector>	
 #include <map>		
 #include "Vertex.hpp"
-#include <chrono>
-#include <thread>
 #include <random>
 #include <algorithm>
 
@@ -22,6 +20,7 @@ class Graph {
 		int numVertices;																   // size of graph
 		vector<vector<Vertex<int>>> matrix;								   // visual rep of adjacency graph
 		vector<Vertex<int>*> validNodes;										  // nodes present for maze
+		vector<Vertex<int>*> visited;
 
 		//-------------------------------------------------------------------------------------------------
 		// Helper function for create_matrix()
@@ -53,25 +52,34 @@ class Graph {
 		}
 		//-------------------------------------------------------------------------------------------------
 		int bfs(Vertex<int>* v) {
+			Colors::clearScreen();	
 			int seen_nodes = 0;
 			bool* seen = new bool[ size() -1 ]();			// boolean array to track visited nodes.
 			queue<Vertex<int>*> q;							// queue of Vertex pointers
 			q.push(v);										// enqueue the starting node
 			seen[ v->getId() ] = true;						// mark the starting node as being "seen"
 			seen_nodes ++ ;
+			
 			while ( !q.empty() ) {							// as long as the queue is not empty
+				
 				Vertex<int>* vert = q.front();				// dequeue the front vertex
 				q.pop();									// remove it from the queue
-				//cout 	<< "Vertex " << vert->getId();		// print the vertex
 				for (int v : vert->getConnections()){		// get all of the edges from the current vertex
-					// cout << "-->" 							// illustrate connection
-					// 	<< getVertex( v )->getId();			// print the key of the connected vertex
 					if ( !seen[v] ) {						// if the current key has not been "seen"
 						Vertex<int>* _v = getVertex(v);		// get the vertex
+						for (auto node : validNodes){
+							if (node->getId() == v){
+								matrix[node->xCoord][node->yCoord].end = true;
+								visited.emplace_back(node);
+							}
+						}
 						q.push( _v );						// enqueue the vertext
 						seen[ v ] = true;					// mark it as seen
 						seen_nodes ++ ;
 					}
+					Colors::clearScreen();
+					printMatrix();
+					std::this_thread::sleep_for(std::chrono::milliseconds(30));
 				}
 				//cout << endl;								// just for nice printing
 			}
@@ -268,17 +276,18 @@ class Graph {
 			vector<int> nodes_checked;	
 			for (auto node : validNodes){
 				if (node->getId() != 0 && find(nodes_checked.begin(), nodes_checked.end(), node->getId()) == nodes_checked.end()){
+					matrix[node->xCoord][node->yCoord].source = true;
 					rows_reached = bfs(node);
-					// cout << rows_reached 
-					// 	 << " vertices reachable from row " 
-					// 	 << node->getId() 
-					// 	 << " vertex. " 
-					// 	 << endl << endl;
+					for (auto seen : visited){
+						matrix[seen->xCoord][seen->yCoord].end = false;
+					}
+					visited.clear();
+					matrix[node->xCoord][node->yCoord].source = false;
 					nodes_checked.emplace_back(node->getId());
 					reachable_rows += rows_reached;
 				}	
     		}
-			cout << "\nrows reached: " << reachable_rows << " - ";										
+			cout << "\n  " << ((double)reachable_rows/(double)((matrix.size()-1) * (matrix.size()-1))) * 100 << "% of graph connected. ";										
 			return reachable_rows == (matrix.size()-1) * (matrix.size()-1);
 		}
 		//-------------------------------------------------------------------------------------------------
