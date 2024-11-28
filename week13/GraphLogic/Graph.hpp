@@ -24,35 +24,35 @@ class Graph {
 		int bfs(Vertex<int>* v) {
 			//Colors::clearScreen(0);	
 			int seen_nodes = 0;
-			bool* seen = new bool[ size() -1 ]();			// boolean array to track visited nodes.
-			queue<Vertex<int>*> q;							// queue of Vertex pointers
-			q.push(v);										// enqueue the starting node
-			seen[ v->getId() ] = true;						// mark the starting node as being "seen"
+			bool* seen = new bool[ size() -1 ]();				   // boolean array to track visited nodes.
+			queue<Vertex<int>*> q;												// queue of Vertex pointers
+			q.push(v);														   // enqueue the starting node
+			seen[ v->getId() ] = true;							  // mark the starting node as being "seen"
 			seen_nodes ++ ;
 			
-			while ( !q.empty() ) {							// as long as the queue is not empty
-				Vertex<int>* vert = q.front();				// dequeue the front vertex
-				q.pop();									// remove it from the queue
+			while ( !q.empty() ) {									   // as long as the queue is not empty
+				Vertex<int>* vert = q.front();									// dequeue the front vertex
+				q.pop();														// remove it from the queue
 				for (int v : vert->getConnections()){		// get all of the edges from the current vertex
-					if ( !seen[v] ) {						// if the current key has not been "seen"
-						Vertex<int>* _v = getVertex(v);		// get the vertex
+					if ( !seen[v] ) {							  // if the current key has not been "seen"
+						Vertex<int>* _v = getVertex(v);									  // get the vertex
 						for (auto node : validNodes){
 							if (node->getId() == v){
 								matrix[node->xCoord][node->yCoord].end = true;
 								visited.emplace_back(node);
 							}
 						}
-						q.push( _v );						// enqueue the vertext
-						seen[ v ] = true;					// mark it as seen
+						q.push( _v );												 // enqueue the vertext
+						seen[ v ] = true;												 // mark it as seen
 						seen_nodes ++ ;
 					}
 					// Colors::clearScreen(30);
 					// printMatrix();
 				}
-				//cout << endl;								// just for nice printing
+				//cout << endl;													  // just for nice printing
 			}
 
-			delete[] seen;									// free up dynamic memory
+			delete[] seen;														  // free up dynamic memory
 			return seen_nodes;
 		}
 
