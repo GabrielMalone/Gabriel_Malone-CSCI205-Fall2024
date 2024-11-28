@@ -9,6 +9,8 @@
 #include "Vertex.hpp"
 #include <random>
 #include <algorithm>
+#include <queue>
+#include <unordered_map>
 
 using namespace std;
 
@@ -24,7 +26,7 @@ class Graph {
 		int bfs(Vertex<int>* v) {
 			//Colors::clearScreen(0);	
 			int seen_nodes = 0;
-			bool* seen = new bool[ size() -1 ]();				   // boolean array to track visited nodes.
+			bool* seen = new bool[ size() + 1 ]();				   // boolean array to track visited nodes.
 			queue<Vertex<int>*> q;												// queue of Vertex pointers
 			q.push(v);														   // enqueue the starting node
 			seen[ v->getId() ] = true;							  // mark the starting node as being "seen"
@@ -147,8 +149,8 @@ class Graph {
 		void printMatrix(){
 			//---------------------------------------------------------------------------------------------
 			vector<int> nodes = getVertices();   								// get all the unique nodes
-			for (int i = 0 ; i < matrix.size() ; i ++ ){
-				for (int j = 0 ; j < matrix.size() ; j ++ ){
+			for (int i = 0 ; i < (int)matrix.size() ; i ++ ){
+				for (int j = 0 ; j < (int)matrix.size() ; j ++ ){
 					if (i == 0 && j == 0){                               // top left corner should be blank
 						cout << "    ";   // enough blank spaces to position the column numbering correctly
 					} else if (i == 0 && j > 0){                                   // if at colum positions                       
@@ -228,7 +230,7 @@ class Graph {
 					for (auto node : path) {	
 						matrix[node->xCoord][node->yCoord].visited = false;
 						matrix[node->xCoord][node->yCoord].truePath = true;
-						if (i == path.size()-1){
+						if (i == (int)path.size()-1){
 							matrix[end->xCoord][end->yCoord].truePath = false;
 							matrix[end->xCoord][end->yCoord].end = false;
 							matrix[end->xCoord][end->yCoord].reached = true;
@@ -262,7 +264,7 @@ class Graph {
 					parent[&matrix[xc-1][yc]] = cur_node;		// save parent info for path reconstruction
 					q.push(&matrix[xc-1][yc]);
 				}																				   // south
-				if (xc+1 < matrix.size() && matrix[xc+1][yc].valid() && ! matrix[xc+1][yc].wasVisited()){  
+				if (xc+1 < (int)matrix.size() && matrix[xc+1][yc].valid() && ! matrix[xc+1][yc].wasVisited()){  
 					matrix[xc+1][yc].setVisited(true);
 					matrix[xc+1][yc].setDistance(next_distance);
 					parent[&matrix[xc+1][yc]] = cur_node;
@@ -274,7 +276,7 @@ class Graph {
 					parent[&matrix[xc][yc-1]] = cur_node;
 					q.push(&matrix[xc][yc-1]);
 				}																					// east
-				if (yc+1 < matrix.size() && matrix[xc][yc+1].valid() && ! matrix[xc][yc+1].wasVisited()){ 
+				if (yc+1 < (int)matrix.size() && matrix[xc][yc+1].valid() && ! matrix[xc][yc+1].wasVisited()){ 
 					matrix[xc][yc+1].setVisited(true);
 					matrix[xc][yc+1].setDistance(next_distance);
 					parent[&matrix[xc][yc+1]] = cur_node;
@@ -308,7 +310,7 @@ class Graph {
     		}
 			cout << "\n  " << ((double)rr/(double)((matrix.size()-1) * (matrix.size()-1))) * 100 
 				 << "% connected. ";										
-			return rr == (matrix.size()-1) * (matrix.size()-1);
+			return rr == (int)((matrix.size()-1) * (matrix.size()-1));
 		}
 		//-------------------------------------------------------------------------------------------------
 		friend std::ostream &operator<<(std::ostream &stream, Graph<T> &grph) {
@@ -322,6 +324,7 @@ class Graph {
 			return this->validNodes;
 		}
 		//-------------------------------------------------------------------------------------------------
+	
 };
 
 #endif

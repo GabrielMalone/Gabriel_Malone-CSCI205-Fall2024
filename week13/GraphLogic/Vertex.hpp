@@ -10,7 +10,7 @@ class Vertex {
 	public:										// got tired of writing getters and setters
 		int id;									// vertex key
 		std::map<int, int> connectedTo;			// list of neighbors ids and edge weights
-		T payload;								// add payload here
+		T payload = 0;								// add payload here
 		int xCoord = -1;
 		int yCoord = -1;
 		int distanceFromSource = 0;
