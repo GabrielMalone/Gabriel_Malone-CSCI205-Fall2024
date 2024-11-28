@@ -51,7 +51,7 @@ class Graph {
 				}
 				//cout << endl;								// just for nice printing
 			}
-			
+
 			delete[] seen;									// free up dynamic memory
 			return seen_nodes;
 		}
@@ -115,19 +115,19 @@ class Graph {
 			matrix = vector<vector<Vertex<int>>>(rows + 1, vector<Vertex<int>>(cols + 1));   // init matrix      
 			//---------------------------------------------------------------------------------------------
 			for (const std::pair<const int, Vertex<int>>& vertex : vertList){    // iterate map of vertices
-				int matrix_row = vertex.first;												// current node 
+				int matrix_row = vertex.first;										   // current node's ID
 				vector<int> neighbors = vertex.second.getConnections(); 			   // and its neighbors
 				int i = 0;
 				for (auto neighbor : neighbors){									   // get each neighbor
-					int payload = 1;
-					matrix[matrix_row][neighbor].setPayload(payload);			// mark its spot in the row
-					if (i == 0){				// copy over the neighbor for the node that starts each row
-						std::map<int, int> allneigh = vertex.second.getAllneighbors();
-						matrix[matrix_row][neighbor].setAllNeighbors(allneigh); 
-					}
+					int payload = 1;// setting payload to 1 indicates to matrix this spot is a valid vertex
+					matrix[matrix_row][neighbor].setPayload(payload);					 // set the payload
+					if (i == 0){  // i = 0: root for row. copy over neighbors for node that starts each row
+						std::map<int, int> allneigh = vertex.second.getAllneighbors(); // get all neighbors
+						matrix[matrix_row][neighbor].setAllNeighbors(allneigh);    // set [ID][NEIGHBOR_ID]
+					}	
 					i ++ ;
 				}
-			}
+			}								// now iterate through matrix and set the remaining information
 			for (int i = 0; i < rows + 1; i++) {// plus one for col and row for the numbering of the matrix                                        
 				for (int j = 0; j < cols + 1; j++) { 
 					if (matrix[i][j].getPayload() != 0){						 // if vertex has a payload
@@ -135,7 +135,7 @@ class Graph {
 						matrix[i][j].setYc(j);					   		   // set the y coord for this node
 						matrix[i][j].set_valid(true);			   		   // set this node as a valid path 
 						matrix[i][j].setID(i);
-						validNodes.push_back(&matrix[i][j]);     		 // add to list of nodes for task 2						 
+						validNodes.push_back(&matrix[i][j]);     	// add to list of nodes for other tasks					 
 					}
 				}                
 			} 
