@@ -24,11 +24,6 @@ int main(){
     cout << "--------------------------------------------------------" << endl;
     // ------------------------------------------------------------------------
     int graph_size = 16;    // create graph of size with randamized connections
-    Graph<int> g = create_graph(graph_size, 'z');         // r for random graph
-    g.create_matrix();   //  graph via BFS
-    g.shortestPath();
-
-    graph_size = 16;        // create graph of size with randamized connections
     Graph<int> g_s = create_graph(graph_size, 'r');       // r for random graph
     g_s.create_matrix(); //  graph via BFS
     g_s.shortestPath();
@@ -37,14 +32,7 @@ int main(){
     cout << "         TASK THREE - CHECK IF STRONGLY CONNECTED "       << endl;
     cout << "--------------------------------------------------------" << endl;
     // ------------------------------------------------------------------------
-    graph_size = 10;                 // create a known strongly connected graph
-    Graph<int> g2 = create_graph(graph_size, 's');  // s for strongly connected
-    if(g2.stronglyConnected()){
-        cout << "graph strongly connected " << endl;
-    } else {
-        cout << "graph not strongly connected" << endl;
-    }
-    graph_size = 15;        // create graph of size with randamized connections
+    graph_size = 10;        // create graph of size with randamized connections
     Graph<int> g3 = create_graph(graph_size, 'c');        // r for random graph
     if (g3.stronglyConnected()){
         cout << "graph strongly connected " << endl;

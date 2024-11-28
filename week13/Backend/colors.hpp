@@ -46,10 +46,14 @@ namespace Colors {
     const std::string BG_BRIGHT_WHITE = "\033[107m";
 
     const std::string empty = BG_BLACK + "   " + RESET;
-    const std::string node = BG_BRIGHT_YELLOW + BLACK + " ■ " + RESET;	
-    const std::string v_node = BG_GREEN + BLACK + " ● " + RESET;
-    const std::string source = BG_MAGENTA + BLACK + " ● " + RESET;
-    const std::string end = BG_BRIGHT_BLUE + BLACK + " ● " + RESET;
+    const std::string node = BG_BRIGHT_GREEN + BLACK + " ■ " + RESET;	
+    //const std::string v_node = BG_GREEN + BLACK + " ● " + RESET;
+    const std::string v_node = BG_BRIGHT_GREEN + BLACK + " ■ " + RESET;	
+    const std::string start = BG_MAGENTA + BLACK + " ● " + RESET;
+    const std::string finish = BG_BRIGHT_BLUE + BLACK + " ● " + RESET;
+    const std::string path = BG_BRIGHT_GREEN + BRIGHT_WHITE+ " ■ " + RESET;
+    const std::string finished = BG_BRIGHT_CYAN + BRIGHT_WHITE+ " ■ " + RESET;
+    
 
     // 256 Colors (Foreground)
     inline std::string fg256(int code) {
@@ -71,8 +75,9 @@ namespace Colors {
         return oss.str();
     }
 
-    void clearScreen() {
+    void clearScreen(int time) {
         std::cout << "\033[2J\033[H";  // ANSI escape code to clear screen and reset cursor
+        std::this_thread::sleep_for(std::chrono::milliseconds(time));
     }
 }
 

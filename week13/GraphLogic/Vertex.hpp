@@ -7,7 +7,7 @@
 
 template <class T>
 class Vertex {
-	public:
+	public:										// got tired of writing getters and setters
 		int id;									// vertex key
 		std::map<int, int> connectedTo;			// list of neighbors ids and edge weights
 		T payload;								// add payload here
@@ -18,6 +18,8 @@ class Vertex {
 		bool visited = false;
 		bool source = false;
 		bool end = false;
+		bool truePath = false;
+		bool reached = false;
 
 	public:
 		Vertex() {}				// default constructor
