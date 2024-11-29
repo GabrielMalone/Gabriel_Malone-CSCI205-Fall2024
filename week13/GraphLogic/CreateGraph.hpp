@@ -47,10 +47,21 @@ Graph<int> create_graph(int range, char type){
 	}
     // ------------------------------------------------------------------------
 	if (type == 'c'){		 // randomly generated graph with fewer connections
-		random_device rd;           
+		random_device rd;          // better for the strongly connected testing
 		mt19937 gen(rd());
 		uniform_int_distribution<> dist(1,  range); 
-		for (int i = 1; i <= range ; i++){   // create range vertex objects
+		for (int i = 1; i <= range * 3 ; i++){   // create range vertex objects
+			int from = dist(gen);
+			int to  = dist(gen);
+			int weight = -1;
+			g.addEdge(from, to , weight);  
+		}
+	}
+	if (type == 'd'){  // randomly generated graph with even fewer connections
+		random_device rd;      					// better for the loop testing  
+		mt19937 gen(rd());
+		uniform_int_distribution<> dist(1,  range); 
+		for (int i = 1; i <= range  ; i++){   // create range vertex objects
 			int from = dist(gen);
 			int to  = dist(gen);
 			int weight = -1;
@@ -70,22 +81,16 @@ Graph<int> create_graph(int range, char type){
 		g.addEdge(9, 10, 1);
 	}
 	if (type == 'z'){
-		g.addEdge(1, 5, 1);
-		g.addEdge(5, 3, 1);
-		g.addEdge(3, 4, 1);
-		g.addEdge(4, 1, 1);  // Completes cycle: 1 → 5 → 3 → 4 → 1
-
-		g.addEdge(8, 3, 1);
-		g.addEdge(3, 4, 1);
-		g.addEdge(4, 1, 1);
-		g.addEdge(1, 5, 1);  // Completes cycle: 8 → 3 → 4 → 1 → 5
-
+		g.addEdge(2, 4, 1);
+		g.addEdge(4, 3, 1);
 		g.addEdge(4, 9, 1);
-		g.addEdge(9, 10, 1);
-
-		g.addEdge(5, 6, 1);
-		g.addEdge(5, 7, 1);
-		g.addEdge(5, 8, 1);
+		g.addEdge(5, 5, 1);  
+		g.addEdge(6, 10, 1);
+		g.addEdge(7, 6, 1);
+		g.addEdge(8, 7, 1);
+		g.addEdge(8, 9, 1);  
+		g.addEdge(9, 8, 1);
+		g.addEdge(10, 2, 1);
 	}
 	// ------------------------------------------------------------------------
     return g;

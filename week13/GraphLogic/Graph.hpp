@@ -25,7 +25,6 @@ class Graph {
 		vector<Vertex<int>*> visited;
 		//-------------------------------------------------------------------------------------------------
 		int bfs(Vertex<int>* v, bool strong) {
-			//Colors::clearScreen(0);	
 			int seen_nodes = 0;
 			bool* seen = new bool[ size() + 1 ]();				   // boolean array to track visited nodes.
 			queue<Vertex<int>*> q;												// queue of Vertex pointers
@@ -33,7 +32,6 @@ class Graph {
 			if (strong)												  		   // enqueue the starting node
 				seen[ v->getId() ] = true;// mark starting node as being "seen" for strongly connected algo
 			seen_nodes ++ ;
-			
 			while ( !q.empty() ) {									   // as long as the queue is not empty
 				Vertex<int>* vert = q.front();									// dequeue the front vertex
 				q.pop();														// remove it from the queue
@@ -42,24 +40,14 @@ class Graph {
 						Vertex<int>* _v = getVertex(a);									  // get the vertex
 						for (auto node : validNodes){
 							if (node->getId() == a){
-								// matrix[node->xCoord][node->yCoord].end = true;
-								if (!strong && node->connectedTo.size() != 0)
-									visited.emplace_back(node);
-								else if (strong)
-									visited.emplace_back(node);
-								if (! strong && node->id == v->id){
-									return 0;
-								}
+								visited.emplace_back(node);
 							}
 						}
 						q.push( _v );												 // enqueue the vertext
 						seen[ a ] = true;												 // mark it as seen
 						seen_nodes ++ ;
 					}
-					// Colors::clearScreen(30);
-					// printMatrix();
 				}
-				//cout << endl;													  // just for nice printing
 			}
 			delete[] seen;														  // free up dynamic memory
 			return seen_nodes;
@@ -327,80 +315,37 @@ class Graph {
 		// DETECT ANY CYCLES IN A GRAPH
 		//-------------------------------------------------------------------------------------------------
 		bool cyclesPresent(){
+			visited.clear();
 			bool cycles = false;
 			create_matrix();												   // build the proximity graph					
 			vector<int> nc;																   // nodes checked	
+			vector<int> cycles_at;
 			for (auto node : validNodes){				   // iterate through the valid nodes in the matrix
 				if (node->getId() != 0 && find(nc.begin(), nc.end(), node->getId()) == nc.end()){//!checked
 					matrix[node->xCoord][node->yCoord].source = true;// current node being checked = source
 					bfs(node, false);									    // follow path from this vertex
 					for (auto seen : visited){	  // iterate through all the nodes visited from this vertex
 						if (matrix[seen->xCoord][seen->yCoord].source == true){ // if any node = the source
-							cycles = true;
-							vector<Vertex<int>*> init_visit; 			    // get the inital nodes visited 
-							for (auto v : visited){ 					// some may not be part of the loop
-								init_visit.emplace_back(v);		 // save them , then clear the global visit
-							}
-							visited.clear();										  // clear global visit
-							vector<Vertex<int>*> final_list;	
-							for (auto i : init_visit){			 			// run bsf on each node visited
-								bool leads_to_nowhere = true; // if any nodes don't lead to original (seen)
-								bfs(i, false);											   // get rid of it
-								for (auto v : visited){				   // visited should be repopulated now
-									if (v->id == seen->id){
-										leads_to_nowhere = false;						// part of the loop
-									}
-								}
-								if (! leads_to_nowhere){// if doesn't lead ot nowhere, add it to final list
-									if (! final_list.empty()){// if id ! present on last verts row, exclude
-										std::vector<int> connects = final_list.back()->getConnections();
-										for (int c : connects){									// dear god
-											if (c == i->id){
-												final_list.emplace_back(i);	
-											}
-										}	
-									}else {
-										final_list.emplace_back(i);	
-									}
-								}
-							}
-							vector<int> cur_list;
-							for (auto y : final_list){
-								cur_list.emplace_back(y->id);
-							}											  // finally to the output
-							if (final_list.back()->id == seen->getId() && final_list.size()>1){//tinkering 
-								
-								if (! matrix[final_list.size()-2][final_list.back()->id].valid()){
-									cout << "\ncycle exists from Vertices: " 
-										<< seen->getId() 
-										<< Colors::BRIGHT_BLUE 
-										<< "-->" << Colors::RESET; 
-									int i = 0;
-									for (auto f : final_list){
-										cout << f->id ;
-										if (i < final_list.size() - 1){
-											cout << Colors::BRIGHT_BLUE 
-												<< "-->" 
-												<< Colors::RESET; 
-										}
-										i ++ ;
-										matrix[f->xCoord][f->yCoord].truePath= true;
-									}
-								}
-							}
-							visited.clear();
+							matrix[seen->xCoord][seen->yCoord].end = true; 
+							cycles = true;													// cycles exist
+							int id = seen->id;								// if id not yet saved, save it
+							if (find(cycles_at.begin(), cycles_at.end(),id) == cycles_at.end() )
+								cycles_at.emplace_back(matrix[seen->xCoord][seen->yCoord].id);
 						}
 					}
+					matrix[node->xCoord][node->yCoord].source = false;						       // reset 
 				}
-				visited.clear();
-				matrix[node->xCoord][node->yCoord].source = false;
-				nc.emplace_back(node->getId());
-				matrix[node->xCoord][node->yCoord].end = false;
+				visited.clear();											    // clear and repeat process
 			}
+			printMatrix();	
 			cout << endl;
-		
-			cout << endl;
-			printMatrix();														// show the proximity graph	
+			if (cycles){
+				cout << "cylcles exist from nodes: ";
+				for (int i : cycles_at){
+					cout << i << " ";
+				}
+			}				
+			cout << endl;						
 			return cycles;			
 		}			
 		

@@ -9,6 +9,7 @@
 using namespace std;
 
 int main(){
+
     Colors::clearScreen(0);
     cout << Colors::GRAY;
     // ------------------------------------------------------------------------
@@ -54,7 +55,8 @@ int main(){
     cout << Colors::RESET;
     // ------------------------------------------------------------------------
     graph_size = 10;        // create graph of size with randamized connections
-    Graph<int> g5 = create_graph(graph_size, 'c');    // 't' for control graph
+    Graph<int> g5 = create_graph(graph_size, 'd');    // 't' for control graph
     g5.cyclesPresent();
+
     return 0;
 }
