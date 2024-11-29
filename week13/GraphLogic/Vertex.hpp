@@ -10,7 +10,7 @@ class Vertex {
 	public:										// got tired of writing getters and setters
 		int id;									// vertex key
 		std::map<int, int> connectedTo;			// list of neighbors ids and edge weights
-		T payload = 0;								// add payload here
+		T payload = 0;							// add payload here
 		int xCoord = -1;
 		int yCoord = -1;
 		int distanceFromSource = 0;
@@ -22,14 +22,12 @@ class Vertex {
 		bool reached = false;
 
 	public:
-		Vertex() {}				// default constructor
+		Vertex() {}								// default constructor
 		Vertex( T pl) { this->payload = pl; }	// constructor with key and payload
 		Vertex(int key, T pl) {					// constructor with key and payload
 			this->id 	  = key;				// set key
 			this->payload = pl;					// set payload
 		}
-
-		//Vertex(const Vertex&) = delete;		// Delete copy constructor
 
 		void addNeighbor(int nbr, int weight = 0) {						// adds neighbor
 			connectedTo[nbr] = weight;									// if neighbor exists the weight will be updated

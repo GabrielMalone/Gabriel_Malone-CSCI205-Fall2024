@@ -12,49 +12,82 @@
 using namespace std;
 
 Graph<int> create_graph(int range, char type){
-
-	Graph<int> g;						// create graph object
-	for (int i = 1; i <= range; i++) 	// create range vertex objects
-		g.addVertex(i, -1);				// keys will be 1 - range
-
-	if (type == 's'){ 				// strongly connected graph
-		g.addEdge(1, 2, 5);
-		g.addEdge(1, 5, 2);
-		g.addEdge(5, 6, 4);
-		g.addEdge(5, 8, 7);
-		g.addEdge(1, 9, 3);
-		g.addEdge(2, 3, 8);
+	// ------------------------------------------------------------------------
+	Graph<int> g;										 // create graph object
+	for (int i = 1; i <= range; i++) 			 // create range vertex objects
+		g.addVertex(i, -1);					 		  // keys will be 1 - range
+	// ------------------------------------------------------------------------
+	if (type == 's'){ 					  // control - strongly connected graph
+		g.addEdge(1, 2, 1);
+		g.addEdge(1, 5, 1);
+		g.addEdge(5, 6, 1);
+		g.addEdge(5, 8, 1);
+		g.addEdge(1, 9, 1);
+		g.addEdge(2, 3, 1);
 		g.addEdge(9, 10, 1);
 		g.addEdge(3, 4, 1);
-		g.addEdge(5, 7, 9);
+		g.addEdge(5, 7, 1);
 		g.addEdge(6, 1, 1);   
 		g.addEdge(8, 2, 1);  
 		g.addEdge(10, 5, 1);  
 		g.addEdge(4, 9, 1);   
 		g.addEdge(7, 3, 1); 
 	}
-	if (type == 'r'){		// randomly generated graph with more connections
+	// ------------------------------------------------------------------------
+	if (type == 'r'){		  // randomly generated graph with more connections
 		random_device rd;           
 		mt19937 gen(rd());
-		uniform_int_distribution<> dist(1,  range); // range from 0 to 100 for the rnadom value
-		for (int i = 1; i <= range * 20 ; i++){ 	// create range vertex objects
+		uniform_int_distribution<> dist(1,  range);     // range from 0 to ange
+		for (int i = 1; i <= range * 20 ; i++){  // create range vertex objects
 			int from = dist(gen);
 			int to  = dist(gen);
 			int weight = -1;
 			g.addEdge(from, to , weight);  
 		}
 	}
-	if (type == 'c'){		// randomly generated graph with fewer connections
+    // ------------------------------------------------------------------------
+	if (type == 'c'){		 // randomly generated graph with fewer connections
 		random_device rd;           
 		mt19937 gen(rd());
-		uniform_int_distribution<> dist(1,  range); // range from 0 to 100 for the rnadom value
-		for (int i = 1; i <= range * 2 ; i++){ 	// create range vertex objects
+		uniform_int_distribution<> dist(1,  range); 
+		for (int i = 1; i <= range ; i++){   // create range vertex objects
 			int from = dist(gen);
 			int to  = dist(gen);
 			int weight = -1;
 			g.addEdge(from, to , weight);  
 		}
 	}
+    // ------------------------------------------------------------------------
+	if (type == 't'){				     // control - create graph with a cycle
+		g.addEdge(1, 2, 1);
+		g.addEdge(2, 3, 1);
+		g.addEdge(3, 4, 1);
+		g.addEdge(4, 5, 1);
+		g.addEdge(5, 1, 1);// This edge closes the cycle (1 → 2 → 3 → 4 → 5 → 1)
+		g.addEdge(6, 7, 1); 					  // Additional non-cyclic edges
+		g.addEdge(7, 8, 1);
+		g.addEdge(8, 9, 1);
+		g.addEdge(9, 10, 1);
+	}
+	if (type == 'z'){
+		g.addEdge(1, 5, 1);
+		g.addEdge(5, 3, 1);
+		g.addEdge(3, 4, 1);
+		g.addEdge(4, 1, 1);  // Completes cycle: 1 → 5 → 3 → 4 → 1
+
+		g.addEdge(8, 3, 1);
+		g.addEdge(3, 4, 1);
+		g.addEdge(4, 1, 1);
+		g.addEdge(1, 5, 1);  // Completes cycle: 8 → 3 → 4 → 1 → 5
+
+		g.addEdge(4, 9, 1);
+		g.addEdge(9, 10, 1);
+
+		g.addEdge(5, 6, 1);
+		g.addEdge(5, 7, 1);
+		g.addEdge(5, 8, 1);
+	}
+	// ------------------------------------------------------------------------
     return g;
 }
 

@@ -9,7 +9,7 @@
 using namespace std;
 
 template <typename T>
-void bfs(Graph<T>& g, Vertex<int>* v) {
+void old_bfs(Graph<int>& g, Vertex<int>* v) {
 	bool* seen = new bool[ g.size()+1 ]();			// boolean array to track visited nodes. +1 for 1-based indexing
 	queue<Vertex<int>*> q;							// queue of Vertex pointers
 	q.push(v);										// enqueue the starting node
