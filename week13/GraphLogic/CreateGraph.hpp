@@ -92,6 +92,18 @@ Graph<int> create_graph(int range, char type){
 		g.addEdge(9, 8, 1);
 		g.addEdge(10, 2, 1);
 	}
+	if (type == 'g'){
+		g.addEdge(2, 6, 1);
+		g.addEdge(3, 7, 1);
+		g.addEdge(3, 10, 1);
+		g.addEdge(5, 2, 1);  
+		g.addEdge(5, 3, 1);
+		g.addEdge(5, 6, 1);
+		g.addEdge(6, 5, 1);
+		g.addEdge(6, 6, 1);  
+		g.addEdge(10, 1, 1);
+		g.addEdge(10, 7, 1);
+	}
 	// ------------------------------------------------------------------------
     return g;
 }

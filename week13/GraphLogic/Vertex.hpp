@@ -11,8 +11,8 @@ class Vertex {
 		int id;									// vertex key
 		std::map<int, int> connectedTo;			// list of neighbors ids and edge weights
 		T payload = 0;							// add payload here
-		int xCoord = -1;
-		int yCoord = -1;
+		int xCoord = 0;
+		int yCoord = 0;
 		int distanceFromSource = 0;
 		bool valid_path = false;
 		bool visited = false;
@@ -20,6 +20,8 @@ class Vertex {
 		bool end = false;
 		bool truePath = false;
 		bool reached = false;
+		Vertex<int>* parent = nullptr;
+
 
 	public:
 		Vertex() {}								// default constructor
