@@ -45,7 +45,7 @@ class Vertex {
 		void setPayload(int& p){ this->payload = p; }
 		int getId() { return this->id; }								// return this vector's id
 		void setID(int id) { this->id = id; }
-		int getWeight(int nbr) { return this->connectedTo[nbr]; }		// get weight of single edge from this vertex to nbr
+		int getWeight(int nbr) { return this->connectedTo[nbr]; } // get weight of single edge from this vertex to nbr
 		std::map<int, int> getAllneighbors() const { return this->connectedTo; }
 		void setAllNeighbors(std::map<int, int> neibhbors ){ this->connectedTo = neibhbors; }
 		void setXc(const int& x){ this->xCoord = x; }

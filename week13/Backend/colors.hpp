@@ -46,13 +46,14 @@ namespace Colors {
     const std::string BG_BRIGHT_WHITE = "\033[107m";
 
     const std::string empty = "   ";
-    const std::string node = BG_BRIGHT_GREEN + BLACK + " ■ " + RESET;	
+    const std::string node = BG_BLUE + BLACK + " ■ " + RESET;
     //const std::string v_node = BG_GREEN + BLACK + " ● " + RESET;
-    const std::string v_node = BG_GREEN + BLACK + " ■ " + RESET;	
-    const std::string start = BG_MAGENTA + BLACK + " ● " + RESET;
-    const std::string finish = BG_BRIGHT_BLUE + BLACK + " ● " + RESET;
-    const std::string path = BG_GREEN + BRIGHT_WHITE+ " ■ " + RESET;
-    const std::string finished = BG_BRIGHT_CYAN + BRIGHT_WHITE+ " ■ " + RESET;
+    const std::string v_node = BG_BRIGHT_BLUE +  BLACK + " ■ " + RESET;
+
+    const std::string start = BG_BRIGHT_GREEN + BRIGHT_WHITE + " ● " + RESET;
+    const std::string finish = BG_MAGENTA + BLACK + " ● " + RESET;
+    const std::string path = BG_BRIGHT_BLUE + BRIGHT_WHITE + " ■ " + RESET;
+    const std::string finished = BG_BRIGHT_MAGENTA + BRIGHT_WHITE+ " ■ " + RESET;
     
 
     // 256 Colors (Foreground)
