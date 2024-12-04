@@ -73,7 +73,6 @@ int main(){
 	g6.printMatrix();                         // show the untrimmed graph first
 	cout << endl;
 	g6.printWeights();                          // and its weighted connections
-	cout << "\nCost of graph: " << g6.getCost() << endl;
 	cout << endl;
 	g6.primsAlgo();
 	cout << "\nCost of graph: " << g6.getCost() << endl;

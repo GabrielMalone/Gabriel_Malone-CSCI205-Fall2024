@@ -110,7 +110,7 @@ Graph<int> create_graph(int range, char type){
 		g.addEdge(2, 3, 16);                // this will mirror the one in the lab pdf
 		g.addEdge(3, 2, 16);
 		g.addEdge(2, 7, 14);
-		g.addEdge(7, 1, 14);
+		g.addEdge(7, 2, 14);
 		g.addEdge(4, 3, 12);
 		g.addEdge(3, 4, 12);
 		g.addEdge(5, 4, 22);
