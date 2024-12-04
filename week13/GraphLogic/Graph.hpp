@@ -16,13 +16,14 @@
 #include <queue>
 #include <unordered_map>
 #include <unordered_set>
+#include <stack>
 //----------------------------------------------------------------------------------------------------------------------
 using namespace std;
 //----------------------------------------------------------------------------------------------------------------------
 template <class T>
 class Graph {
 private:
-	std::map<int, Vertex<int>> vertList;							                 // the adjacancy list key -> Vertex
+	map<int, Vertex<int>> vertList;							                         // the adjacancy list key -> Vertex
 	int numVertices;																                    // size of graph
 	vector<vector<Vertex<int>>> matrix;								                    // visual rep of adjacency graph
 	vector<Vertex<int>*> validNodes;										                   // nodes present for maze
@@ -64,7 +65,7 @@ private:
 	// Depth first search way easier to find the paths of the loops.
 	//------------------------------------------------------------------------------------------------------------------
 	void dfs(Vertex<int>* r) {
-	    stack<Vertex<int>*> s;                                                // Stack of Vertex pointers to store edges
+	    stack<Vertex<int>* > s;                                               // Stack of Vertex pointers to store edges
 	    unordered_set<int> v;                   // Tracks visited nodes of current path (answers y/n has node been seen)
 	    vector<int> path;                 					                 // Tracks the current actual traversal path
 		//--------------------------------------------------------------------------------------------------------------
@@ -372,7 +373,7 @@ public:
 		for (auto v_code: detectedCycles){                                             // iterate through detected loops
 			int index = 1;
 			string final_path; // build final loop, don't build as go because will need to sometimes erase entire string
-			while (index < v_code.size()){
+			while (index < (int)v_code.size()){
 				if (index == 1){
 					final_path += Colors::BRIGHT_YELLOW + to_string(v_code[0]) + Colors::BRIGHT_BLUE + "->";
 				}
@@ -440,7 +441,7 @@ public:
 			if (find(uniqueNodes.begin(), uniqueNodes.end(), n->id) == uniqueNodes.end())
 				uniqueNodes.emplace_back(n->id);
 		}
-		for (int i = 1; i < uniqueNodes.size() + 1; i++) 			                                 // set up the graph
+		for (int i = 1; i < (int)uniqueNodes.size() + 1; i++) 			                             // set up the graph
 			MST.addVertex(i, 0);
 		using Triple = std::tuple<int, int, int>;                                                  // weight, id, parent
 		// Min-heap using std::priority_queue with a triple tuple
